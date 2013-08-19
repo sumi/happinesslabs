@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cherryfull</title>
+<style type="text/css">
+<!--
+@import url("../css/cherryfull_style.css");
+-->
+</style>
+<script type="text/javascript" src="../scripts/jquery_002.js"></script>
+<script type="text/javascript" src="../scripts/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('a[rel*=leanModal]').leanModal({ top : 100, closeButton: ".modal_close" });		
+	});
+</script>
+</head>
+<body>
+<!--Header Start-->
+<div id="header">
+	<div id="header_cherryboard">
+    	<div class="logo"><img src="../images/logo.png" alt="cherryfull" title="cherryfull"></div>
+        <div class="userbox"><img src="../images/img_profile.jpg" class="profile_img">Andrea Faz<br><a href="#" class="gray_link">+Add a Cherryboard</a><br><a href="#" class="gray_link">+Give a Gift</a></div>
+	</div>
+</div>
+<!--Header End-->
+<!--Body Start-->
+<div id="wrapper">
+	<div align="center"><a id="go" rel="leanModal" href="#creat_gift" name="test" class="blue_btn_small">Create a Gift</a></div>
+    <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="creat_gift">
+                <a class="modal_close" href="#" title="close"></a>
+                <div align="center" class="head_20">It’s Easy!</div><br><br>
+                <div class="red_circle">1</div><strong>Create a description</strong><br><br>               
+                <textarea class="search_1" onFocus="if(this.value=='enter gift description (ie- $10 gift, 25% off, free sample, etc)') this.value='';" onBlur="if(this.value=='') this.value='enter gift description (ie- $10 gift, 25% off, free sample, etc)';">enter gift description (ie- $10 gift, 25% off, free sample, etc)</textarea><div align="right">25 characters</div>
+	            <div class="red_circle">2</div><strong>Number of gifts</strong><br><br>
+                <select name="">
+                	<option>0</option>
+                	<option>1</option>
+                	<option>2</option>                    
+                </select><br><br>
+   	            <div class="red_circle">3</div><strong>Upload an Image</strong><br><br>
+                <input name="" type="file"><br>
+				 <input name="button4" type="submit" class="btn_small right" id="button4" value="Submit" title="Submit" /></form>
+  </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>
+	<br><br>
+  <div class="gift"><img src="../images/img_gift13.jpg" class="imgbig"><br>
+  description<br>
+    <br>
+  <a id="go" rel="leanModal" href="#give_gift" name="test" class="btn_small" title="Give">Give</a></div>
+<div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">How nice of you!</span><br><strong>Now let us know who you’d like to give this gift to...</strong><br /><br />
+				<input type="text" value="search your friends here" class="search_1" onFocus="if(this.value=='search your friends here') this.value='';" onBlur="if(this.value=='') this.value='search your friends here';" ><br>
+				 <input name="button4" type="submit" class="btn_small right" id="button4" value="Send this gift!" title="Send this gift!" /></form>
+	 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>	
+	<div class="gift"><img src="../images/img_gift2.jpg" class="imgbig"><br>
+  Free primer<br>
+    <br>
+  <a id="go" rel="leanModal" href="#give_gift1" name="test" class="btn_small" title="Give">Give</a></div>
+<div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift1" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">How nice of you!</span><br><strong>Now let us know who you’d like to give this gift to...</strong><br /><br />
+				<input type="text" value="search your friends here" class="search_1" onFocus="if(this.value=='search your friends here') this.value='';" onBlur="if(this.value=='') this.value='search your friends here';" ><br>
+                <a href="#" class="red_tag">Sam Suan</a>
+				 <input name="button4" type="submit" class="btn_small right" id="button4" value="Send this gift!" title="Send this gift!" /></form>
+	 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>    	
+	<div class="gift"><img src="../images/img_gift3.jpg" class="imgbig"><br>
+  15% off<br>
+    <br>
+  <a id="go" rel="leanModal" href="#give_gift2" name="test" class="btn_small" title="Give">Give</a></div>
+<div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift2" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">You’re awesome! Thanks for helping<br>Sam get closer to her goal</span><br /><br />
+
+		 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>	
+	<div class="gift"><img src="../images/img_gift4.jpg" class="imgbig"><br>
+  25% off<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift5.jpg" class="imgbig"><br>
+  $10 Gift<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift6.jpg" class="imgbig"><br>
+  Free shipping<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift7.jpg" class="imgbig"><br>
+  25% off<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift8.jpg" class="imgbig"><br>
+  35% off<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift9.jpg" class="imgbig"><br>
+  Free cleanser<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift10.jpg" class="imgbig"><br>
+  35% off<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>	
+  <div class="gift"><img src="../images/img_gift11.jpg" class="imgbig"><br>
+  $20 Gift<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>
+  <div class="gift"><img src="../images/img_gift12.jpg" class="imgbig"><br>
+  Free shipping<br>
+    <br>
+  <a href="#" class="btn_small" title="Give">Give</a></div>    
+<div class="clear"></div>
+</div>
+<!--Body End-->
+</body>
+</html>

@@ -1,0 +1,74 @@
+.fgreen{
+color:#009900;
+font-weight:bold;
+}
+.msg_green{
+color:#009900;
+font-weight:bold;
+font-size:12px;
+}
+.msg_red{
+color:#FF0000;
+font-weight:bold;
+font-size:12px;
+}
+.font14px{
+font-size:14px
+}
+.cleanLink{
+text-decoration:none;
+color:#000000;
+}
+.imgsmall{ height:20px; width:20px; border-radius:50px; -webkit-border-radius: 50px; padding:1px; border:1px solid #7a0709; margin-bottom:15px;}
+
+/*START Gift Profile Campaign image class CSS*/
+.img_big_container{ box-shadow: 1px 0px 5px #888888; border:1px solid #CCCCCC; padding:5px; background:#FFFFFF; margin-bottom:10px; }
+.img_big_container { width: 200px; padding: 5px; font-size: 11px; background-color: #fff; box-shadow: 0 1px 3px rgba(34,25,25,0.4); -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4) }
+.img_big_container .send_message { position: relative }
+.img_big_container .actions1 { position: absolute; z-index:3; top:100px; left:5px; right:20px; }
+.img_big_container .actions1 a { clear: both; float: left; margin: 0 0 10px 0; background:#FFFFFF; text-decoration:none; font-size:20px; color:#333333; padding:10px 20px; border-radius:2px; border-radius:2px;}
+.img_big_container .actions1 a { clear:none;margin: 0 5px 0 0 }
+.img_big_container .actions1 .msg { float:right;margin: 0;}
+.actions1 .msg{ display: none;}
+.img_big_container:hover .actions1 .msg{ display: block;}
+
+.img_big_container1 .feedbox_holder { position: relative }
+.img_big_container1 .actions { position: absolute; z-index: 3; top: 3px; left: 3px; }
+.img_big_container1 .actions a { clear: both; float: left; margin: 0 0 3px 0; background:#FFFFFF; text-decoration:none; font-size:11px; color:#333333; padding:3px 5px; border-radius:2px;}
+.img_big_container1 .actions a { clear:none;margin: 0 5px 0 0 }
+.img_big_container1 .actions .comments { float:right;margin: 0;}
+.actions .likebutton,.actions .comments,.actions .delete{ display: none;}
+.img_big_container1:hover .actions .likebutton,.img_big_container1:hover .actions .comments,.img_big_container1:hover .actions .delete{ display: block;}
+/*END Gift Profile Campaign image class CSS*/
+.email_header{
+	color:#FFFFFF;
+	font-family: "helvetica neue",arial,sans-serif;
+    font-size: 20px;
+	background-color: #918681;	
+	padding:5px 0 5px 0;
+	border:1px solid #918681;
+	border-radius:7px 7px 7px 7px;
+	-webkit-border-radius:7px 7px 7px 7px;
+	-moz-border-radius:7px 7px 7px 7px;
+}
+
+/*Start Photo mouse hover effect */
+.stickytooltip{
+box-shadow: 5px 5px 8px #818181; /*shadow for CSS3 capable browsers.*/
+-webkit-box-shadow: 5px 5px 8px #818181;
+-moz-box-shadow: 5px 5px 8px #818181;
+display:none;
+position:absolute;
+display:none;
+border:5px solid black; /*Border around tooltip*/
+background:white;
+z-index:3000;
+}
+.stickytooltip .stickystatus{ /*Style for footer bar within tooltip*/
+background:black;
+color:white;
+padding-top:5px;
+text-align:center;
+font:bold 11px Arial;
+}
+/*End Photo mouse hover effect */

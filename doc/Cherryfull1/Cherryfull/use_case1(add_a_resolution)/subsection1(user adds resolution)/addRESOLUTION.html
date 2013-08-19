@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cherryfull</title>
+<style type="text/css">
+<!--
+@import url("../../css/cherryfull_style.css");
+body,td,th{ background:#f6f4f0; font-size: 14px; font-family: Arial, Helvetica, sans-serif; margin:0px; color:#333333;}
+-->
+</style>
+<script type="text/javascript" src="../../scripts/jquery_002.js"></script>
+<script type="text/javascript" src="../../scripts/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('a[rel*=leanModal]').leanModal({ top : 100, closeButton: ".modal_close" });		
+	});
+</script>
+</head>
+<body>
+<!--Body Start-->
+<div id="wrapper_main" align="center">
+    	<a href="#"><img src="../../images/logo_big.png" alt="cherryfull" title="cherryfull"></a><br><br>
+        <div id="white_container">
+          <h2 align="center">Hello there Andrea! Let’s start inspiring each other!</h2>
+          <ol>
+            <li>
+              <br>
+              <textarea name="textfield2" rows="4" class="textarea" id="textfield2">enter a resolution, goal, or idea (ie get healthy or stay connected with my family)</textarea>
+              <div align="right">50 characters</div>
+              <br>
+            </li>
+            <li><strong> Invite 10 cherryleaders to cheer you on!</strong><br><br>
+              <a id="go" rel="leanModal" href="#add_cherryleader" name="test" class="btn_darkred" title="Add Cherryleaders">Add Cherryleaders</a>
+               <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="add_cherryleader">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">Select your cherryleaders!</span>&nbsp;&nbsp;<span class="red_14">Select at least 1 to 10 friends<br /><br />Cherryleaders will stand by you to help you stay motivated and inspired.<br><br></span>
+                <div class="gray_box">
+                	<div class="right"><input type="text" value="search friends" class="search_field" onfocus="if(this.value=='search friends') this.value='';" onblur="if(this.value=='') this.value='search friends';" ></div><br><br><br>
+					<div class="scrollbox">
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small1.jpg">Alondra Fliguerooa</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small2.jpg">Abby Chapin</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small3.jpg">Adam Copeland</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small4.jpg">Adam Copeland</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small5.jpg">Adam Pecoraro</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small6.jpg">Adam Trujilllo</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small7.jpg">Adenilyi Harrison</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small8.jpg">Adrian Morales</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small9.jpg">Adrian S Ulloa</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small1.jpg">Adrien De Leener</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small2.jpg">Adrienne Katz</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small3.jpg">Alda Faz</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small4.jpg">Alondra Fliguerooa</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small5.jpg">Alondra Fliguerooa</div>
+                    	<div class="section"><input name="" type="checkbox" value=""><img src="../../images/img_small6.jpg">Alondra Fliguerooa</div>
+                    </div>                   
+                </div><br><br>
+			<input name="button4" type="submit" class="blue_btn_small right" id="button4" value="Submit" title="Submit" /></form>
+            </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>
+            </li>
+          </ol>
+          <br>
+<br>
+
+          <a href="#" class="blue_btn_small right">Create my Cherryboard!</a><br>
+<br>
+<br>
+<br>
+<br>
+          <br>
+        </div>
+        <div class="clear"></div>
+</div>
+<!--Body End-->
+</body>
+</html>

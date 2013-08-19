@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cherryfull</title>
+<style type="text/css">
+<!--
+@import url("../css/cherryfull_style.css");
+-->
+</style>
+<script type="text/javascript" src="../scripts/jquery_002.js"></script>
+<script type="text/javascript" src="../scripts/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('a[rel*=leanModal]').leanModal({ top : 100, closeButton: ".modal_close" });		
+	});
+</script>
+</head>
+<body>
+<!--Header Start-->
+<div id="header">
+	<div id="header_cherryboard">
+    	<div class="logo"><img src="../images/logo.png" alt="cherryfull" title="cherryfull"></div>
+        <div class="userbox"><img src="../images/img_profile.jpg" class="profile_img">Andrea Faz<br>
+          <a href="#" class="gray_link">+Add a Cherryboard</a></div>
+	</div>
+</div>
+<!--Header End-->
+<!--Body Start-->
+<div id="wrapper">
+	<div class="gift"><img src="../images/img_gift1.jpg" class="imgbig"><br><a id="go" rel="leanModal" href="#give_gift" name="test" class="btn_small" title="Give">Give</a></div>
+    <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">How nice of you!</span><br><strong>Now let us know who you’d like to give this gift to...</strong><br /><br />
+				<input type="text" value="search your friends here" class="search_1" onFocus="if(this.value=='search your friends here') this.value='';" onBlur="if(this.value=='') this.value='search your friends here';" ><br>
+				 <input name="button4" type="submit" class="btn_small right" id="button4" value="Send this gift!" title="Send this gift!" /></form>
+	 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>	
+	<div class="gift"><img src="../images/img_gift2.jpg" class="imgbig"><br><a id="go" rel="leanModal" href="#give_gift1" name="test" class="btn_small" title="Give">Give</a></div>
+    <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift1" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">How nice of you!</span><br><strong>Now let us know who you’d like to give this gift to...</strong><br /><br />
+				<input type="text" value="search your friends here" class="search_1" onFocus="if(this.value=='search your friends here') this.value='';" onBlur="if(this.value=='') this.value='search your friends here';" ><br>
+                <a href="#" class="red_tag">Sam Suan</a>
+				 <input name="button4" type="submit" class="btn_small right" id="button4" value="Send this gift!" title="Send this gift!" /></form>
+	 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>    	
+	<div class="gift"><img src="../images/img_gift3.jpg" class="imgbig"><br><a id="go" rel="leanModal" href="#give_gift2" name="test" class="btn_small" title="Give">Give</a></div>
+        <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 200px;" id="give_gift2" align="center">
+                <a class="modal_close" href="#" title="close"></a>
+                <span class="head_20">You’re awesome! Thanks for helping<br>Sam get closer to her goal</span><br /><br />
+
+		 </div>
+            <div style="display: none; opacity: 0.5;" id="lean_overlay"></div>	
+	<div class="gift"><img src="../images/img_gift4.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift5.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift6.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift7.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift8.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift9.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift10.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>	
+	<div class="gift"><img src="../images/img_gift11.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>
+	<div class="gift"><img src="../images/img_gift12.jpg" class="imgbig"><br><a href="#" class="btn_small" title="Give">Give</a></div>    
+<div class="clear"></div>
+</div>
+<!--Body End-->
+</body>
+</html>
