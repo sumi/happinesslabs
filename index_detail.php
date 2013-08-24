@@ -84,7 +84,7 @@ if($subType=='notnow'&&$meb_id>0&&USER_ID>0){
   }
 }
 //DELETE EXPERT BOARD
-$debid=$_GET['debid'];
+$debid=(int)$_GET['debid'];
 if($debid>0){	 
 	$checkUser=getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$debid); 
 	if($checkUser==USER_ID){
@@ -194,10 +194,12 @@ if($checkGoal==0&&$checkExpert==0&&$checkRequest==0){
 			</div>	
 			<div class="div_doit">
 			<?php
-			$selExpert=mysql_query("SELECT * FROM tbl_app_expertboard ORDER BY expertboard_id");
+			//SELECT * FROM tbl_app_expertboard ORDER BY expertboard_id
+			$selExpert=mysql_query("SELECT a.*,b.cherryboard_id FROM tbl_app_expertboard a,tbl_app_expert_cherryboard b WHERE a.expertboard_id=b.expertboard_id AND a.board_type='0' AND b.is_publish='1' ORDER BY expertboard_id");
 				while($selExpertRow=mysql_fetch_array($selExpert)){
 					$user_id=(int)$selExpertRow['user_id'];
 					$expertboard_id=(int)$selExpertRow['expertboard_id'];
+					$cherryboard_id=(int)$selExpertRow['cherryboard_id'];
 					$expertboard_title=trim($selExpertRow['expertboard_title']);
 					$userDetail=getUserDetail($user_id);
 					$userOwnerFbId=$userDetail['fb_id'];
@@ -208,10 +210,12 @@ if($checkGoal==0&&$checkExpert==0&&$checkRequest==0){
 				<p style="vertical-align:top;"><font color="#FF8000"><strong>'.$userName.'</strong></font><br/>
 				<strong>'.$expertboard_title.'</strong></p>
 				<div id="div_doit_'.$expertboard_id.'" style="padding-top:2px;padding-bottom:2px;">
-				'.($checkExpert>0?'<img src="images/doingit.png" height="25px" width="70px" style="padding-left:160px;" />':'<img src="images/doit.png" onclick="ajax_action(\'expert_doit\',\'div_doit_'.$expertboard_id.'\',\'expertboard_id='.$expertboard_id.'\');" height="25px" width="70px" style="padding-left:160px; cursor:pointer;" />').'
+				'.($checkExpert>0?'<img src="images/doingit.png" height="25px" width="70px" style="padding-left:160px;" />':'<img src="images/doit.png" onclick="javascript:document.getElementById(\'cherryboard_id\').value='.$cherryboard_id.';ajax_action(\'expert_doit\',\'div_doit_'.$expertboard_id.'\',\'expertboard_id='.$expertboard_id.'&cherryboard_id='.$cherryboard_id.'\');" height="25px" width="70px" style="padding-left:160px; cursor:pointer;" />').'
 				</div>';
-				}
-		?>				
+				}				
+		?>
+		<input type="hidden" name="cherryboard_key" id="cherryboard_key" value="0" />
+		<input type="hidden" name="cherryboard_id" id="cherryboard_id" value="0" />
 			</div> 
 		</div>
 	</div>	
@@ -571,6 +575,31 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 			$cherryboard_id=$selCherryRow['cherryboard_id'];
 			$expertboard_id=$selCherryRow['expertboard_id'];
 			$main_board=$selCherryRow['main_board'];
+			//START COPYBOARD CODE
+			$copyboard_id=(int)$selCherryRow['copyboard_id'];
+			$strCopy='';
+			$strOriginal='';
+			if($copyboard_id>0){
+			   $UserId=getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$copyboard_id); 	
+			   $strCopy='Copy of';
+			   $UserDetail=getUserDetail($UserId);
+			   $OriginalName=$UserDetail['name'];
+			   $strOriginal='Original by : '.$OriginalName.'<br/>';
+			}
+			//START COPYBOARD USER LIST
+			$copyUserCnt='';			
+			$selCopyUser=mysql_query("SELECT cherryboard_id,user_id FROM tbl_app_expert_cherryboard WHERE copyboard_id=".$cherryboard_id." AND user_id!=0");
+			if(mysql_num_rows($selCopyUser)>0){
+			   $copyUserCnt.='<br/><strong>Copy User List :</strong><br/>';	
+			   while($selCopyUserRow=mysql_fetch_array($selCopyUser)){
+					$CherryBoardId=(int)$selCopyUserRow['cherryboard_id'];
+					$UserId=(int)$selCopyUserRow['user_id'];
+					$UserDetail=getUserDetail($UserId);
+					$CopyUsrName=$UserDetail['name'];
+					$copyUserCnt.=$CopyUsrName.'<br/>';
+			   }
+			}
+				
 			if($main_board==1){
 				$delRedirectLink='expert_cherryboard.php?delExpId='.$expertboard_id.'';
 			}else{
@@ -633,7 +662,9 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 						<img src="<?php echo $phtotoArray[0];?>" width="209px"/>
 						</a></div>
 						<div class="bottom_box_text">
-						<strong><?php echo $cherryboard_title.' - '.$category_name;?></strong>&nbsp;&nbsp;<?=$delLink?><br/>
+						<?php echo $strOriginal; ?>
+						<strong><?php echo $strCopy.' '.$cherryboard_title.' - '.$category_name;?></strong>&nbsp;&nbsp;<?=$delLink?><br/>
+						<?php echo $copyUserCnt; ?>
 						</div>
 					   <div class="bottom_healthy">
 						 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
@@ -683,4 +714,6 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 </script>
 <!--Gray body End-->
 <!--Body End-->
+<?php include('fb_invite.php');?>
+<?php include('fb_expert_invite.php');?>
 <?php include('site_footer.php');?>

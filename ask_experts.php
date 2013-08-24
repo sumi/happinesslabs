@@ -61,12 +61,13 @@ $category_id=(int)$_GET['category_id'];
 	<?php	
 	$whereCnd="";
 	if($category_id>0){
-		$whereCnd="board_type='0' AND category_id=".$category_id;
+		$whereCnd="a.expertboard_id=b.expertboard_id AND a.board_type='0' AND b.is_publish='1' AND a.category_id=".$category_id;
 	}else{
-		$whereCnd="board_type='0'";
+		$whereCnd="a.expertboard_id=b.expertboard_id AND a.board_type='0' AND b.is_publish='1'"; 
 	}
 	$giftCnt='';
-	$sel=mysql_query("SELECT * FROM tbl_app_expertboard WHERE ".$whereCnd." ORDER BY expertboard_id");					
+	//SELECT * FROM tbl_app_expertboard WHERE ".$whereCnd." ORDER BY expertboard_id
+	$sel=mysql_query("SELECT a.*,b.cherryboard_id FROM tbl_app_expertboard a,tbl_app_expert_cherryboard b WHERE ".$whereCnd." ORDER BY expertboard_id");					
 	$pagePhotosArray=array();
 	if(mysql_num_rows($sel)>0){
 		$newCnt=1;
@@ -74,6 +75,7 @@ $category_id=(int)$_GET['category_id'];
 				
 			$user_id=(int)$row['user_id'];
 			$expertboard_id=(int)$row['expertboard_id'];
+			$cherryboard_id=(int)$row['cherryboard_id'];
 			$expertboard_title=ucwords(trim($row['expertboard_title']));
 			$userDetail=getUserDetail($user_id);
 			$userOwnerFbId=$userDetail['fb_id'];
@@ -99,29 +101,16 @@ $category_id=(int)$_GET['category_id'];
 				}
 			}
 			if($reward!=""){$reward='<br>'.$reward;}
-			
-			//$expertPicPath='images/expert.jpg';
-			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';
-				
-			$cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="0" AND user_id='.USER_ID);
-			//expert_profile.php?eid='.$expertboard_id.'
-			if($userOwnerFbId!=""){
-				//START PUBLISH HAPPY STORY CODE
-				$selPublish=mysql_query("SELECT is_publish FROM tbl_app_expert_cherryboard WHERE expertboard_id=".$expertboard_id);
-				while($selPublishRow=mysql_fetch_array($selPublish)){
-					$IsPublish=(int)$selPublishRow['is_publish'];	
-					//$CherryBoardId=(int)$selPublishRow['cherryboard_id'];				
-					//$IsPublish=(int)getFieldValue('is_publish','tbl_app_expert_cherryboard','cherryboard_id='.$CherryBoardId);
-					if($IsPublish==1){					
-				$Owner_cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="1" limit 1');
-				if($Owner_cherryboard_id>0){
+			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';//$cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="0" AND user_id='.USER_ID);
+			if($userOwnerFbId!=""){		//$Owner_cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="1" limit 1');
+				if($cherryboard_id>0){
 					$TotalCheers=countCheers($expertboard_id,'expertboard');
 					$giftCnt.='
 					<div class="w2 h1 masonry-brick">
 					<div class="bottom_box_main">
 					<div class="main_box">
 						<div class="day_img">
-						<a href="expert_cherryboard.php?cbid='.$Owner_cherryboard_id.'">
+						<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'">
 						<img src="'.$expertPicPath.'" height="150px" width="209px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'" />
 						</a></div>
 						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
@@ -136,8 +125,6 @@ $category_id=(int)$_GET['category_id'];
 				   $pagePhotosArray[$newCnt]=$expertPicPath;
 				   $newCnt++;
 				 }
-				}
-			  }
 			}
 		}
 	}else{

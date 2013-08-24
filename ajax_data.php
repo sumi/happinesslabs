@@ -322,10 +322,11 @@ if($type=="expert_notes"){
 //DO-IT EXPERT HAPPINESS
 if($type=="expert_doit"){
 	$expertboard_id=$_GET['expertboard_id'];
+	$cherryboard_id=$_GET['cherryboard_id'];
 	$expertGreat='';
 	$expertOwnerPic='';
 	if($expertboard_id>0){
-	   createExpertboard($expertboard_id);
+	   createExpertboard($expertboard_id,$cherryboard_id);
 	   $ajax_data.='<img src="images/doingit.png" height="25px" width="70px" style="padding-left:160px;" />';
 	   $expertGreat.='<img src="images/great.png" />	
                      <div class="img_div_2" style="padding-top:33px;"><img src="images/down.png" alt="" />';

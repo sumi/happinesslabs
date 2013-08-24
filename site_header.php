@@ -370,8 +370,7 @@ if($_GET['type']=='request'){
 ?>
 <!-- START CREATE HAPPY STORY AND SUB STORY CODE --> 
 <form action="expertboard.php" method="post" name="frmexpert" enctype="multipart/form-data">
-<input type="hidden" name="create_from" id="create_from" value="header"/>
-<input type="hidden" name="parent_id" id="parent_id" value="<?=$expertboard_id?>"/>	 
+<input type="hidden" name="create_from" id="create_from" value="header"/>	 
 <input type="hidden" name="cherryboard_parent_id" id="cherryboard_parent_id" value="<?=$cherryboard_id?>"/>	 
 <div class="CreateStor_main" style="display: <?=$var?>; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 20px;background-color:#FFFFFF" id="create_expert_board">
   <div class="border_top_main">

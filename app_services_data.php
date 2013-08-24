@@ -3,31 +3,51 @@ error_reporting(0);
 header('Content-Type: application/json');
 include('include/app-db-connect.php');
 include('include/app_functions.php');
-$tblName=$_GET['tbl'];
-$tblFields=$_GET['tblFields'];
-$fb_id=trim($_GET['fb_id']);
+$tblName=$_REQUEST['tbl'];
+$tblFields=$_REQUEST['tblFields'];
+$fb_id=trim($_REQUEST['fb_id']);
 $user_id=0;
 if($fb_id!=""){
 	$user_id=getUserId_by_FBid($fb_id);
 }
-$cherry_id=(int)($_GET['cherry_id']);
-$photo_id=(int)($_GET['photo_id']);
-$tblFields_array=explode(',',$_GET['tblFields']);
+$cherry_id=(int)($_REQUEST['cherry_id']);
+$photo_id=(int)($_REQUEST['photo_id']);
+$tblFields_array=explode(',',$_REQUEST['tblFields']);
 $tblData=array();
+$type=$_REQUEST['type'];
 
-$type=$_GET['type'];
-//GET USER PROFILE BOARD
-//http://happinesslabs.com/app_services_data.php?type=expertsList&fb_id=
+//Vijay FB ID : 100002349398425
+
+
+
 if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
-	$fb_id=$_GET['fb_id'];
+//GET USER PROFILE BOARD
+//http://happinesslabs.com/app_services_data.php?type=user_profile&fb_id=
+//http://happinesslabs.com/app_services_data.php?type=all_stories&fb_id=
+//http://happinesslabs.com/app_services_data.php?type=story_detail&fb_id=&story_id=
+
+	$fb_id=$_REQUEST['fb_id'];
 	$user_id=getUserId_by_FBid($fb_id);	
 	if($user_id>0&&$fb_id!=""){
 		$whereCnd='';
 		if($type=="user_profile"){
-			$whereCnd=" and  b.user_id='".$user_id."'";
+			$selJoinedBoards=mysql_query("select cherryboard_id from tbl_app_expert_cherryboard_meb where req_user_fb_id='".$fb_id."' and is_accept='1'");
+			$JoinedBoardsArray=array();
+			while($rowJoinedBoards=mysql_fetch_array($selJoinedBoards)){
+				$JoinedBoardsArray[]=$rowJoinedBoards['cherryboard_id'];
+			}
+			$JoinedBoardsCnd='';
+			if(count($JoinedBoardsArray)>0){
+				$JoinedBoardsId=implode(',',$JoinedBoardsArray);
+				$JoinedBoardsCnd=' OR b.cherryboard_id in ('.$JoinedBoardsId.')';
+			}	
+			$whereCnd=" and (b.user_id='".$user_id."' ".$JoinedBoardsCnd.")";
+			
 		}else if($type=="story_detail"){
-			$story_id=(int)$_GET['story_id'];
+			$story_id=(int)$_REQUEST['story_id'];
 			$whereCnd=" and  b.cherryboard_id='".$story_id."'";
+		}else if($type=="all_stories"){
+			$whereCnd=" and  b.is_publish='1'";
 		}
 		$selExpert=mysql_query("select a.expertboard_id,a.expertboard_title, a.category_id,a.expertboard_detail,a.goal_days, a.price,b.user_id, b.cherryboard_id from tbl_app_expertboard a,tbl_app_expert_cherryboard b where a.expertboard_id=b.expertboard_id ".$whereCnd." group by b.expertboard_id order by b.cherryboard_id");
 		$expertCnt='';
@@ -78,7 +98,7 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 				 
 			}
 		}else{
-			$tblData[]='No User Boards';
+			$tblData[]='No Story Boards';
 		}
 	}else{
 			$tblData[]='Invalid Data';
@@ -86,8 +106,8 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 	
 //GET EXPERTS LIST
 //http://happinesslabs.com/app_services_data.php?type=expertsList&fb_id=
-}else if($_GET['type']=="expertsList"&&$_GET['fb_id']!=""){
-	$fb_id=$_GET['fb_id'];
+}else if($_REQUEST['type']=="expertsList"&&$_REQUEST['fb_id']!=""){
+	$fb_id=$_REQUEST['fb_id'];
 	$get_user_id=getUserId_by_FBid($fb_id);	
 	$selExpert=mysql_query("select cherryboard_id,user_id,cherryboard_title from tbl_app_expert_cherryboard  order by cherryboard_id");
 	$expertCnt='';
@@ -119,10 +139,12 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 		echo 'No Experts';
 		exit(0);
 	}
-}
+
+
+}else if($_REQUEST['type']=="ReadPhotoComment"){
 //READ PHOTO COMMENT
 //http://happinesslabs.com/app_services_data.php?type=ReadPhotoComment&photo_id=
-if($_GET['type']=="ReadPhotoComment"){
+
 	$selQuery="select user_id,cherry_comment from tbl_app_cherry_comment where	photo_id=".$photo_id." order by comment_id desc";
 		$selSqlQ=mysql_query($selQuery) or die('Error');
 		if(mysql_num_rows($selSqlQ)>0){
@@ -139,11 +161,10 @@ if($_GET['type']=="ReadPhotoComment"){
 			echo "No Records Found";
 			exit(0);
 		}
-}
 
+}else if($_REQUEST['type']=="BoardMembers"){ 
 //READ BOARD MEMBERS
 //http://happinesslabs.com/app_services_data.php?type=BoardMembers&cherry_id=
-if($_GET['type']=="BoardMembers"){ 
 
 	$selQuery="select b.fb_photo_url from tbl_app_cherryboard_meb a,tbl_app_users b where a.req_user_fb_id=b.facebook_id and a.cherryboard_id=".$cherry_id;
 		$selSqlQ=mysql_query($selQuery) or die('Error');
@@ -162,7 +183,7 @@ if($_GET['type']=="BoardMembers"){
 
 //READ user all boards id with latest photo
 //http://happinesslabs.com/app_services_data.php?type=userboardsphoto&fb_id=
-}else if($_GET['type']=="userboardsphoto"){ 
+}else if($_REQUEST['type']=="userboardsphoto"){ 
 
 		$selQuery="select cherryboard_id from tbl_app_cherryboard where user_id=".$user_id;
 		$selSqlQ=mysql_query($selQuery) or die('Error');
@@ -191,7 +212,7 @@ if($_GET['type']=="BoardMembers"){
 			exit(0);
 		}
 
-}else{
+}else if($_REQUEST['type']!="add_user"){
 //URL : http://happinesslabs.com/app_services_data.php?tbl=tbl_app_cherryboard&tblFields=cherryboard_id,cherryboard_title&fb_id=
 	if($tblName!=""){
 		$whereCnd='';
@@ -202,8 +223,8 @@ if($_GET['type']=="BoardMembers"){
 			if($whereCnd!=""){$whereCnd.=" and ";}
 			$whereCnd.="cherryboard_id=".$cherry_id;
 		}
-		if(trim($_GET['whereCnd'])!=""){
-			$whereCnd.=$_GET['whereCnd'];
+		if(trim($_REQUEST['whereCnd'])!=""){
+			$whereCnd.=$_REQUEST['whereCnd'];
 		}
 		
 		if($tblName=="tbl_app_cherry_photo"){
@@ -216,15 +237,15 @@ if($_GET['type']=="BoardMembers"){
 			$whereCnd=" where ".$whereCnd;
 		}
 		
-		if(trim($_GET['orderby'])!=""){
-			$whereCnd.=' order by '.$_GET['orderby'];
-			if(trim($_GET['sortby'])!=""){
-				$whereCnd.=' '.$_GET['sortby'];
+		if(trim($_REQUEST['orderby'])!=""){
+			$whereCnd.=' order by '.$_REQUEST['orderby'];
+			if(trim($_REQUEST['sortby'])!=""){
+				$whereCnd.=' '.$_REQUEST['sortby'];
 			}
 			
 		}
-		if(trim($_GET['limit'])!=""){
-			$whereCnd.=' limit '.$_GET['limit'];
+		if(trim($_REQUEST['limit'])!=""){
+			$whereCnd.=' limit '.$_REQUEST['limit'];
 		}
 		
 				

@@ -44,7 +44,7 @@ include('include/app-common-config.php');
 		</div>
 		<div style="width:958px;">
 		<?php
-		$selExpReward=mysql_query("SELECT * FROM tbl_app_expert_reward_photo ORDER BY exp_reward_id");					
+		$selExpReward=mysql_query("SELECT a.* FROM tbl_app_expert_reward_photo a,tbl_app_expert_cherryboard b WHERE a.cherryboard_id=b.cherryboard_id AND b.is_publish='1' ORDER BY exp_reward_id");					
 		$rewardCnt='';
 		if(mysql_num_rows($selExpReward)>0){
 		   $pagePhotosArray=array();
@@ -84,6 +84,8 @@ include('include/app-common-config.php');
 				}
 			  }
 		   }
+		}else{
+			$rewardCnt.='No Rewards';
 		}
 		echo $rewardCnt;
 		?>   

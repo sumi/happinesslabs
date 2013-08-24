@@ -786,13 +786,16 @@ function getDayType($expertboard_id){
 	return $DayType;
 }
 //EXPERT BOARD JOIN CODE FUNCTION THAT USED IN DO-IT 
-function createExpertboard($expertboard_id,$cherryboard_id){
-  if($_SESSION['USER_ID']>0){
-	$IsExpertBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" AND main_board="0" AND user_id='.$_SESSION['USER_ID']);
+function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
+	if($user_id==0){
+		$user_id=(int)$_SESSION['USER_ID'];
+	}
+  if($user_id>0){
+	$IsExpertBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" AND main_board="0" AND user_id='.$user_id);
 	if($IsExpertBoard==0){
 		//$ExpGoalMainId=getExpGoalMainId($expertboard_id);
 		$insExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard (cherryboard_id,user_id,expertboard_id, category_id,cherryboard_title,record_date,makeover,qualified,help_people,start_date,price,fb_album_id,doit_id)
-		VALUES (NULL, '".$_SESSION['USER_ID']."','".$expertboard_id."','0','', CURRENT_TIMESTAMP,'','','','','0','','".$cherryboard_id."')");
+		VALUES (NULL, '".$user_id."','".$expertboard_id."','0','', CURRENT_TIMESTAMP,'','','','','0','','".$cherryboard_id."')");
 		$lastCreatedId=mysql_insert_id();
 		//ADD CHECKIST ITEMS TO BUY EXPERTBOARD		
 		$expertOwnerId=(int)GetFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
@@ -821,7 +824,7 @@ function createExpertboard($expertboard_id,$cherryboard_id){
 		}
 		if($lastCreatedId>0){
 			//send mail to owner of the expertboard
-			$UserDetail=getUserDetail($_SESSION['USER_ID'],'uid');
+			$UserDetail=getUserDetail($user_id,'uid');
 			$UserName=$UserDetail['name'];
 			$ExpboardTitle=getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 			$OwnerDetail=getUserDetail($expertOwnerId,'uid');
@@ -841,7 +844,7 @@ function createExpertboard($expertboard_id,$cherryboard_id){
 						</table>';
 			SendMail($to,$subject,$message);
 			//debug mail
-		 /*$message1='user id ==>'.$_SESSION['USER_ID'].'==='.$_SERVER['REMOTE_ADDR']."===".date('Y-m-d H:i:s');
+		 /*$message1='user id ==>'.$user_id.'==='.$_SERVER['REMOTE_ADDR']."===".date('Y-m-d H:i:s');
 			SendMail('uniquewebinfo@gmail.com',$subject,$message1);*/
 			return 	$lastCreatedId;	
 		}
@@ -901,18 +904,23 @@ function expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
 }
 //DEFINE FUNCTION DELETE EXPERTBOARD
 function deleteExpertBoard($cherryboard_id){
-	$delCherryBrd=mysql_query("DELETE FROM tbl_app_expert_cherryboard WHERE cherryboard_id=".$cherryboard_id."");
+   $delCherryBrd=mysql_query("DELETE FROM tbl_app_expert_cherryboard WHERE cherryboard_id=".$cherryboard_id);
 	if($delCherryBrd){
 		//UNLINK PHOTO AND DELETE PHOTO
-		$selExpPhoto=mysql_query("SELECT photo_id,photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id."");
-		while($selExpPhotoRow=mysql_fetch_row($selExpPhoto)){
-			$photo_name=$selExpPhotoRow['photo_name'];
+		$selExpPhoto=mysql_query("SELECT photo_id,photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id);
+		while($selExpPhotoRow=mysql_fetch_array($selExpPhoto)){
+			$photo_id=$selExpPhotoRow['photo_id'];
+			$photo_name=$selExpPhotoRow['photo_name'];			
 			$photo_path='images/expertboard/'.$photo_name;
 			$photo_path_thumb='images/expertboard/thumb/'.$photo_name;
-			$delExpPhoto=mysql_query("DELETE FROM tbl_app_expert_cherry_photo WHERE photo_id=".$selExpPhotoRow['photo_id']."");
+			$profileSlidePath='images/expertboard/profile_slide/'.$photo_name;
+    		$sliderPath='images/expertboard/slider/'.$photo_name;
+			$delExpPhoto=mysql_query("DELETE FROM tbl_app_expert_cherry_photo WHERE photo_id=".$photo_id);
 			if($delExpPhoto){
 				unlink($photo_path);
 				unlink($photo_path_thumb);
+				unlink($profileSlidePath);
+				unlink($sliderPath);
 			}
 		}
 		//DELETE TO-DO LIST
@@ -928,7 +936,7 @@ function deleteExpertBoard($cherryboard_id){
 	    $cherry_buy=mysql_query('DELETE FROM tbl_app_expert_buy WHERE cherryboard_id="'.$cherryboard_id.'"');
 	    //DELETE REWARD PHOTO
 	    $selExpReward=mysql_query("SELECT exp_reward_id,photo_name FROM tbl_app_expert_reward_photo WHERE cherryboard_id=".$cherryboard_id."");
-		while($selExpRewardRow=mysql_fetch_row($selExpReward)){
+		while($selExpRewardRow=mysql_fetch_array($selExpReward)){
 			$photo_name=$selExpRewardRow['photo_name'];
 			$photo_path='images/expertboard/reward/'.$photo_name;
 			$cherry_reward=mysql_query('DELETE FROM tbl_app_expert_reward_photo WHERE exp_reward_id="'.$selExpRewardRow['exp_reward_id'].'"');
@@ -1089,5 +1097,156 @@ function getImageRatio($image,$maxWidth,$maxHeight){
   $new_height=(int)$imageHeight;
   $retval=array("width"=>$new_width,"height"=>$new_height);
   return $retval;
+}
+function getWSdata($url){
+	$returnDetail='No Data';
+	if(trim($url)!=""){
+		$homepage = file_get_contents($url);
+		$returnDetail=json_decode($homepage, true);
+	}else{
+		$returnDetail='Empty Url';
+	}
+	return $returnDetail;
+}
+/*function getCopyBoardUser($cherryboard_id){
+	$selCopyUser=mysql_query("SELECT cherryboard_id,user_id FROM tbl_app_expert_cherryboard WHERE copyboard_id=".$cherryboard_id);
+	$copyBoardDetail=array();
+	$subCopyBoardDetail=array();
+	$cnt=1;
+	while($selCopyUserRow=mysql_fetch_array($selCopyUser)){
+		$copyBoardDetail['cherryboard_id']=(int)$selCopyUserRow['cherryboard_id'];
+		$copyBoardDetail['user_id']=(int)$selCopyUserRow['user_id'];
+		$UserDetail=getUserDetail($selCopyUserRow['user_id']);
+		$CopyUsrName=$UserDetail['name'];
+		$copyBoardDetail['username']=$CopyUsrName;
+		$subCopyBoardDetail[$cnt]=$copyBoardDetail;
+		$cnt++;
+	}
+	return $subCopyBoardDetail;
+}*/
+function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
+	if($user_id==0){
+		$user_id=(int)$_SESSION['USER_ID'];
+	}
+  	if($user_id>0){
+		//CHECK USER HAVE COPY BOARD OR NOT	
+		$expTitle=trim(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertBoardId));
+		$recordDate=getFieldValue('date_format(record_date,"%Y-%m-%d") as recordDate','tbl_app_expertboard','expertboard_title="'.$expTitle.'" AND user_id="'.$user_id.'" ORDER BY expertboard_id DESC LIMIT 1');
+		$curDate=date('Y-m-d');
+		if($recordDate!=$curDate){
+			//START CREATE EXPORTBOARD
+			$selExpBoard=mysql_query("SELECT * FROM tbl_app_expertboard WHERE expertboard_id=".$expertBoardId);
+			while($selExpBoardRow=mysql_fetch_array($selExpBoard)){
+				$category_id=$selExpBoardRow['category_id'];
+				$expertboard_title=trim($selExpBoardRow['expertboard_title']);
+				$expertboard_detail=trim(stripslashes($selExpBoardRow['expertboard_detail']));
+				$goal_days=$selExpBoardRow['goal_days'];
+				$price=$selExpBoardRow['price'];
+				$customers=trim($selExpBoardRow['customers']);
+				$day_type=$selExpBoardRow['day_type'];
+				$is_board_price=$selExpBoardRow['is_board_price'];
+				$board_type=$selExpBoardRow['board_type'];
+				$living_narrative=$selExpBoardRow['living_narrative'];
+				
+				//CREATE NEW EXPERTBOARD
+				$ip_address=$_SERVER['REMOTE_ADDR'];
+				$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,living_narrative,copyboard_id) VALUES (NULL,'".$user_id."','".$category_id."','".$expertboard_title."','".addslashes($expertboard_detail)."','".$goal_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$customers."','".$ip_address."','".$living_narrative."','".$expertBoardId."')";
+				$insExpBoardRes=mysql_query($insExpBoard);
+				$NewExpBoardId=mysql_insert_id();
+				//CREATE NEW GOAL DAYS
+				if($NewExpBoardId>0){
+					$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
+					while($selDaysRow=mysql_fetch_array($selDays)){
+						$day_no=$selDaysRow['day_no'];
+						$day_title=$selDaysRow['day_title'];
+						$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date) VALUES (NULL,'".$NewExpBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP)";
+						$insDaysRes=mysql_query($insDays);
+					}
+					//CREATE NEW EXPERT CHERRYBOARD
+					//$cherryBoardId=getExpGoalMainId($expertBoardId);
+					$insNewExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard 
+					(cherryboard_id,user_id,expertboard_id,record_date,main_board,copyboard_id)
+				 VALUES (NULL,'".$user_id."','".$NewExpBoardId."',CURRENT_TIMESTAMP,'1','".$cherryboard_id."')");
+					$newCherryBoardId=mysql_insert_id();
+					//ADD TO-DO LIST ITEM IN NEW EXPERT CHERRYBOARD				
+					$selTodoList=mysql_query("SELECT * FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id);
+					while($selTodoListRow=mysql_fetch_array($selTodoList)){
+						$insTodoList=mysql_query("INSERT INTO tbl_app_expert_checklist (checklist_id,user_id, cherryboard_id,checklist,record_date,is_checked,is_system) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".addslashes($selTodoListRow['checklist'])."',CURRENT_TIMESTAMP,'".$selTodoListRow['is_checked']."','".$selTodoListRow['is_system']."')");
+					}
+					//ADD EXPERT REWARD PICTURE
+					$selExpReward=mysql_query("SELECT * FROM tbl_app_expert_reward_photo WHERE cherryboard_id=".$cherryboard_id);
+					while($selExpRewardRow=mysql_fetch_array($selExpReward)){
+						$reward_title=$selExpRewardRow['photo_title'];
+						$reward_photo=$selExpRewardRow['photo_name'];
+						$oldDirPath='images/expertboard/reward/'.$reward_photo;
+						$rnd=rand();
+						$new_reward_photo=$rnd.'_'.$reward_photo;
+						$newDirPath='images/expertboard/reward/'.$new_reward_photo;
+						if($_SERVER['SERVER_NAME']=="localhost"){
+							$retval=copy($oldDirPath,$newDirPath);				
+						}else{
+							$thumb_command=$ImageMagic_Path."convert ".$oldDirPath." -thumbnail 195 x 195 ".$newDirPath;
+							$last_line=system($thumb_command,$retval);
+						}
+						if($retval){
+							$insExpReward=mysql_query("INSERT INTO tbl_app_expert_reward_photo (exp_reward_id,user_id,cherryboard_id,photo_title,photo_name,record_date) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$reward_title."','".$new_reward_photo."',CURRENT_TIMESTAMP)");
+						}
+					}
+					//ADD EXPERT BOARD PICTURE
+					$selExpPic=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id);
+					while($selExpPicRow=mysql_fetch_array($selExpPic)){
+						$photo_title=$selExpPicRow['photo_title'];
+						$photo_name=$selExpPicRow['photo_name'];
+						$photo_day=$selExpPicRow['photo_day'];
+						
+						$old_uploaddir='images/expertboard/'.$photo_name;
+						$old_uploaddirThumb='images/expertboard/thumb/'.$photo_name;
+						$rnd=rand();
+						$new_photo_name=$rnd.'_'.$photo_name;//photo_path set in db
+						$new_uploaddir='images/expertboard/'.$new_photo_name;
+						$new_uploaddirThumb='images/expertboard/thumb/'.$new_photo_name;
+						
+						if($_SERVER['SERVER_NAME']=="localhost"){
+							$retval=copy($old_uploaddir,$new_uploaddir);
+							$retval=copy($old_uploaddirThumb,$new_uploaddirThumb);				
+						}else{
+							$thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 195 x 195 ".$new_uploaddir;
+							$last_line=system($thumb_command, $retval);
+							$thumb_command_thumb=$ImageMagic_Path."convert ".$old_uploaddirThumb." -thumbnail 60 x 60 ".$new_uploaddirThumb;
+							$last_line=system($thumb_command_thumb,$retval);
+						}
+						if($retval){
+							$insExpPic=mysql_query("INSERT INTO tbl_app_expert_cherry_photo (photo_id,user_id, cherryboard_id,photo_title,photo_name,photo_day,record_date) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$photo_title."','".$new_photo_name."','".$photo_day."',CURRENT_TIMESTAMP)");
+						}
+					}
+					//SEND MAIL OF THE EXPERTBOARD OWNER
+					if($newCherryBoardId>0){
+						$UserDetail=getUserDetail($user_id,'uid');
+						$UserName=$UserDetail['name'];
+						$expertDetail=getFieldsValueArray('user_id,expertboard_title','tbl_app_expertboard','expertboard_id='.$expertBoardId);					
+						$expertUserId=$expertDetail[0];
+						$expertTitle=$expertDetail[1];
+						$OwnerDetail=getUserDetail($expertUserId,'uid');
+						$OwnerName=$OwnerDetail['name'];
+						$expOwner_EmailId=$OwnerDetail['email_id'];
+						$to = $expOwner_EmailId;
+						$subject = 'Your '.$expertTitle.' is copied.';
+						$message = '<table>
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>Dear '.$OwnerName.',</td></tr>
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>Your '.$expertTitle.' is copied by '.$UserName.'. 
+									<a href="'.SITE_URL.'/expert_cherryboard.php?cbid='.$newCherryBoardId.'"><strong>Click here</strong></a> to see how '.$UserName.' is using it.</td></tr>
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>Love,</td></tr>
+									<tr><td>'.REGARDS.'</td></tr>
+									</table>';
+						SendMail($to,$subject,$message);
+						return $newCherryBoardId;					  
+					}
+				}
+			}
+		}	
+	}	
 }
 ?>

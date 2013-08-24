@@ -529,6 +529,7 @@ function ajax_action(type,div_name,stringVar)
 	}
 	//DO-IT EXPERT HAPPINESS
 	if(type=="expert_doit"){
+		sendRequestStory();
 		isAction=1;
 	}
 	//EDIT EXPERT CUSTOMERS LABLE
@@ -831,6 +832,7 @@ function handleHttpResponse_ajax_action()
 		if(action_type=="expert_doit"){
 			document.getElementById('div_great').innerHTML = results_array[3];
 			document.getElementById('div_expowner_picture').innerHTML = results_array[4];
+			sendRequest();
 		}
 		//Refresh Page
 		if(action_type=="edt_exp_goal_day"){

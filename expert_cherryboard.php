@@ -319,12 +319,22 @@ include('site_header.php');
 						</div>
 					</div>';
 				}
-				
+				//COPY USER CODE 
+				$CopyBoardId=(int)getFieldValue('copyboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+				$strCopy='';
+				$strOriginal='';
+				if($CopyBoardId>0){
+				  $strCopy='Copy of';
+				  $OriginalUserId=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','copyboard_id='.$CopyBoardId);
+				  $UserDetail=getUserDetail($OriginalUserId);
+				  $OriginalName=$UserDetail['name'];
+				  $strOriginal='<em>Original by <a href="expert_cherryboard.php?cbid='.$CopyBoardId.'" style="text-decoration:none;color:#404041;">'.$OriginalName.'</a></em><br/>';
+				}
 				$expertCnt.='</div>
-       			<div class="banner_day" style="width:315px">
+       			<div class="banner_day" style="width:315px"><span style="font-size:16px;">'.$strCopy.'</span>
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>
 				</div>
-        		<div class="banner_day_2"><em>by '.$userName.'</em><br/>';
+        		<div class="banner_day_2"><em>by '.$userName.'</em><br/>'.$strOriginal.'';
 				//CREATE PUBLISH BUTTON CODE
 				$publishDetail=getFieldsValueArray('user_id,is_publish','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 				$UserId=$publishDetail[0];
@@ -424,6 +434,19 @@ include('site_header.php');
 									<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://30daysnew.com/expert_cherryboard.php?cbid='.$cherryboard_id.'" data-via="'.$expertboard_title.'" data-lang="en" data-related="anywhereTheJavascriptAPI" data-count="vertical">Tweet</a>
 									<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 									</td></tr></table>';
+				//COPY A BOARD USER LIST 				
+				$selCopyUser=mysql_query("SELECT cherryboard_id,user_id FROM tbl_app_expert_cherryboard WHERE copyboard_id=".$cherryboard_id." AND user_id!=0");
+				if(mysql_num_rows($selCopyUser)>0){
+				   $expertCnt.='<br/><strong>Copy User List :</strong><br/>';	
+				   while($selCopyUserRow=mysql_fetch_array($selCopyUser)){
+						$CherryBoardId=(int)$selCopyUserRow['cherryboard_id'];
+						$UserId=(int)$selCopyUserRow['user_id'];
+						$UserDetail=getUserDetail($UserId);
+						$CopyUsrName=$UserDetail['name'];
+						$expertCnt.=$CopyUsrName.'<br/>';
+				   }
+				}
+							
 				$expertCnt.='</div>';
 				
        			$expertCnt.='<div class="classmates" style="float: left;">
