@@ -10,7 +10,7 @@ $user_id=0;
 if($fb_id!=""){
 	$user_id=getUserId_by_FBid($fb_id);
 }
-$cherry_id=(int)($_REQUEST['cherry_id']);
+$cherry_id=(int)($_REQUEST['story_id']);
 $photo_id=(int)($_REQUEST['photo_id']);
 $tblFields_array=explode(',',$_REQUEST['tblFields']);
 $tblData=array();
@@ -212,6 +212,19 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 			exit(0);
 		}
 
+}else if($_REQUEST['type']=="story_friends"){
+
+		$selQuery="select req_user_fb_id from tbl_app_expert_cherryboard_meb where cherryboard_id=".$cherry_id;
+		$selSqlQ=mysql_query($selQuery) or die('Error');
+		if(mysql_num_rows($selSqlQ)>0){
+			$rowArray=array();
+			while($rowTbl=mysql_fetch_array($selSqlQ)){
+				$req_user_fb_id=$rowTbl['req_user_fb_id'];
+				$UserDetail=getUserDetail($req_user_fb_id,'fbid');
+				$rowArray[$user_id]=array("id"=>$UserDetail['user_id'],"email"=>$UserDetail['email_id'],"name"=>$UserDetail['name'],"photo"=>$UserDetail['photo_url']);
+			}
+			$tblData['status']=$rowArray;
+	   }
 }else if($_REQUEST['type']!="add_user"){
 //URL : http://happinesslabs.com/app_services_data.php?tbl=tbl_app_cherryboard&tblFields=cherryboard_id,cherryboard_title&fb_id=
 	if($tblName!=""){
@@ -261,22 +274,6 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 					}
 				}
 				
-				
-				if($tblName=="tbl_app_cherryboard"){
-					$cherryboard_id=$rowTbl['cherryboard_id'];
-					$gift_id=(int)getFieldValue('gift_id','tbl_app_cherry_gift','cherryboard_id='.$cherryboard_id);
-					
-					if($gift_id>0){
-						$giftArray=getFieldsValueArray('gift_id,gift_title,gift_photo','tbl_app_gift','gift_id='.$gift_id);
-						$rowArray['gift_id']=$giftArray[0];
-						$rowArray['gift_title']=$giftArray[1];
-						$rowArray['gift_photo']=$giftArray[2];
-					}	
-			
-					$locationArray=getFieldsValueArray('location,checkin_time','tbl_app_cherry_checkin','cherryboard_id='.$cherryboard_id.' order by location_id desc limit 1');
-					$rowArray['location']=$locationArray[0];
-					$rowArray['checkin_time']=$locationArray[1];
-				}
 				if($tblName=="tbl_app_expert_cherryboard"){
 					$cherryboard_id=$cherry_id;
 					$expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
