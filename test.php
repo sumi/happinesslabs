@@ -349,7 +349,9 @@ if($type=='updatestory'){
 			echo "Board Updated Successfully...";
 		}	
 	}
-	//START SELECT STORY CODE
+}
+//START SELECT STORY CODE
+	$expertboard_id=18;
 	$selBoard=mysql_query("SELECT * FROM tbl_app_expertboard WHERE expertboard_id=".$expertboard_id);
 	while($selBoardRow=mysql_fetch_array($selBoard)){
 		$expertboard_id=(int)$selBoardRow['expertboard_id'];
@@ -408,9 +410,9 @@ Storyboard type? : <input name="board_type" id="board_type" type="radio" checked
 Storyboard type? : <input name="board_type" id="board_type" type="radio" value="0" /> Public
 <input name="board_type" id="board_type" type="radio" checked="checked" value="1" /> Private <br/><br/>
 <?php } ?>
-<input type="submit" name="updatestory" id="updatestory" value="Create">
+<input type="submit" name="updatestory" id="updatestory" value="Update Story">
 </form>
-<?php }//End of updatestory
+<?php
 if($message!=''){
    echo "<font color='#006600'><strong>".$message."</strong></font>";
 }
@@ -421,3 +423,4 @@ if($message!=''){
  <input type="hidden" name="user_id" id="user_id" value="96" />
  <input type="hidden" name="comment" id="comment" value="JSK" />
  <input type="submit" name="add_reward" id="add_reward" value="Add Reward" />
+</form>
