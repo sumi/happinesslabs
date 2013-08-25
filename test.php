@@ -11,9 +11,9 @@ $user_id=0;
 if($fb_id!=""){
    $user_id=getUserId_by_FBid($fb_id);
 }
-/*https://www.happinesslabs.com/app_services.php?type=add_user&fb_id=[user fb id]
+/*http://localhost/cherryfull/test.php?type=delete_reward&expRewardId=&user_id=
+https://www.happinesslabs.com/app_services.php?type=add_user&fb_id=[user fb id]
 &first_name=[first name]&last_name=[last name]&email=[email]&fb_photo_url=[user photo irl]&location=[location city]*/
-//http://localhost/cherryfull/test.php?type=share_on_email&cherryboard_id=115&user_id=96&email_id=suresh.uniquewebinfo@gmail.com&subject=jsk&message=Jay shree Krishna
 
 //START SHARE ON EMAIL
 if($type=='share_on_email'){
@@ -176,25 +176,26 @@ if($type=='delete_reward'){
 	  }	
    }
 }
-//START ADD REWARD 
-//http://localhost/cherryfull/test.php?type=delete_reward&expRewardId=31&user_id=96
-//http://localhost/cherryfull/test.php?type=add_reward&cherryboard_id=115&user_id=96&comment=jsk&file_name=1777785590_Budgetrevised.jpeg
+//START ADD REWARD
 if($type=='add_reward'){
    $rnd=rand();
-   $file_name=$_REQUEST['file_name'];
    $cherryboard_id=(int)$_REQUEST['cherryboard_id'];
    $user_id=(int)$_REQUEST['user_id'];
-   $comment=(int)$_REQUEST['comment'];
-   $photo_name=$rnd.'_'.$file_name;
+   $comment=$_REQUEST['comment'];
+   $image_name=trim($_FILES['file_name']['name']);
+   $photo_name=$rnd.'_'.$image_name;
    $uploaddir='images/expertboard/reward/'.$photo_name;
-   $old_uploaddir='images/expertboard/temp/'.$file_name;
-   $thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 180 x 180 ".$uploaddir;
-   $last_line=system($thumb_command,$retval);	
+   $old_uploaddir='images/expertboard/temp/'.$image_name;
+   if(move_uploaded_file($_FILES['file_name']['tmp_name'],$old_uploaddir)){
+	  $thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 180 x 180 ".$uploaddir;
+	  $last_line=system($thumb_command,$retval);	
+   }
+   //$retval=copy($old_uploaddir,$uploaddir);
    if($retval){
 	  if($comment=="Write your comment here..."){
 		 $comment='';
 	  }
-	  if($file_name!=''&&$cherryboard_id>0&&$user_id>0){			   
+	  if($image_name!=''&&$cherryboard_id>0&&$user_id>0){			   
 		$insReward=mysql_query("INSERT INTO tbl_app_expert_reward_photo
 		(exp_reward_id,user_id,cherryboard_id,photo_title,photo_name,record_date)
 		VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$comment."','".$photo_name."',CURRENT_TIMESTAMP)");
@@ -203,7 +204,7 @@ if($type=='add_reward'){
 		   $message='Reward Added Successfully.';
 		}	
 	  }	
-   }
+   } 
 }
 //START ADD TO-DOLIST 
 if($type=='add_todo_list'||$type=='delete_todo_list'){	
@@ -414,3 +415,9 @@ if($message!=''){
    echo "<font color='#006600'><strong>".$message."</strong></font>";
 }
 ?>
+<form name="updform" id="updform" action="test.php?type=add_reward" method="post" enctype="multipart/form-data">
+ <input type="file" name="file_name" id="file_name" />
+ <input type="hidden" name="cherryboard_id" id="cherryboard_id" value="115" />
+ <input type="hidden" name="user_id" id="user_id" value="96" />
+ <input type="hidden" name="comment" id="comment" value="JSK" />
+ <input type="submit" name="add_reward" id="add_reward" value="Add Reward" />
