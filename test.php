@@ -66,15 +66,15 @@ if($type=='send_story_request'){
 			   $insMeb="INSERT INTO tbl_app_expert_cherryboard_meb (meb_id,cherryboard_id,user_id,req_user_fb_id,request_ids,is_accept) VALUES (NULL,'".$cherryboard_id."','".$UserId."','".$req_user_fb_id[1]."','".$req_user_fb_id[0]."','0')";
 			   $ins_sql=mysql_query($insMeb);
 			    //=========> START SEND EMAIL CODE <============
-				//GET REQUEST USER DETAILS
+				//REQUEST USER DETAILS
 			    $requestUserId=(int)getFieldValue('user_id','tbl_app_users','facebook_id='.$req_user_fb_id[1]);
 				$requestUserDetails=getUserDetail($requestUserId);
 				$RequestUserName=$requestUserDetails['first_name'].' '.$requestUserDetails['last_name'];
 				$requestEmailId=$requestUserDetails['email_id'];
-				//GET SENDER DETAILS
+				//SENDER DETAILS
 				$senderUserDetails=getUserDetail($UserId);
 				$SenderName=$senderUserDetails['first_name'].' '.$senderUserDetails['last_name'];					
-				//GET EXPERT STORY BOARD DETAIL
+				//EXPERT STORY BOARD DETAIL
 				$expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 				$expertboard_title=ucwords(trim(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id)));
 				//SEND EMAIL CODE
