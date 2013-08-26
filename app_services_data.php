@@ -52,6 +52,7 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 		$selExpert=mysql_query("select a.expertboard_id,a.expertboard_title, a.category_id,a.expertboard_detail,a.goal_days, a.price,b.user_id, b.cherryboard_id from tbl_app_expertboard a,tbl_app_expert_cherryboard b where a.expertboard_id=b.expertboard_id ".$whereCnd." group by b.expertboard_id order by b.cherryboard_id");
 		$expertCnt='';
 		if(mysql_num_rows($selExpert)>0){
+			$fullData=array();
 			while($selExpertRow=mysql_fetch_array($selExpert)){
 				$cherryboard_id=$selExpertRow['cherryboard_id'];
 				$expertboard_title=ucwords($selExpertRow['expertboard_title']);
@@ -94,124 +95,17 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 				}
 				$rowArray['photos']=$phtotoArray;
 				$rowArray['photos_dayMsg']=$dayMsgArray;
-				$tblData[]=$rowArray;
+				$fullData[]=$rowArray;
 				 
 			}
+			$tblData['status']=$fullData;
 		}else{
-			$tblData[]='No Story Boards';
+			$tblData['status']='No Story Boards';
 		}
 	}else{
-			$tblData[]='Invalid Data';
+			$tblData['status']='Invalid Data';
 	}
 	
-//GET EXPERTS LIST
-//http://happinesslabs.com/app_services_data.php?type=expertsList&fb_id=
-}else if($_REQUEST['type']=="expertsList"&&$_REQUEST['fb_id']!=""){
-	$fb_id=$_REQUEST['fb_id'];
-	$get_user_id=getUserId_by_FBid($fb_id);	
-	$selExpert=mysql_query("select cherryboard_id,user_id,cherryboard_title from tbl_app_expert_cherryboard  order by cherryboard_id");
-	$expertCnt='';
-	if(mysql_num_rows($selExpert)>0&&$user_id>0){
-		while($selExpertRow=mysql_fetch_array($selExpert)){
-			
-			$user_id=$selExpertRow['user_id'];
-			$cherryboard_id=ucwords($selExpertRow['cherryboard_id']);
-			$userDetailArr=getFieldsValueArray('first_name,last_name,fb_photo_url,location','tbl_app_users','user_id='.$user_id);
-			$totalFollowers=(int)getFieldValue('count(meb_id)','tbl_app_expert_cherryboard_meb','cherryboard_id='.$cherryboard_id.' and is_accept="1"');
-			
-			 $checkBuy=(int)getFieldValue('buy_id','tbl_app_expert_buy','user_id='.$get_user_id.' and cherryboard_id='.$cherryboard_id);
-			 
-			 
-			$rowArray=array();
-			$rowArray['user_id']=$selExpertRow['user_id'];
-			$rowArray['first_name']=$userDetailArr[0];
-			$rowArray['last_name']=$userDetailArr[1];
-			$rowArray['fb_photo_url']=$userDetailArr[2];
-			$rowArray['location']=$userDetailArr[3];
-			$rowArray['cherryboard_id']=$cherryboard_id;
-			$rowArray['cherryboard_title']=ucwords($selExpertRow['cherryboard_title']);
-			$rowArray['totalFollowers']=$totalFollowers;
-			$rowArray['checkBuy']=$checkBuy;
-			$tblData[]=$rowArray;
-			 
-		}
-	}else{
-		echo 'No Experts';
-		exit(0);
-	}
-
-
-}else if($_REQUEST['type']=="ReadPhotoComment"){
-//READ PHOTO COMMENT
-//http://happinesslabs.com/app_services_data.php?type=ReadPhotoComment&photo_id=
-
-	$selQuery="select user_id,cherry_comment from tbl_app_cherry_comment where	photo_id=".$photo_id." order by comment_id desc";
-		$selSqlQ=mysql_query($selQuery) or die('Error');
-		if(mysql_num_rows($selSqlQ)>0){
-			$cnt=1;
-			while($rowTbl=mysql_fetch_array($selSqlQ)){
-				$rowArray=array();
-				$photoUrl=stripslashes(getFieldValue('fb_photo_url','tbl_app_users','user_id='.$rowTbl['user_id']));
-				$rowArray['user_id']=$rowTbl['user_id'];
-				$rowArray['fb_photo_url']=$photoUrl;
-				$rowArray['cherry_comment']=stripslashes($rowTbl['cherry_comment']);
-				$tblData[]=$rowArray;
-			}
-		}else{
-			echo "No Records Found";
-			exit(0);
-		}
-
-}else if($_REQUEST['type']=="BoardMembers"){ 
-//READ BOARD MEMBERS
-//http://happinesslabs.com/app_services_data.php?type=BoardMembers&cherry_id=
-
-	$selQuery="select b.fb_photo_url from tbl_app_cherryboard_meb a,tbl_app_users b where a.req_user_fb_id=b.facebook_id and a.cherryboard_id=".$cherry_id;
-		$selSqlQ=mysql_query($selQuery) or die('Error');
-		if(mysql_num_rows($selSqlQ)>0){
-			$cnt=1;
-			while($rowTbl=mysql_fetch_array($selSqlQ)){
-				$rowArray=array();
-				$rowArray['fb_photo_url']=$rowTbl['fb_photo_url'];
-				$tblData[]=$rowArray;
-			}
-			
-		}else{
-			echo "No Records Found";
-			exit(0);
-		}
-
-//READ user all boards id with latest photo
-//http://happinesslabs.com/app_services_data.php?type=userboardsphoto&fb_id=
-}else if($_REQUEST['type']=="userboardsphoto"){ 
-
-		$selQuery="select cherryboard_id from tbl_app_cherryboard where user_id=".$user_id;
-		$selSqlQ=mysql_query($selQuery) or die('Error');
-		if(mysql_num_rows($selSqlQ)>0){
-			$cnt=1;
-			while($rowTbl=mysql_fetch_array($selSqlQ)){
-				$cherryboard_id=$rowTbl['cherryboard_id'];
-				$rowArray=array();
-				$rowArray['cherryboard_id']=$cherryboard_id;
-				$selQuery1=mysql_query("select photo_title,photo_name from tbl_app_cherry_photo where cherryboard_id=".$cherryboard_id." order by record_date desc limit 1");
-				if(mysql_num_rows($selQuery1)>0){
-					while($rowTbl1=mysql_fetch_array($selQuery1)){
-						$rowArray['photo_title']=$rowTbl1['photo_title'];
-						$rowArray['photo_name']=$rowTbl1['photo_name'];
-					}
-				}else{
-					$rowArray['photo_title']='';
-					$rowArray['photo_name']='empty_story_board.png';
-				}
-				
-				$tblData[]=$rowArray;
-			}
-			
-		}else{
-			echo "No Records Found";
-			exit(0);
-		}
-
 }else if($_REQUEST['type']=="story_friends"){
 
 		$selQuery="select req_user_fb_id from tbl_app_expert_cherryboard_meb where cherryboard_id=".$cherry_id;

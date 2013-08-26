@@ -11,11 +11,13 @@ $user_id=0;
 if($fb_id!=""){
    $user_id=getUserId_by_FBid($fb_id);
 }
-/*http://localhost/cherryfull/test.php?type=delete_reward&expRewardId=&user_id=
-https://www.happinesslabs.com/app_services.php?type=add_user&fb_id=[user fb id]
-&first_name=[first name]&last_name=[last name]&email=[email]&fb_photo_url=[user photo irl]&location=[location city]*/
 
 //START SHARE ON EMAIL
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=share_on_email&fb_id=[user fb id]
+&cherryboard_id=[cherryboard_id]&user_id=[user_id]&email_id=[email_id]&subject=[subject]&message=[message]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=share_on_email&fb_id=100005132283550&cherryboard_id=346&user_id=96&email_id=suresh.uniquewebinfo@gmail.com&subject=test&message=this%20is%20test%20message
+*/
 if($type=='share_on_email'){
    $cherryboard_id=(int)$_REQUEST['cherryboard_id'];
    $UserId=(int)$_REQUEST['user_id'];
@@ -51,6 +53,10 @@ if($type=='share_on_email'){
    }
 }
 //START SEND STORY REQUEST
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=send_story_request&fb_id=[user fb id]
+&cherryboard_id=[cherryboard_id]&uid=[user fb id]&request_ids=[requestid request user fb id]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=send_story_request&fb_id=100005132283550&cherryboard_id=346&uid=100005132283550&request_ids=121884434647423_100002411518620 */
 if($type=='send_story_request'){
    $cherryboard_id=(int)$_REQUEST['cherryboard_id'];
    if($cherryboard_id>0){
@@ -101,6 +107,11 @@ if($type=='send_story_request'){
    }		
 }
 //START DELETE PHOTO 
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=delete_photo&fb_id=[user fb id]
+&del_photo_id=[photo_id]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=delete_photo&fb_id=100005132283550&del_photo_id=982*/
 if($type=='delete_photo'){
    $del_photo_id=(int)$_REQUEST['del_photo_id'];
    if($del_photo_id>0&&$user_id>0){
@@ -127,6 +138,11 @@ if($type=='delete_photo'){
    }
 }
 //START DELETE STORY BOARD
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=delete_storyboard&fb_id=[user fb id]
+&delExpId=[expertboard_id]
+TESTED URL :-> 
+https://www.happinesslabs.com/test.php?type=delete_storyboard&fb_id=100005132283550&delExpId=232*/
 if($type=='delete_storyboard'){
    $delStoryBordId=(int)$_REQUEST['delExpId'];
    if($delStoryBordId>0){
@@ -143,6 +159,10 @@ if($type=='delete_storyboard'){
    }	
 }
 //START UPDATE PHOTO TITLE
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=update_photo_title&fb_id=[user fb id]
+&photo_id=[photo_id]&photo_title=[photo title]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=update_photo_title&fb_id=100005132283550&photo_id=144&photo_title=good */
 if($type=='update_photo_title'){
    $photo_id=(int)$_REQUEST['photo_id'];
    $photoTitle=parseString($_REQUEST['photo_title']);
@@ -152,6 +172,11 @@ if($type=='update_photo_title'){
    }
 }
 //START UPDATE PHOTO THEME
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=update_photo_theme&fb_id=[user fb id]
+&photo_day=[photo day]&sub_day=[sub day]&expertboard_id=[expertboard_id]&photo_theme=[photo day title]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=update_photo_theme&fb_id=100005132283550&photo_day=1&sub_day=1&expertboard_id=9&photo_theme=Day 1 */
 if($type=='update_photo_theme'){
    $photo_day=$_REQUEST['photo_day'];
    $sub_day=$_REQUEST['sub_day'];
@@ -163,6 +188,12 @@ if($type=='update_photo_theme'){
    }
 }
 //START DELETE REWARD
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=delete_reward&fb_id=[user fb id]
+&expRewardId=[reward id]&user_id=[user id]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=delete_reward&fb_id=100005132283550&&expRewardId=100&user_id=96
+*/
 if($type=='delete_reward'){
    $expRewardId=(int)$_REQUEST['expRewardId'];
    $UserId=(int)$_REQUEST['user_id'];
@@ -177,6 +208,11 @@ if($type=='delete_reward'){
    }
 }
 //START ADD REWARD
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=add_reward&fb_id=[user fb id]
+&cherryboard_id=[cherryboard id]&user_id=[user id]&comment=[photo comment]&image_name=[photo name]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=add_reward
+ */
 if($type=='add_reward'){
    $rnd=rand();
    $cherryboard_id=(int)$_REQUEST['cherryboard_id'];
@@ -207,6 +243,16 @@ if($type=='add_reward'){
    } 
 }
 //START ADD TO-DOLIST 
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=add_todo_list&fb_id=[user fb id]
+&cherryboard_id=[cherryboard id]&user_id=[user id]&txt_todolist=[todolist text]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=add_todo_list&fb_id=100005132283550&cherryboard_id=346&user_id=96&txt_todolist=todo list item 1*/
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=delete_todo_list&fb_id=[user fb id]
+&checklist_id=[checklist id]&user_id=[user id]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=delete_todo_list&fb_id=100005132283550&checklist_id=2375&user_id=96
+*/
 if($type=='add_todo_list'||$type=='delete_todo_list'){	
 	$cherryboard_id=(int)$_REQUEST['cherryboard_id'];
 	$UserId=(int)$_REQUEST['user_id'];
@@ -229,6 +275,15 @@ if($type=='add_todo_list'||$type=='delete_todo_list'){
 	}
 }
 //START ADD AND DELETE PHOTO COMMENT 
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=add_photo_comment&fb_id=[user fb id]
+&cherryboard_id=[cherryboard id]&user_id=[user id]&photo_id=[photo id]&cherry_comment=[comment text]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=add_photo_comment&fb_id=100005132283550&cherryboard_id=346&user_id=96&photo_id=976&cherry_comment=very nice
+
+URL :-> https://www.happinesslabs.com/test.php?type=delete_photo_comment&fb_id=[user fb id]
+&comment_id=[comment id]&user_id=[user id]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=delete_photo_comment&fb_id=100005132283550&comment_id=110&user_id=96
+*/
 if($type=='add_photo_comment'||$type=='delete_photo_comment'){
 	$cherryboard_id=(int)$_REQUEST['cherryboard_id'];
 	$photo_id=(int)$_REQUEST['photo_id'];
@@ -254,6 +309,17 @@ if($type=='add_photo_comment'||$type=='delete_photo_comment'){
 	}
 }
 //START ADD AND DELETE PHOTO NOTES 
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=add_photo_notes&fb_id=[user fb id]
+&cherryboard_id=[cherryboard id]&user_id=[user id]&photo_id=[photo id]&photo_day=[photo day]&cherry_notes=[notes text]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=add_photo_notes&fb_id=100005132283550&cherryboard_id=346&user_id=96&photo_id=976&photo_day=2&cherry_notes=My Notes
+
+URL :-> https://www.happinesslabs.com/test.php?type=delete_photo_notes&fb_id=[user fb id]
+&notes_id=[notes id]&user_id=[user id]
+TESTED URL :-> 
+https://www.happinesslabs.com/test.php?type=delete_photo_notes&fb_id=100005132283550&notes_id=14&user_id=96
+*/
 if($type=='add_photo_notes'||$type=='delete_photo_notes'){
 	$cherryboard_id=(int)$_REQUEST['cherryboard_id'];
 	$photo_id=(int)$_REQUEST['photo_id'];
@@ -279,6 +345,27 @@ if($type=='add_photo_notes'||$type=='delete_photo_notes'){
 	}
 }
 //START ADD AND DELETE PHOTO QUESTION AND ANSWER 
+/*
+URL :-> https://www.happinesslabs.com/test.php?type=add_photo_question&fb_id=[user fb id]
+&cherryboard_id=[cherryboard id]&user_id=[user id]&photo_id=[photo id]&photo_day=[photo day]&question=[question text]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=add_photo_question&fb_id=100005132283550&cherryboard_id=346&user_id=96&photo_id=976&photo_day=2&question=How to get happiness? 
+
+URL :-> https://www.happinesslabs.com/test.php?type=delete_photo_question&fb_id=[user fb id]
+&question_id=[question id]&user_id=[user id]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=delete_photo_question&fb_id=100005132283550&question_id=34&user_id=96
+
+URL :-> https://www.happinesslabs.com/test.php?type=add_photo_answer&fb_id=[user fb id]
+&question_id=[question id]&answer=[answer text]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=add_photo_answer&fb_id=100005132283550&question_id=34&answer=Always think positive
+
+URL :-> https://www.happinesslabs.com/test.php?type=delete_photo_answer&fb_id=[user fb id]
+&question_id=[question id]&user_id=[user id]
+TESTED URL :->
+https://www.happinesslabs.com/test.php?type=delete_photo_answer&fb_id=100005132283550&question_id=34&user_id=96
+*/
 if($type=='add_photo_question'||$type=='add_photo_answer'||$type=='delete_photo_answer'||$type=='delete_photo_question'){
 	$cherryboard_id=(int)$_REQUEST['cherryboard_id'];
 	$photo_id=(int)$_REQUEST['photo_id'];
@@ -321,6 +408,10 @@ if($type=='add_photo_question'||$type=='add_photo_answer'||$type=='delete_photo_
 	}
 }
 //START UPDATE STORY CODE
+/*URL :-> https://www.happinesslabs.com/test.php?type=updatestory&fb_id=[user fb id]
+&expid=[expertboard id]
+TESTED URL :-> https://www.happinesslabs.com/test.php?type=updatestory&expid=232
+*/
 $expertboard_id=(int)$_REQUEST['expid'];
 if($type=='updatestory'){
 	if($expertboard_id>0){
@@ -351,7 +442,7 @@ if($type=='updatestory'){
 	}
 }
 //START SELECT STORY CODE
-	$expertboard_id=18;
+	$expertboard_id=232;
 	$selBoard=mysql_query("SELECT * FROM tbl_app_expertboard WHERE expertboard_id=".$expertboard_id);
 	while($selBoardRow=mysql_fetch_array($selBoard)){
 		$expertboard_id=(int)$selBoardRow['expertboard_id'];
@@ -419,7 +510,7 @@ if($message!=''){
 ?>
 <form name="updform" id="updform" action="test.php?type=add_reward" method="post" enctype="multipart/form-data">
  <input type="file" name="file_name" id="file_name" />
- <input type="hidden" name="cherryboard_id" id="cherryboard_id" value="115" />
+ <input type="hidden" name="cherryboard_id" id="cherryboard_id" value="346" />
  <input type="hidden" name="user_id" id="user_id" value="96" />
  <input type="hidden" name="comment" id="comment" value="JSK" />
  <input type="submit" name="add_reward" id="add_reward" value="Add Reward" />
