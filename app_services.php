@@ -632,15 +632,7 @@ if($type=="add_user"){
 		$tblData['status']="Invalid Data";
 	}
 }
-?>
-<form name="updform" id="updform" action="app_services.php?type=add_story_photo" method="post" enctype="multipart/form-data">
- <input type="file" name="image_attach" id="image_attach" />
- <input type="hidden" name="story_id" id="story_id" value="586" />
- <input type="hidden" name="photo_day" id="photo_day" value="1" />
- <input type="hidden" name="photo_title" id="photo_title" value="First Day" />
- <input type="submit" name="add_photo" id="add_photo" value="Add Photo" />
-</form>
-<?php
+
 //print_r($tblData)."<br>";
 $jsonData=array(array("data"=>$tblData));
 $jsonData=json_encode($jsonData);
