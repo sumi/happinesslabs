@@ -440,6 +440,7 @@ if($user_id>0){
 	//==========================================
 		if($type=="add_story_photo"){
 		//ADD CHERRYBOARD PHOTO
+		//https://www.happinesslabs.com/app_services.php?type=add_story_photo&fb_id=100005132283550
 	   //URL : http://happinesslabs.com/app_services.php?type= add_story_photo&fb_id=&story_id=&photo_title=&photo_day&image_attach=
 		$fb_id=$_REQUEST['fb_id'];	
 		$cherryboard_id=$_REQUEST['story_id'];	
@@ -631,12 +632,6 @@ if($type=="add_user"){
 		$tblData['status']="Invalid Data";
 	}
 }
-//print_r($tblData)."<br>";
-$jsonData=array(array("data"=>$tblData));
-$jsonData=json_encode($jsonData);
-$jsonData=substr($jsonData,1);
-$jsonData=substr($jsonData,0,(strlen($jsonData)-1));
-echo $jsonData;
 ?>
 <form name="updform" id="updform" action="app_services.php?type=add_story_photo" method="post" enctype="multipart/form-data">
  <input type="file" name="image_attach" id="image_attach" />
@@ -645,3 +640,11 @@ echo $jsonData;
  <input type="hidden" name="photo_title" id="photo_title" value="First Day" />
  <input type="submit" name="add_photo" id="add_photo" value="Add Photo" />
 </form>
+<?php
+//print_r($tblData)."<br>";
+$jsonData=array(array("data"=>$tblData));
+$jsonData=json_encode($jsonData);
+$jsonData=substr($jsonData,1);
+$jsonData=substr($jsonData,0,(strlen($jsonData)-1));
+echo $jsonData;
+?>
