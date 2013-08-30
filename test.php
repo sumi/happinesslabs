@@ -11,7 +11,7 @@ $user_id=0;
 if($fb_id!=""){
    $user_id=getUserId_by_FBid($fb_id);
 }
-
+$user_id=96;
 //START SHARE ON EMAIL
 /*
 URL :-> https://www.happinesslabs.com/test.php?type=share_on_email&fb_id=[user fb id]
@@ -516,7 +516,7 @@ if($message!=''){
  <input type="submit" name="add_reward" id="add_reward" value="Add Reward" />
 </form>
 <!-- Add Story Photo Form -->
-<form name="addphoto" id="addphoto" action="app_services.php?type=add_story_photo" method="post" enctype="multipart/form-data">
+<form name="addphoto" id="addphoto" action="app_services.php?type=add_story_photo&fb_id=100005132283550" method="post" enctype="multipart/form-data">
  <input type="file" name="image_attach" id="image_attach" />
  <input type="hidden" name="story_id" id="story_id" value="586" />
  <input type="hidden" name="photo_day" id="photo_day" value="1" />
