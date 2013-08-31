@@ -6,7 +6,7 @@ include('include/app-common-config.php');
 <!-- START BOTTOM SECTION -->
 <?php
 //https://www.facebook.com/dialog/apprequests?app_id=APP_ID&message=Facebook%20Dialogs%20are%20so%20easy!&  redirect_uri=http://www.example.com/response
-echo "<br><br><br><br><br><br><br><br><br>======>".$_GET['v'];
+echo "<br><br><br><br><br><br><br><br><br>======>".print_r($_GET);
 
 if($_POST['LoginStep']=="3"){
 	$selected_story=(int)$_POST['selected_story'];
