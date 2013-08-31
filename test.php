@@ -1,7 +1,7 @@
 <?php
 //error_reporting(0);
-//include_once "fbmain.php";
-//include('include/app-common-config.php');
+include_once "fbmain.php";
+include('include/app-common-config.php');
 
   
   
@@ -9,25 +9,8 @@
 
 <?php 
 
-  $app_id = APPID;
-  $app_secret = SECRET;
-
-  $token_url = "https://graph.facebook.com/oauth/access_token?" .
-    "client_id=" . $app_id .
-    "&client_secret=" . $app_secret .
-    "&grant_type=client_credentials";
-
-  echo "==>".$app_access_token = file_get_contents($token_url);
-
-  $user_id = '100001211022842';
-
-  $apprequest_url ="https://graph.facebook.com/" .
-    $user_id .
-    "/apprequests?message=nice" . 
-    "&data=good&"  .   
-    $app_access_token . "&method=post";
-
-  $result = file_get_contents($apprequest_url);
-  echo("Request id number: ", $result);
-
+$post = $facebook->api('/100002349398425/notifications/', 'post',  array(
+  'access_token' => $_SESSION['fb_access_token'],
+  'href' => 'google.com',  //this does link to the app's root, don't think this actually works, seems to link to the app's canvas page
+  'template' => 'Max 180 characters'));
 ?>
