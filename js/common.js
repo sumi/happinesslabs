@@ -471,6 +471,10 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
+	//LIKE AND UNLIKE STORY
+	if(type=="like_story"||type=="unlike_story"){
+		isAction=1;
+	}
 	//PUBLISH AND UNPUBLISH HAPPY STORY
 	if(type=="publish_story"||type=="unpublish_story"){
 		isAction=1;

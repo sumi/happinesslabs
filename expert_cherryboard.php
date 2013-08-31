@@ -451,7 +451,7 @@ include('site_header.php');
 				
        			$expertCnt.='<div class="classmates" style="float: left;">
 				'.$FriendsCnt.'
-       			<div class="classmates_text" id="div_exp_customer_'.$expertboard_id.'">
+       			<div class="classmates_text" '.($expOwner_id!=USER_ID?'style="float:none;"':'').' id="div_exp_customer_'.$expertboard_id.'">
 				<a href="expert_customer.php?cbid='.$cherryboard_id.'"	
 				style="text-decoration:none;color:#000000;" />'.ucwords($customers).'</a>
 				'.($expOwner_id==USER_ID?'<img src="images/edit.png" height="10px" 

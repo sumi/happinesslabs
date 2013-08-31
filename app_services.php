@@ -440,7 +440,6 @@ if($user_id>0){
 	//==========================================
 		if($type=="add_story_photo"){
 		//ADD CHERRYBOARD PHOTO
-		//https://www.happinesslabs.com/app_services.php?type=add_story_photo&fb_id=100005132283550
 	   //URL : http://happinesslabs.com/app_services.php?type= add_story_photo&fb_id=&story_id=&photo_title=&photo_day&image_attach=
 		$fb_id=$_REQUEST['fb_id'];	
 		$cherryboard_id=$_REQUEST['story_id'];	
@@ -452,11 +451,11 @@ if($user_id>0){
 		if($cherryboard_id>0&&$user_id>0&&$photo_name!=""){
 			$Photo_Source = $_FILES['image_attach']['tmp_name'];
 			$FileName = rand().'_'.$photo_name;
-			$ImagePath = "images/cherryboard/".$FileName;
+			$ImagePath = "images/expertboard/".$FileName;
 			
-			$uploaddir='images/cherryboard/'.$FileName;
-			$uploaddirThumb='images/cherryboard/thumb/'.$FileName;
-			$old_uploaddir='images/cherryboard/temp/'.$FileName;
+			$uploaddir='images/expertboard/'.$FileName;
+			$uploaddirThumb='images/expertboard/thumb/'.$FileName;
+			$old_uploaddir='images/expertboard/temp/'.$FileName;
 			
 			$CopyImage=copy($Photo_Source,$old_uploaddir);
 			if($CopyImage){
@@ -470,15 +469,16 @@ if($user_id>0){
 				$sub_day=0;
 				if($TotalPhoto>0){
 					$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+					$Day_Type=getDayType($expertboard_id);
 					$sub_day=($TotalPhoto+1);
-					$insDay="INSERT INTO `tbl_app_expertboard_days` (`expertboard_day_id`, `expertboard_id`, `day_no`, `day_title`, `record_date`, `sub_day`) VALUES (NULL, '".$expertboard_id."', '".$photo_day."', 'Day ".$photo_day.".".$sub_day."','".date('Y-m-d')."', '".$sub_day."')";
+					$insDay="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date,sub_day) VALUES (NULL,'".$expertboard_id."','".$photo_day."','".$Day_Type." ".$photo_day.".".$sub_day."','".date('Y-m-d')."','".$sub_day."')";
 					$insSql=mysql_query($insDay);
 				}
 				//update photo
-				$insMeb="INSERT INTO `tbl_app_cherry_photo` (`photo_id`, `user_id`, `cherryboard_id`, `photo_name`, photo_title) VALUES (NULL, '".$user_id."', '".$cherryboard_id."', '".$FileName."', '".$photo_title."')";
+				$insMeb="INSERT INTO tbl_app_expert_cherry_photo(photo_id,user_id,cherryboard_id,photo_title, photo_name,photo_day,sub_day) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_title."','".$FileName."','".$photo_day."','".$sub_day."')";
 				$insMebSql=mysql_query($insMeb);
 				if($insMebSql){
-					$tblData[]='Photo Inserted';
+					$tblData[]='Photo Inserted Successfully';
 				}
 			}else{
 				$tblData[]='Photo Upload Error';		
@@ -486,8 +486,7 @@ if($user_id>0){
 		}else{
 			$tblData[]='Invalid Data';
 		}
-	}
-	
+	}	
 	
 	//START CREATE EXPERT BOARD
 	//URL : http://happinesslabs.com/app_services.php?type=add_exp_board&fb_id=[fb_id]&title=[title]&detail=[detail]&category_id=[category_id]&day_type=[day_type]&number_of_days=[number_of_days]&is_board_price=[is_board_price]&board_price=[Board-Price]&board_type=[Board-type]
@@ -596,7 +595,7 @@ if($type=='doit'){
 }
 
 //ADD USER & RETURN STORY LIST
-if($type=="add_user"){	
+if($type=="add_user"){
 //URL : http://happinesslabs.com/app_services.php?type=add_user&fb_id=&first_name=&last_name=&email=&fb_photo_url=&location=
 	$fb_id=$_REQUEST['fb_id'];
 	$first_name=$_REQUEST['first_name'];
@@ -611,12 +610,17 @@ if($type=="add_user"){
 			
 			$ins_sql=mysql_query($ins_query) or die(mysql_error());
 			$user_id=mysql_insert_id();
-			$tblData['status']='User Registered';
+			if($user_id>0){
+				$tblData['status']='User Registered';
+			}
 		}else{
 			$tblData['status']="User Exist";
 		}
 		
 		if($user_id>0){
+			$userDetail=getUserDetail($user_id,$type='uid');
+			$tblData['user_detail']=$userDetail;
+							
 			$selStory=mysql_query("select expertboard_id from tbl_app_expert_cherryboard where user_id='".$user_id."'");
 			if(mysql_num_rows($selStory)>0){
 				$url = 'http://happinesslabs.com/app_services_data.php?type=user_profile&fb_id='.$fb_id;

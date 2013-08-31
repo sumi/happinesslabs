@@ -64,6 +64,7 @@ if($type=="user_profile"||$type=="all_stories"||$type=="story_detail"){
 				$rowArray=array();
 				$rowArray['id']=$cherryboard_id;
 				$rowArray['title']=$expertboard_title;
+				$rowArray['owner_id']=$userId;
 				$UserDetail=getUserDetail($userId,'uid');
 				$rowArray['owner_name']=ucwords($UserDetail['name']);
 				$rowArray['owner_photo']=ucwords($UserDetail['photo_url']);

@@ -9,6 +9,34 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//START LIKE AND UNLIKE CODE
+if($type=="like_story"||$type=="unlike_story"){
+   $cherryboard_id=(int)$_GET['cherryboard_id'];
+   $user_id=(int)$_GET['user_id'];
+   if($type=="like_story"){
+	  if($cherryboard_id>0&&$user_id>0){
+	  	 $isCheck=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.$user_id);
+		 if($isCheck==0){
+	   	 	$insLike=mysql_query("INSERT INTO tbl_app_expertboard_likes (like_id,user_id,cherryboard_id,is_like, record_date) VALUES (NULL,'".$user_id."','".$cherryboard_id."','1',CURRENT_TIMESTAMP);");
+			$like_id=mysql_insert_id();
+		 }
+		 if($insLike&&$like_id>0){
+		    $ajax_data.='<img src="images/set_like.png" height="35px" width="35px" title="Like" />&nbsp;<a href="javascript:void(0);" onclick="ajax_action(\'unlike_story\',\'div_like_'.$cherryboard_id.'\',\'like_id='.$like_id.'&user_id='.$user_id.'&cherryboard_id='.$cherryboard_id.'\');" title="Unlike"><img src="images/unlike.png" height="35px" width="35px" title="Unlike" /></a>';
+		 }
+	  }
+   }else{//start unlike story code
+   	  $like_id=(int)$_GET['like_id']; 	
+   	  if($cherryboard_id>0&&$user_id>0&&$like_id>0){
+	   	 $delUnlike=mysql_query("DELETE FROM tbl_app_expertboard_likes WHERE like_id=".$like_id);
+		 if($delUnlike){
+		 	$ajax_data.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.$user_id.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<img src="images/unlike.png" height="35px" width="35px" title="Unlike" />';
+		 }
+	  }	
+   }
+
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+   echo $ajax_data;
+}
 //START PUBLISH AND UNPUBLISH HAPPY STORY CODE
 if($type=="publish_story"||$type=="unpublish_story"){
    $cherryboard_id=(int)$_GET['cherryboard_id'];

@@ -174,6 +174,10 @@ $firstUserDetail=getUserDetail(USER_ID);
 $firstUserName=$firstUserDetail['name'];
 //START NO EXPERTBOARD CODE
 if($checkGoal==0&&$checkExpert==0&&$checkRequest==0){
+?>
+<script language="javascript">document.location='newuser_process.php'</script>
+<?php
+
 	if($type=="stepone"){
 ?>
 <div class="main_div">

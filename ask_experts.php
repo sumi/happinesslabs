@@ -66,7 +66,6 @@ $category_id=(int)$_GET['category_id'];
 		$whereCnd="a.expertboard_id=b.expertboard_id AND a.board_type='0' AND b.is_publish='1'"; 
 	}
 	$giftCnt='';
-	//SELECT * FROM tbl_app_expertboard WHERE ".$whereCnd." ORDER BY expertboard_id
 	$sel=mysql_query("SELECT a.*,b.cherryboard_id FROM tbl_app_expertboard a,tbl_app_expert_cherryboard b WHERE ".$whereCnd." ORDER BY expertboard_id");					
 	$pagePhotosArray=array();
 	if(mysql_num_rows($sel)>0){
@@ -84,7 +83,20 @@ $category_id=(int)$_GET['category_id'];
 			$goal_days=$row['goal_days'];
 			$expertboard_detail=$row['expertboard_detail'];
 			$DayType=getDayType($expertboard_id);
-			//Expert
+			//START LIKE AND UNLIKE CODE
+			$likeCnt='';
+			$isLike=(int)getFieldValue('is_like','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
+			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="padding-left:100px;">';
+			if($isLike==1){
+				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="1" AND user_id='.USER_ID);
+				if($like_id>0){
+				$likeCnt.='<img src="images/set_like.png" height="35px" width="35px" title="Like" />&nbsp;<a href="javascript:void(0);" onclick="ajax_action(\'unlike_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'&like_id='.$like_id.'\');" title="Unlike"><img src="images/unlike.png" height="35px" width="35px" title="Unlike" /></a>';
+				}
+			}else{
+				$likeCnt.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<img src="images/unlike.png" height="35px" width="35px" title="Unlike" />';
+			}
+			$likeCnt.='</div>';			
+			//EXPERT REWARD SECTION
 			$reward='';
 			$selQuery=mysql_query("select a.* from tbl_app_expert_reward_photo a,tbl_app_expert_cherryboard b where a.cherryboard_id=b.cherryboard_id and b.expertboard_id=".$expertboard_id.' group by a.exp_reward_id');
 			if(mysql_num_rows($selQuery)>0){
@@ -101,8 +113,8 @@ $category_id=(int)$_GET['category_id'];
 				}
 			}
 			if($reward!=""){$reward='<br>'.$reward;}
-			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';//$cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="0" AND user_id='.USER_ID);
-			if($userOwnerFbId!=""){		//$Owner_cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id="'.$expertboard_id.'" and main_board="1" limit 1');
+			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';
+			if($userOwnerFbId!=""){
 				if($cherryboard_id>0){
 					$TotalCheers=countCheers($expertboard_id,'expertboard');
 					$giftCnt.='
@@ -116,9 +128,10 @@ $category_id=(int)$_GET['category_id'];
 						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
 					   <div class="bottom_healthy">
 						 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
-						 <div class="bottom_healthy_12">'.$TotalCheers.' cheers!</div>
+						 <div class="bottom_healthy_12" style="padding-top:5px;">'.$TotalCheers.' cheers!
+						 '.$likeCnt.'</div>
 					   <div style="clear:both"></div>
-					   </div>
+					   </div>					   					   
 				   </div>
 				   <div class="padding"></div>
 				   </div></div>';

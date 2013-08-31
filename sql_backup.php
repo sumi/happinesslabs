@@ -40,3 +40,16 @@ ADD `doit_id` INT( 11 ) NOT NULL
 
 08-17-2013
 ALTER TABLE `tbl_app_expert_cherryboard` ADD `is_publish` ENUM( '1', '0' ) NOT NULL DEFAULT '0'
+
+08-30-2013
+CREATE TABLE IF NOT EXISTS `tbl_app_expertboard_likes` (
+  `like_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `expertboard_id` int(11) NOT NULL,
+  `is_like` enum('1','0') NOT NULL DEFAULT '0',
+  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`like_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+08-31-2013
+ALTER TABLE `tbl_app_expertboard_likes` CHANGE `expertboard_id` `cherryboard_id` INT( 11 ) NOT NULL 
