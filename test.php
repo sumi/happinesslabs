@@ -17,7 +17,7 @@
     "&client_secret=" . $app_secret .
     "&grant_type=client_credentials";
 
-  $app_access_token = file_get_contents($token_url);
+  echo "==>".$app_access_token = file_get_contents($token_url);
 
   $user_id = '100001211022842';
 
