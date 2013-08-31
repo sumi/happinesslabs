@@ -23,8 +23,8 @@
 
   $apprequest_url ="https://graph.facebook.com/" .
     $user_id .
-    "/apprequests?message=’INSERT_UT8_STRING_MSG’" . 
-    "&data=’INSERT_STRING_DATA’&"  .   
+    "/apprequests?message=nice" . 
+    "&data=good&"  .   
     $app_access_token . "&method=post";
 
   $result = file_get_contents($apprequest_url);
