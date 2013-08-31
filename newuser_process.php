@@ -4,15 +4,10 @@ include('include/app-common-config.php');
 ?>
 <?php include('site_header.php');?>
 <!-- START BOTTOM SECTION -->
-<script>
-  FB.init({ appId: '100001211022842', status: true, cookie: true, xfbml : true });
-
-  function sendRequest(to) {
-    FB.ui({method: 'apprequests', to: to, message: 'You should learn more about this awesome site.', data: 'tracking information for the user'});
-    return false;
-  }
-</script>
 <?php
+//https://www.facebook.com/dialog/apprequests?app_id=APP_ID&message=Facebook%20Dialogs%20are%20so%20easy!&  redirect_uri=http://www.example.com/response
+echo "<br><br><br><br><br><br><br><br><br>======>".$_GET['v'];
+
 if($_POST['LoginStep']=="3"){
 	$selected_story=(int)$_POST['selected_story'];
 	$selected_friend=$_POST['selected_friend'];
