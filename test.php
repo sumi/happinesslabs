@@ -6,7 +6,7 @@ $message='';
 	echo "-->".$_SESSION['fb_access_token'];
  echo"==>".$user_id = FB_ID;
 
-  $apprequest_url ="https://graph.facebook.com/100002349398425/apprequests?message='NewInvite'&data='INSERT_STRING_DATA'&".$_SESSION['fb_access_token']."&method=post";
+  $apprequest_url ="https://graph.facebook.com/100001211022842/apprequests?message='NewInvite'&data='INSERT_STRING_DATA'&".$_SESSION['fb_access_token']."&method=post";
 
   $result = file_get_contents($apprequest_url);
   echo $result;
