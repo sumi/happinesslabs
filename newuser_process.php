@@ -5,9 +5,6 @@ include('include/app-common-config.php');
 <?php include('site_header.php');?>
 <!-- START BOTTOM SECTION -->
 <?php
-//https://www.facebook.com/dialog/apprequests?app_id=APP_ID&message=Facebook%20Dialogs%20are%20so%20easy!&  redirect_uri=http://www.example.com/response
-echo "<br><br><br><br><br><br><br><br><br>======>".$_REQUEST['v'];
-
 if($_POST['LoginStep']=="3"){
 	$selected_story=(int)$_POST['selected_story'];
 	$selected_friend=$_POST['selected_friend'];
@@ -24,38 +21,52 @@ if($_POST['LoginStep']=="3"){
 						$user_id=$expertDetail[0];
 						$expertboard_id=$expertDetail[1];
 						foreach($selected_friend as $req_user_fb_id){
-							$chkUser=(int)getFieldValue('meb_id',$tbl_meb,'req_user_fb_id='.$req_user_fb_id[1].' and cherryboard_id='.$cherryboard_id);
-							if($chkUser==0){
-								$insMeb="INSERT INTO ".$tbl_meb." (`meb_id`, `cherryboard_id`, `user_id`, `req_user_fb_id`, request_ids, `is_accept`) VALUES (NULL, '".$cherryboard_id."', '".$user_id."', '".$req_user_fb_id."','', '0')";
+							$chkUser=(int)getFieldValue('meb_id','tbl_app_expert_cherryboard_meb','req_user_fb_id='.$req_user_fb_id.' and cherryboard_id='.$cherryboard_id);
+								if($chkUser>0){
+									$delOldReq=mysql_query("delete from tbl_app_expert_cherryboard_meb where meb_id=".$chkUser);
+								}
+								$request_id=rand();		
+								$insMeb="INSERT INTO tbl_app_expert_cherryboard_meb (`meb_id`, `cherryboard_id`, `user_id`, `req_user_fb_id`, request_ids, `is_accept`) VALUES (NULL, '".$cherryboard_id."', '".$user_id."', '".$req_user_fb_id."','".$request_id."', '0')";
 								$ins_sql=mysql_query($insMeb);
 								//=========> START SEND EMAIL CODE <============
-								//GET REQUEST USER DETAILS
-								$requestUserId=(int)getFieldValue('user_id','tbl_app_users','facebook_id='.$req_user_fb_id);
-								$requestUserDetails=getUserDetail($requestUserId);
-								$RequestUserName=$requestUserDetails['first_name'].' '.$requestUserDetails['last_name'];
-								$requestEmailId=$requestUserDetails['email_id'];
-								//GET SENDER DETAILS
-								$senderUserDetails=getUserDetail($user_id);
-								$SenderName=$senderUserDetails['first_name'].' '.$senderUserDetails['last_name'];					
 								//GET EXPERT STORY BOARD DETAIL
 								$expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 								$expertboard_title=ucwords(trim(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id)));
-								//SEND EMAIL CODE
-								$to = $requestEmailId;
-								$subject = $SenderName.' Invited You.';
-								$message = '<table>
-											<tr><td>&nbsp;</td></tr>
-											<tr><td>Dear '.$RequestUserName.',</td></tr>
-											<tr><td>&nbsp;</td></tr>
-											<tr><td>'.$SenderName.'&nbsp;invited you to the story&nbsp;"'.$expertboard_title.'"&nbsp;<a href="'.SITE_URL.'/expert_cherryboard.php?cbid='.$cherryboard_id.'"><strong>Click here</strong></a> to accept his/her invitation.</td></tr>
-											<tr><td>&nbsp;</td></tr>
-											<tr><td>Love,</td></tr>
-											<tr><td>'.REGARDS.'</td></tr>
-											</table>';
-								SendMail($to,$subject,$message);
-							}
+								
+								//GET SENDER DETAILS
+								$senderUserDetails=getUserDetail($user_id);
+								$SenderName=$senderUserDetails['first_name'].' '.$senderUserDetails['last_name'];					
+								
+								//GET REQUEST USER DETAILS
+								$requestUserId=(int)getFieldValue('user_id','tbl_app_users','facebook_id='.$req_user_fb_id);
+								if($requestUserId>0){
+									$requestUserDetails=getUserDetail($requestUserId);
+									$RequestUserName=$requestUserDetails['first_name'].' '.$requestUserDetails['last_name'];
+									$requestEmailId=$requestUserDetails['email_id'];
+									
+									//SEND EMAIL CODE
+									$to = $requestEmailId;
+									$subject = $SenderName.' Invited You.';
+									$message = '<table>
+												<tr><td>&nbsp;</td></tr>
+												<tr><td>Dear '.$RequestUserName.',</td></tr>
+												<tr><td>&nbsp;</td></tr>
+												<tr><td>'.$SenderName.'&nbsp;invited you to the story&nbsp;"'.$expertboard_title.'"&nbsp;<a href="'.SITE_URL.'/expert_cherryboard.php?cbid='.$cherryboard_id.'"><strong>Click here</strong></a> to accept his/her invitation.</td></tr>
+												<tr><td>&nbsp;</td></tr>
+												<tr><td>Love,</td></tr>
+												<tr><td>'.REGARDS.'</td></tr>
+												</table>';
+									SendMail($to,$subject,$message);
+									////SENT FB Notification
+									$notificationMsg=$SenderName.' invited you to story '.$expertboard_title;
+									$post = $facebook->api('/'.$req_user_fb_id.'/notifications/', 'post',  array(
+		'access_token' => APPID.'|'.SECRET,
+		'href' => 'https://www.happinesslabs.com/index.php?frid='.$request_id,  
+		'template' => $notificationMsg));
+								}
 						  }	
 						echo '<script language="javascript">document.location=\'expert_cherryboard.php?cbid='.$lastCreatedId.'\';</script>';
+						header('Location:https://www.happinesslabs.com/expert_cherryboard.php?cbid='.$lastCreatedId);
 				}
 			}
 	 }			
@@ -74,26 +85,72 @@ $user_id=$expertboardDetail[2];
 $userDetail=getUserDetail($user_id,'uid');
 $owner_photo=$userDetail['photo_url'];
 $owner_name=$userDetail['name'];
+
+//Photo Slider
+$cnt=0;
+$MainSlide='';
+$IconSlide='';
+$storyPhoto=mysql_query("select cherryboard_id,expertboard_id from tbl_app_expert_cherryboard where cherryboard_id 
+in (".$selected_story.") order by cherryboard_id desc");
+while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
+		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
+		$expertboard_id=$storyPhotoRow['expertboard_id'];
+		$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_day");
+		$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
+		if($totalExpPhotos>0){
+			$MainSlidePhotoArr=array();
+			while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
+				$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
+				if($photo_title!=""){$photo_title=' - '.$photo_title;}
+				$photo_name=$exportPhotoRow['photo_name'];
+				$photo_day=$exportPhotoRow['photo_day'];
+				$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
+				$photoTitle=$expertboardTitle.' : '.getDayType($expertboard_id).' '.$photo_day.$photo_title;
+				
+				$photoPath='images/expertboard/slider/'.$photo_name;
+				if(!is_file($photoPath)){
+					$photoPath='images/expertboard/'.$photo_name;
+				}
+				if(is_file($photoPath)){
+					$MainSlide.='<li><img src="'.$photoPath.'" alt="'.$photoTitle.'" title="'.$photoTitle.'" id="wows1_'.$cnt.'"/></li>';
+					$IconSlide.='<a href="#" title="'.$photoTitle.'"><img src="'.$photoPath.'" alt="'.$photoTitle.'"/>'.$cnt.'</a>';
+					$MainSlidePhotoArr[$cnt]=$photoPath;
+					$cnt++;
+				}	
+			}
+		}	
+}		
 ?>
 <form action="" name="frmLoginStep" method="post">
 <input type="hidden" value="3" name="LoginStep" id="LoginStep" />
  <input type="hidden" value="<?=$selected_story?>" name="selected_story" id="selected_story" />
-<div class="bg">
-  <div class="main" style="height:100px">
-   <div class="box"><img src="images/new_img.png" alt="" />
-    <div class="text_detail"><strong><?=$expertboard_title?></strong><br/><?=$expertboard_detail?></div>
-	<br/>
+ <div class="relationship_main">
+   <div class="Slides_box" style="padding-top:90px;min-height:200px">
+      <?php  if($MainSlide!=""){ echo $MainSlide;?>
+	  <div id="wowslider-container1">
+				<div class="ws_images">
+					<ul><?=$MainSlide?></ul>
+				</div>
+				<div class="ws_bullets" style="display:none">
+					<div><?=$IconSlide?></div>
+				</div>
+		</div>
+	<?php }else{ ?>
+	<img src="images/new_img.png" alt="" />
+	<?php }?>
+     <div class="text_detail"><strong><?=$expertboard_title?></strong><br/><?=$expertboard_detail?></div>
    </div>
    <div class="text_spread">Spread happiness to your friends by sharing your story now</div>
    
-    <div class="text_box">
-		<div class="box_main">Owner : <?=$owner_name?><br/>
-		<div class="box_bg_img"><img src="<?=$owner_photo?>" height="161px" width="191px" alt="" /></div>
-	   </div>
-	   <!-- <input name="input_text" type="text"  class="input_text"/>-->
+    <div class="box_friends">
+    <div class="friends_box_main">
+   Owner : <?=$owner_name?><br/>
+    <div class="friends_box_img"><img src="<?=$owner_photo?>" height="152px" width="182px" alt="" /></div>
    </div>
-     
-  <?php	
+  <!--  <input name="input_text" type="text"  class="input_text"/> -->
+  </div>
+  
+   <?php	
 	 	$friends = $facebook->api('/me/friends');
 		//print_r($friends);
 		$newCnt=1;
@@ -104,21 +161,9 @@ $owner_name=$userDetail['name'];
 				$friend_id=$fvalue['id'];
 				$friend_name=$fvalue['name'];
 				$frind_Photo="http://graph.facebook.com/".$friend_id."/picture";
-				/*$giftCnt.='
-					<div class="w2 h1 masonry-brick">
-					<div class="bottom_box_main" style="width:95px;height:95px">
-					<div class="main_box">
-					 <div style="text-align:center"><input type="checkbox" value="0" name=""></div>
-						<div class="day_img">
-						<img src="'.$frind_Photo.'" height="75px" width="75px" title="'.$friend_name.'" data-tooltip="sticky'.$newCnt.'" />
-						</div>
-				   </div>
-				   <div class="padding"></div>
-				   </div></div>';*/
-				   
-				  $friendsCnt.='<div class="box_main">
-					<div class="check"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="'.$friend_id.'" /><label for="checkbox-2-'.$newCnt.'"></label></div>
-					<div class="box_bg_img"><img src="'.$frind_Photo.'" height="161px" width="191px" alt="" title="'.$friend_name.'" /></div>
+				$friendsCnt.='<div class="friends_box_main">
+					<div class="check_box"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="'.$friend_id.'" /><label for="checkbox-2-'.$newCnt.'"></label></div>
+					<div class="friends_box_img"><img src="'.$frind_Photo.'" height="152px" width="182px" alt="" title="'.$friend_name.'" /></div>
 				   </div>';
 				   $pagePhotosArray[$newCnt]=$frind_Photo;
 				   $newCnt++;
@@ -127,25 +172,23 @@ $owner_name=$userDetail['name'];
 	echo $friendsCnt;
 	?>
   
-    <div class="button">
-     <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();">WELLNESS<br />
-                 STORIER</a></div>
+    <div class="wellness_button">
+      <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();">WELLNESS<br />
+                 STORIER</a>
+	</div>
   </div>
-<div style="clear:both"></div>
-</div>
 </form>
 <?php 
 }else{
 ?>
-<div class="bg" style="padding-top:100px">
-  <div class="main" style="height:257px">
-   <div class="text">RELATIONSHIP STORIES</div>
+ <div class="relationship_main" style="padding-top:100px">
+   <div class="relationship_text" style="height:257px">RELATIONSHIP STORIES</div>
    <img src="images/progress_circle.png" alt="" />
-    <form action="" name="frmLoginStep" method="post">
+   <form action="" name="frmLoginStep" method="post">
 	<div class="mini masonry" id="mini-container" style="padding-top:5px;width:965px;margin:auto;">
   <?php	
 	$giftCnt='';
-	$sqlStory="SELECT a.*,b.cherryboard_id FROM tbl_app_expertboard a,tbl_app_expert_cherryboard b WHERE a.expertboard_id=b.expertboard_id AND a.category_id='11' ORDER BY a.expertboard_id";
+	$sqlStory="SELECT a.*,b.cherryboard_id FROM tbl_app_expertboard a,tbl_app_expert_cherryboard b WHERE a.expertboard_id=b.expertboard_id AND a.category_id='11' AND b.main_board='1' ORDER BY a.expertboard_id";
 	$sel=mysql_query($sqlStory);					
 	$pagePhotosArray=array();
 	if(mysql_num_rows($sel)>0){
@@ -186,12 +229,21 @@ $owner_name=$userDetail['name'];
 				   </div>
 				   <div class="padding"></div>
 				   </div></div>';*/
-				   $giftCnt.='<div class="box_main">
+				 /*  $giftCnt.='<div class="box_main">
 					 <div class="check"> <input type="radio" class="regular-checkbox big-checkbox" name="selected_story" value="'.$cherryboard_id.'" id="checkbox-2-'.$newCnt.'" />
 					 <label for="checkbox-2-'.$newCnt.'"></label>
 					 </div>
 					  <div class="box_bg_img" /><img src="'.$expertPicPath.'" height="161px" width="191px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'" /></div>
 					  '.$expertboard_title.'
+				   </div>';*/
+				 
+				   $giftCnt.='<div class="friends_box_main">
+					 <div class="check_box"> 
+					 <input type="radio" class="regular-checkbox big-checkbox" name="selected_story" value="'.$cherryboard_id.'" id="checkbox-2-'.$newCnt.'" />
+					 <label for="checkbox-2-'.$newCnt.'"></label>
+					 </div>
+					  <div class="friends_box_img" /><img src="'.$expertPicPath.'" width="182px" height="152px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'"/></div>
+					   '.$expertboard_title.'
 				   </div>';
 				   $pagePhotosArray[$newCnt]=$expertPicPath;
 				   $newCnt++;
@@ -206,20 +258,15 @@ $owner_name=$userDetail['name'];
    </div>
    <input type="hidden" value="2" name="LoginStep" id="LoginStep" />
    </form>
-  
-   <div class="button">
-    <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();">SPREAD<br />
+	
+   <div class="wellness_button">
+     <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();">SPREAD<br />
                 HAPPINESS<br />
                 BY SHARING<br />
                 RELATIONSHIP STORIES.</a>
-            </div>
-              
-   
-  </div>
-  <div style="clear:both"></div>
-</div>
-
-   <div id="mystickytooltip" class="stickytooltip">
+    </div>
+			
+<div id="mystickytooltip" class="stickytooltip">
 
    <?php
    $pagePhotoEffect='';
@@ -232,12 +279,10 @@ $owner_name=$userDetail['name'];
    ?>
   
 	</div>
-	
+	</div>
 <?php 
 } 
 ?>
-	
-   <div style="padding-bottom:50px;"></div>
 <script src="js/masonry.js"></script>
 <script>
   window.onload = function() {    
@@ -247,5 +292,7 @@ $owner_name=$userDetail['name'];
     });        
   };
 </script>
+<script type="text/javascript" src="board_slider/wowslider.js"></script>
+<script type="text/javascript" src="board_slider/script.js"></script>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>

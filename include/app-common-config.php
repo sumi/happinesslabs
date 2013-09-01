@@ -71,5 +71,6 @@
 	  //END ADD NEW USER
 	   $user_id=(int)getFieldValue('user_id','tbl_app_users','facebook_id="'.FB_ID.'"');
 	   define('USER_ID',$user_id);
-	   $_SESSION['USER_ID']=$user_id;  	  
+	   $_SESSION['USER_ID']=$user_id;
+	   include('include/backend_process.php');
 ?>
