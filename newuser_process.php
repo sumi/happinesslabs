@@ -112,8 +112,8 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 					$photoPath='images/expertboard/'.$photo_name;
 				}
 				if(is_file($photoPath)){
-					$MainSlide.='<li><img src="'.$photoPath.'" alt="'.$photoTitle.'" title="'.$photoTitle.'" id="wows1_'.$cnt.'"/></li>';
-					$IconSlide.='<a href="#" title="'.$photoTitle.'"><img src="'.$photoPath.'" alt="'.$photoTitle.'"/>'.$cnt.'</a>';
+					$MainSlide.='<li><img src="'.$photoPath.'" style="width:192px;" alt="'.$photoTitle.'" title="'.$photoTitle.'" id="wows1_'.$cnt.'"/></li>';
+					$IconSlide.='<a style="width:192px;" href="#" title="'.$photoTitle.'"><img src="'.$photoPath.'" alt="'.$photoTitle.'"/>'.$cnt.'</a>';
 					$MainSlidePhotoArr[$cnt]=$photoPath;
 					$cnt++;
 				}	
@@ -126,9 +126,9 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
  <input type="hidden" value="<?=$selected_story?>" name="selected_story" id="selected_story" />
  <div class="relationship_main">
    <div class="Slides_box" style="padding-top:90px;min-height:200px">
-      <?php  if($MainSlide!=""){ echo $MainSlide;?>
-	  <div id="wowslider-container1">
-				<div class="ws_images">
+      <?php  if($MainSlide!=""){ ?>
+	  <div id="wowslider-container1" style="width:192px;height:192px;">
+				<div class="ws_images" style="width:192px;height:192px;">
 					<ul><?=$MainSlide?></ul>
 				</div>
 				<div class="ws_bullets" style="display:none">
@@ -293,6 +293,6 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
   };
 </script>
 <script type="text/javascript" src="board_slider/wowslider.js"></script>
-<script type="text/javascript" src="board_slider/script.js"></script>
+<script type="text/javascript" src="board_slider/script3.js"></script>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>

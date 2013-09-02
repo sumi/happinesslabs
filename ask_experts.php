@@ -92,8 +92,13 @@ $category_id=(int)$_GET['category_id'];
 				if($like_id>0){
 				$likeCnt.='<img src="images/set_like.png" height="35px" width="35px" title="Like" />&nbsp;<a href="javascript:void(0);" onclick="ajax_action(\'unlike_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'&like_id='.$like_id.'\');" title="Unlike"><img src="images/unlike.png" height="35px" width="35px" title="Unlike" /></a>';
 				}
+			}else if($isLike==2){
+				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="2" AND user_id='.USER_ID);
+				if($like_id>0){
+				$likeCnt.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'&like_id='.$like_id.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<img src="images/set_unlike.png" height="35px" width="35px" title="Unlike" />';
+				}
 			}else{
-				$likeCnt.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<img src="images/unlike.png" height="35px" width="35px" title="Unlike" />';
+				$likeCnt.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<a href="javascript:void(0);" onclick="ajax_action(\'unlike_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/unlike.png" height="35px" width="35px" title="Unlike" /></a>';
 			}
 			$likeCnt.='</div>';			
 			//EXPERT REWARD SECTION

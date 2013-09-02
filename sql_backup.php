@@ -53,3 +53,6 @@ CREATE TABLE IF NOT EXISTS `tbl_app_expertboard_likes` (
 
 08-31-2013
 ALTER TABLE `tbl_app_expertboard_likes` CHANGE `expertboard_id` `cherryboard_id` INT( 11 ) NOT NULL 
+
+09-02-2013
+ALTER TABLE `tbl_app_expertboard_likes` CHANGE `is_like` `is_like` ENUM( '1', '2', '0' ) NOT NULL DEFAULT '0'
