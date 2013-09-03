@@ -199,7 +199,7 @@ function fb_logout() {
       <div class="logo"><a href="index_detail.php"><img src="images/logo_1.png" alt="" /></a></div>		
 	   <div class="text_1">
 	   		<div id="sample_attach_menu_parent" class="sample_attach">
-			<a href="#" title="Happiness Bank">Happiness<br />Bank</a>
+			<a href="#">Happiness<br />Bank</a>
 			</div>
 			<div id="sample_attach_menu_child">
 			<a class="sample_attach" href="add_happy_experience.php">Add Happy Experience</a>
@@ -208,7 +208,7 @@ function fb_logout() {
        </div>
        <div class="text_1">
 	   		<div id="sample_attach_menu_parent_one" class="sample_attach">
-			<a href="#" title="Tell Your Happy Story">Tell Your<br />Happy <br />Story</a>
+			<a href="#">Tell Your<br />Happy <br />Story</a>
 			</div>
 			<div id="sample_attach_menu_child_one">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
@@ -243,7 +243,7 @@ function fb_logout() {
       <div class="tell_mine">
 	  <div class="tell">
 			<div id="sample_attach_menu_parent" class="sample_attach_one">
-			<a href="#" title="Happiness Bank">Happiness<br />Bank</a>
+			<a href="#">Happiness<br />Bank</a>
 			</div>
 			<div id="sample_attach_menu_child">
 			<a class="sample_attach_one" href="add_happy_experience.php">Add Happy Experience</a>
@@ -252,9 +252,9 @@ function fb_logout() {
 	  </div>
       <div class="tell">
 			<div id="sample_attach_menu_parent_one" class="sample_attach_one">
-			<a href="#" title="Tell Your Happy Story">Tell Your<br />Happy <br />Story</a>
+			<a href="#">Tell Your<br />Happy <br />Story</a>
 			</div>
-			<div id="sample_attach_menu_child_one">
+			<div id="sample_attach_menu_child_one" style="z-index:111;">
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">My Life Story</a>
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">Customer Happy Story</a>
 			</div>
