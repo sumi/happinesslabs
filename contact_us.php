@@ -5,7 +5,7 @@ include('include/app-common-config.php');
 <?php include('site_header.php');?>
 <!--Header End-->
 <!--Body Start-->
-	<div id="wrapper_main" style="padding-top:100px;">
+	<div id="wrapper_main" style="padding-top:10px;">
     	<h1 title="Contact Us">Contact Us</h1><br>
 	  Would you like to drop us a note? Feel free to contact us<br>
 	  at <a href="mailto:sumi@30daysnew.com

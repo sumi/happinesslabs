@@ -32,11 +32,11 @@ body {
 /*=====================> START INDEX SECTION CSS <========================*/
 .mine_top_bg{background-color:#f5f5f5; background-repeat:repeat; border-bottom:9px solid #58595b;}
 .mine_top_index{width:1031px; margin:auto;}
-.logo_home{float:left; width:73px; padding:25px 21px 30px 0;}
+.logo_home{float:left; width:20px; padding:25px 1px 30px 0;}
 .logo_home a{}
 .logo_text{float:left; font-family:Calibri; color:#e14f33; font-weight:bold; font-size:44px; padding:35px 0 30px 0; width:288px;}
-.tell_mine{float:left; width:294px; padding-left:70px; padding-right:17px;}
-.tell{float:left; padding:65px 33px 0 0px;}
+.tell_mine{float:left; padding-left:100px; padding-right:17px;}/*width:294px;*/
+.tell{float:left; padding:65px 30px 0 0px;}
 .tell a{text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#6d6e70;}
 
 .facebook{float:right; margin:60px 57px 0 0;}
@@ -67,9 +67,9 @@ body {
 /* ====================> START STORY PROFILE PAGE CSS <=======================*/
 .main_bg{background-image:url(../images/bg.png); background-repeat:repeat-x;}
 .main_top{width:958px; margin:auto;}
-.logo{float:left; padding:26px 91px 26px 9px;}
+.logo{float:left; padding:26px 25px 26px 9px;}
 
-.text_1{float:left; padding:38px 50px 0 0;}
+.text_1{float:left; padding:38px 30px 0 0;}
 .text_1 a{font-family:Arial, Helvetica, sans-serif; color:#999999; font-size:18px; text-decoration:none;}
 
 .img_top{margin-bottom:35px;}
@@ -300,3 +300,38 @@ label {display: inline;}
 .box_friends{ float:left; width:958px;}
 .input_text{float:left; margin:100px 0 0 30px; width:200px; height:18px; padding:5px; border:1px solid #999999;}
 /*item_5*/ 
+
+/*welcome page*/
+.welcome_text{font-size:25px; text-align:left; padding:10px;}
+.Wheel_images{float:left; padding-right:30px;}
+.wheel_main{width:958px; margin-top:50px;}
+/*welcome page*/
+/*=======> START HEADER MENU MOUSE HOVER DROP DOWN CSS <=======*/
+a.sample_attach, a.sample_attach:visited, div.sample_attach
+{
+  display: block;
+  /*width:90px;*/
+  /*border:  1px solid black;*/
+  padding: 2px 2px;
+  background: #FFFFFF;
+  text-decoration: none;
+  font-family:Arial, Helvetica, sans-serif;
+  color:#999999;
+  font-size:18px;
+}
+a.sample_attach, a.sample_attach:visited { border: 1px solid #EEEAEC; }
+div#sample_attach_menu_child             { border-bottom: none; }
+/*Home Page Header CSS*/
+a.sample_attach_one, a.sample_attach_one:visited, div.sample_attach_one
+{
+  display: block;
+  /*width:90px;*/
+  padding: 2px 2px;
+  background: #F5F5F5;
+  text-decoration: none;
+  font-family:Arial, Helvetica, sans-serif;
+  color:#6d6e70;
+  font-size:16px;
+}
+a.sample_attach_one, a.sample_attach_one:visited { border: 1px solid black; }
+/*=======> END HEADER MENU MOUSE HOVER DROP DOWN CSS <=======*/

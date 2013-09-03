@@ -4,7 +4,7 @@ include('include/app-common-config.php');
 ?>
 <?php include('site_header.php');?>
 <!--Body Start-->
-<div id="wrapper_main" style="padding-top: 100px;">
+<div id="wrapper_main" style="padding-top:10px;">
 <h1 title="About">For Advertisers:</h1><br>
 <img src="images/img_about.jpg" width="267" height="217" class="right">
 <div class="head_24">We believe that products and services that make peoples lives better deserve a center stage.

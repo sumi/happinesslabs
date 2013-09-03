@@ -5,13 +5,13 @@ include('include/app-db-connect.php');
 include('include/app_functions.php');
 $type=$_REQUEST['type'];
 $tbl=$_REQUEST['tbl'];
-$fb_id=$_REQUEST['fb_id'];
-$user_id=getUserId_by_FBid($fb_id);
+$fb_id=trim($_REQUEST['fb_id']);
+$user_id=(int)getUserId_by_FBid($fb_id);
 $tblData=array();
 //Vijay FB ID : 100002349398425
 
 
-if($user_id>0){
+if($user_id==0){
 	
 	//START SHARE ON EMAIL WEB SERVICES CODE
 	if($type=='share_on_email'){
@@ -445,9 +445,9 @@ if($user_id>0){
 		$cherryboard_id=$_REQUEST['story_id'];	
 		$photo_title=$_REQUEST['photo_title'];
 		$photo_day=$_REQUEST['photo_day'];
-		$photo_name=trim($_FILES['image_attach']['name']);
+		$photo_name=$_FILES['image_attach']['name'];
 		$user_id=getUserId_by_FBid($fb_id);	
-		
+		echo "1==>".$cherryboard_id."===".$user_id."===".$photo_name;
 		if($cherryboard_id>0&&$user_id>0&&$photo_name!=""){
 			$Photo_Source = $_FILES['image_attach']['tmp_name'];
 			$FileName = rand().'_'.$photo_name;
@@ -459,23 +459,23 @@ if($user_id>0){
 			
 			$CopyImage=copy($Photo_Source,$old_uploaddir);
 			if($CopyImage){
-				$thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 195 x 195 ".$uploaddir;
+				$thumb_command="convert ".$old_uploaddir." -thumbnail 195 x 195 ".$uploaddir;
 				$last_line=system($thumb_command, $retval);
-				$thumb_command_thumb=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 60 x 60 ".$uploaddirThumb;
+				$thumb_command_thumb="convert ".$old_uploaddir." -thumbnail 60 x 60 ".$uploaddirThumb;
 				$last_line=system($thumb_command_thumb, $retval);
 				
 				//update day
-				$TotalPhoto=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_photo','photo_day='.$photo_day.' and cherryboard_id='.$cherryboard_id);
+				echo "2==>".$TotalPhoto=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_photo','photo_day='.$photo_day.' and cherryboard_id='.$cherryboard_id);
 				$sub_day=0;
 				if($TotalPhoto>0){
 					$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 					$Day_Type=getDayType($expertboard_id);
 					$sub_day=($TotalPhoto+1);
-					$insDay="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date,sub_day) VALUES (NULL,'".$expertboard_id."','".$photo_day."','".$Day_Type." ".$photo_day.".".$sub_day."','".date('Y-m-d')."','".$sub_day."')";
+					echo "3==>".$insDay="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date,sub_day) VALUES (NULL,'".$expertboard_id."','".$photo_day."','".$Day_Type." ".$photo_day.".".$sub_day."','".date('Y-m-d')."','".$sub_day."')";
 					$insSql=mysql_query($insDay);
 				}
 				//update photo
-				$insMeb="INSERT INTO tbl_app_expert_cherry_photo(photo_id,user_id,cherryboard_id,photo_title, photo_name,photo_day,sub_day) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_title."','".$FileName."','".$photo_day."','".$sub_day."')";
+				echo "4==>".$insMeb="INSERT INTO tbl_app_expert_cherry_photo(photo_id,user_id,cherryboard_id,photo_title, photo_name,photo_day,sub_day) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_title."','".$FileName."','".$photo_day."','".$sub_day."')";
 				$insMebSql=mysql_query($insMeb);
 				if($insMebSql){
 					$tblData[]='Photo Inserted Successfully';
@@ -535,8 +535,8 @@ if($user_id>0){
 						$insDaysSql=mysql_query($insDays);
 					}
 					//new main goal board							
-					$insExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard (cherryboard_id,user_id,expertboard_id, category_id,cherryboard_title,record_date,makeover,qualified,help_people,start_date,price,fb_album_id,main_board)
-					VALUES (NULL, '".(int)$user_id."', '".$NewexpertBoardId."','0','', CURRENT_TIMESTAMP,'','','','','0','','1')");
+					$insExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard (cherryboard_id,user_id,expertboard_id, category_id,cherryboard_title,record_date,makeover,qualified,help_people,start_date,price,fb_album_id,main_board,is_publish)
+					VALUES (NULL, '".(int)$user_id."', '".$NewexpertBoardId."','0','', CURRENT_TIMESTAMP,'','','','','0','','1','1')");
 					$GoalBoardId=mysql_insert_id();
 					if($GoalBoardId>0){
 						//Create Goal To-Do List
@@ -574,6 +574,7 @@ $expertBoardId=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard',
 	}else{$tblData['status']='Invalid Data';}			
 }
 //END EXPERTBOARD COPY CODE
+
 //START DOIT CODE
 if($type=='doit'){
 	//https://happinesslabs.com/app_services.php?type=doit&fb_id=[fb_id]&story_id=[storyboard_id]

@@ -320,15 +320,15 @@ include('site_header.php');
 					</div>';
 				}
 				//COPY USER CODE 
-				$CopyBoardId=(int)getFieldValue('copyboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+				$copyboard_id=(int)getFieldValue('copyboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 				$strCopy='';
 				$strOriginal='';
-				if($CopyBoardId>0){
+				if($copyboard_id>0){
 				  $strCopy='Copy of';
-				  $OriginalUserId=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','copyboard_id='.$CopyBoardId);
+				  $OriginalUserId=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$copyboard_id);
 				  $UserDetail=getUserDetail($OriginalUserId);
 				  $OriginalName=$UserDetail['name'];
-				  $strOriginal='<em>Original by <a href="expert_cherryboard.php?cbid='.$CopyBoardId.'" style="text-decoration:none;color:#404041;">'.$OriginalName.'</a></em><br/>';
+				  $strOriginal='<em>Original by <a href="expert_cherryboard.php?cbid='.$copyboard_id.'" style="text-decoration:none;color:#404041;">'.$OriginalName.'</a></em><br/>';
 				}
 				$expertCnt.='</div>
        			<div class="banner_day" style="width:315px"><span style="font-size:16px;">'.$strCopy.'</span>

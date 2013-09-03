@@ -5,7 +5,8 @@ include('include/app-common-config.php');
 <?php include('site_header.php');?>
 <!-- START BOTTOM SECTION -->
 <?php
-if($_POST['LoginStep']=="3"){
+$categoryArray=array(1=>"Relationships",2=>"Wellness",3=>"Community",4=>"Career",5=>"Fun",6=>"Style",7=>"Money");
+if($_POST['LoginStep']=="33"){
 	$selected_story=(int)$_POST['selected_story'];
 	$selected_friend=$_POST['selected_friend'];
 	
@@ -91,7 +92,7 @@ $cnt=0;
 $MainSlide='';
 $IconSlide='';
 $storyPhoto=mysql_query("select cherryboard_id,expertboard_id from tbl_app_expert_cherryboard where cherryboard_id 
-in (".$selected_story.") order by cherryboard_id desc");
+in (".$selected_story.") order by cherryboard_id desc limit 10");
 while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
 		$expertboard_id=$storyPhotoRow['expertboard_id'];
@@ -119,24 +120,30 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 				}	
 			}
 		}	
-}		
+}
+
 ?>
+<link rel="stylesheet" type="text/css" href="board_slider/slider3/style.css" />
 <form action="" name="frmLoginStep" method="post">
-<input type="hidden" value="3" name="LoginStep" id="LoginStep" />
+<input type="hidden" value="1" name="LoginStep" id="LoginStep" />
  <input type="hidden" value="<?=$selected_story?>" name="selected_story" id="selected_story" />
  <div class="relationship_main">
    <div class="Slides_box" style="padding-top:90px;min-height:200px">
       <?php  if($MainSlide!=""){ ?>
-	  <div id="wowslider-container1" style="width:192px;height:192px;">
+	<!-- 
+		
+		<div id="wowslider-container1" style="width:192px;height:192px;">
 				<div class="ws_images" style="width:192px;height:192px;">
 					<ul><?=$MainSlide?></ul>
 				</div>
 				<div class="ws_bullets" style="display:none">
 					<div><?=$IconSlide?></div>
 				</div>
-		</div>
+		</div> -->
+		<img src="images/new_img.png" alt="" /> 
 	<?php }else{ ?>
-	<img src="images/new_img.png" alt="" />
+	<br />
+ 		<img src="images/new_img.png" alt="" /> 
 	<?php }?>
      <div class="text_detail"><strong><?=$expertboard_title?></strong><br/><?=$expertboard_detail?></div>
    </div>
@@ -179,7 +186,7 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
   </div>
 </form>
 <?php 
-}else{
+}else if($_POST['LoginStep']=="1"){
 ?>
  <div class="relationship_main" style="padding-top:100px">
    <div class="relationship_text" style="height:257px">RELATIONSHIP STORIES</div>
@@ -239,7 +246,7 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 				 
 				   $giftCnt.='<div class="friends_box_main">
 					 <div class="check_box"> 
-					 <input type="radio" class="regular-checkbox big-checkbox" name="selected_story" value="'.$cherryboard_id.'" id="checkbox-2-'.$newCnt.'" />
+					 <input type="checkbox" class="regular-checkbox big-checkbox" name="selected_story" value="'.$cherryboard_id.'" id="checkbox-2-'.$newCnt.'" />
 					 <label for="checkbox-2-'.$newCnt.'"></label>
 					 </div>
 					  <div class="friends_box_img" /><img src="'.$expertPicPath.'" width="182px" height="152px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'"/></div>
@@ -281,6 +288,25 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 	</div>
 	</div>
 <?php 
+}else{
+?>
+<form action="" name="frmLoginStep" method="post">
+<input type="hidden" value="1" name="LoginStep" id="LoginStep" />
+<div class="relationship_main" style="padding-top:100px">
+   <div class="welcome_text">Happinesslabs is your Home for your Happiness. Share Happines and spread happiness. Create a Happy Story. Share a Happy Story. Follow a Happy Story.</div>
+   <div class="wheel_main">
+    <div class="Wheel_images"><img src="images/progress_circle.png" alt="" /></div>
+    <div class="welcome_text" style="height:224px">This is your stories of categories. Select happy stories from 7 categories. Relationships, Wellness, Community, Career, Fun, Style, Money.</div>
+   </div>
+
+<div class="wellness_button">
+    <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();">Category 1:<br />
+                RELATIONSHIP<br />
+                STORIES.</a>
+            </div>
+</div>
+</form>
+<?php
 } 
 ?>
 <script src="js/masonry.js"></script>
@@ -292,7 +318,5 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
     });        
   };
 </script>
-<script type="text/javascript" src="board_slider/wowslider.js"></script>
-<script type="text/javascript" src="board_slider/script3.js"></script>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>

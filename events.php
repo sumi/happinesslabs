@@ -4,7 +4,7 @@ include('include/app-common-config.php');
 ?>
 <?php include('site_header.php');?>
 <!--Body Start-->
-	<div id="wrapper_main" style="padding-top: 100px;">
+	<div id="wrapper_main" style="padding-top:10px;">
     	<!--<h1 title="About">Events</h1><br>-->
 			<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt; text-align: center;" dir="ltr">
 			<span style="line-height: 1.15;">&nbsp;</span></p>

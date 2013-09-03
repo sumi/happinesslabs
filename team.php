@@ -5,7 +5,7 @@ $cherryboard_id=$_GET['cbid'];
 $msg='';
 ?>
 <?php include('site_header.php');?>
-<div class="box_bg" style="padding-top:100px;">
+<div class="box_bg" style="padding-top:10px;">
   <div class="main_top" style="width:1146px">
    <div class="box_main">
   <div class="main_box_width" style="background-image:url(images/box_bg_img.png);background-repeat:repeat-y;">
