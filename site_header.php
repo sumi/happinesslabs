@@ -254,7 +254,7 @@ function fb_logout() {
 			<div id="sample_attach_menu_parent_one" class="sample_attach_one">
 			<a href="#" title="Tell Your Happy Story">Tell Your<br />Happy <br />Story</a>
 			</div>
-			<div id="sample_attach_menu_child_one" style="z-index:inherit;">
+			<div id="sample_attach_menu_child_one">
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">My Life Story</a>
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">Customer Happy Story</a>
 			</div>
