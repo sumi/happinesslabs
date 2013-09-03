@@ -208,7 +208,7 @@ function fb_logout() {
        </div>
        <div class="text_1">
 	   		<div id="sample_attach_menu_parent_one" class="sample_attach">
-			<a href="#" title="Tell a Happy Story">Tell Your<br />Happy <br />Story</a>
+			<a href="#" title="Tell Your Happy Story">Tell Your<br />Happy <br />Story</a>
 			</div>
 			<div id="sample_attach_menu_child_one">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
@@ -251,7 +251,13 @@ function fb_logout() {
 			</div>
 	  </div>
       <div class="tell">
-      <a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> title="Tell a Happy Story">Tell a<br />Happy<br />Story</a>
+			<div id="sample_attach_menu_parent_one" class="sample_attach_one">
+			<a href="#" title="Tell Your Happy Story">Tell Your<br />Happy <br />Story</a>
+			</div>
+			<div id="sample_attach_menu_child_one" style="z-index:inherit;">
+			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">My Life Story</a>
+			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">Customer Happy Story</a>
+			</div>
       </div>
       <div class="tell">
       <a href="win_rewards.php" title="Win Rewards">Win<br />Rewards</a>
