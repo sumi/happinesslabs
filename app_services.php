@@ -6,12 +6,12 @@ include('include/app_functions.php');
 $type=$_REQUEST['type'];
 $tbl=$_REQUEST['tbl'];
 $fb_id=trim($_REQUEST['fb_id']);
-$user_id=(int)getUserId_by_FBid($fb_id);
+$user_id=getUserId_by_FBid($fb_id);
 $tblData=array();
 //Vijay FB ID : 100002349398425
 
 
-//if($user_id==0){
+if($user_id>0){
 	
 	//START SHARE ON EMAIL WEB SERVICES CODE
 	if($type=='share_on_email'){
@@ -591,9 +591,9 @@ if($type=='doit'){
 	}else{	$tblData['status']='Invalid Data';	}
 }
 //END DOIT CODE	
-/*}else{
+}else{
 	$tblData[]='Invalid User';
-}*/
+}
 
 //ADD USER & RETURN STORY LIST
 if($type=="add_user"){

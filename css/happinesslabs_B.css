@@ -255,6 +255,57 @@ body {
 .box_a{float:left; width:155px; padding:0px 8px 10px 8px; margin-right:20px; text-align:left; font-family:Myriad Pro;}
 /*--happiness labs_box--stop--*/
 
+
+/*item_4*/ 
+.relationship_bg{background-color:#f7f7f7; font-family:Kartika; padding:20px 0 0 0;}
+.relationship_main{width:958px; margin:auto; padding-top:10px;}
+.relationship_text{float:left; font-size:30px; padding:90px 0 0 0; text-align:center; min-width:700px;}
+.friends_box_main{float:left; padding:20px 30px 0 0;}
+.check_box{margin:0 0 15px 90px;}
+.wellness_button{float:right; padding:10px; font-size:12px; margin:20px 20px 62px 0; background-color:#333333;
+ border-radius:10px 10px 10px 10px;-webkit-border-radius:10px 10px 10px 10px;-moz-border-radius:10px 10px 10px 10px;}
+.wellness_button a{color:#FFFFFF; text-decoration:none;}
+.wellness_button a:hover{color: #0099FF;}
+
+label {display: inline;}
+.regular-checkbox {display: none;}
+.regular-checkbox + label {
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding:0px;
+    border-radius: 2px;
+    display: inline-block;
+    position: relative;}
+.regular-checkbox:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;}
+.big-checkbox + label {padding:10px;} 
+.big-checkbox:checked + label:after {
+    font-size: 16px;
+	color:#0099FF;
+    left: 4px;}
+.friends_box_img{background-image:url(../images/new_box.png); background-repeat:no-repeat; width:200px; height:172px; padding:6px 0 0 6px;}
+/*item_4*/ 
+ 
+ 
+/*item_5*/ 
+.Slides_box{background-color:#FFFFFF; border:1px solid #999999; margin:auto; padding:10px 10px 10px 10px;}
+.text_detail{float:right; font-size:16px; width:700px; text-align:left;}
+.text_spread{font-size:25px; text-align:center; padding:10px 0;}
+.box_friends{ float:left; width:958px;}
+.input_text{float:left; margin:100px 0 0 30px; width:200px; height:18px; padding:5px; border:1px solid #999999;}
+/*item_5*/ 
+
+/*welcome page*/
+.welcome_text{font-size:25px; text-align:left; padding:10px;}
+.Wheel_images{float:left; padding-right:30px;}
+.wheel_main{width:958px; margin-top:50px;}
+/*welcome page*/
 /*=======> START HEADER MENU MOUSE HOVER DROP DOWN CSS <=======*/
 a.sample_attach, a.sample_attach:visited, div.sample_attach
 {
@@ -284,62 +335,3 @@ a.sample_attach_one, a.sample_attach_one:visited, div.sample_attach_one
 }
 a.sample_attach_one, a.sample_attach_one:visited { border: 1px solid black; }
 /*=======> END HEADER MENU MOUSE HOVER DROP DOWN CSS <=======*/
-
-/*item_3---Welcome page---start*/
-.welcome_text{font-size:22px; text-align:left; padding:10px;}
-.Wheel_images{float:left; padding:0 50px 26px 0;}
-.wheel_main{width:958px; margin-top:50px;}
-
-.wheel_icon_left{float:left; background-image:url(../images/icon_bg---left.png); background-repeat:no-repeat; width:130px; height:54px; text-align:left; font-size:28px; color:#7f7f7f; margin-left:40px;}
-
-.wheel_icon{float:left; background-image:url(../images/icon_bg.png); background-repeat:no-repeat; width:130px; height:54px; text-align:left; font-size:28px;color:#7f7f7f;}
-
-.wheel_icon_right{float:left; background-image:url(../images/icon_bg---right.png); background-repeat:no-repeat; width:54px; height:54px; text-align:left; font-size:28px;color:#7f7f7f;}
-.text_relptionship{color: #7f3f00;}
-/*item_3---Welcome page---End*/
-
-/*item_4*/ 
-
-.relationship_bg{background-color:#f7f7f7; font-family:Kartika;}
-.relationship_main{width:958px; margin:auto; padding-top:10px;}
-.relationship_text{float:left; font-size:30px; padding:90px 0 0 0; text-align:center; width:700px;}
-.friends_box_main{float:left; padding:20px 30px 0 0;}
-.check_box{margin:0 0 15px 90px;}
-.wellness_button{float:right; padding:10px; font-size:12px; margin:20px 0px 80px 0;}
-.wellness_button a{color:#000000; text-decoration:none;}
-.wellness_button a:hover{color: #0099FF;}
-.wellness_button_images{float:right; margin-top:20px; background-image:url(../images/buttton-arrow.png); background-repeat:no-repeat; width:40px; height:74px;}
-
-label {display: inline;}
-.regular-checkbox {display: none;}
-.regular-checkbox + label {
-    background-color: #FFFFFF;
-    border: 1px solid #000000;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-    padding:0px;
-    border-radius: 2px;
-    display: inline-block;
-    position: relative;}
-.regular-checkbox:checked + label:after {
-    content: '\2714';
-    font-size: 14px;
-    position: absolute;
-    top: 0px;
-    left: 3px;
-    color: #99a1a7;}
-.big-checkbox + label {padding:10px;} 
-.big-checkbox:checked + label:after {
-    font-size: 16px;
-	color:#0099FF;
-    left: 4px;}
-.friends_box_img{background-image:url(../images/user-progress-box.png); background-repeat:no-repeat; width:200px; height:172px; padding:6px 0 0 6px;}
-/*item_4*/ 
- 
- 
-/*item_5*/ 
-.Slides_box{background-color:#FFFFFF; border:1px solid #999999; margin:auto; padding:10px 10px 10px 10px;}
-.text_detail{float:right; font-size:36px; width:700px; text-align:left;}
-.text_spread{font-size:25px; text-align:center; padding:10px 0;}
-.box_friends{ float:left; width:958px;}
-.input_text{float:left; margin:100px 0 0 30px; width:200px; height:18px; padding:5px; border:1px solid #999999;}
-/*item_5*/ 

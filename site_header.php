@@ -212,7 +212,8 @@ function fb_logout() {
 			</div>
 			<div id="sample_attach_menu_child_one">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
-			<a class="sample_attach" rel="leanModal" href="#create_expert_board">Customer Happy Story</a>
+			<a class="sample_attach" href="customer_happy_story.php">Customer Happy Story</a>
+			<!--<a class="sample_attach" rel="leanModal" href="#create_expert_board">Customer Happy Story</a>-->
 		    </div>	  
        </div>
        <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">Happy <br />
@@ -256,7 +257,7 @@ function fb_logout() {
 			</div>
 			<div id="sample_attach_menu_child_one" style="z-index:111;">
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">My Life Story</a>
-			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="index_detail.php"')?> class="sample_attach_one">Customer Happy Story</a>
+			<a class="sample_attach_one" href="customer_happy_story.php">Customer Happy Story</a>
 			</div>
       </div>
       <div class="tell">
