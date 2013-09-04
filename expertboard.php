@@ -11,15 +11,26 @@ if($expertBoardId>0&&$type=='copy'&&USER_ID>0&&$cherryboard_id>0){
   $newCherryBoardId=CopyExpertBoard($expertBoardId,$cherryboard_id);
   echo "<script>document.location='expert_cherryboard.php?cbid=".$newCherryBoardId."'</script>";		
 }
-//START CREATE EXPERT CODE
-if(isset($_POST['btnCreateExpert'])){
-	$expertboard_title=trim($_POST['title']);
-	$expertboard_detail=trim(addslashes($_POST['detail']));
-	$category_id=(int)$_POST['category_id1'];
+//START CREATE EXPERTBOARD/STORYBOARD CODE
+if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
+
+	if(isset($_POST['btnCreateExpert'])){
+	   $expertboard_title=trim($_POST['title']);
+	   $expertboard_detail=trim(addslashes($_POST['detail']));
+	   $category_id=(int)$_POST['category_id1'];
+	   $is_board_price=(int)$_POST['is_board_price'];
+	   $price=$_POST['price'];
+	}
+	//START CREATE CUSTOMER STORY SECTION
+	if(isset($_POST['btnCreateStory'])){
+	   $expertboard_title=trim($_POST['story_title']);
+	   $expertboard_detail=trim(addslashes($_POST['story_detail']));
+	   $category_id=(int)$_POST['category_id2'];
+	   $is_board_price=(int)$_POST['IsBoardPrice'];
+	   $price=$_POST['story_price'];
+	}	
 	$day_type=(int)$_POST['day_type'];
-	$number_days=(int)$_POST['number_days'];
-	$is_board_price=(int)$_POST['is_board_price'];
-	$price=$_POST['price'];
+	$number_days=(int)$_POST['number_days'];	
 	$board_type=(int)$_POST['board_type'];
 	//GET SUB STORY FIELDS VALUE
 	$create_from=trim($_POST['create_from']);
@@ -30,13 +41,14 @@ if(isset($_POST['btnCreateExpert'])){
 		$number_days=1;
 	}
 				
-	if($create_from=='header'){ $parent_id=0; }
+	if($create_from=='header'||$create_from==''){ $parent_id=0; }
 	
 	if($is_board_price==1){
 		$Customers='Customers';
 	}else{
 		$Customers='People';
 	}
+	
 	if((int)USER_ID>0&&$expertboard_title!=''&&$expertboard_detail!=''&&$category_id>0&&$number_days>0){
 		$checkExpBoard=(int)getFieldValue('expertboard_id','tbl_app_expertboard','expertboard_title="'.$expertboard_title.'" and user_id='.USER_ID);
 		if($checkExpBoard==0){

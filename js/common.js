@@ -823,6 +823,50 @@ function handleHttpResponse_ajax_action()
 			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
 			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
 		}
+		
+		<!-- START CUSTOMER HAPPY STORY DIV SECTION -->		
+		if(action_type=="focus_story_title"&&div_name=="DivStoryTitle"){
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+		}
+		if(action_type=="focus_story_category"&&div_name=="DivStoryCategory"){
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+		}
+		if(action_type=="focus_story_about"&&div_name=="DivStoryAbout"){
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+		}
+		if(action_type=="focus_story_daytype"&&div_name=="DivStoryDayType"){
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+		}
+		if(action_type=="focus_story_price"&&div_name=="DivStoryBoardPrice"){
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+		}
+		if(action_type=="focus_story_type"&&div_name=="DivStoryBoardType"){
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+		}
 		//Refresh Expert Days Or Item Page
 		if(action_type=="increase_expdays_items"){
 			if(results_array[3]>0){
@@ -883,7 +927,7 @@ function handleHttpResponse_ajax_action()
 			document.location='expert_cherryboard.php?cbid='+cherryboard_id;
 		}	
 		
-		document.getElementById(div_name).innerHTML = div_content;
+		document.getElementById(div_name).innerHTML=div_content;
 		//photo refresh of the board
 		if(action_type=="photo_refresh"||action_type=="exp_photo_refresh"){
 		    ajax_action('refresh_todo_list','div_todo_list','cherryboard_id='+results_array[3]+'&sort='+results_array[4]);
@@ -935,6 +979,13 @@ function CheckFormValidation(divName,FormVars){
 			if(ValidRadio(FieldVar[0])==false){
 				document.getElementById(divName).innerHTML=FieldMsg;
 				return false;
+			}
+		}else if(FieldVar[0]=="story_price"){
+			if(document.getElementById('IsBoardPrice').value==1){
+				if(FieldValue==""||FieldValue==0){
+					document.getElementById(divName).innerHTML=FieldMsg;
+					return false;
+				}
 			}
 		}else{
 			if(FieldValue==""){
