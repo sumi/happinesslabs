@@ -83,10 +83,10 @@ $category_id=(int)$_GET['category_id'];
 			$goal_days=$row['goal_days'];
 			$expertboard_detail=$row['expertboard_detail'];
 			$DayType=getDayType($expertboard_id);
-			//START LIKE AND UNLIKE BUTTON CODE
+			//START LIKE AND UNLIKE CODE
 			$likeCnt='';
 			$isLike=(int)getFieldValue('is_like','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
-			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="padding-left:130px;">';
+			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="padding-left:100px;">';
 			if($isLike==1){
 				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="1" AND user_id='.USER_ID);
 				if($like_id>0){
@@ -100,38 +100,41 @@ $category_id=(int)$_GET['category_id'];
 			}else{
 				$likeCnt.='<a href="javascript:void(0);" onclick="ajax_action(\'like_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/like.png" height="35px" width="35px" title="Like" /></a>&nbsp;<a href="javascript:void(0);" onclick="ajax_action(\'unlike_story\',\'div_like_'.$cherryboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\');" title="Like"><img src="images/unlike.png" height="35px" width="35px" title="Unlike" /></a>';
 			}
-			$likeCnt.='</div>';
-			//START SELECT STORY PHOTO CODE
+			$likeCnt.='</div>';			
+			//EXPERT REWARD SECTION
+			$reward='';
+			$selQuery=mysql_query("select a.* from tbl_app_expert_reward_photo a,tbl_app_expert_cherryboard b where a.cherryboard_id=b.cherryboard_id and b.expertboard_id=".$expertboard_id.' group by a.exp_reward_id');
+			if(mysql_num_rows($selQuery)>0){
+				$cnt=1;
+				while($selQueryRow=mysql_fetch_array($selQuery)){
+					$reward_title=$selQueryRow['photo_title'];
+					$reward_photo='images/expertboard/reward/'.$selQueryRow['photo_name'];
+					if($cnt==2){echo "<br>";$cnt=1;}
+					$reward.='<div class="img_big_container" style="text-align:center">
+					  <img width="180px" src="'.$reward_photo.'" alt="'.$reward_title.'"><br/>
+					  '.ucwords($reward_title).'
+					</div>';
+					$cnt++;
+				}
+			}
+			if($reward!=""){$reward='<br>'.$reward;}
 			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';
-			$ownerPic='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=small';
-			$selPhoto=mysql_query("SELECT photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." ORDER BY photo_id DESC");
-			$photoArray=array();
-			if(mysql_num_rows($selPhoto)>0){
-				while($selPhotoRow=mysql_fetch_array($selPhoto)){
-					$photo_name=$selPhotoRow['photo_name'];
-					$photoPath='images/expertboard/'.$photo_name;
-					if(is_file($photoPath)){
-						$photoArray[]=$photoPath;
-					}					
-				}	
-			}else{
-				$photoArray[]=$expertPicPath;
-			}	
-			
 			if($userOwnerFbId!=""){
 				if($cherryboard_id>0){
-					//$TotalCheers=countCheers($expertboard_id,'expertboard');
+					$TotalCheers=countCheers($expertboard_id,'expertboard');
 					$giftCnt.='
 					<div class="w2 h1 masonry-brick">
 					<div class="bottom_box_main">
 					<div class="main_box">
-						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
 						<div class="day_img">
 						<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'">
-						<img src="'.$photoArray[0].'" height="150px" width="209px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'" />
-						</a>'.$likeCnt.'</div>						
+						<img src="'.$expertPicPath.'" height="150px" width="209px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'" />
+						</a></div>
+						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
 					   <div class="bottom_healthy">
-						 <div class="bottom_healthy_12" style="padding-top:5px;"><strong>By</strong>&nbsp;:&nbsp;<img src="'.$ownerPic.'" height="25px" width="25px"/>&nbsp;'.$userName.'<br/><strong>Price&nbsp;:&nbsp;</strong>'.$price.'&nbsp;<span style="padding-left:85px;">&nbsp;</span><strong>'.$DayType.'&nbsp;:</strong>&nbsp;'.$goal_days.'<br/></div>
+						 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
+						 <div class="bottom_healthy_12" style="padding-top:5px;">'.$TotalCheers.' cheers!
+						 '.$likeCnt.'</div>
 					   <div style="clear:both"></div>
 					   </div>					   					   
 				   </div>

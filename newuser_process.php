@@ -9,16 +9,16 @@ $categoryArray=array(1=>"Relationships",2=>"Wellness",3=>"Community",4=>"Career"
 $categoryIdsArray=array(1=>"11",2=>"29",3=>"30",4=>"2",5=>"31",6=>"3",7=>"19");
 
 if($_POST['LoginStep']=="3"){
-	$cat_no=(int)$_POST['cat_no'];
-	$selected_story=(int)$_POST['selected_story'];
-	$selected_friend=$_POST['selected_friend'];
+		$cat_no=(int)$_POST['cat_no'];
+		$selected_story=(int)$_POST['selected_story'];
+		$selected_friend=$_POST['selected_friend'];
 	
 	if($selected_story>0&&count($selected_friend)>0){
 			$expertBoardId=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$selected_story);
-			if($expertBoardId>0&&$selected_story>0){
+			if($expertBoardId>0){
 				$lastCreatedStoryId=$_POST['lastCreatedStoryId'];
-				if($lastCreatedId>0){
-						$cherryboard_id=$lastCreatedId;
+				if($lastCreatedStoryId>0){
+						$cherryboard_id=$lastCreatedStoryId;
 						$expertDetail=getFieldsValueArray('user_id,expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 				
 						$user_id=$expertDetail[0];
@@ -68,23 +68,32 @@ if($_POST['LoginStep']=="3"){
 		'template' => $notificationMsg));
 								}
 						  }	
+						 
 						 if($cat_no==8){
 							echo '<script language="javascript">document.location=\'index_profile.php\';</script>';
 							header('Location:https://www.happinesslabs.com/index_profile.php');
 						 }else{	
-							echo '<script language="javascript">document.location=\'newuser_process.php?LoginStep=1&cat_no='.$cat_no.'\';</script>';
+							?>
+							<form action="newuser_process.php" method="post" name="frmauto">
+							<input type="hidden" name="LoginStep" value="1" />
+							<input type="hidden" name="cat_no" value="<?=$cat_no?>" />
+							<script language="javascript">document.frmauto.submit();</script>
+							</form>
+							<?php
 							header('Location:https://www.happinesslabs.com/newuser_process.php?LoginStep=1&cat_no='.$cat_no);
 						}
 				}
 			}
+	 }else{
+	 	header('Location:https://www.happinesslabs.com/newuser_process.php?LoginStep=1&cat_no='.$cat_no);
 	 }
-	 
 }
 
 if($_POST['LoginStep']=="2"){
 $cat_no=$_POST['cat_no'];
 $selected_story=$_POST['selected_story'];
 $LoginStep=$_POST['LoginStep'];
+
 $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$selected_story.'"');
 
 $expertboardDetail=getFieldsValueArray('expertboard_title,expertboard_detail,user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
@@ -108,59 +117,116 @@ if($lastCreatedStoryId==0){
 $cnt=0;
 $MainSlide='';
 $IconSlide='';
-$storyPhoto=mysql_query("select cherryboard_id,expertboard_id from tbl_app_expert_cherryboard where cherryboard_id 
-in (".$selected_story.") order by cherryboard_id desc limit 10");
-while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
-		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
-		$expertboard_id=$storyPhotoRow['expertboard_id'];
-		$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_day");
-		$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
-		if($totalExpPhotos>0){
-			$MainSlidePhotoArr=array();
-			while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
-				$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
-				if($photo_title!=""){$photo_title=' - '.$photo_title;}
-				$photo_name=$exportPhotoRow['photo_name'];
-				$photo_day=$exportPhotoRow['photo_day'];
-				$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
-				$photoTitle=$expertboardTitle.' : '.getDayType($expertboard_id).' '.$photo_day.$photo_title;
-				
-				$photoPath='images/expertboard/slider/'.$photo_name;
-				if(!is_file($photoPath)){
-					$photoPath='images/expertboard/'.$photo_name;
-				}
-				if(is_file($photoPath)){
-					$MainSlide.='<li><img src="'.$photoPath.'" style="width:192px;" alt="'.$photoTitle.'" title="'.$photoTitle.'" id="wows1_'.$cnt.'"/></li>';
-					$IconSlide.='<a style="width:192px;" href="#" title="'.$photoTitle.'"><img src="'.$photoPath.'" alt="'.$photoTitle.'"/>'.$cnt.'</a>';
-					$MainSlidePhotoArr[$cnt]=$photoPath;
-					$cnt++;
-				}	
-			}
+$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$selected_story." order by photo_day");
+$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
+if($totalExpPhotos>0){
+$expertBoardId=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$selected_story);
+		$expertBoardDetail=getFieldsValueArray('expertboard_title,expertboard_detail','tbl_app_expertboard','expertboard_id='.$expertBoardId);
+		$expertboard_title=$expertBoardDetail[0];
+		$expertboard_detail=$expertBoardDetail[1];
+		
+	$MainSlidePhotoArr=array();
+	while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
+		$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
+		if($photo_title!=""){$photo_title=' - '.$photo_title;}
+		$photo_name=$exportPhotoRow['photo_name'];
+		$photo_day=$exportPhotoRow['photo_day'];
+		$photoPath='images/expertboard/'.$photo_name;
+		if(is_file($photoPath)){
+			$MainSlidePhotoArr[$cnt]=$photoPath;
+			$cnt++;
 		}	
+	}
 }
+	
+//print_r($MainSlidePhotoArr);
 
 ?>
-<link rel="stylesheet" type="text/css" href="board_slider/slider3/style.css" />
+<script type="text/javascript" src="js/v-jquery-1.2.6.min.js"></script>
+<script type="text/javascript">
+function slideSwitch() {
+    var $active = $('#slideshow IMG.active');
+
+    if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
+
+    // use this to pull the images in the order they appear in the markup
+    var $next =  $active.next().length ? $active.next()
+        : $('#slideshow IMG:first');
+		 $active.addClass('last-active');
+
+    $next.css({opacity: 0.0})
+        .addClass('active')
+        .animate({opacity: 1.0}, 1000, function() {
+            $active.removeClass('active last-active');
+        });
+}
+
+$(function() {
+    setInterval( "slideSwitch()", 5000 );
+});
+
+</script>
+
+<style type="text/css">
+#slideshow {
+    position:relative;
+    height:200px;
+}
+
+#slideshow IMG {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:8;
+    opacity:0.0;
+}
+
+#slideshow IMG.active {
+    z-index:10;
+    opacity:1.0;
+}
+
+#slideshow IMG.last-active {
+    z-index:9;
+}
+
+</style>
 <form action="" name="frmLoginStep" method="post">
  <div class="relationship_main">
    <div class="Slides_box">
-      <?php  if($MainSlide!=""){ ?>
-	<!-- 
-		
-		<div id="wowslider-container1" style="width:192px;height:192px;">
-				<div class="ws_images" style="width:192px;height:192px;">
-					<ul><?=$MainSlide?></ul>
-				</div>
-				<div class="ws_bullets" style="display:none">
-					<div><?=$IconSlide?></div>
-				</div>
-		</div> -->
-		<img src="images/new_img.png" alt="" /> 
+     <Table border="0">
+	 <tr>
+	 
+	  <?php  if(count($MainSlidePhotoArr)>0){ ?>
+	  <td>
+			<div id="slideshow">
+				<?php 
+				$cnt=1;
+				foreach($MainSlidePhotoArr as $slide_photo){ 
+				$imgDetail=getImageRatio($slide_photo,'219','200');
+				echo '<img src="'.$slide_photo.'" alt="Slideshow Image '.$cnt.'" width="219" '.($cnt==1?'class="active"':'').' width="'.$imgDetail['width'].'" height="'.$imgDetail['height'].'">';
+				 
+				$cnt++;
+				} ?>
+			</div>
+			</td>
+			<td valign="top">
+			 <div class="text_detail" style="padding-left: 200px;"><strong><?=$expertboard_title?></strong></div>
+			 <span style="padding-left: 226px;"><?=$expertboard_detail?></span>
+			 </td>
 	<?php }else{ ?>
-		<img src="images/new_img.png" alt="" /> 
+		<td><img src="images/new_img.png" alt="" /></td>
+		<td valign="top">
+		 <div class="text_detail"><strong><?=$expertboard_title?></strong></div>
+		 <span><?=$expertboard_detail?></span>
+		 </td>
 	<?php }?>
-     <div class="text_detail"><strong><?=$expertboard_title?></strong></div><?=$expertboard_detail?>
-   </div>
+	
+	 
+	 </tr>
+	 </Table>
+</div>
+	 
    <div class="text_spread">Spread happiness to your friends by sharing your story now</div>
    
     <div class="box_friends">

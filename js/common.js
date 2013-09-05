@@ -1114,3 +1114,12 @@ function handleHttpResponse_photo_filter()
 	} 
 }
 //END PHOTO INSTAGRAM FILTER
+//START CHECK PHOTO UPLODE OR NOT
+function checkIsPhoto(totalDay,totalPhoto){
+	if(totalDay==totalPhoto){
+		return true;	
+	}else{
+		alert('Picture of Days/Items/Steps are missing - please upload picture to publish');
+		return false;
+	}
+}

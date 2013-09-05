@@ -335,6 +335,27 @@ include('site_header.php');
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>
 				</div>
         		<div class="banner_day_2"><em>by '.$userName.'</em><br/>'.$strOriginal.'';
+				//START CHECK PHOTO UPLOAD CODE
+				$selPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." GROUP BY photo_day ORDER BY photo_id DESC");
+				$cntPhoto=mysql_num_rows($selPhoto);
+				$photoItemArray=array();
+				$photoCnt=0;
+				if($cntPhoto>0){
+				   while($selPhotoRow=mysql_fetch_array($selPhoto)){
+					  $photo_id=$selPhotoRow['photo_id'];
+					  $photo_day=((int)$selPhotoRow['photo_day']);
+					  $photoItemArray[$photo_id]=$photo_day;
+				   }		
+				   $photoItemArray=array_unique($photoItemArray);	
+				   for($i=1;$i<=$goal_days;$i++){
+						if(in_array($i,$photoItemArray)){
+							$photoCnt+=1;
+						}else{
+							$photoCnt=0;
+						}
+				   }
+				}else{$photoCnt=0;}
+				
 				//CREATE PUBLISH BUTTON CODE
 				$publishDetail=getFieldsValueArray('user_id,is_publish','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 				$UserId=$publishDetail[0];
@@ -344,7 +365,7 @@ include('site_header.php');
 					if($IsPublish==0){
 						$expertCnt.='<div class="banner_day_5_left" style="width:197px;">
 					    <div class="banner_day_5_bg" id="div_story_publish">
-						<a href="javascript:void(0);" onclick="ajax_action(\'publish_story\',\'div_story_publish\',\'stype=publish&cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\')" title="Publish">Publish</a>
+						<a href="javascript:void(0);" onclick="return checkIsPhoto('.$goal_days.','.$photoCnt.')?ajax_action(\'publish_story\',\'div_story_publish\',\'stype=publish&cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\'):false" title="Publish">Publish</a>
 						</div>
 						<img src="images/ban.png" alt="" />
 						</div>
