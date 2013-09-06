@@ -343,3 +343,9 @@ label {display: inline;}
 .box_friends{ float:left; width:958px;}
 .input_text{float:left; margin:100px 0 0 30px; width:200px; height:18px; padding:5px; border:1px solid #999999;}
 /*item_5*/ 
+/*START EXPERT PAGE MERGE PICTURE CSS*/
+.main_div{width:209px;height:150px;background-color:#FFFFFF;padding:5px;text-align:center;}
+.single_div{width:209px;height:150px;}
+.half_div_left{width:102px;height:150px;border: 1px solid #000000;float:left;}
+.half_div_right{width:102px;height:150px;border: 1px solid #000000;float:right;}
+.single_div_half{width:209px;height:75px;border: 1px solid #000000;}
