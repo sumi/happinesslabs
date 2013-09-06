@@ -128,38 +128,62 @@ $category_id=(int)$_GET['category_id'];
 				$photoCnt=1;
 			}
 			//START MERGE IMAGE SECTION
-			$imgMergeCnt='';
-			/*$imgData=getImageRatio($photoArray[0],350,120);//209==75
-			$NewImgW1=$imgData['width'];
-			$NewImgH1=$imgData['height'];*/			
-			
-			if($photoCnt==1){				
-				$imgMergeCnt.='<div style="width:209px;height:150px;">
-				<img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/>
-				</div>';
-			}else if($photoCnt==2){
-				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="150px" width="104px" style="float:left;" data-tooltip="sticky'.$newCnt.'"/>
-			  <img src="'.$photoArray[1].'" height="150px" width="104px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
-			}else if($photoCnt==3){
-				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="75px" width="209px" style="float:left;border-bottom:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
-				<img src="'.$photoArray[1].'" height="75px" width="104px" style="float:left;" data-tooltip="sticky'.$newCnt.'"/>
-				<img src="'.$photoArray[2].'" height="75px" width="104px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
-			}else{				
-				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="75px" width="209px" style="float:left;border-bottom:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
-			<img src="'.$photoArray[1].'" height="75px" width="69px" style="float:left; data-tooltip="sticky'.$newCnt.'""/>
-			<img src="'.$photoArray[2].'" height="75px" width="69px" style="float:left;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
-			<img src="'.$photoArray[3].'" height="75px" width="69px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
+			$imgMergeCnt='';					
+			if($_SERVER['SERVER_NAME']=="localhost"){
+				if($photoCnt==1){				
+					$imgMergeCnt.='<div class="single_div">
+					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a>
+					</div>';
+				}else if($photoCnt==2){
+					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';					
+					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}else if($photoCnt==3){
+					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';						
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="75px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					$imgMergeCnt.='<div class="half_div_right" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}else{				
+					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';		
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'""/></a></div>';
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:67px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					$imgMergeCnt.='<div class="half_div_right" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}
+			}else{ //Start Image Magic Section
+				//getImgSizeRatio(imagepath,width,height);
+				if($photoCnt==1){	
+					$imgData=getImgSizeRatio($photoArray[0],209,150);
+					$NewWidth=$imgData['width'];
+					$NewHeight=$imgData['height'];			
+					$imgMergeCnt.='<div class="single_div">
+					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a>
+					</div>';
+				}else if($photoCnt==2){
+					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					
+					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}else if($photoCnt==3){
+					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';				
+									
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="73px" width="100px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					
+					$imgMergeCnt.='<div class="half_div_right" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="73px" width="100px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}else{				
+					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'""/></a></div>';
+					
+					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:67px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					
+					$imgMergeCnt.='<div class="half_div_right" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="75px" width="69px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+				}			
 			}
-  			//style="width:209px;height:150px;"
+  			
 			if($userOwnerFbId!=""){
 				if($cherryboard_id>0){
 					$giftCnt.='<div class="w2 h1 masonry-brick">
 					<div class="bottom_box_main">
 					<div class="main_box">
 						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
-						<div class="day_img">
-						<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'">'.$imgMergeCnt.'</a>
-						</div>'.$likeCnt.'												
+						<div class="main_div">'.$imgMergeCnt.'</div>'.$likeCnt.'												
 					   <div class="bottom_healthy">
 						 <div class="bottom_healthy_12" style="padding-top:5px;"><strong>By</strong>&nbsp;:&nbsp;<img src="'.$ownerPic.'" height="25px" width="25px"/>&nbsp;'.$userName.'<br/><strong>Price&nbsp;:&nbsp;</strong>'.$price.'&nbsp;<span style="padding-left:85px;">&nbsp;</span><strong>'.$DayType.'&nbsp;:</strong>&nbsp;'.$goal_days.'<br/></div>
 					   <div style="clear:both"></div>
