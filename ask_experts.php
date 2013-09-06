@@ -154,7 +154,7 @@ $category_id=(int)$_GET['category_id'];
 					$NewWidth=$imgData['width'];
 					$NewHeight=$imgData['height'];			
 					$imgMergeCnt.='<div class="single_div">
-					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a>
+					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a>
 					</div>';
 				}else if($photoCnt==2){
 					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
