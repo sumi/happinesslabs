@@ -1,4 +1,4 @@
-<?php
+<?php //jquery resize image to fit div
 include_once "fbmain.php";
 include('include/app-common-config.php');
 $category_id=(int)$_GET['category_id'];
@@ -104,32 +104,62 @@ $category_id=(int)$_GET['category_id'];
 			//START SELECT STORY PHOTO CODE
 			$expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';
 			$ownerPic='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=small';
-			$selPhoto=mysql_query("SELECT photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." ORDER BY photo_id DESC");
-			$photoArray=array();
-			if(mysql_num_rows($selPhoto)>0){
-				while($selPhotoRow=mysql_fetch_array($selPhoto)){
+			$selPhoto=mysql_query("SELECT photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." GROUP BY photo_day ORDER BY photo_id DESC");
+		    $photoArray=array();
+		    $photoCnt=0;
+		    if(mysql_num_rows($selPhoto)>0){
+			    while($selPhotoRow=mysql_fetch_array($selPhoto)){
 					$photo_name=$selPhotoRow['photo_name'];
 					$photoPath='images/expertboard/'.$photo_name;
 					if(is_file($photoPath)){
 						$photoArray[]=$photoPath;
-					}					
-				}	
-			}else{
+						$photoCnt++;
+					}
+					if($photoCnt==4){break;}		
+			    }		
+		    }else{
 				$photoArray[]=$expertPicPath;
-			}	
+				$photoCnt=1;
+		    }
+			//CHECK ARRAY EMPTY OR NOT
+			$photoArray=array_filter($photoArray);
+			if(empty($photoArray)){
+				$photoArray[]=$expertPicPath;
+				$photoCnt=1;
+			}
+			//START MERGE IMAGE SECTION
+			$imgMergeCnt='';
+			/*$imgData=getImageRatio($photoArray[0],350,120);//209==75
+			$NewImgW1=$imgData['width'];
+			$NewImgH1=$imgData['height'];*/			
 			
+			if($photoCnt==1){				
+				$imgMergeCnt.='<div style="width:209px;height:150px;">
+				<img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/>
+				</div>';
+			}else if($photoCnt==2){
+				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="150px" width="104px" style="float:left;" data-tooltip="sticky'.$newCnt.'"/>
+			  <img src="'.$photoArray[1].'" height="150px" width="104px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
+			}else if($photoCnt==3){
+				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="75px" width="209px" style="float:left;border-bottom:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
+				<img src="'.$photoArray[1].'" height="75px" width="104px" style="float:left;" data-tooltip="sticky'.$newCnt.'"/>
+				<img src="'.$photoArray[2].'" height="75px" width="104px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
+			}else{				
+				$imgMergeCnt.='<img src="'.$photoArray[0].'" height="75px" width="209px" style="float:left;border-bottom:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
+			<img src="'.$photoArray[1].'" height="75px" width="69px" style="float:left; data-tooltip="sticky'.$newCnt.'""/>
+			<img src="'.$photoArray[2].'" height="75px" width="69px" style="float:left;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>
+			<img src="'.$photoArray[3].'" height="75px" width="69px" style="float:right;border-left:1px solid #FFFFFF;" data-tooltip="sticky'.$newCnt.'"/>';
+			}
+  			//style="width:209px;height:150px;"
 			if($userOwnerFbId!=""){
 				if($cherryboard_id>0){
-					//$TotalCheers=countCheers($expertboard_id,'expertboard');
-					$giftCnt.='
-					<div class="w2 h1 masonry-brick">
+					$giftCnt.='<div class="w2 h1 masonry-brick">
 					<div class="bottom_box_main">
 					<div class="main_box">
 						<div class="bottom_box_text"><strong>'.$expertboard_title.'</strong><br/></div>
 						<div class="day_img">
-						<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'">
-						<img src="'.$photoArray[0].'" height="150px" width="209px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'" />
-						</a>'.$likeCnt.'</div>						
+						<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'">'.$imgMergeCnt.'</a>
+						</div>'.$likeCnt.'												
 					   <div class="bottom_healthy">
 						 <div class="bottom_healthy_12" style="padding-top:5px;"><strong>By</strong>&nbsp;:&nbsp;<img src="'.$ownerPic.'" height="25px" width="25px"/>&nbsp;'.$userName.'<br/><strong>Price&nbsp;:&nbsp;</strong>'.$price.'&nbsp;<span style="padding-left:85px;">&nbsp;</span><strong>'.$DayType.'&nbsp;:</strong>&nbsp;'.$goal_days.'<br/></div>
 					   <div style="clear:both"></div>
@@ -137,7 +167,7 @@ $category_id=(int)$_GET['category_id'];
 				   </div>
 				   <div class="padding"></div>
 				   </div></div>';
-				   $pagePhotosArray[$newCnt]=$expertPicPath;
+				   $pagePhotosArray[$newCnt]=$photoArray[0];//$expertPicPath
 				   $newCnt++;
 				 }
 			}
