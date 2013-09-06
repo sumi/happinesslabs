@@ -157,9 +157,14 @@ $category_id=(int)$_GET['category_id'];
 					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a>
 					</div>';
 				}else if($photoCnt==2){
-					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					
-					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="150px" width="104px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					$imgData=getImgSizeRatio($photoArray[0],105,150);
+					$NewWidth=$imgData['width'];
+					$NewHeight=$imgData['height'];
+					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
+					$imgData=getImgSizeRatio($photoArray[1],105,150);
+					$NewWidth=$imgData['width'];
+					$NewHeight=$imgData['height'];
+					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
 				}else if($photoCnt==3){
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';				
 									
