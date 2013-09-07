@@ -66,6 +66,8 @@ if($_POST['LoginStep']=="3"){
 		'access_token' => APPID.'|'.SECRET,
 		'href' => 'https://www.happinesslabs.com/index.php?frid='.$request_id,  
 		'template' => $notificationMsg));
+									//deposit happiness bank points
+									$fnResult=happybankPoint('4',(int)$requestUserId,(int)$cherryboard_id);
 								}
 						  }	
 						 
@@ -93,205 +95,261 @@ if($_POST['LoginStep']=="2"){
 $cat_no=$_POST['cat_no'];
 $selected_story=$_POST['selected_story'];
 $LoginStep=$_POST['LoginStep'];
-
-$expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$selected_story.'"');
-
-$expertboardDetail=getFieldsValueArray('expertboard_title,expertboard_detail,user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
-$expertboard_title=$expertboardDetail[0];
-$expertboard_detail=$expertboardDetail[1];
-$user_id=$expertboardDetail[2];
-
-$userDetail=getUserDetail($user_id,'uid');
-$owner_photo=$userDetail['photo_url'];
-$owner_name=$userDetail['name'];
-
-//do-it selected story for new user
-if($expertboard_id>0&&$selected_story>0){
-	$lastCreatedStoryId=(int)createExpertboard($expertboard_id,$selected_story);
-}
-if($lastCreatedStoryId==0){
-	$lastCreatedStoryId=$_POST['lastCreatedStoryId'];
-}
-
-//Photo Slider
-$cnt=0;
-$MainSlide='';
-$IconSlide='';
-$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$selected_story." order by photo_day");
-$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
-if($totalExpPhotos>0){
-$expertBoardId=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$selected_story);
-		$expertBoardDetail=getFieldsValueArray('expertboard_title,expertboard_detail','tbl_app_expertboard','expertboard_id='.$expertBoardId);
-		$expertboard_title=$expertBoardDetail[0];
-		$expertboard_detail=$expertBoardDetail[1];
-		
-	$MainSlidePhotoArr=array();
-	while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
-		$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
-		if($photo_title!=""){$photo_title=' - '.$photo_title;}
-		$photo_name=$exportPhotoRow['photo_name'];
-		$photo_day=$exportPhotoRow['photo_day'];
-		$photoPath='images/expertboard/'.$photo_name;
-		if(is_file($photoPath)){
-			$MainSlidePhotoArr[$cnt]=$photoPath;
-			$cnt++;
-		}	
+if($selected_story>0){
+	
+	$expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$selected_story.'"');
+	
+	$expertboardDetail=getFieldsValueArray('expertboard_title,expertboard_detail,user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+	$expertboard_title=$expertboardDetail[0];
+	$expertboard_detail=$expertboardDetail[1];
+	$user_id=$expertboardDetail[2];
+	
+	$userDetail=getUserDetail($user_id,'uid');
+	$owner_photo=$userDetail['photo_url'];
+	$owner_name=$userDetail['name'];
+	
+	//do-it selected story for new user
+	if($expertboard_id>0&&$selected_story>0){
+		$lastCreatedStoryId=(int)createExpertboard($expertboard_id,$selected_story);
+		//deposit happiness bank points
+		$ownerId=getOwnerId($lastCreatedStoryId);
+		$fnResult=happybankPoint('2',$ownerId,(int)$lastCreatedStoryId);
 	}
-}
+	if($lastCreatedStoryId==0){
+		$lastCreatedStoryId=$_POST['lastCreatedStoryId'];
+	}
 	
-//print_r($MainSlidePhotoArr);
-
-?>
-<script type="text/javascript" src="js/v-jquery-1.2.6.min.js"></script>
-<script type="text/javascript">
-function slideSwitch() {
-    var $active = $('#slideshow IMG.active');
-
-    if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
-
-    // use this to pull the images in the order they appear in the markup
-    var $next =  $active.next().length ? $active.next()
-        : $('#slideshow IMG:first');
-		 $active.addClass('last-active');
-
-    $next.css({opacity: 0.0})
-        .addClass('active')
-        .animate({opacity: 1.0}, 1000, function() {
-            $active.removeClass('active last-active');
-        });
-}
-
-$(function() {
-    setInterval( "slideSwitch()", 5000 );
-});
-
-</script>
-
-<style type="text/css">
-#slideshow {
-    position:relative;
-    height:200px;
-}
-
-#slideshow IMG {
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:8;
-    opacity:0.0;
-}
-
-#slideshow IMG.active {
-    z-index:10;
-    opacity:1.0;
-}
-
-#slideshow IMG.last-active {
-    z-index:9;
-}
-
-</style>
-<form action="" name="frmLoginStep" method="post">
- <div class="relationship_main">
-   <div class="Slides_box">
-     <Table border="0">
-	 <tr>
-	 
-	  <?php  if(count($MainSlidePhotoArr)>0){ ?>
-	  <td>
-			<div id="slideshow">
-				<?php 
-				$cnt=1;
-				foreach($MainSlidePhotoArr as $slide_photo){ 
-				$imgDetail=getImageRatio($slide_photo,'219','200');
-				echo '<img src="'.$slide_photo.'" alt="Slideshow Image '.$cnt.'" width="219" '.($cnt==1?'class="active"':'').' width="'.$imgDetail['width'].'" height="'.$imgDetail['height'].'">';
-				 
+	//Photo Slider
+	$cnt=0;
+	$MainSlide='';
+	$IconSlide='';
+	$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$selected_story." order by photo_day");
+	$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
+	if($totalExpPhotos>0){
+	$expertBoardId=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$selected_story);
+			$expertBoardDetail=getFieldsValueArray('expertboard_title,expertboard_detail','tbl_app_expertboard','expertboard_id='.$expertBoardId);
+			$expertboard_title=$expertBoardDetail[0];
+			$expertboard_detail=$expertBoardDetail[1];
+			
+		$MainSlidePhotoArr=array();
+		while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
+			$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
+			if($photo_title!=""){$photo_title=' - '.$photo_title;}
+			$photo_name=$exportPhotoRow['photo_name'];
+			$photo_day=$exportPhotoRow['photo_day'];
+			$photoPath='images/expertboard/'.$photo_name;
+			if(is_file($photoPath)){
+				$MainSlidePhotoArr[$cnt]=$photoPath;
 				$cnt++;
-				} ?>
-			</div>
-			</td>
-			<td valign="top">
-			 <div class="text_detail" style="padding-left: 200px;"><strong><?=$expertboard_title?></strong></div>
-			 <span style="padding-left: 226px;"><?=$expertboard_detail?></span>
-			 </td>
-	<?php }else{ ?>
-		<td><img src="images/new_img.png" alt="" /></td>
-		<td valign="top">
-		 <div class="text_detail"><strong><?=$expertboard_title?></strong></div>
-		 <span><?=$expertboard_detail?></span>
-		 </td>
-	<?php }?>
-	
-	 
-	 </tr>
-	 </Table>
-</div>
-	 
-   <div class="text_spread">Spread happiness to your friends by sharing your story now</div>
-   
-    <div class="box_friends">
-    <div class="friends_box_main">
-   Owner : <?=$owner_name?><br/>
-    <div class="friends_box_img"><img src="<?=$owner_photo?>" height="152px" width="182px" alt="" /></div>
-   </div>
-  <!--  <input name="input_text" type="text"  class="input_text"/> -->
-  </div>
-  
-   <?php	
-	 	
-		$friends = $facebook->api('/me/friends');
-		//print_r($friends);
-		$newCnt=1;
-		$friendsCnt='';
-		foreach ($friends as $key=>$value) {
-		//echo count($value) . ' Friends';
-			foreach ($value as $fkey=>$fvalue) {
-				$friend_id=$fvalue['id'];
-				$friend_name=$fvalue['name'];
-				$frind_Photo="http://graph.facebook.com/".$friend_id."/picture";
-				$friendsCnt.='<div class="friends_box_main">
-					<div class="check_box"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="'.$friend_id.'" /><label for="checkbox-2-'.$newCnt.'"></label></div>
-					<div class="friends_box_img"><img src="'.$frind_Photo.'" height="152px" width="182px" alt="" title="'.$friend_name.'" /></div>
-				   </div>';
-				   $pagePhotosArray[$newCnt]=$frind_Photo;
-				   $newCnt++;
-			}
+			}	
 		}
+	}
 		
-	echo $friendsCnt;
-	?>
-  	<div class="wellness_button_images"></div>
-    <div class="wellness_button">
-      <a href="javascript:void(0);" onclick="javascript:document.frmLoginStep.submit();"><span class="text_relptionship"><?=$categoryArray[$cat_no+1]?></span><br /> STORIER</a>
-	</div>
-  </div>
-	<input type="hidden" value="<?=($cat_no+1)?>" name="cat_no" id="cat_no" />
-	<input type="hidden" value="3" name="LoginStep" id="LoginStep" />
-	<input type="hidden" value="<?=$lastCreatedStoryId?>" name="lastCreatedStoryId" id="lastCreatedStoryId" />
-	<input type="hidden" value="<?=$selected_story?>" name="selected_story" id="selected_story" />
+	//print_r($MainSlidePhotoArr);
 	
-	</form>
-<?php 
+	?>
+	<script type="text/javascript" src="js/v-jquery-1.2.6.min.js"></script>
+	<script type="text/javascript">
+	function slideSwitch() {
+		var $active = $('#slideshow IMG.active');
+	
+		if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
+	
+		// use this to pull the images in the order they appear in the markup
+		var $next =  $active.next().length ? $active.next()
+			: $('#slideshow IMG:first');
+			 $active.addClass('last-active');
+	
+		$next.css({opacity: 0.0})
+			.addClass('active')
+			.animate({opacity: 1.0}, 1000, function() {
+				$active.removeClass('active last-active');
+			});
+	}
+	
+	$(function() {
+		setInterval( "slideSwitch()", 5000 );
+	});
+	</script>
+	<script type="text/javascript">  
+	function newUserProgressStep2(totalChk)  
+	{  
+			var cnt=0;
+			var form = document.frmLoginStep;
+			for ( var ix = 0; ix < form.elements.length; ++ix )
+			{
+					var fld = form.elements[ix];
+					var chk_array_name="selected_friend";
+					if ( fld.name.substring(0,chk_array_name.length) == chk_array_name ){
+					  if(fld.checked){
+						cnt++;
+					  }
+					}
+			}
+			if(cnt>=1){
+			  document.frmLoginStep.submit();
+			 }else{
+				alert('Please select atleast one friend');
+			 }
+	} 
+	</script> 
+	
+	<style type="text/css">
+	#slideshow {
+		position:relative;
+		height:200px;
+	}
+	
+	#slideshow IMG {
+		position:absolute;
+		top:0;
+		left:0;
+		z-index:8;
+		opacity:0.0;
+	}
+	
+	#slideshow IMG.active {
+		z-index:10;
+		opacity:1.0;
+	}
+	
+	#slideshow IMG.last-active {
+		z-index:9;
+	}
+	
+	</style>
+	<form action="" name="frmLoginStep" method="post">
+	 <div class="relationship_main">
+	   <div class="Slides_box">
+		 <Table border="0">
+		 <tr>
+		 
+		  <?php  if(count($MainSlidePhotoArr)>0){ ?>
+		  <td>
+				<div id="slideshow">
+					<?php 
+					$cnt=1;
+					foreach($MainSlidePhotoArr as $slide_photo){ 
+					$imgDetail=getImageRatio($slide_photo,'219','200');
+					echo '<img src="'.$slide_photo.'" alt="Slideshow Image '.$cnt.'" width="219" '.($cnt==1?'class="active"':'').' width="'.$imgDetail['width'].'" height="'.$imgDetail['height'].'">';
+					 
+					$cnt++;
+					} ?>
+				</div>
+				</td>
+				<td valign="top">
+				 <div class="text_detail" style="padding-left: 200px;"><strong><?=$expertboard_title?></strong></div>
+				 <span style="padding-left: 226px;"><?=$expertboard_detail?></span>
+				 </td>
+		<?php }else{ ?>
+			<td><img src="images/new_img.png" alt="" /></td>
+			<td valign="top">
+			 <div class="text_detail"><strong><?=$expertboard_title?></strong></div>
+			 <span><?=$expertboard_detail?></span>
+			 </td>
+		<?php }?>
+		
+		 
+		 </tr>
+		 </Table>
+	</div>
+		 
+	   <div class="text_spread">Spread happiness to your friends by sharing your story now</div>
+	   
+		<div class="box_friends">
+		<div class="friends_box_main">
+	   Owner : <?=$owner_name?><br/>
+		<div class="friends_box_img"><img src="<?=$owner_photo?>" height="152px" width="182px" alt="" /></div>
+	   </div>
+	  <!--  <input name="input_text" type="text"  class="input_text"/> -->
+	  </div>
+	  
+	   <?php	
+			
+			if($_SERVER['SERVER_NAME']=="localhost"){
+						$friendsCnt.='<div class="friends_box_main">
+						<div class="check_box"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="100001211022842" /><label for="checkbox-2-'.$newCnt.'"></label></div>
+						<div class="friends_box_img"><img src="'.$frind_Photo.'" height="152px" width="182px" alt="" title="'.$friend_name.'" /></div>
+					   </div>';
+					   $friendsCnt.='<div class="friends_box_main">
+						<div class="check_box"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="100000969814575" /><label for="checkbox-2-'.$newCnt.'"></label></div>
+						<div class="friends_box_img"><img src="'.$frind_Photo.'" height="152px" width="182px" alt="" title="'.$friend_name.'" /></div>
+					   </div>';
+	
+			}else{
+				$friends = $facebook->api('/me/friends');
+				//print_r($friends);
+				$newCnt=1;
+				$friendsCnt='';
+				foreach ($friends as $key=>$value) {
+				//echo count($value) . ' Friends';
+					foreach ($value as $fkey=>$fvalue) {
+						$friend_id=$fvalue['id'];
+						$friend_name=$fvalue['name'];
+						$frind_Photo="http://graph.facebook.com/".$friend_id."/picture";
+						$friendsCnt.='<div class="friends_box_main">
+							<div class="check_box"> <input type="checkbox" name="selected_friend[]" id="checkbox-2-'.$newCnt.'" class="regular-checkbox big-checkbox" value="'.$friend_id.'" /><label for="checkbox-2-'.$newCnt.'"></label></div>
+							<div class="friends_box_img"><img src="'.$frind_Photo.'" height="152px" width="182px" alt="" title="'.$friend_name.'" /></div>
+						   </div>';
+						   $pagePhotosArray[$newCnt]=$frind_Photo;
+						   $newCnt++;
+					}
+				}
+			}	
+		echo $friendsCnt;
+		?>
+		<div class="wellness_button_images"></div>
+		<div class="wellness_button">
+		  <a href="javascript:void(0);" onclick="javascript:newUserProgressStep2(<?=count($pagePhotosArray)?>)"><span class="text_relptionship"><?=$categoryArray[$cat_no+1]?></span><br /> STORIER</a>
+		</div>
+	  </div>
+		<input type="hidden" value="<?=($cat_no+1)?>" name="cat_no" id="cat_no" />
+		<input type="hidden" value="3" name="LoginStep" id="LoginStep" />
+		<input type="hidden" value="<?=$lastCreatedStoryId?>" name="lastCreatedStoryId" id="lastCreatedStoryId" />
+		<input type="hidden" value="<?=$selected_story?>" name="selected_story" id="selected_story" />
+		
+		</form>
+	<?php 
+	}else{
+		header('Location:https://www.happinesslabs.com/newuser_process.php?LoginStep=1&cat_no='.$cat_no);
+	}
 }else if($_REQUEST['LoginStep']=="1"){
 $cat_no=$_REQUEST['cat_no'];
 ?>
 <script type="text/javascript">  
-function newUserProgressStep1(newCnt,cherryboard_id)  
+function newUserProgressStep1(newCnt,cherryboard_id,fntype)  
 {  
 	var total=document.getElementById('totalChk').value;
-	if(document.getElementById('selected_story_'+newCnt).checked){
-		for (var j = 1; j <= total; j++) 
-		{
-			if(j!=newCnt){
-				box = eval("document.frmLoginStep.selected_story_" + j);
-				if (box.checked == true) box.checked = false;
-			}else{
-				document.getElementById('selected_story').value=cherryboard_id;
+	if(fntype=="checkstory"){
+		if(document.getElementById('selected_story_'+newCnt).checked){
+			for (var j = 1; j <= total; j++) 
+			{
+				if(j!=newCnt){
+					box = eval("document.frmLoginStep.selected_story_" + j);
+					if (box.checked == true) box.checked = false;
+				}else{
+					document.getElementById('selected_story').value=cherryboard_id;
+				}
+			 }
+		}else{
+			document.getElementById('selected_story').value=0;
+		}
+		
+	}else{
+		 var cnt=0;
+		 for (var j = 1; j <= total; j++) 
+		 {
+			box = eval("document.frmLoginStep.selected_story_" + j);
+			if (box.checked == true){
+				cnt++;
 			}
 		 }
-	}else{
-		document.getElementById('selected_story').value=0;
-	}
+		 if(cnt>=1){
+		 	document.frmLoginStep.submit();
+		 }else{
+		 	alert('Please select atleast one story');
+		 }
+	}	
 } 
 </script> 
  <div class="relationship_main">
@@ -355,7 +413,7 @@ function newUserProgressStep1(newCnt,cherryboard_id)
 				 
 				   $giftCnt.='<div class="friends_box_main">
 					 <div class="check_box"> 
-					 <input type="checkbox" onclick="newUserProgressStep1('.$newCnt.','.$cherryboard_id.')" class="regular-checkbox big-checkbox" name="selected_story_'.$newCnt.'" value="'.$cherryboard_id.'" id="selected_story_'.$newCnt.'" />
+					 <input type="checkbox" onclick="newUserProgressStep1('.$newCnt.','.$cherryboard_id.',\'checkstory\')" class="regular-checkbox big-checkbox" name="selected_story_'.$newCnt.'" value="'.$cherryboard_id.'" id="selected_story_'.$newCnt.'" />
 					 <label for="selected_story_'.$newCnt.'"></label>
 					 </div>
 					  <div class="friends_box_img" /><img src="'.$expertPicPath.'" width="182px" height="152px" title="'.$userName.'" data-tooltip="sticky'.$newCnt.'"/></div>
@@ -379,7 +437,7 @@ function newUserProgressStep1(newCnt,cherryboard_id)
    </form>
    <div class="wellness_button_images"></div>
    <div class="wellness_button">
-     <a href="javascript:void(0);" onclick="document.frmLoginStep.submit()";>SPREAD<br />
+     <a href="javascript:void(0);" onclick="newUserProgressStep1('0','0','submit')";>SPREAD<br />
                 HAPPINESS<br />
                 BY SHARING<br />
                 <span class="text_relptionship"><?=$categoryArray[$cat_no]?></span>.</a>

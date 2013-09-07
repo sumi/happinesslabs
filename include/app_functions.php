@@ -842,7 +842,9 @@ function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
 						<tr><td>Thanks,</td></tr>
 						<tr><td>'.REGARDS.'</td></tr>
 						</table>';
-			SendMail($to,$subject,$message);
+			if($_SERVER['SERVER_NAME']!="localhost"){
+				SendMail($to,$subject,$message);
+			}
 			//debug mail
 		 /*$message1='user id ==>'.$user_id.'==='.$_SERVER['REMOTE_ADDR']."===".date('Y-m-d H:i:s');
 			SendMail('uniquewebinfo@gmail.com',$subject,$message1);*/
@@ -1248,5 +1250,51 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 			}
 		}	
 	}	
+}
+function getOwnerId($cherryboard_id){
+	$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+	$ownerId=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+	return (int)$ownerId;
+}
+function happybankPoint($happybank_id,$from_user_id,$cherryboard_id){
+
+	$fnresult=0;
+	if($happybank_id>0&&$from_user_id>0&&$cherryboard_id>0){
+		//creadit into login user
+		$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['USER_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
+		$insSql=mysql_query($insQry);
+		//creadit into story owner user
+		$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['USER_ID']."', '".$cherryboard_id."', '".$happybank_id."', '0', '".date('Y-m-d')."')";
+		$insSql1=mysql_query($insQry1);
+		$fnresult=1;
+	}	
+	return $fnresult;
+}
+function getResizeImgRatio($image,$minWidth,$minHeight){
+  $imgInfo=getimagesize($image);
+  $srcWidth=$imgInfo[0];
+  $srcHeight=$imgInfo[1];
+  
+  if($srcWidth<=$minWidth&&$srcHeight<=$minHeight)
+  {
+	  $imageWidth = $srcWidth;
+	  $imageHeight = $srcHeight;
+  }
+  else
+  {
+	  $imageWidth=$minWidth;
+	  $imageHeight=(int)($srcHeight*$minWidth/$srcWidth);
+  
+	  if($imageHeight>$minHeight)
+	  {
+		$imageWidth=(int)($srcWidth*$minHeight/$srcHeight);
+		$imageHeight=$minHeight;
+	  }
+  }
+  
+  $new_width=(int)$imageWidth;
+  $new_height=(int)$imageHeight;  
+  $retval=array("width"=>$new_width,"height"=>$new_height);
+  return $retval;
 }
 ?>
