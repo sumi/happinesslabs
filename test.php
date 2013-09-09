@@ -38,13 +38,26 @@ include('site_header.php');
   $im=mergeImages($photoArray);
   header('Content-type: image/jpg');
   imagejpeg($im,'images/suresh.jpg',100);
-  //imagedestroy($im);
+  imagedestroy($im);
+  ?>
+  <a href="test.php?type=download" title="Download">Download</a>
+  <?php
   /*echo "<br/>Cnt :->".$photoCnt;
   echo "<br/>";
   print_r($photoArray);
   for($i=0;$i<=$photoCnt-1;$i++){
 	  echo "<br/> Photo Count:".$i."===>".$photoArray[$i];
   }*/
+  
+  //START DOWNLOAD CODE
+  if($_GET['type']=='download'){
+  	download_remote_file('https://www.happinesslabs.com/images/suresh.jpg',realpath("./downloads").'/file.jpg');
+  } 
+  function download_remote_file($file_url,$save_to){
+  	 $content=file_get_contents($file_url);
+	 file_put_contents($save_to,$content);
+  }
+  
   $data='';
   if($photoCnt==1){
   	$data.='<div style="width:209px;height:150px;">
