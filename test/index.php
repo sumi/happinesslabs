@@ -1,6 +1,6 @@
 <?php
 //exec("montage b.jpg c.jpg \ -mode Concatenate -tile x1  montage_cat.jpg");
-exec("montage a.jpg b.jpg c.jpg \  -geometry 48x100+2+2 montage_geom.jpg");
+exec("montage a.jpg b.jpg c.jpg \  -geometry 300x225+2+2 montage_geom.jpg");
 ?>
 <br />
 <img src="a.jpg" />
@@ -8,7 +8,5 @@ exec("montage a.jpg b.jpg c.jpg \  -geometry 48x100+2+2 montage_geom.jpg");
 <img src="b.jpg"/>
 <br />
 <img src="c.jpg"/>
-<br />
-<img src="d.jpg"/>
 ===============<br />================
 <img src="montage_geom.jpg"/>
