@@ -12,7 +12,7 @@ include('site_header.php');
   'href' => 'https://www.happinesslabs.com/newuser_process.php?v=123',  
   'template' => 'Max 180 characters'));*/
   $userOwnerFbId=100005132283550;
-  $cherryboard_id=346;//115,,109,346
+  $cherryboard_id=116;//115,116,109,346
   $expertPicPath='https://graph.facebook.com/'.$userOwnerFbId.'/picture?type=large';
   $selPhoto=mysql_query("SELECT photo_name FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." GROUP BY photo_day ORDER BY photo_id DESC");
   $photoArray=array();
@@ -34,13 +34,23 @@ include('site_header.php');
   	$photoArray[]=$expertPicPath;
 	$photoCnt=1;
   }
-  
-  $im=mergeImages($photoArray);
+  //Single Image Code
+  /*$input=imagecreatefromjpeg($photoArray[0]);
+  list($width,$height)=getimagesize($photoArray[0]);
+  $output=imagecreatetruecolor($width,$height);
+  $white=imagecolorallocate($output,255,255,255);
+  imagefilledrectangle($output,0,0,$width,$height,$white);
+  imagecopy($output,$input,0,0,0,0,$width,$height);
+  imagejpeg($output,'images/shyam_single.jpeg',100);
+  imagedestroy($output);*/
+  //Two Image Merge Code
+  /*$im=mergeImages($photoArray); 
   header('Content-type: image/jpg');
-  imagejpeg($im,'images/suresh.jpg',100);
-  imagedestroy($im);
+  imagejpeg($im,'images/shyam.jpeg',100);
+  imagedestroy($im);*/	  
+  //Three Merge Code==============
   ?>
-  <a href="test.php?type=download" title="Download">Download</a>
+  <!--<a href="test.php?type=download" title="Download">Download</a>-->
   <?php
   /*echo "<br/>Cnt :->".$photoCnt;
   echo "<br/>";
@@ -50,13 +60,13 @@ include('site_header.php');
   }*/
   
   //START DOWNLOAD CODE
-  if($_GET['type']=='download'){
+  /*if($_GET['type']=='download'){
   	download_remote_file('https://www.happinesslabs.com/images/suresh.jpg',realpath("./downloads").'/file.jpg');
   } 
   function download_remote_file($file_url,$save_to){
   	 $content=file_get_contents($file_url);
 	 file_put_contents($save_to,$content);
-  }
+  }*/
   
   $data='';
   if($photoCnt==1){
@@ -159,68 +169,69 @@ include('site_header.php');
   echo "<br/>New Height :".$new_height;
   
   // START MERGE IMAGE AND SAVE IT ON JPG CODE
-  function mergeImages($images) {
+  function mergeImages($images){//Merge Two Image Function
 	$imageData = array();
 	$len = count($images);
 	$wc = ceil(sqrt($len));
 	$hc = floor(sqrt($len/2));
 	$maxW = array();
 	$maxH = array();
-	for($i = 0; $i < $len; $i++) {
-		$imageData[$i] = getimagesize($images[$i]);
-		$found = false;
-		for($j = 0; $j < $i; $j++) {
-			if ( $imageData[$maxW[$j]][0] < $imageData[$i][0] ) {
-				$farr = $j > 0 ? array_slice($maxW, $j-1, $i) : array();
-				$maxW = array_merge($farr, array($i), array_slice($maxW, $j));
-				$found = true;
+	
+	for($i=0;$i<$len;$i++){
+		$imageData[$i]=getimagesize($images[$i]);
+		$found=false;
+		for($j=0;$j<$i;$j++){
+			if($imageData[$maxW[$j]][0] < $imageData[$i][0]){
+				$farr=$j>0?array_slice($maxW,$j-1,$i):array();
+				$maxW=array_merge($farr,array($i),array_slice($maxW,$j));
+				$found=true;
 				break;
 			}
 		}
-		if ( !$found ) {
-			$maxW[$i] = $i;
+		if(!$found){
+		   $maxW[$i]=$i;
 		}
-		$found = false;
-		for($j = 0; $j < $i; $j++) {
-			if ( $imageData[$maxH[$j]][1] < $imageData[$i][1] ) {
-				$farr = $j > 0 ? array_slice($maxH, $j-1, $i) : array();
-				$maxH = array_merge($farr, array($i), array_slice($maxH, $j));
-				$found = true;
+		$found=false;
+		for($j=0;$j<$i;$j++){
+			if($imageData[$maxH[$j]][1]<$imageData[$i][1]){
+				$farr=$j>0?array_slice($maxH,$j-1,$i):array();
+				$maxH=array_merge($farr,array($i),array_slice($maxH,$j));
+				$found=true;
 				break;
 			}
 		}
-		if ( !$found ) {
-			$maxH[$i] = $i;
+		if(!$found){
+			$maxH[$i]=$i;
 		}
 	}
 	
-	$width = 0;
-	for($i = 0; $i < $wc; $i++) {
-		$width += $imageData[$maxW[$i]][0];
+	$width=0;
+	for($i=0;$i<$wc;$i++) {
+		$width+=$imageData[$maxW[$i]][0];
 	}
 	
-	$height = 0;
-	for($i = 0; $i < $hc; $i++) {
-		$height += $imageData[$maxH[$i]][1];
+	$height=0;
+	for($i=0;$i<$hc;$i++) {
+		$height+=$imageData[$maxH[$i]][1];
 	}
 
-	$im = imagecreatetruecolor($width, $height);
+	$im=imagecreatetruecolor($width,$height);
 	
-	$wCnt = 0;
-	$startWFrom = 0;
-	$startHFrom = 0;
-	for( $i = 0; $i < $len; $i++ ) {
-		$tmp = imagecreatefromjpeg($images[$i]);
-		imagecopyresampled($im, $tmp, $startWFrom, $startHFrom, 0, 0, $imageData[$i][0], $imageData[$i][1], $imageData[$i][0], $imageData[$i][1]);
+	$wCnt=0;
+	$startWFrom=0;
+	$startHFrom=0;	
+	for($i=0;$i<$len;$i++){
+		$tmp=imagecreatefromjpeg($images[$i]);
+		imagecopyresampled($im,$tmp,$startWFrom,$startHFrom,0,0,$imageData[$i][0],$imageData[$i][1],$imageData[$i][0],$imageData[$i][1]);
 		$wCnt++;
-		if ( $wCnt == $wc ) {
-			$startWFrom = 0;
-			$startHFrom += $imageData[$maxH[0]][1];
-			$wCnt = 0;
-		} else {
-			$startWFrom += $imageData[$i][0];
+		if($wCnt==$wc){
+			$startWFrom=0;
+			$startHFrom+=$imageData[$maxH[0]][1];
+			$wCnt=0;
+		}else{
+			$startWFrom+=$imageData[$i][0];
 		}
-	}	
+	}
 	return $im;
 }
 ?>

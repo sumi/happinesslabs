@@ -1256,18 +1256,61 @@ function getOwnerId($cherryboard_id){
 	$ownerId=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 	return (int)$ownerId;
 }
+function getOwnerFbId($cherryboard_id){
+	$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+	$user_id=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+	$facebook_id=getFieldValue('facebook_id','tbl_app_users','user_id='.$user_id);
+	return $facebook_id;
+}
+
 function happybankPoint($happybank_id,$from_user_id,$cherryboard_id){
 
 	$fnresult=0;
-	if($happybank_id>0&&$from_user_id>0&&$cherryboard_id>0){
+	if($happybank_id==1){ //CREATE STORY
 		//creadit into login user
-		$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['USER_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
+		$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['FB_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
 		$insSql=mysql_query($insQry);
-		//creadit into story owner user
-		$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['USER_ID']."', '".$cherryboard_id."', '".$happybank_id."', '0', '".date('Y-m-d')."')";
-		$insSql1=mysql_query($insQry1);
-		$fnresult=1;
-	}	
+	}else if($happybank_id==2){ //DO-IT
+		if($from_user_id!=""&&$cherryboard_id>0){
+			//creadit into login user
+			$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['FB_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
+			$insSql=mysql_query($insQry);
+			//creadit into story owner user
+			$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['FB_ID']."', '".$cherryboard_id."', '".$happybank_id."', '0', '".date('Y-m-d')."')";
+			$insSql1=mysql_query($insQry1);
+			$fnresult=1;
+		}	
+	}else if($happybank_id==3){ //COPY Board
+		if($from_user_id!=""&&$cherryboard_id>0){
+			//creadit into login user
+			$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['FB_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
+			$insSql=mysql_query($insQry);
+			//creadit into story owner user
+			$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['FB_ID']."', '".$cherryboard_id."', '".$happybank_id."', '0', '".date('Y-m-d')."')";
+			$insSql1=mysql_query($insQry1);
+			$fnresult=1;
+		}	
+	}else if($happybank_id==4){ //Shared FRIENDS
+		if($from_user_id!=""&&$cherryboard_id>0){
+			//creadit into login user
+			$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['FB_ID']."', '".$from_user_id."', '".$cherryboard_id."', '".$happybank_id."','0', '".date('Y-m-d')."')";
+			$insSql=mysql_query($insQry);
+			//creadit into story owner user
+			$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['FB_ID']."', '".$cherryboard_id."', '".$happybank_id."', '0', '".date('Y-m-d')."')";
+			$insSql1=mysql_query($insQry1);
+			$fnresult=1;
+		}	
+	 }else if($happybank_id==5){ //INVITED FRIENDS
+		if($from_user_id!=""){
+			//creadit into login user
+			$insQry="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$_SESSION['FB_ID']."', '".$from_user_id."', '0', '".$happybank_id."','0', '".date('Y-m-d')."')";
+			$insSql=mysql_query($insQry);
+			//creadit into story owner user
+			$insQry1="INSERT INTO `tbl_app_happybank_points` (`point_id`, `user_id`, `from_user_id`, `cherryboard_id`, `happybank_id`, status, `record_date`) VALUES (NULL, '".$from_user_id."', '".$_SESSION['FB_ID']."', '0', '".$happybank_id."', '0', '".date('Y-m-d')."')";
+			$insSql1=mysql_query($insQry1);
+			$fnresult=1;
+		}	
+	}
 	return $fnresult;
 }
 function getResizeImgRatio($image,$minWidth,$minHeight){

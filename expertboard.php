@@ -9,6 +9,9 @@ $type=trim($_GET['type']);
 //START EXPERTBOARD COPY CODE
 if($expertBoardId>0&&$type=='copy'&&USER_ID>0&&$cherryboard_id>0){	
   $newCherryBoardId=CopyExpertBoard($expertBoardId,$cherryboard_id);
+  //deposit for the copy
+	$ownerId=getOwnerFbId($newCherryBoardId);
+	happybankPoint('3',$ownerId,$newCherryBoardId);
   echo "<script>document.location='expert_cherryboard.php?cbid=".$newCherryBoardId."'</script>";		
 }
 //START CREATE EXPERTBOARD/STORYBOARD CODE
@@ -72,6 +75,9 @@ if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 				VALUES (NULL, '".(int)USER_ID."','".$NewexpertBoardId."','0','', CURRENT_TIMESTAMP,'','','','','0','','1','".$cherryBoardId."')");
 				$GoalBoardId=mysql_insert_id();
 				if($GoalBoardId>0){
+					
+					//Deposit the happybank point
+					happybankPoint('1',0,$GoalBoardId);
 					//Create Goal To-Do List
 					for($i=1;$i<=$number_days;$i++){
 						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system) VALUES (NULL,'".(int)USER_ID."','".$GoalBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1')";
@@ -89,6 +95,9 @@ if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 //START CREATE EXPERTBOARD BUY(Do-It) CODE
 if($expertBoardId>0&&$type=='doit'&&$cherryboard_id>0){
 	$lastCreatedId=createExpertboard($expertBoardId,$cherryboard_id);
+	//deposit for the do-it
+	$ownerId=getOwnerFbId($lastCreatedId);
+	happybankPoint('2',$ownerId,$lastCreatedId);
 	echo "<script type=\"text/javascript\">document.location.href='expert_cherryboard.php?cbid=".$lastCreatedId."';</script>";
 }
 //END CREATE EXPERTBOARD BUY(Do-It) CODE	

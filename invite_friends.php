@@ -51,6 +51,9 @@ if($type=="del_sel_expert_followers"){
 			if($chkUser==0){
 				$insMeb="INSERT INTO ".$tbl_meb." (meb_id,cherryboard_id,user_id,req_user_fb_id,request_ids,is_accept) VALUES (NULL,'".$cherryboard_id."','".$user_id."','".$req_user_fb_id[1]."','".$req_user_fb_id[0]."','0')";
 				$ins_sql=mysql_query($insMeb);
+				//=====happinessbank points
+				$fnResult=happybankPoint('4',$req_user_fb_id[1],(int)$cherryboard_id);
+				
 				//=========> START SEND EMAIL CODE <============
 				//GET REQUEST USER DETAILS
 			    $requestUserId=(int)getFieldValue('user_id','tbl_app_users','facebook_id='.$req_user_fb_id[1]);
@@ -94,7 +97,9 @@ if($type=="del_sel_expert_followers"){
 			$chkUser=(int)getFieldValue('invite_user_id','tbl_app_user_invite','invite_user_fb_id="'.$invite_user_fb_id[1].'" and user_id='.$user_id);
 			if($chkUser==0){
 				$insUser="INSERT INTO tbl_app_user_invite(invite_user_id,user_id,invite_user_fb_id, invite_ids,is_accept) VALUES (NULL,'".$user_id."','".$invite_user_fb_id[1]."','".$invite_user_fb_id[0]."','0')";
-				$ins_sql=mysql_query($insUser);				
+				$ins_sql=mysql_query($insUser);
+				//=====happinessbank points
+				$fnResult=happybankPoint('5',$req_user_fb_id[1],0);			
 			}	
 		  }
 		  $cnt++;

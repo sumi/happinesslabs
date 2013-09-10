@@ -67,7 +67,7 @@ if($_POST['LoginStep']=="3"){
 		'href' => 'https://www.happinesslabs.com/index.php?frid='.$request_id,  
 		'template' => $notificationMsg));
 									//deposit happiness bank points
-									$fnResult=happybankPoint('4',(int)$requestUserId,(int)$cherryboard_id);
+									$fnResult=happybankPoint('4',$req_user_fb_id,(int)$cherryboard_id);
 								}
 						  }	
 						 
@@ -112,7 +112,7 @@ if($selected_story>0){
 	if($expertboard_id>0&&$selected_story>0){
 		$lastCreatedStoryId=(int)createExpertboard($expertboard_id,$selected_story);
 		//deposit happiness bank points
-		$ownerId=getOwnerId($lastCreatedStoryId);
+		$ownerId=getOwnerFbId($lastCreatedStoryId);
 		$fnResult=happybankPoint('2',$ownerId,(int)$lastCreatedStoryId);
 	}
 	if($lastCreatedStoryId==0){
