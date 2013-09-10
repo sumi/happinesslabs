@@ -1,5 +1,5 @@
 <?php
-exec("montage a.jpg b.jpg c.jpg \ -mode Concatenate -tile x1  montage_cat.jpg");
+exec("montage b.jpg c.jpg \ -mode Concatenate -tile x1  montage_cat.jpg");
 ?>
 <br />
 <img src="a.jpg" />
