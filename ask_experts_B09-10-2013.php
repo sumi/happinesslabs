@@ -12,7 +12,7 @@ $category_id=(int)$_GET['category_id'];
 	<span class="niceform">
 	<?php echo getCategoryList($category_id,'onchange="javascript:document.location=\'ask_experts.php?category_id=\'+this.value;"','category_id'); ?>	
 	</span>
-    </form>  
+  </form>  
 	<div class="banner_listof"><img src="images/banner_listof.png" alt=""  width="470"/></div>
 	<div class="banner_day">
 	<div class="banner_listof_text">10 easy ways to say &rdquo;I love you&rdquo; every day.<br /><br /> 
@@ -116,7 +116,7 @@ $category_id=(int)$_GET['category_id'];
 						$photoArray[]=$photoPath;
 						$photoCnt++;
 					}
-					//if($photoCnt==4){break;}		
+					if($photoCnt==4){break;}		
 			    }		
 		    }else{
 				$photoArray[]=$expertPicPath;
@@ -128,7 +128,6 @@ $category_id=(int)$_GET['category_id'];
 				$photoArray[]=$expertPicPath;
 				$photoCnt=1;
 			}
-			$arrayLength=count($photoArray);
 			//START MERGE IMAGE SECTION
 			$imgMergeCnt='';					
 			if($_SERVER['SERVER_NAME']=="localhost"){
@@ -155,7 +154,7 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="half_div_right" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="102px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
 					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
-				}else{
+				}else{				
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';		
 					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
@@ -168,12 +167,6 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="half_div_right" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="75px" width="68px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
 					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[3];
 		  			$subCnt++;
-					if($photoCnt>4){
-					   for($i=4;$i<$arrayLength;$i++){
-						   $pagePhotosArray[$newCnt][$subCnt]=$photoArray[$i];
-						   $subCnt++;
-					   }
-					}
 				}
 			}else{ //START IMAGE MEGIC SECTION
 				//getResizeImgRatio(imagepath,width,height);
@@ -222,7 +215,7 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="half_div_right" style="height:'.$hVar2.'px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="'.$NewHeight2.'" width="'.$NewWidth2.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
 					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
-				}else{
+				}else{	
 					$imgData=getResizeImgRatio($photoArray[0],209,75);
 					$NewWidth=$imgData['width'];
 					$NewHeight=$imgData['height'];			
@@ -253,13 +246,7 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="half_div_right" style="height:'.$hVar3.'px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="'.$NewHeight3.'" width="'.$NewWidth3.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
 					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[3];
 		  			$subCnt++;
-					if($photoCnt>4){
-					   for($i=4;$i<$arrayLength;$i++){
-						   $pagePhotosArray[$newCnt][$subCnt]=$photoArray[$i];
-						   $subCnt++;
-					   }
-					}
-				}		
+				}			
 			}
   			
 			if($userOwnerFbId!=""){
@@ -291,33 +278,24 @@ $category_id=(int)$_GET['category_id'];
    </div>
    
    <div id="mystickytooltip" class="stickytooltip">
-   <?php   
+   <?php
    $pagePhotoEffect='';
-   foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){   
-   		/*$Text=json_encode($subPhotoArray);
-	    $RequestText=urlencode($Text);//download.php?cluster='.$RequestText.'*/
-		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">
-		<div style="height:30px;padding-top:3px;"><a href="#" title="Download" style="text-decoration:none;margin-right:5px;" class="button">Download</a></div>';
+   foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){  
+		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
 		$imgCnt=1;
 		foreach($subPhotoArray as $subCnt=>$photoUrl){
-		  if($subCnt>241&&$subCnt<298){}else{
 			$imgData=getResizeImgRatio($photoUrl,250,250);
 			$NewWidth=$imgData['width'];
 			$NewHeight=$imgData['height'];	 		
 			$pagePhotoEffect.='<img src="'.$photoUrl.'" height="'.$NewHeight.'" width="'.$NewWidth.'" />';
-			if($imgCnt==2){
-			   $pagePhotoEffect.='<br/>';
-			   $imgCnt=0;
-			}
-			//if($imgCnt==4){break;}
-			$imgCnt++;	
-		  }		
+			if($imgCnt==2){$pagePhotoEffect.='<br/>';}
+			if($imgCnt==4){break;}
+			$imgCnt++;			
 		}
 		$pagePhotoEffect.='</div>';
    }
-   echo $pagePhotoEffect;
+   echo $pagePhotoEffect;   
    ?>
-   <div class="stickystatus"></div>
 	</div>
    <div style="padding-bottom:50px;"></div>
 <!-- START SEND REQUEST TO TELL A STORY CODE -->
@@ -350,18 +328,5 @@ $category_id=(int)$_GET['category_id'];
     });        
   };
 </script>
-<?php
-/*foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){
-	echo "<br/>======>".$photoCnt;
-	foreach($subPhotoArray as $subCnt=>$photoUrl){
-		echo "<br/>Sub :".$subCnt;
-		if($subCnt>241&&$subCnt<298){
-			echo 'No Image';
-		}else{
-		echo '<img src="'.$photoUrl.'" height="50" width="50" /><br/>';
-		}				
-	}
-}*/
-?>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>
