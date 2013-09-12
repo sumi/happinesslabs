@@ -87,7 +87,8 @@ $category_id=(int)$_GET['category_id'];
 			//START LIKE AND UNLIKE BUTTON CODE
 			$likeCnt='';
 			$isLike=(int)getFieldValue('is_like','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
-			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="padding-left:130px;">';
+			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="margin-top:11px;">
+					   <a href="download.php?cherryboard_id='.$cherryboard_id.'" title="Download" target="_blank" style="text-decoration:none;margin-left:55px;margin-right:5px;float:none;vertical-align:top;" class="button">Download</a>';
 			if($isLike==1){
 				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="1" AND user_id='.USER_ID);
 				if($like_id>0){
@@ -136,41 +137,52 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="single_div">
 					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a>
 					</div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
 				}else if($photoCnt==2){
 					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="150px" width="102px" data-tooltip="sticky'.$newCnt.'"/></a></div>';		
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;			
 					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="150px" width="102px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 				}else if($photoCnt==3){
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';		
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;				
 					$imgMergeCnt.='<div class="half_div_left" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="75px" width="102px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 					$imgMergeCnt.='<div class="half_div_right" style="height:75px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="102px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
 				}else{
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="75px" width="209px" data-tooltip="sticky'.$newCnt.'"/></a></div>';		
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
 					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="75px" width="68px" data-tooltip="sticky'.$newCnt.'""/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 					$imgMergeCnt.='<div class="half_div_left" style="height:75px;width:67px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="75px" width="67px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
 					$imgMergeCnt.='<div class="half_div_right" style="height:75px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="75px" width="68px" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[3];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[3];
 		  			$subCnt++;
 					if($photoCnt>4){
 					   for($i=4;$i<$arrayLength;$i++){
-						   $pagePhotosArray[$newCnt][$subCnt]=$photoArray[$i];
+						   $idCnt=$newCnt.'_'.$cherryboard_id;
+						   $pagePhotosArray[$idCnt][$subCnt]=$photoArray[$i];
 						   $subCnt++;
 					   }
 					}
@@ -184,27 +196,31 @@ $category_id=(int)$_GET['category_id'];
 					$imgMergeCnt.='<div class="single_div" style="border: 1px solid #000000;">
 					<a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a>
 					</div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
 				}else if($photoCnt==2){
 					$imgData=getResizeImgRatio($photoArray[0],102,150);
 					$NewWidth=$imgData['width'];
 					$NewHeight=$imgData['height'];
 					$imgMergeCnt.='<div class="half_div_left"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
 					$imgData1=getResizeImgRatio($photoArray[1],102,150);
 					$NewWidth1=$imgData1['width'];
 					$NewHeight1=$imgData1['height'];
 					$imgMergeCnt.='<div class="half_div_right"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="'.$NewHeight1.'" width="'.$NewWidth1.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 				}else if($photoCnt==3){
 					$imgData=getResizeImgRatio($photoArray[0],209,75);
 					$NewWidth=$imgData['width'];
 					$NewHeight=$imgData['height'];
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';	
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;			
 					$imgData1=getResizeImgRatio($photoArray[1],102,75);
 					$NewWidth1=$imgData1['width'];
@@ -212,7 +228,8 @@ $category_id=(int)$_GET['category_id'];
 					$hVar1=0;
 					if($NewHeight1<75){$hVar1=78;}else{$hVar1=75;}			
 					$imgMergeCnt.='<div class="half_div_left" style="height:'.$hVar1.'px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="'.$NewHeight1.'" width="'.$NewWidth1.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 					$imgData2=getResizeImgRatio($photoArray[2],102,75);
 					$NewWidth2=$imgData2['width'];
@@ -220,14 +237,16 @@ $category_id=(int)$_GET['category_id'];
 					$hVar2=0;
 					if($NewHeight2<75){$hVar2=78;}else{$hVar2=75;}
 					$imgMergeCnt.='<div class="half_div_right" style="height:'.$hVar2.'px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="'.$NewHeight2.'" width="'.$NewWidth2.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
 				}else{
 					$imgData=getResizeImgRatio($photoArray[0],209,75);
 					$NewWidth=$imgData['width'];
 					$NewHeight=$imgData['height'];			
 					$imgMergeCnt.='<div class="single_div_half"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[0].'" height="'.$NewHeight.'" width="'.$NewWidth.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[0];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[0];
 		  			$subCnt++;
 					$imgData1=getResizeImgRatio($photoArray[1],68,75);
 					$NewWidth1=$imgData1['width'];
@@ -235,7 +254,8 @@ $category_id=(int)$_GET['category_id'];
 					$hVar1=0;
 					if($NewHeight1<75){$hVar1=78;}else{$hVar1=75;}
 					$imgMergeCnt.='<div class="half_div_left" style="height:'.$hVar1.'px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[1].'" height="'.$NewHeight1.'" width="'.$NewWidth1.'" data-tooltip="sticky'.$newCnt.'""/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[1];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[1];
 		  			$subCnt++;
 					$imgData2=getResizeImgRatio($photoArray[2],67,75);
 					$NewWidth2=$imgData2['width'];
@@ -243,7 +263,8 @@ $category_id=(int)$_GET['category_id'];
 					$hVar2=0;
 					if($NewHeight2<75){$hVar2=78;}else{$hVar2=75;}
 					$imgMergeCnt.='<div class="half_div_left" style="height:'.$hVar2.'px;width:67px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[2].'" height="'.$NewHeight2.'" width="'.$NewWidth2.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[2];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[2];
 		  			$subCnt++;
 					$imgData3=getResizeImgRatio($photoArray[3],67,75);
 					$NewWidth3=$imgData3['width'];
@@ -251,11 +272,13 @@ $category_id=(int)$_GET['category_id'];
 					$hVar3=0;
 					if($NewHeight3<75){$hVar3=78;}else{$hVar3=75;}
 					$imgMergeCnt.='<div class="half_div_right" style="height:'.$hVar3.'px;width:68px;"><a href="expert_cherryboard.php?cbid='.$cherryboard_id.'"><img src="'.$photoArray[3].'" height="'.$NewHeight3.'" width="'.$NewWidth3.'" data-tooltip="sticky'.$newCnt.'"/></a></div>';
-					$pagePhotosArray[$newCnt][$subCnt]=$photoArray[3];
+					$idCnt=$newCnt.'_'.$cherryboard_id;
+					$pagePhotosArray[$idCnt][$subCnt]=$photoArray[3];
 		  			$subCnt++;
 					if($photoCnt>4){
 					   for($i=4;$i<$arrayLength;$i++){
-						   $pagePhotosArray[$newCnt][$subCnt]=$photoArray[$i];
+						   $idCnt=$newCnt.'_'.$cherryboard_id;
+						   $pagePhotosArray[$idCnt][$subCnt]=$photoArray[$i];
 						   $subCnt++;
 					   }
 					}
@@ -293,11 +316,12 @@ $category_id=(int)$_GET['category_id'];
    <div id="mystickytooltip" class="stickytooltip">
    <?php   
    $pagePhotoEffect='';
-   foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){   
-   		/*$Text=json_encode($subPhotoArray);
-	    $RequestText=urlencode($Text);//download.php?cluster='.$RequestText.'*/
-		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">
-		<div style="height:30px;padding-top:3px;"><a href="#" title="Download" style="text-decoration:none;margin-right:5px;" class="button">Download</a></div>';
+   foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){
+		$array_cherry=explode('_',$photoCnt);
+		$photoCnt=$array_cherry[0];
+		$cherryboard_id=$array_cherry[1];
+		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
+		//<div style="height:30px;padding-top:3px;"><a href="download.php?cherryboard_id='.$cherryboard_id.'" title="Download" target="_blank" style="text-decoration:none;margin-right:5px;" class="button">Download</a></div>
 		$imgCnt=1;
 		foreach($subPhotoArray as $subCnt=>$photoUrl){
 		  if($subCnt>241&&$subCnt<298){}else{
@@ -317,7 +341,7 @@ $category_id=(int)$_GET['category_id'];
    }
    echo $pagePhotoEffect;
    ?>
-   <div class="stickystatus"></div>
+   <!--<div class="stickystatus"></div>-->
 	</div>
    <div style="padding-bottom:50px;"></div>
 <!-- START SEND REQUEST TO TELL A STORY CODE -->
