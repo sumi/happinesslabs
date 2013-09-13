@@ -2,10 +2,10 @@
 error_reporting(0);
 include_once "fbmain.php";
 include('include/app-common-config.php');
-//include('site_header.php');
 ?>
 <?php
 	   $cherryboard_id=(int)$_GET['cherryboard_id'];
+	   $type=trim($_GET['type']);
 	   if($cherryboard_id>0){
 	   	  $user_id=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 	   if($user_id>0){
@@ -24,8 +24,7 @@ include('include/app-common-config.php');
 			if(is_file($photoPath)){
 				$photoArray[]=$photoPath;
 				$photoCnt++;
-			}
-			//if($photoCnt==4){break;}		
+			}	
 		}		
 	  }else{
 		$photoArray[]=$expertPicPath;
@@ -46,14 +45,46 @@ include('include/app-common-config.php');
 			$strVar.=$photoArray[$i].' ';
 		}
 		exec("montage ".$strVar." -quality 100 -geometry +2+2 ".$destPath."");
-		//echo '<img src="'.$destPath.'"/>';
-	}//-tile x2 === -tile x4	
+	}
+		
 	//START DOWNLOAD IMAGE SCRIPT
-	//unlink($destPath);
-	$FileName=$urlArray[(count($destPath)-1)];
-	header("Content-Type: image/jpeg");
-	header("Cache-Control: no-cache");
-	header("Accept-Ranges: none");
-	header("Content-Disposition: attachment; filename=\"".$FileName."\"");
-	readfile($destPath);
+	if($type=='download'){
+		//unlink($destPath);
+		$FileName=$urlArray[(count($destPath)-1)];
+		header("Content-Type: image/jpeg");
+		header("Cache-Control: no-cache");
+		header("Accept-Ranges: none");
+		header("Content-Disposition: attachment; filename=\"".$FileName."\"");
+		readfile($destPath);
+	}
+	
+	//START SHARE ON FACEBOOK CODE
+	if($type=='fbshare'){
+	   if(FB_ID!=''){
+		  try{
+			$photoCaption='Share story infographics image on facebook';	 
+			$post_data=array('message' => $photoCaption,'source' => '@'.realpath($destPath));
+			$apiResponse=$facebook->api('/me/photos','POST',$post_data);
+			echo '<strong><font color="#006633">Story infographics image share on your facebook wall please see it on facebook.</strong></font>';		
+		  }catch(FacebookApiException $e){
+			echo $e;
+		  }
+	   } 
+	}//OAuthException: An active access token must be used to query information about the current user.
+	//START SEND ON EMAIL CODE
+	/*if($type=='email'){
+	   $path='@'.realpath($destPath);
+	   $emailId=trim(getFieldValue('email_id','tbl_app_users','user_id='.USER_ID));
+	   $from="info@30daysnew.com";
+	   $visitor_email="suresh.uniquewebinfo@gmail.com";
+	   $subject="Test mail for story infographics image";
+	   $message=new Mail_mime(); 
+	   $message->setTXTBody($text);		 
+	   $message->addAttachment($path);		 
+	   $body=$message->get();		 
+	   $extraheaders=array("From"=>$from,"Subject"=>$subject,"Reply-To"=>$visitor_email);		 
+	   $headers=$message->headers($extraheaders);		 
+	   $mail=Mail::factory("mail");		 
+	   $mail->send($to,$headers,$body);
+	}*/
 ?>

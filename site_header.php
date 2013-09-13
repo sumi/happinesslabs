@@ -204,7 +204,7 @@ function fb_logout() {
 			<div id="sample_attach_menu_child">
 			<a class="sample_attach" href="add_happy_experience.php">Add Happy Experience</a>
 			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
-		    </div>
+			</div>
        </div>
        <div class="text_1">
 	   		<div id="sample_attach_menu_parent_one" class="sample_attach">
@@ -213,6 +213,7 @@ function fb_logout() {
 			<div id="sample_attach_menu_child_one">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
 			<a class="sample_attach" href="customer_happy_story.php">Customer Happy Story</a>
+			<a class="sample_attach" rel="leanModal" href="#add_story_template">Add Story Template</a>
 			<!--<a class="sample_attach" rel="leanModal" href="#create_expert_board">Customer Happy Story</a>-->
 		    </div>	  
        </div>
@@ -396,3 +397,105 @@ Price board</div>
 </div>
 </form>
 <!-- END CREATE HAPPY STORY AND SUB STORY CODE -->
+<!-- START CREATE STORY TEMLATES --> 
+<form action="expertboard.php" method="post" name="frmexpert1" enctype="multipart/form-data">
+<input type="hidden" name="create_from" id="create_from" value="header"/>	 
+<input type="hidden" name="cherryboard_parent_id" id="cherryboard_parent_id" value="<?=$cherryboard_id?>"/>	 
+<div class="CreateStor_main" style="display: <?=$var?>; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 20px;background-color:#FFFFFF" id="add_story_template">
+  <div class="border_top_main">
+       <div class="CreateStor_left">
+         <div class="CreateStor_top">
+          <div class="CreateStor_img"><img src="<?php echo PHOTO_URL;?>" height="35" width="37" alt="<?php echo FIRST_NAME.'&nbsp;'.LAST_NAME;?>" /></div>
+          <div class="CreateStor_text">
+		  <?php echo FIRST_NAME.'&nbsp;'.LAST_NAME;?> - Add Story Template</div>
+		   <div class="msg_red" id="div_frm_expmsg"></div>
+         </div>
+         
+         <div class="project_main">
+		  <div class="project_left" id="div_story_title">
+          <div class="project_left_2">1</div>
+		  </div>
+          <div class="project_right">Project title: <input name="title" id="title" type="text" onFocus="ajax_action('focus_story_title','div_story_title','stype=title');" style="border:1px solid #818284; color:#999999; font-size:16px; padding:5px 5px 4px 5px; width:250px;"/></div>
+         </div>
+         
+         <div class="project_main">
+		  <div class="project_left" id="div_story_category">
+          <div class="project_left_2">2</div>
+		  </div>
+          <div class="project_right">Story catagory: <?=getCategoryList(0,'onFocus="ajax_action(\'focus_story_category\',\'div_story_category\',\'stype=category\');"','category_id1')?>
+           </div>
+         </div>
+         <div class="project_main">
+		  <div class="project_left" id="div_story_about">
+          <div class="project_left_2">3</div>
+		  </div>
+          <div class="what_top">What is your happy story about?</div>
+          <div class="what_bottom"><textarea name="detail" id="detail" onFocus="ajax_action('focus_story_about','div_story_about','stype=about');" style="color:#999999; font-size:16px; padding:5px 5px 4px 10px; width:340px; height:90px; border:1px solid #818284;"></textarea></div>
+         </div>
+         <div class="project_main">
+		  <div class="project_left" id="div_story_day_type">
+          <div class="project_left_2">4</div>
+		  </div>
+          <div class="how_main">
+              <div class="how_box">How will you tell your story?</div>
+              <div class="day"><input name="day_type" onClick="ajax_action('focus_story_daytype','div_story_day_type','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('div_day_type').style.display='inline';" id="day_type" type="radio" value="1" /> Day-by-Day</div>
+              <div class="day"><input name="day_type" id="day_type" onClick="ajax_action('focus_story_daytype','div_story_day_type','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('div_day_type').style.display='inline';" type="radio" value="2" />Item-By-Item</div>
+			  <div class="day"><input name="day_type" id="day_type" onClick="ajax_action('focus_story_daytype','div_story_day_type','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('div_day_type').style.display='inline';" type="radio" value="3" />Step-By-Step</div>
+              <div class="day" id="div_day_type" style="display:inline">Approximate number of days/items/steps: <input name="number_days" id="number_days" type="text" value="1" onFocus="ajax_action('focus_story_daytype','div_story_day_type','stype=daytype');" style="border:1px solid #818284; color:#999999; font-size:16px; padding:4px 5px 3px 5px; width:80px;"/></div>
+              <div class="day">
+			  <input id="living_narrative" name="living_narrative" type="hidden" value="0"/>
+			  <input id="day_type" name="day_type" onClick="ajax_action('focus_story_daytype','div_story_day_type','stype=daytype');javascript:document.getElementById('living_narrative').value='1';document.getElementById('div_day_type').style.display='none';" type="radio" value="4"/> living narrative (By dates entered)</div>
+           </div>
+            <div style="clear:both"></div>
+         </div>
+          <div class="project_main">
+		   <div class="project_left" id="div_story_board_price">
+           <div class="project_left_2">5</div>
+		   </div>
+           <div class="storyboard_main">
+            <div class="storyboard_left">Storyboard price?</div>
+            <div class="storyboard_left">
+			 <input id="is_board_price" name="is_board_price" type="hidden" value="0"/>
+<input name="chk_is_board_price" id="chk_is_board_price" type="radio" value="1" onClick="ajax_action('focus_story_price','div_story_board_price','stype=boardprice');javascript:document.getElementById('divPrice').style.display='inline';document.getElementById('is_board_price').value='1';" />            
+Price board</div>
+            <div class="storyboard_left"><input name="chk_is_board_price" id="chk_is_board_price" type="radio" value="0" onClick="ajax_action('focus_story_price','div_story_board_price','stype=boardprice');javascript:document.getElementById('divPrice').style.display='none';document.getElementById('is_board_price').value='0';" /> 
+            Non-price board</div><br/>
+			 <div style="display:none;padding-left:150px;" id="divPrice">
+				<Strong>Price :</Strong>
+                <input type="text" name="price" id="price" value="0" style="width:50px;">	
+				</div>
+           </div>
+          </div>
+          <div class="project_main">
+		   <div class="project_left" id="div_story_board_type">
+           <div class="project_left_2">6</div>
+		   </div>
+           <div class="storyboard_main">
+            <div class="storyboard_left">Storyboard type?</div>
+            <div class="storyboard_left"><input name="board_type" id="board_type" type="radio" onClick="ajax_action('focus_story_type','div_story_board_type','stype=boardtype');" value="0" /> 
+            Public</div>
+            <div class="storyboard_left"><input name="board_type" id="board_type" type="radio" onClick="ajax_action('focus_story_type','div_story_board_type','stype=boardtype');" value="1" /> 
+            Private</div>
+           </div>
+         </div>
+       <div style="clear:both"></div>
+    </div>
+       <div class="CreateStor_right">
+         <div class="CreateStor_top_img"><a class="modal_close" href="<?=$varClose?>" title="close"></a></div>
+         <div class="sample_text" style="width:270px;">Sample Page</div>
+         <div class="happiness_img"><img src="images/img_screen.png" alt="" /></div>
+         <div class="create_left">
+          <div class="create_left_bg">
+		  <input type="hidden" name="btnCreateExpert11" id="btnCreateExpert111" value="Create">
+		  <a href="javascript:document.frmexpert.submit();" onClick="javascript:return CheckFormValidation('div_frm_expmsg','title#Enter Title,category_id1#Select Category#0,detail#Enter detail#Enter detail,day_type#Please Select Days/Items/Steps,chk_is_board_price#Please Select Your Board Price ,number_days#Please Enter Days/Items/Steps#0,price#Please Enter Price#0,board_type#Please Select Board Type');">create!</a></div>
+          <div class="create_left_img"><img src="images/ban.png" alt=""  height="48"/></div> 
+         <div style="clear:both"></div>
+         </div>
+         <div class="create_right"><img src="images/img_1.png" alt="" /></div>
+    </div>
+       <div style="clear:both"></div>
+  </div>
+  <div style=" clear:both"></div>
+</div>
+</form>
+<!-- END CREATE STORY TEMLATES --> 
