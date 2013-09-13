@@ -63,7 +63,8 @@ include('include/app-common-config.php');
 	   if(FB_ID!=''){	   	
 		  try{
 			$photoCaption='Share story infographics image on facebook';	 
-			$post_data=array('message' => $photoCaption,'source' => '@'.realpath($destPath));
+			$post_data=array('message' => $photoCaption, 'access_token' => $_SESSION['fb_access_token'],
+			'source' => '@'.realpath($destPath));
 			$apiResponse=$facebook->api('/me/photos','POST',$post_data);
 			echo '<strong><font color="#006633">Story infographics image share on your facebook wall please see it on facebook.</strong></font>';		
 		  }catch(FacebookApiException $e){
@@ -71,6 +72,7 @@ include('include/app-common-config.php');
 		  }
 	   } 
 	}//OAuthException: An active access token must be used to query information about the current user.
+	
 	//START SEND ON EMAIL CODE
 	/*if($type=='email'){
 	   $path='@'.realpath($destPath);
