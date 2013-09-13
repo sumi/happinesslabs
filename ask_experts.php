@@ -90,7 +90,7 @@ $category_id=(int)$_GET['category_id'];
 			$likeCnt='';
 			$isLike=(int)getFieldValue('is_like','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
 			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="margin-top:11px;">					   	
-					   <a title="Share On Facebook" href="download.php?cherryboard_id='.$cherryboard_id.'&type=fbshare" onClick="document.location.reload(true)" target="_blank"><img src="images/fb_share_btn.png" style="margin-left:5px;vertical-align:top;" alt="Share on Facebook" width="70" height="20"/></a>	
+					   <a title="Share On Facebook" href="download.php?cherryboard_id='.$cherryboard_id.'&type=fbshare" target="_blank"><img src="images/fb_share_btn.png" style="margin-left:5px;vertical-align:top;" alt="Share on Facebook" width="70" height="20"/></a>	
 					   <a href="download.php?cherryboard_id='.$cherryboard_id.'&type=download" title="Download"  target="_blank" style="text-decoration:none;margin-left:2px;margin-right:30px;float:none;vertical-align:top;" class="button">Download</a>';
 			if($isLike==1){
 				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="1" AND user_id='.USER_ID);
