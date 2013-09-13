@@ -60,10 +60,7 @@ include('include/app-common-config.php');
 	
 	//START SHARE ON FACEBOOK CODE
 	if($type=='fbshare'){
-	   if(FB_ID!=''){
-	   	  echo "<br/>FB ID :".FB_ID;
-		  echo "<br/>Access Token".$_SESSION['fb_access_token'];
-		  echo "<br/>";	
+	   if(FB_ID!=''){	   	
 		  try{
 			$photoCaption='Share story infographics image on facebook';	 
 			$post_data=array('message' => $photoCaption,'source' => '@'.realpath($destPath));
