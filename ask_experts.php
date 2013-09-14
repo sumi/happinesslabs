@@ -84,14 +84,13 @@ $category_id=(int)$_GET['category_id'];
 			$goal_days=$row['goal_days'];
 			$expertboard_detail=$row['expertboard_detail'];
 			$DayType=getDayType($expertboard_id);
-			//START LIKE AND UNLIKE BUTTON CODE rel="leanModal" href="#sendMailContent"
-			/*<a href="download.php?cherryboard_id='.$cherryboard_id.'&type=email" target="_blank"
-					    title="Email"><img src="images/send-email-button.jpg" style="margin-left:5px;vertical-align:top;" alt="Email" width="58" height="20"/></a>*/
+			//START LIKE AND UNLIKE BUTTON CODE
 			$likeCnt='';
 			$isLike=(int)getFieldValue('is_like','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
-			$likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="margin-top:11px;">					   	
-					   <a title="Share On Facebook" href="download.php?cherryboard_id='.$cherryboard_id.'&type=fbshare" target="_blank"><img src="images/fb_share_btn.png" style="margin-left:5px;vertical-align:top;" alt="Share on Facebook" width="70" height="20"/></a>	
-					   <a href="download.php?cherryboard_id='.$cherryboard_id.'&type=download" title="Download"  target="_blank" style="text-decoration:none;margin-left:2px;margin-right:30px;float:none;vertical-align:top;" class="button">Download</a>';
+		   $likeCnt.='<div id="div_like_'.$cherryboard_id.'" style="margin-top:11px;">					   	
+					   <a rel="leanModal" href="#sendMailContent" onclick="setStoryVal('.$cherryboard_id.')" title="Email"><img src="images/send-email-button.jpg" style="margin-left:5px;vertical-align:top;" alt="Email" width="58" height="20"/></a>
+						<a title="Share On Facebook" href="download.php?cherryboard_id='.$cherryboard_id.'&type=fbshare" target="_blank"><img src="images/fb_share_btn.png" style="margin-left:5px;vertical-align:top;" alt="Share on Facebook" width="58" height="20"/></a>	
+					   <a href="download.php?cherryboard_id='.$cherryboard_id.'&type=download" title="Download"  target="_blank" style="text-decoration:none;margin-left:2px;margin-right:0px;float:none;vertical-align:top;" class="button">Download</a>';
 			if($isLike==1){
 				$like_id=(int)getFieldValue('like_id','tbl_app_expertboard_likes','cherryboard_id='.$cherryboard_id.' AND is_like="1" AND user_id='.USER_ID);
 				if($like_id>0){
@@ -369,17 +368,16 @@ $category_id=(int)$_GET['category_id'];
 </form>
 <!-- END SEND REQUEST TO TELL A STORY CODE -->
 <!-- START SEND EMBEDDED IMAGE MAIL CODE -->
-<form action="" method="post" name="frmsndmail" enctype="multipart/form-data">
+<form action="download.php?type=email" method="post" name="frmsndmail" enctype="multipart/form-data" onSubmit="return ValidateForm();">
 <div style="display:none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 100px; width:500px;border:5px solid #000000;" id="sendMailContent" class="popup_div">
-		<a class="modal_close" href="#" title="close"></a>
+		<a class="modal_close" href="javascript:return false;" onclick= title="close"></a>
 		<div align="center" class="email_header">Send Email</div><br>
 		<span style="padding-left:20px;"><strong>Email Id</strong>:
 		<input type="text" style="width:380px;margin-left:25px;" name="email_id" id="email_id"/></span>
-		<br><br>
-		<input type="text" name="cherryboard_id" id="cherryboard_id" value="<?php echo $cherryboard_id; ?>"/>
-		<input type="text" name="type" id="type" value="email"/>
-		<input type="submit" style="margin-left:210px;" class="btn_small" id="btnsend" value="Send"
-		name="btnsend" />
+		<br><br>	
+		<input type="hidden" name="story_id" id="story_id" value="" />	
+		<input type="submit" style="margin-left:221px;" class="btn_small" id="btnsend" value="Send"
+		name="btnsend"/>
 </div>
 </form>
 <!-- END SEND EMBEDDED IMAGE MAIL CODE -->
@@ -391,6 +389,62 @@ $category_id=(int)$_GET['category_id'];
       foo: 'bar'
     });        
   };
+</script>
+<script type="text/javascript">
+function setStoryVal(story_id){
+    document.getElementById('story_id').value=story_id;
+}
+
+function echeck(str){
+	var at="@"
+	var dot="."
+	var lat=str.indexOf(at)
+	var lstr=str.length
+	var ldot=str.indexOf(dot)
+	if(str.indexOf(at)==-1){
+	   alert("Invalid E-mail ID")
+	   return false
+	}
+	if(str.indexOf(at)==-1||str.indexOf(at)==0||str.indexOf(at)==lstr){
+	   alert("Invalid E-mail ID")
+	   return false
+	}
+	if(str.indexOf(dot)==-1||str.indexOf(dot)==0||str.indexOf(dot)==lstr){
+		alert("Invalid E-mail ID")
+		return false
+	}
+	if(str.indexOf(at,(lat+1))!=-1){
+		alert("Invalid E-mail ID")
+		return false
+	}
+	if(str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		alert("Invalid E-mail ID")
+		return false
+	}
+	if(str.indexOf(dot,(lat+2))==-1){
+		alert("Invalid E-mail ID")
+		return false
+	}		
+	if(str.indexOf(" ")!=-1){
+		alert("Invalid E-mail ID")
+		return false
+	}
+	return true					
+}
+function ValidateForm(){
+	var emailID=document.frmsndmail.email_id		
+	if((emailID.value==null)||(emailID.value=="")){
+		alert("Please Enter your Email ID")
+		emailID.focus()
+		return false
+	}
+	if(echeck(emailID.value)==false){
+		emailID.value=""
+		emailID.focus()
+		return false
+	}
+	return true
+}
 </script>
 <?php
 /*foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){

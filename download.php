@@ -3,9 +3,17 @@ error_reporting(0);
 include_once "fbmain.php";
 include('include/app-common-config.php');
 ?>
-<?php
-	   $cherryboard_id=(int)$_GET['cherryboard_id'];
+<?php	   
 	   $type=trim($_GET['type']);
+	   if($type=='email'){
+	   	  include('site_header.php');	
+	   	  $cherryboard_id=(int)$_POST['story_id'];
+		  $rnd=rand();
+		  $destPath='images/download/'.$rnd.'_happiness.jpg';
+	   }else{
+	   	  $cherryboard_id=(int)$_GET['cherryboard_id'];
+		  $destPath='images/download/happiness.jpg';
+	   }
 	   if($cherryboard_id>0){
 	   	  $user_id=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 	   if($user_id>0){
@@ -30,8 +38,7 @@ include('include/app-common-config.php');
 		$photoArray[]=$expertPicPath;
 		$photoCnt=1;
 	  } 	
-	}
-	$destPath='images/download/happiness.jpg';
+	}	
 	$len=count($photoArray);
 	if($len==1){
 		exec("montage ".$photoArray[0]." -geometry +2+2 ".$destPath."");
@@ -71,22 +78,28 @@ include('include/app-common-config.php');
 			echo $e;
 		  }
 	   } 
-	}//OAuthException: An active access token must be used to query information about the current user.
-	
+	}
+		
 	//START SEND ON EMAIL CODE
-	/*if($type=='email'){
-	   $path='@'.realpath($destPath);
-	   $emailId=trim(getFieldValue('email_id','tbl_app_users','user_id='.USER_ID));
-	   $from="info@30daysnew.com";
-	   $visitor_email="suresh.uniquewebinfo@gmail.com";
-	   $subject="Test mail for story infographics image";
-	   $message=new Mail_mime(); 
-	   $message->setTXTBody($text);		 
-	   $message->addAttachment($path);		 
-	   $body=$message->get();		 
-	   $extraheaders=array("From"=>$from,"Subject"=>$subject,"Reply-To"=>$visitor_email);		 
-	   $headers=$message->headers($extraheaders);		 
-	   $mail=Mail::factory("mail");		 
-	   $mail->send($to,$headers,$body);
-	}*/
+	if($type=='email'){
+	   $emailId=trim($_POST['email_id']);
+	   if($emailId==''){
+	   	  $emailId=trim(getFieldValue('email_id','tbl_app_users','user_id='.USER_ID));
+	   }	   
+	   $to=$emailId;	
+	   $path='https://www.happinesslabs.com/'.$destPath;		
+	   $subject="Sent story infographic image on email";
+	   $message='<table>
+				 <tr><td>Hi,</td></tr>
+				 <tr><td>&nbsp;</td></tr>
+				 <tr><td><img src="'.$path.'" /></td></tr>
+				 <tr><td>&nbsp;</td></tr>
+				 <tr><td>Love</td></tr>
+				 <tr><td>'.REGARDS.'</td></tr>
+				 </table>';
+	   SendMail($to,$subject,$message);
+	   if(SendMail){
+	   echo '<strong><font color="#006633">Story infographics image sent on email.</strong></font>';
+	   }
+	}
 ?>

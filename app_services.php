@@ -443,12 +443,11 @@ if($user_id>0){
 	   //URL : http://happinesslabs.com/app_services.php?type= add_story_photo&fb_id=&story_id=&photo_title=&photo_day&image_attach=
 		$fb_id=$_REQUEST['fb_id'];	
 		$cherryboard_id=$_REQUEST['story_id'];	
-		$photo_title=$_REQUEST['photo_title'];
+		$photo_title=trim($_REQUEST['photo_title']);
 		$photo_day=$_REQUEST['photo_day'];
 		$photo_name=$_FILES['image_attach']['name'];
 		$user_id=getUserId_by_FBid($fb_id);	
-		echo "1==>".$cherryboard_id."===".$user_id."===".$photo_name;
-		if($cherryboard_id>0&&$user_id>0&&$photo_name!=""){
+		if($cherryboard_id>0&&$user_id>0&&$photo_name!=""&&$photo_day>0&&$photo_title!=""){
 			$Photo_Source = $_FILES['image_attach']['tmp_name'];
 			$FileName = rand().'_'.$photo_name;
 			$ImagePath = "images/expertboard/".$FileName;
@@ -465,17 +464,17 @@ if($user_id>0){
 				$last_line=system($thumb_command_thumb, $retval);
 				
 				//update day
-				echo "2==>".$TotalPhoto=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_photo','photo_day='.$photo_day.' and cherryboard_id='.$cherryboard_id);
+				$TotalPhoto=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_photo','photo_day='.$photo_day.' and cherryboard_id='.$cherryboard_id);
 				$sub_day=0;
 				if($TotalPhoto>0){
 					$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 					$Day_Type=getDayType($expertboard_id);
 					$sub_day=($TotalPhoto+1);
-					echo "3==>".$insDay="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date,sub_day) VALUES (NULL,'".$expertboard_id."','".$photo_day."','".$Day_Type." ".$photo_day.".".$sub_day."','".date('Y-m-d')."','".$sub_day."')";
+					$insDay="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date,sub_day) VALUES (NULL,'".$expertboard_id."','".$photo_day."','".$Day_Type." ".$photo_day.".".$sub_day."','".date('Y-m-d')."','".$sub_day."')";
 					$insSql=mysql_query($insDay);
 				}
 				//update photo
-				echo "4==>".$insMeb="INSERT INTO tbl_app_expert_cherry_photo(photo_id,user_id,cherryboard_id,photo_title, photo_name,photo_day,sub_day) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_title."','".$FileName."','".$photo_day."','".$sub_day."')";
+				$insMeb="INSERT INTO tbl_app_expert_cherry_photo(photo_id,user_id,cherryboard_id,photo_title, photo_name,photo_day,sub_day) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_title."','".$FileName."','".$photo_day."','".$sub_day."')";
 				$insMebSql=mysql_query($insMeb);
 				if($insMebSql){
 					$tblData[]='Photo Inserted Successfully';
