@@ -11,6 +11,19 @@ $tblData=array();
 //Vijay FB ID : 100002349398425
 
 
+$story_id=$_REQUEST['story_id'];	
+$photo_title=trim($_REQUEST['photo_title']);
+$photo_day=$_REQUEST['photo_day'];
+$photo_name=$_FILES['image_attach']['name'];
+
+echo "fb_id==".$fb_id;
+echo "user_id==".$user_id;
+echo "story_id==".$story_id;
+echo "photo_title==".$photo_title;
+echo "photo_day==".$photo_day;
+echo "photo_name==".$photo_name;
+echo "All posted var==".print_r($_POST);
+
 if($user_id>0){
 	
 	//START SHARE ON EMAIL WEB SERVICES CODE
