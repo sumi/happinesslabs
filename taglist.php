@@ -10,7 +10,7 @@ $rs=mysql_fetch_array($qry);
 
 if($rs){
   do{
-    echo '<div class="tagview" style="left:'.$rs['pic_x'].'px;top:'.$rs['pic_y'].'px;" id="view_'.$rs['tag_id'].'"> <span style="background-color:#3476CE;">'.$rs['tag_title'].'&nbsp;</span></div>';
+    echo '<div class="tagview" style="left:'.$rs['tag_x'].'px;top:'.$rs['tag_y'].'px;" id="view_'.$rs['tag_id'].'"> <span style="background-color:#3476CE;">'.$rs['tag_title'].'&nbsp;</span></div>';
   }while($rs=mysql_fetch_array($qry));
 }
 ?>
