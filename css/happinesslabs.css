@@ -355,3 +355,80 @@ label {display: inline;}
 .half_div_left a{display: table-cell; vertical-align: middle; text-align: center;}
 .half_div_right a{display: table-cell; vertical-align: middle; text-align: center;}
 .single_div_half a{display: table-cell; vertical-align: middle; text-align: center;}
+
+/*START PHOTO TAG CSS*/
+#imgtag
+{
+  position:relative;
+  /*min-width:200px;
+  min-height:200px;*/
+  float:left;
+  border:solid 3px #fff;
+  cursor:pointer;/*crosshair*/
+}
+
+.tagview
+{
+  border:solid 3px #3476CE;
+  width:100px;
+  height:100px;
+  position:absolute;
+  display:none;
+  color:#FFFFFF;
+}
+#tagit
+{
+  position:absolute;
+  top:0;left:0;
+  width:150px;
+}
+#tagit .box
+{
+  border:solid 3px #fff;
+  width:100px;
+  height:100px;
+  float:left;
+}
+ 
+#tagit .name
+{
+  float:left;
+  background-color:#fff;
+  width:130px;
+  height:80px;
+  padding:5px;
+}
+#tagit div.text
+{
+  margin-bottom:5px;
+}
+#tagit input[type=text]
+{
+  margin-bottom:5px;
+}
+#tagit #tagname
+{
+  width:110px;
+}
+#taglist
+{
+  background-color:#aaa;
+  width:300px;
+  min-height:200px;
+  height:auto !important;
+  height:200px;
+  float:left;
+  padding:10px;
+  margin-left:20px;
+  color:#000;     
+}
+#taglist ol { padding:0 20px;float:left;cursor:pointer}
+#taglist ol a { }
+#taglist ol a:hover { text-decoration:underline }
+.tagtitle
+{
+  font-size:14px;
+  text-align:center;
+  width:100%;
+  float:left; 
+}

@@ -141,9 +141,9 @@ include('site_header.php');
 		$BuyerDetail=getUserDetail($cherryRow['user_id']);
 		$BuyerName=$BuyerDetail['name'];
 		$BuyerPic=$BuyerDetail['photo_url'];
-	}
-	
+	}	
 ?>
+<input type="hidden" id="pic_id" name="pic_id" value=""/>
 <div style="background:#FFFFFF; margin:0px auto;">
 <div id="wrapper" style="padding-top: 0px;margin: 0 auto 0;width:100%">
 <input type="hidden" name="cherryboard_id" id="cherryboard_id" value="<?=$cherryboard_id?>" />
@@ -812,7 +812,7 @@ function postToFeedExp() {
 						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a>            	   </div>
 					  <div style="clear:both"></div>
 					  </div>';
-				   $photoCnt.='<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
+				   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
 				   <div class="feedbox">';
 				   if($user_id==USER_ID){
 						$photoCnt.='<div class="actions"><a class="delete" href="#" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
@@ -822,7 +822,7 @@ function postToFeedExp() {
 					</div>';		
 				   }	
 				   $photoCnt.='</div>';			   
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px">
+				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')"><div id="tagbox"></div>'.($user_id==USER_ID?'</div>':'').'
 				   </div>';
 				   $photoCnt.='<div class="applemenu">';
 				   //COMMENT SECTION

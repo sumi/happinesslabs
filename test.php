@@ -1,3 +1,3 @@
 <?php
-include('include/cron_happybank.php');
+echo "===>".md5('vi147258');
 ?>

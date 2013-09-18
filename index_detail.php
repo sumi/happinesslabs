@@ -2,16 +2,17 @@
 include_once "fbmain.php";
 include('include/app-common-config.php');
 $msg='';
-	if(isset($_SESSION['redirect'])){//&&SCRIPT_NAME!="index_detail.php"
-		if(strpos($_SESSION['redirect'], '?') !== false){
-			$strVar='&rs=1';
-		}else{
-		    $strVar='?rs=1';
-		}
-		?>
-		<script language="javascript">document.location='<?=$_SESSION['redirect'].$strVar?>';</script>
-		<?php
-	}	
+$strVar='';
+if(isset($_SESSION['redirect'])){//&&SCRIPT_NAME!="index_detail.php"
+	if(strpos($_SESSION['redirect'],'?') !== false){
+		$strVar='&rs=1';
+	}else{
+		$strVar='?rs=1';
+	}
+	?>
+	<script language="javascript">document.location='<?=$_SESSION['redirect'].$strVar?>';</script>
+	<?php
+}	
 //$data['album'] = array('name'=>"Today Album",'description'=>"Vijay Album Description");
 //$new_album = $facebook->api("/me/albums", 'POST', $data['album']);
 /*

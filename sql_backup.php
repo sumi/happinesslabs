@@ -56,3 +56,16 @@ ALTER TABLE `tbl_app_expertboard_likes` CHANGE `expertboard_id` `cherryboard_id`
 
 09-02-2013
 ALTER TABLE `tbl_app_expertboard_likes` CHANGE `is_like` `is_like` ENUM( '1', '2', '0' ) NOT NULL DEFAULT '0'
+
+09-17-2013
+CREATE TABLE IF NOT EXISTS `tbl_app_expert_tag_photo` (
+  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cherryboard_id` int(11) NOT NULL,
+  `photo_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `tag_title` text NOT NULL,
+  `tag_x` int(11) NOT NULL,
+  `tag_y` int(11) NOT NULL,
+  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;

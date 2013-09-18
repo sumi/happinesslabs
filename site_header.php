@@ -19,7 +19,15 @@ body{ background:repeat-x left top #eeeaec;}
 		unset($_SESSION['redirect']);
 	}
 	if(isset($_SESSION['redirect'])){
-		$stringVar=$_SESSION['redirect'];
+		$scriptNameArray=explode("/",$_SESSION['redirect']);
+		$lastElement=(count($scriptNameArray)-1);
+		$scriptName=$scriptNameArray[$lastElement];
+		if($scriptName=="savetag.php"||$scriptName=="taglist.php"){
+			unset($_SESSION['redirect']);
+			$stringVar='index_detail.php';
+		}else{
+			$stringVar=$_SESSION['redirect'];
+		}
 	}else{
 		$stringVar='index_detail.php';
 	}
@@ -49,8 +57,108 @@ body{ background:repeat-x left top #eeeaec;}
 	<link rel="stylesheet" type="text/css" href="board_slider/style.css" />
 	<script type="text/javascript" src="board_slider/jquery.js"></script>
 	<!-- JS For The Images Mouse Over & Mouse Out -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
-	</script>
+	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
+	<script type="text/javascript"> 
+  $(document).ready(function(){
+    var counter = 0;
+    var mouseX = 0;
+    var mouseY = 0;
+    
+    $("#imgtag img").click(function(e){ // make sure the image is click
+      var imgtag = $(this).parent(); // get the div to append the tagging list
+      mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
+      mouseY = e.pageY - $(imgtag).offset().top;
+      $('#tagit').remove(); // remove any tagit div first
+      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="button" name="btnsave" value="Save" id="btnsave" /><input type="button" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
+      $('#tagit').css({top:mouseY,left:mouseX});      
+      $('#tagname').focus();
+    });
+    
+    $('#tagit #btnsave').live('click',function(){
+      name=$('#tagname').val();
+	  var pic_id=document.getElementById('pic_id').value;
+      $.ajax({
+        type: "POST", 
+        url: "savetag.php", 
+        data: "pic_id="+pic_id+"&name="+name+"&pic_x="+mouseX+"&pic_y="+mouseY+"&type=insert",
+        cache: true, 
+        success: function(data){
+          viewtag();
+          $('#tagit').fadeOut();
+        }
+      });
+      
+    });
+    
+     $('#tagit #btncancel').live('click',function(){
+      $('#tagit').fadeOut();
+      
+    });
+	
+	$('img').live('mouseover mouseout',function(event){
+      id=$(this).attr("rel");
+      if (event.type == "mouseover"){
+        $('#view_'+id).show();
+      }else{
+        $('#view_'+id).hide();
+      }
+    });
+    
+    $('#taglist li').live('mouseover mouseout',function(event){
+      id=$(this).attr("rel");
+      if (event.type=="mouseover"){
+        $('#view_'+id).show();
+      }else{
+        $('#view_'+id).hide();
+      }
+    });
+    
+    $('#taglist li a.remove').live('click',function(){
+      id=$(this).parent().attr("rel");
+      // get all tag on page load
+      $.ajax({
+        type: "POST", 
+        url: "savetag.php", 
+        data: "tag_id="+id+"&type=remove",
+        success: function(data){
+          viewtag();
+        }
+      });
+    });
+    
+    viewtag(); // get all tag on page load
+    
+    function viewtag(pic_id)
+    {
+      // get the tag list with action remove
+      $.ajax({
+        type: "POST", 
+        url: "savetag.php", 
+        data: "pic_id="+pic_id,
+        cache: true, 
+        success: function(data){
+          $('#taglist ol').html(data);
+        }
+      });
+      
+      // get the tag list for boxes
+      $.ajax({
+        type: "POST", 
+        url: "taglist.php", 
+        data: "pic_id="+pic_id,
+        cache: true, 
+        success: function(data){
+          $('#tagbox').html(data);
+        }
+      });
+    }
+  });
+  function setPicId(pic_id){
+  	document.getElementById('pic_id').value=pic_id;
+  }
+</script>
+	
 	<script type="text/javascript" src="js/ddaccordion.js"></script>
 	<script type="text/javascript">
 	ddaccordion.init({
