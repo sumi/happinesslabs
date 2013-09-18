@@ -822,7 +822,7 @@ function postToFeedExp() {
 					</div>';		
 				   }	
 				   $photoCnt.='</div>';			   
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')"><div id="tagbox"></div>'.($user_id==USER_ID?'</div>':'').'
+				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')" rel="1"><div id="tagbox"></div>'.($user_id==USER_ID?'</div>':'').'
 				   </div>';
 				   $photoCnt.='<div class="applemenu">';
 				   //COMMENT SECTION

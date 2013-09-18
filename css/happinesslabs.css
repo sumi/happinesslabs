@@ -370,7 +370,7 @@ label {display: inline;}
 .tagview
 {
   border:solid 3px #3476CE;
-  width:100px;
+  /*width:100px;*/
   height:100px;
   position:absolute;
   display:none;
