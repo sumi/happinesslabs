@@ -22,7 +22,7 @@ body{ background:repeat-x left top #eeeaec;}
 		$scriptNameArray=explode("/",$_SESSION['redirect']);
 		$lastElement=(count($scriptNameArray)-1);
 		$scriptName=$scriptNameArray[$lastElement];
-		if($scriptName=="savetag.php"||$scriptName=="taglist.php"){
+		if($scriptName=="savetag.php"){
 			unset($_SESSION['redirect']);
 			$stringVar='index_detail.php';
 		}else{
@@ -40,14 +40,13 @@ body{ background:repeat-x left top #eeeaec;}
 	$(function(){
 			var btnUpload=$('#me');
 			var files=$('#files');
-			new AjaxUpload(btnUpload, {
+			new AjaxUpload(btnUpload,{
 				action:'<?=(SCRIPT_NAME=="cherryboard.php"?'uploadPhoto.php':'expert_uploadPhoto.php')?>',
 				name: 'uploadfile',
 				onComplete: function(file, response){
 					document.getElementById('div_up_photo').innerHTML=response;
 				}
-			});
-			
+			});			
 		});
 	</script>
 	<!-- JS for the photo slider -->
@@ -58,8 +57,8 @@ body{ background:repeat-x left top #eeeaec;}
 	<script type="text/javascript" src="board_slider/jquery.js"></script>
 	<!-- JS For The Images Mouse Over & Mouse Out -->
 	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
-	<script type="text/javascript"> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
+<script type="text/javascript"> 
   $(document).ready(function(){
     var counter = 0;
     var mouseX = 0;
@@ -84,11 +83,11 @@ body{ background:repeat-x left top #eeeaec;}
         data: "pic_id="+pic_id+"&name="+name+"&pic_x="+mouseX+"&pic_y="+mouseY+"&type=insert",
         cache: true, 
         success: function(data){
-          viewtag();
+          //viewtag();
           $('#tagit').fadeOut();
+		  document.location.href='expert_cherryboard.php?cbid=<?php echo $cherryboard_id; ?>';
         }
-      });
-      
+      });      
     });
     
      $('#tagit #btncancel').live('click',function(){
@@ -96,7 +95,7 @@ body{ background:repeat-x left top #eeeaec;}
       
     });
 	
-	$('img').live('mouseover mouseout',function(event){
+	$('#divHover').live('mouseover mouseout',function(event){
       id=$(this).attr("rel");
       if (event.type=="mouseover"){
         $('#view_'+id).show();
@@ -104,55 +103,6 @@ body{ background:repeat-x left top #eeeaec;}
         $('#view_'+id).hide();
       }
     });
-    
-    $('#taglist li').live('mouseover mouseout',function(event){
-      id=$(this).attr("rel");
-      if (event.type=="mouseover"){
-        $('#view_'+id).show();
-      }else{
-        $('#view_'+id).hide();
-      }
-    });
-    
-    $('#taglist li a.remove').live('click',function(){
-      id=$(this).parent().attr("rel");
-      // get all tag on page load
-      $.ajax({
-        type: "POST", 
-        url: "savetag.php", 
-        data: "tag_id="+id+"&type=remove",
-        success: function(data){
-          viewtag();
-        }
-      });
-    });
-    
-    viewtag(); // get all tag on page load
-    
-    function viewtag(pic_id)
-    {
-      // get the tag list with action remove
-      $.ajax({
-        type: "POST", 
-        url: "savetag.php", 
-        data: "pic_id="+pic_id,
-        cache: true, 
-        success: function(data){
-          $('#taglist ol').html(data);
-        }
-      });
-	  
-      // get the tag list for boxes
-      $.ajax({
-        type: "POST", 
-        url: "taglist.php", 
-        data: "pic_id="+pic_id,
-        cache: true, 
-        success: function(data){
-          $('#tagbox').html(data);
-        }
-      });
-    }
   });
   function setPicId(pic_id){
   	document.getElementById('pic_id').value=pic_id;

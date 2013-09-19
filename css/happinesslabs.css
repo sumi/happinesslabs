@@ -376,12 +376,27 @@ label {display: inline;}
 
 .tagview
 {
+  background-color:#3476CE;
   border:solid 3px #3476CE;
   /*width:100px;*/
-  height:100px;
+  height:16px;
+  color:#FFFFFF;
   position:absolute;
   display:none;
-  color:#FFFFFF;
+}
+.tagview1
+{
+  position:absolute;
+  -webkit-border-radius:999px;
+    -moz-border-radius:999px;
+    border-radius:999px;
+    behavior: url(PIE.htc);
+}
+.type1{
+    width:10px;
+    height:10px;
+    background:yellow;
+    border:1px solid red
 }
 #tagit
 {
@@ -432,26 +447,4 @@ label {display: inline;}
 #tagit #tagname
 {
   width:105px;
-}
-#taglist
-{
-  background-color:#aaa;
-  width:300px;
-  min-height:200px;
-  height:auto !important;
-  height:200px;
-  float:left;
-  padding:10px;
-  margin-left:20px;
-  color:#000;     
-}
-#taglist ol { padding:0 20px;float:left;cursor:pointer}
-#taglist ol a { }
-#taglist ol a:hover { text-decoration:underline }
-.tagtitle
-{
-  font-size:14px;
-  text-align:center;
-  width:100%;
-  float:left; 
 }
