@@ -366,6 +366,13 @@ label {display: inline;}
   border:solid 3px #fff;
   cursor:pointer;/*crosshair*/
 }
+#imgtag1
+{
+  position:relative;
+  float:left;
+  border:solid 3px #fff;
+  cursor:default;
+}
 
 .tagview
 {
@@ -385,7 +392,7 @@ label {display: inline;}
 #tagit .box
 {
   border:solid 3px #fff;
-  width:100px;
+  width:115px;
   height:100px;
   float:left;
 }
@@ -394,21 +401,37 @@ label {display: inline;}
 {
   float:left;
   background-color:#fff;
-  width:130px;
-  height:80px;
+  width:111px;
+  height:75px;
   padding:5px;
+}
+#tagit .btn{
+  background-color: #277FBD;
+  border: 2px solid #D0CFCF;
+  border-radius: 10px 10px 10px 10px;
+  color: #FFFFFF;
+  cursor: pointer;
+  float: left;
+  margin-right:2px;
+  font-size: 12px;
+  line-height: 15px;
+  padding: 1px 5px;
+  text-align: center;
+  text-transform: none;
+  vertical-align: middle;
 }
 #tagit div.text
 {
-  margin-bottom:5px;
+  margin-bottom:5px;  
 }
 #tagit input[type=text]
 {
   margin-bottom:5px;
+  border:1px solid #000000;
 }
 #tagit #tagname
 {
-  width:110px;
+  width:105px;
 }
 #taglist
 {

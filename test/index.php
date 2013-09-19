@@ -1,18 +1,27 @@
 <?php
-//exec("montage a.jpg b.jpg \ c.jpg -mode Concatenate -tile x1  montage_cat.jpg");
-//exec("montage a.jpg -geometry +2+2 montage_geom.jpg");//Single Image
-//exec("convert a.jpg b.jpg +append -quality 100 -geometry +2+2 'montage_geom.jpg'");//Two Image
-//exec("convert a.jpg b.jpg +append c.jpg -append -quality 100  -geometry +2+2 'montage_geom.jpg'");//Three Image
-//exec("montage a.jpg b.jpg c.jpg d.jpg -quality 100 -geometry +2+2 montage_geom.jpg");//Four Image
-//exec("montage a.jpg b.jpg c.jpg d.jpg f.jpg -quality 100 -geometry +2+2 montage_geom.jpg");//Five Image
-//exec("montage a.jpg b.jpg c.jpg d.jpg f.jpg g.jpg -quality 100 -geometry 200x200+2+2 montage_geom.jpg");//Six Image
-//exec("montage a.jpg b.jpg c.jpg d.jpg f.jpg g.jpg h.jpg i.jpg j.jpg k.jpg -quality 100 -geometry 200x200+2+2 montage_geom.jpg");//Six Image
-?>
-<!--<br />
-<img src="a.jpg" />
-<br />
-<img src="b.jpg"/>
-<br />
-<img src="c.jpg"/>-->
-<br/>
-<img src="montage_geom.jpg"/>
+if(isset($_POST['btnsubmit'])){
+ $image_magick = "convert"; 
+  $font_selection = "bebas.ttf"; 
+
+  $source_image = "a.jpg"; 
+  $target_image = "b.jpg"; 
+  $text = $_POST['phototext']; 
+
+  $ImgSize = getimagesize($source_image);
+  $ImgWidth=$ImgSize[0];
+  $ImgHeight=$ImgSize[1];
+  
+  $TopFontSize=round($ImgWidth/8);
+  $TopLeftPed=0;//round($ImgWidth/3);
+  $TopTopPed=100;//round($ImgHeight/5);
+  
+  echo $command = $image_magick.' -resize '.$ImgWidth.' "'.$source_image.'" '.' -font "'.$font_selection.'" -pointsize '.$TopFontSize.' -fill white '.' -draw "text '.$TopLeftPed.', '.$TopTopPed.' \''.$text.'\'"  "'.$target_image.'"';
+  passthru($command);
+}  
+ ?>
+<img src="a.jpg" /><br/><Br/>
+<form  method="post">
+<input type="text" name="phototext" value="" />
+<input type="submit" value="Go" name="btnsubmit" />
+</form>
+<img src="b.jpg" />

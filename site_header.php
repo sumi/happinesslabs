@@ -70,7 +70,7 @@ body{ background:repeat-x left top #eeeaec;}
       mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
       mouseY = e.pageY - $(imgtag).offset().top;
       $('#tagit').remove(); // remove any tagit div first
-      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="button" name="btnsave" value="Save" id="btnsave" /><input type="button" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
+      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
       $('#tagit').css({top:mouseY,left:mouseX});      
       $('#tagname').focus();
     });
@@ -98,7 +98,7 @@ body{ background:repeat-x left top #eeeaec;}
 	
 	$('img').live('mouseover mouseout',function(event){
       id=$(this).attr("rel");
-      if (event.type == "mouseover"){
+      if (event.type=="mouseover"){
         $('#view_'+id).show();
       }else{
         $('#view_'+id).hide();
@@ -141,7 +141,7 @@ body{ background:repeat-x left top #eeeaec;}
           $('#taglist ol').html(data);
         }
       });
-      
+	  
       // get the tag list for boxes
       $.ajax({
         type: "POST", 

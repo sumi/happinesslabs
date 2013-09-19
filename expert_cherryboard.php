@@ -784,6 +784,8 @@ function postToFeedExp() {
 				if($photo_title==""){
 					$photo_title='<div style="width:180px;height:18px">&nbsp;</div>';
 				}
+				//GET PHOTO TAG ID CODE
+				$tag_id=(int)getFieldValue('tag_id','tbl_app_expert_tag_photo','photo_id='.$photo_id);	
 				if(is_file($photoPath)){
 				   $photoCnt='';
 				   if($totalPhoto>1){
@@ -812,7 +814,7 @@ function postToFeedExp() {
 						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a>            	   </div>
 					  <div style="clear:both"></div>
 					  </div>';
-				   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
+				   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
 				   <div class="feedbox">';
 				   if($user_id==USER_ID){
 						$photoCnt.='<div class="actions"><a class="delete" href="#" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
@@ -822,7 +824,7 @@ function postToFeedExp() {
 					</div>';		
 				   }	
 				   $photoCnt.='</div>';			   
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')" rel="1"><div id="tagbox"></div>'.($user_id==USER_ID?'</div>':'').'
+				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')" rel="'.$tag_id.'"><div id="tagbox"></div></div>
 				   </div>';
 				   $photoCnt.='<div class="applemenu">';
 				   //COMMENT SECTION
