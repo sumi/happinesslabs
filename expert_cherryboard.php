@@ -784,14 +784,13 @@ function postToFeedExp() {
 				if($photo_title==""){
 					$photo_title='<div style="width:180px;height:18px">&nbsp;</div>';
 				}
-				//GET PHOTO TAG ID CODE
-				$tag_id=(int)getFieldValue('tag_id','tbl_app_expert_tag_photo','photo_id='.$photo_id);	
+					
 				if(is_file($photoPath)){
 				   $photoCnt='';
 				   if($totalPhoto>1){
 					 $printDay=$photo_day.'_'.$sub_day;
 				   }else{ $printDay=$photo_day; }
-				$TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
+				   $TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
 				   $photoCnt.='<div class="bottom_box_main">';				   
 				   if($i==3){
 				   	  $photoCnt.='<div class="bottom_daya">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
@@ -814,6 +813,16 @@ function postToFeedExp() {
 						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a>            	   </div>
 					  <div style="clear:both"></div>
 					  </div>';
+				//START PHOTO TAG DISPLAY CODE
+				$selTag=mysql_query("SELECT * FROM tbl_app_expert_tag_photo WHERE photo_id=".$photo_id);
+				if(mysql_num_rows($selTag)>0){
+				 while($selTagRow=mysql_fetch_array($selTag)){
+				   $tag_id=(int)$selTagRow['tag_id'];	
+				   $tag_title=trim(ucwords($selTagRow['tag_title']));	
+				   $tag_x=(int)$selTagRow['tag_x'];	
+				   $tag_y=(int)$selTagRow['tag_y'];
+				   $tagY=$tag_y-25;
+			     
 				   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
 				   <div class="feedbox">';
 				   if($user_id==USER_ID){
@@ -824,8 +833,22 @@ function postToFeedExp() {
 					</div>';		
 				   }	
 				   $photoCnt.='</div>';			   
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.')" rel="'.$tag_id.'"><div id="tagbox"></div></div>
-				   </div>';
+				   $photoCnt.='<div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tag_x.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.$tag_title.'</div>
+				   <img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
+				  } 
+			    }else{
+				   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
+				   <div class="feedbox">';
+				   if($user_id==USER_ID){
+						$photoCnt.='<div class="actions"><a class="delete" href="#" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
+					 //Change Photo Hover Code
+					 $photoCnt.='<div class="message">
+					<a href="javascript:void(0);" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change">Change Photo</a>
+					</div>';		
+				   }	
+				   $photoCnt.='</div>';			   
+				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
+				}
 				   $photoCnt.='<div class="applemenu">';
 				   //COMMENT SECTION
 				   $photoCnt.='<div id="div_cherry_comment_'.$photo_id.'">';

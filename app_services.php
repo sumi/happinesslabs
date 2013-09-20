@@ -557,7 +557,10 @@ if($user_id>0){
 							$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system) VALUES (NULL,'".(int)$user_id."','".$GoalBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1')";
 							$insTodoSql=mysql_query($insTodo);
 						}
-						$tblData['status']=(int)$GoalBoardId;
+						$tblData['story_id']=(int)$GoalBoardId;
+						$tblData['status']=1;
+						$tblData['status_code']=200;
+						$tblData['msg']="story_create_success";
 						
 						//START UPLOAD PHOTO CODE
 					   //URL : http://happinesslabs.com/app_services.php?type= add_story_photo&fb_id=&story_id=&photo_title=&photo_day&image_attach=
@@ -653,7 +656,7 @@ if($type=='doit'){
 }
 //END DOIT CODE	
 }else{
-	$tblData[]='Invalid User';
+	$tblData['status']='Invalid User';
 }
 
 //ADD USER & RETURN STORY LIST
@@ -700,7 +703,12 @@ if($type=="add_user"){
 }
 
 //print_r($tblData)."<br>";
-$jsonData=array(array("data"=>$tblData));
+if($type=="add_exp_board"||$type=="sub_story"){	
+	$jsonData=array($tblData);
+}else{
+	$jsonData=array(array("data"=>$tblData));
+}
+
 $jsonData=json_encode($jsonData);
 $jsonData=substr($jsonData,1);
 $jsonData=substr($jsonData,0,(strlen($jsonData)-1));
