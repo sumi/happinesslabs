@@ -255,7 +255,7 @@ function fb_logout() {
   <div class="main_bg">
     <div class="main_top">      
       <div class="logo"><a href="index_detail.php"><img src="images/logo_1.png" alt="" /></a></div>		
-	   <div class="text_1">
+	   <!-- <div class="text_1">
 	   		<div id="sample_attach_menu_parent" class="sample_attach">
 			<a href="#">Happiness<br />Bank</a>
 			</div>
@@ -263,24 +263,22 @@ function fb_logout() {
 			<a class="sample_attach" href="add_happy_experience.php">Add Happy Experience</a>
 			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
 			</div>
-       </div>
+       </div> -->
        <div class="text_1">
-	   		<div id="sample_attach_menu_parent_one" class="sample_attach">
-			<a href="#">Tell Your<br />Happy <br />Story</a>
+	   		<div id="sample_attach_menu_parent" class="sample_attach">
+			<a href="#">My Life<br />Story Book</a>
 			</div>
-			<div id="sample_attach_menu_child_one">
+			<div id="sample_attach_menu_child">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
 			<a class="sample_attach" href="customer_happy_story.php">Customer Happy Story</a>
 			<a class="sample_attach" rel="leanModal" href="#add_story_template">Add Story Template</a>
 		    </div>	  
        </div>
-       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">Happy <br />
-                                       Rewards<br />
-                                       For You</a>
+       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
+                                       Happy Living</a>
        </div>
-       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Happy <br />
-                                       Stories<br />
-                                       To Inspire</a>
+       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
+                                       Happy Living</a>
       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
@@ -302,29 +300,19 @@ function fb_logout() {
       <div class="tell_mine">
 	  <div class="tell">
 			<div id="sample_attach_menu_parent" class="sample_attach_one">
-			<a href="#">Happiness<br />Bank</a>
+			<a href="#">My Life<br />Story Book</a>
 			</div>
-			<div id="sample_attach_menu_child">
-			<a class="sample_attach_one" href="add_happy_experience.php">Add Happy Experience</a>
-			<a class="sample_attach_one" href="add_unhappy_experience.php">Add Unhappy Experience</a>
-			</div>
-	  </div>
-      <div class="tell">
-			<div id="sample_attach_menu_parent_one" class="sample_attach_one">
-			<a href="#">Tell Your<br />Happy <br />Story</a>
-			</div>
-			<div id="sample_attach_menu_child_one" style="z-index:111;">
+			<div id="sample_attach_menu_child" style="z-index:111;">
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="javascript:void(0);"')?> class="sample_attach_one">My Life Story</a>
 			<a class="sample_attach_one" href="customer_happy_story.php">Customer Happy Story</a>
 			<a <?=(FB_ID>0?'rel="leanModal" href="#add_story_template"':'href="javascript:void(0);"')?> class="sample_attach_one">Add Story Template</a>
 			</div>
       </div>
-      <div class="tell">
-      <a href="win_rewards.php" title="Win Rewards">Win<br />Rewards</a>
-      </div>
-         
-      <div class="tell">
-      <a href="ask_experts.php" title="Happy Stories">Happy<br />Stories</a>
+       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
+                                       Happy Living</a>
+       </div>
+       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
+                                       Happy Living</a>
       </div>
       </div>
         <div class="facebook">
@@ -338,7 +326,6 @@ function fb_logout() {
   <?php } ?>
 <script type="text/javascript">
 	at_attach("sample_attach_menu_parent", "sample_attach_menu_child", "hover", "y", "pointer");
-	at_attach("sample_attach_menu_parent_one", "sample_attach_menu_child_one", "hover", "y", "pointer");
 </script>
 <!--END HEADER CODE-->	
 <!-- START EXPERT BOARD CODE AND DIV -->	

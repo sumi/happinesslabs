@@ -235,10 +235,15 @@ body {
 .img_box_container .actions .delete{ display: none;}
 .img_box_container:hover .actions .delete{ display: block;}
 /*====================> CHANGE IMAGE MESSAGE CSS <========================*/
-.img_box_container .message {position: absolute; z-index: 3; top: 100px; left: 33px; right: 5px;}
-.img_box_container .message a {clear: both; float: left; margin: 0 0 10px 0; background:#FFFFFF; text-decoration:none; font-size:20px; color:#333333; padding:10px 20px; border-radius:2px; border-radius:2px;}
-.img_box_container .message .change{ display: none;}
-.img_box_container:hover .message .change{ display: block;}
+.img_box_container .message{position:absolute;z-index:3;top:100px;left:33px;right:5px;}
+.img_box_container .message a{clear:both;float:left;margin:0 0 10px 0;background:#FFFFFF;text-decoration:none; font-size:20px;color:#333333;padding:10px 20px;border-radius:2px;}
+.img_box_container .message .change{display:none;}
+.img_box_container:hover .message .change{display:block;}
+/*=================================*/
+.img_box_container .message1{position:absolute;z-index:3;top:3px;right:20px;}
+.img_box_container .message1 a{clear: both; float: left; margin-right:9px; background:#FFFFFF; text-decoration:none; font-size:11px; color:#333333; padding:2px 3px 0 3px; border-radius:2px;}
+.img_box_container .message1 .change{display:none;}
+.img_box_container:hover .message1 .change{display:block;}
 
 /*--happiness labs_box--*/
 .box_bg{background-color:#e9eae1;}

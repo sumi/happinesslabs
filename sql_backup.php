@@ -69,3 +69,6 @@ CREATE TABLE IF NOT EXISTS `tbl_app_expert_tag_photo` (
   `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+09-21-2013
+ALTER TABLE `tbl_app_expert_tag_photo` ADD `tag_photo` VARCHAR( 255 ) NOT NULL AFTER `tag_title` 
