@@ -18,16 +18,17 @@ if($_POST['type']=="insert")
   $tag_id=$_POST['tag_id'];
   $sql="DELETE FROM tbl_app_expert_tag_photo WHERE tag_id='".$tag_id."'";
   $qry=mysql_query($sql);
-}
-
-// fetch all tags
-$sql = "SELECT * FROM tbl_app_expert_tag_photo ORDER BY tag_id";//WHERE pic_id=".$pic_id."
-$qry = mysql_query($sql);
-$rs = mysql_fetch_array($qry);
-
-if($rs){
-  do{
-    echo '<li rel="'.$rs['tag_id'].'"><a>'.$rs['tag_title'].'</a> (<a class="remove">Remove</a>)</li>';
-  }while($rs=mysql_fetch_array($qry));
 }*/
+//START FETCH TAG DATA
+if($_POST['type']=="display"){
+  $selTag=mysql_query("SELECT * FROM tbl_app_expert_tag_photo WHERE photo_id=".$pic_id." ORDER BY tag_id");
+  while($selTagRow=mysql_fetch_array($selTag)){
+  		$tag_id=(int)$selTagRow['tag_id'];	
+	    $tag_title=trim(ucwords($selTagRow['tag_title']));	
+	    $tag_x=(int)$selTagRow['tag_x'];	
+	    $tag_y=(int)$selTagRow['tag_y'];
+	    $tagY=$tag_y-25;
+  		echo '<div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tag_x.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.$tag_title.'</div>';
+  }
+}
 ?>

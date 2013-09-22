@@ -60,15 +60,15 @@ body{ background:repeat-x left top #eeeaec;}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
 <script type="text/javascript"> 
   $(document).ready(function(){
-    var counter = 0;
-    var mouseX = 0;
-    var mouseY = 0;
+    var counter=0;
+    var mouseX=0;
+    var mouseY=0;
     
     $("#imgtag img").click(function(e){ // make sure the image is click
-      var imgtag = $(this).parent(); // get the div to append the tagging list
-      mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
-      mouseY = e.pageY - $(imgtag).offset().top;
-      $('#tagit').remove(); // remove any tagit div first
+      var imgtag=$(this).parent(); // get the div to append the tagging list
+      mouseX=e.pageX-$(imgtag).offset().left; // x and y axis
+      mouseY=e.pageY-$(imgtag).offset().top;
+      $('#tagit').remove(); //remove any tagit div first
       $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
       $('#tagit').css({top:mouseY,left:mouseX});      
       $('#tagname').focus();
@@ -83,9 +83,9 @@ body{ background:repeat-x left top #eeeaec;}
         data: "pic_id="+pic_id+"&name="+name+"&pic_x="+mouseX+"&pic_y="+mouseY+"&type=insert",
         cache: true, 
         success: function(data){
-          //viewtag();
+          viewtag(pic_id);
           $('#tagit').fadeOut();
-		  document.location.href='expert_cherryboard.php?cbid=<?php echo $cherryboard_id; ?>';
+		  //document.location.href='expert_cherryboard.php?cbid=<?php echo $cherryboard_id; ?>';
         }
       });      
     });
@@ -104,6 +104,17 @@ body{ background:repeat-x left top #eeeaec;}
       }
     });
   });
+  function viewtag(pic_id){
+  	$.ajax({
+		type: "POST", 
+		url: "savetag.php?", 
+		data: "pic_id="+pic_id+"&type=display",
+		cache: true, 
+		success: function(data){
+		  $('#divHover').html(data);
+		}
+	});
+  }
   function setPicId(pic_id){
   	document.getElementById('pic_id').value=pic_id;
   }
@@ -255,7 +266,7 @@ function fb_logout() {
   <div class="main_bg">
     <div class="main_top">      
       <div class="logo"><a href="index_detail.php"><img src="images/logo_1.png" alt="" /></a></div>		
-	   <!-- <div class="text_1">
+	   <div class="text_1">
 	   		<div id="sample_attach_menu_parent" class="sample_attach">
 			<a href="#">Happiness<br />Bank</a>
 			</div>
@@ -263,22 +274,24 @@ function fb_logout() {
 			<a class="sample_attach" href="add_happy_experience.php">Add Happy Experience</a>
 			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
 			</div>
-       </div> -->
+       </div>
        <div class="text_1">
-	   		<div id="sample_attach_menu_parent" class="sample_attach">
-			<a href="#">My Life<br />Story Book</a>
+	   		<div id="sample_attach_menu_parent_one" class="sample_attach">
+			<a href="#">Tell Your<br />Happy <br />Story</a>
 			</div>
-			<div id="sample_attach_menu_child">
+			<div id="sample_attach_menu_child_one">
 			<a class="sample_attach" rel="leanModal" href="#create_expert_board">My Life Story</a>
 			<a class="sample_attach" href="customer_happy_story.php">Customer Happy Story</a>
 			<a class="sample_attach" rel="leanModal" href="#add_story_template">Add Story Template</a>
 		    </div>	  
        </div>
-       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
-                                       Happy Living</a>
+       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">Happy <br />
+                                       Rewards<br />
+                                       For You</a>
        </div>
-       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
-                                       Happy Living</a>
+       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Happy <br />
+                                       Stories<br />
+                                       To Inspire</a>
       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
@@ -300,19 +313,29 @@ function fb_logout() {
       <div class="tell_mine">
 	  <div class="tell">
 			<div id="sample_attach_menu_parent" class="sample_attach_one">
-			<a href="#">My Life<br />Story Book</a>
+			<a href="#">Happiness<br />Bank</a>
 			</div>
-			<div id="sample_attach_menu_child" style="z-index:111;">
+			<div id="sample_attach_menu_child">
+			<a class="sample_attach_one" href="add_happy_experience.php">Add Happy Experience</a>
+			<a class="sample_attach_one" href="add_unhappy_experience.php">Add Unhappy Experience</a>
+			</div>
+	  </div>
+      <div class="tell">
+			<div id="sample_attach_menu_parent_one" class="sample_attach_one">
+			<a href="#">Tell Your<br />Happy <br />Story</a>
+			</div>
+			<div id="sample_attach_menu_child_one" style="z-index:111;">
 			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="javascript:void(0);"')?> class="sample_attach_one">My Life Story</a>
 			<a class="sample_attach_one" href="customer_happy_story.php">Customer Happy Story</a>
 			<a <?=(FB_ID>0?'rel="leanModal" href="#add_story_template"':'href="javascript:void(0);"')?> class="sample_attach_one">Add Story Template</a>
 			</div>
       </div>
-       <div class="text_1"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
-                                       Happy Living</a>
-       </div>
-       <div class="text_1"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
-                                       Happy Living</a>
+      <div class="tell">
+      <a href="win_rewards.php" title="Win Rewards">Win<br />Rewards</a>
+      </div>
+         
+      <div class="tell">
+      <a href="ask_experts.php" title="Happy Stories">Happy<br />Stories</a>
       </div>
       </div>
         <div class="facebook">
@@ -326,6 +349,7 @@ function fb_logout() {
   <?php } ?>
 <script type="text/javascript">
 	at_attach("sample_attach_menu_parent", "sample_attach_menu_child", "hover", "y", "pointer");
+	at_attach("sample_attach_menu_parent_one", "sample_attach_menu_child_one", "hover", "y", "pointer");
 </script>
 <!--END HEADER CODE-->	
 <!-- START EXPERT BOARD CODE AND DIV -->	
