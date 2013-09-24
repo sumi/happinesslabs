@@ -274,9 +274,9 @@ function fb_logout() {
 			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
 			</div>
        </div> -->
-       <div class="tell" style="padding: 53px 30px 0 0;">
+       <div class="tell" style="padding-top: 35px;">
 	   		<div id="sample_attach_menu_parent" class="sample_attach">
-			<a href="#">My Life<br/>Story Book of<br/>Happy Living</a>
+			<a href="happiness_book.php">My Life<br/>Story Book of<br/>Happy Living</a>
 			</div>
 			<div id="sample_attach_menu_child">
 			<a class="sample_attach_one" rel="leanModal" href="#create_expert_board">My Life Story</a>
@@ -284,10 +284,10 @@ function fb_logout() {
 			<a class="sample_attach_one" rel="leanModal" href="#add_story_template">Add Story Template</a>
 		    </div>	  
        </div> 
-       <div class="tell" style="padding: 53px 30px 0 0;"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
+       <div class="tell"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
                                        Happy Living</a>
        </div>
-       <div class="tell" style="padding: 53px 30px 0 0;"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
+       <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
                                        Happy Living</a>
       </div>
         <div class="img_top">
@@ -308,7 +308,7 @@ function fb_logout() {
       <div class="logo_home"><img src="images/logo_1.png" alt="" /></div>
       <div class="logo_text">&nbsp;</div>
       <div class="tell_mine">
-	  <div class="tell" style="padding: 53px 30px 0 0;">
+	  <div class="tell" style="padding-top: 46px;">
 			<div id="sample_attach_menu_parent">
 			<a href="#">My Life<br/>Story Book of<br/>Happy Living</a>
 			</div>
@@ -318,10 +318,10 @@ function fb_logout() {
 			<a <?=(FB_ID>0?'rel="leanModal" href="#add_story_template"':'href="javascript:void(0);"')?> class="sample_attach_one">Add Story Template</a>
 			</div>
       </div>
-       <div class="tell" style="padding: 53px 30px 0 0;"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
+       <div class="tell"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
                                        Happy Living</a>
        </div>
-       <div class="tell" style="padding: 53px 30px 0 0;"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
+       <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
                                        Happy Living</a>
       </div>
       </div>
