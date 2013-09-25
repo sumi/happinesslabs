@@ -1,9 +1,11 @@
 <?php
 include_once "fbmain.php";
 include('include/app-common-config.php');
+$userDetail=getUserDetail(USER_ID,'uid');
+$photo_url=$userDetail['photo_url'];
+$user_name=$userDetail['name'];
 ?>
 <?php include('site_header.php');?>
-
      
 
 <!-- ================================== -->
@@ -11,11 +13,8 @@ include('include/app-common-config.php');
 <script type="text/javascript" src="book/turn.min.js"></script>
 
 <style type="text/css">
-body{
-	background:#ccc;
-}
 #magazine{
-	width:576px;
+	width:1152px;
 	height:552px;
 }
 #magazine .turn-page{
@@ -24,51 +23,67 @@ body{
 }
 </style>
 <div class="welcome_main" style="background-image:url('images/welcome-to-bg.png')">
-     <div class="main_top">
+     <div class="main_top" style="width:1152px">
        <div class="activate_friends_main"><img src="images/activate_-friends-logo.png" alt="" /></div>
      </div>
      <div style="clear:both"></div>
 
-<div id="magazine" style="margin-left: 353px;">
 <?php
-$CatArray=array('Love','Money','Career','Community','Beauty','Wellness');
-for($page=1;$page<=6;$page++){ ?>
-<div class="main_top" style="background-image:url('images/welcome-to-bg.png')">
-      
-      <div class="book_tabs_main">
+$CatArray=array(1=>'Love',2=>'Money',3=>'Career',4=>'Fun',5=>'Community',6=>'Beauty',7=>'Wellness');
+?>
+<!-- START PAGES -->
+<div id="magazine" style="margin-left:50px" style="background-image:url('images/welcome-to-bg.png')">
+
+<!-- START PAGE 1 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
           
-          <div class="<?=($page==1?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==1?'book_tabs_love':'book_tabs')?>"><a href="#">Love</a></div>
-          <div class="<?=($page==1?'book_tabs_right_love':'book_tabs_right')?>"></div>
-		  
-		  <div class="<?=($page==2?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==2?'book_tabs_love':'book_tabs')?>"><a href="#">Money</a></div>
-          <div class="<?=($page==2?'book_tabs_right_love':'book_tabs_right')?>"></div>
-		  
-		   <div class="<?=($page==3?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==3?'book_tabs_love':'book_tabs')?>"><a href="#">Career</a></div>
-          <div class="<?=($page==3?'book_tabs_right_love':'book_tabs_right')?>"></div>
-		  
-		   <div class="<?=($page==4?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==4?'book_tabs_love':'book_tabs')?>"><a href="#">Community</a></div>
-          <div class="<?=($page==4?'book_tabs_right_love':'book_tabs_right')?>"></div>
-		  
-		   <div class="<?=($page==5?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==5?'book_tabs_love':'book_tabs')?>"><a href="#">Beauty</a></div>
-          <div class="<?=($page==5?'book_tabs_right_love':'book_tabs_right')?>"></div>
-		  
-		   <div class="<?=($page==6?'book_tabs_left_love':'book_tabs_left')?>"></div>
-          <div class="<?=($page==6?'book_tabs_love':'book_tabs')?>"><a href="#">Wellness</a></div>
-          <div class="<?=($page==6?'book_tabs_right_love':'book_tabs_right')?>"></div>
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Love</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Money</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Career</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Fun</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Community</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right"></div>
           
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
+        <div class="book_page_left">
+	     <div class="book_profile_text" style="padding: 11px 12px;width:100px"><img src="<?=$photo_url?>" width="100px" height="100px" /></div>
+                                        <?=$user_name?>
+          <div class="life_story_book_text">Life Story Book</div>
+        </div>
+        
         <div class="book_page_right">
         
-         <div class="chapter_love">Chapter - <?=$CatArray[($page-1)]?></div>
-          <div class="book_right_text" style="display:<?=($page==1?'inline':'none')?>">
+         <div class="chapter_love">Chapter - LOVE</div>
+          <div class="book_right_text">
           
          FIRST KISS<br /><br />
 
@@ -95,75 +110,297 @@ for($page=1;$page<=6;$page++){ ?>
          SCENE</div>
          
          
-         <div class="book_right_friends_text">
-         
-      <div class="thumbnail-item">
-		<a href="#">Share The good news with 
-         friends</a><br />
-		<div class="tooltip">
-			<div class="tooltip_img"><img src="images/friend-images.png" alt="" /></div>
-            <div class="tooltip_text">Maura Patel</div> 
-			<span class="overlay"></span>
-		</div> 
-	</div>
-       
-    
-    
-      <div class="thumbnail-item">
-		<a href="#">Share The good news with 
-         friends</a><br />
-		<div class="tooltip">
-			<div class="tooltip_img"><img src="images/friend-images.png" alt="" /></div>
-            <div class="tooltip_text">Vishal Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images1.png" alt="" /></div>
-            <div class="tooltip_text">Maura Patel</div> 
-			<span class="overlay"></span>
-        </div> 
-	</div>
-       
-      <div class="thumbnail-item">
-		<a href="#">Share The good news with 
-         friends</a><br />
-		<div class="tooltip">
-			<div class="tooltip_img"><img src="images/friend-images1.png" alt="" /></div>
-            <div class="tooltip_text">Vijay Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images.png" alt="" /></div>
-            <div class="tooltip_text">Maura Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images1.png" alt="" /></div>
-            <div class="tooltip_text">Vishal Patel</div> 
-			<span class="overlay"></span>
-		</div> 
-	</div>
-       
-    
-    
-      <div class="thumbnail-item">
-		<a href="#">Share The good news with 
-         friends</a><br />
-		<div class="tooltip">
-			<div class="tooltip_img"><img src="images/friend-images.png" alt="" /></div>
-            <div class="tooltip_text">Vijay Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images1.png" alt="" /></div>
-            <div class="tooltip_text">Maura Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images.png" alt="" /></div>
-            <div class="tooltip_text">Vijay Patel</div> 
-            <div class="tooltip_img"><img src="images/friend-images1.png" alt="" /></div>
-            <div class="tooltip_text">Maura Patel</div> 
-			<span class="overlay"></span>
-		</div> 
-	</div>
-    
-         <a href="#">add to my life story book</a><br /><br />
-         <a href="#">add to my life story book</a><br /><br />
-         <a href="#">add to my life story book</a><br /><br />
-         <a href="#">add to my life story book</a></div>
-         
         </div>
       </div>
      </div>
-<?php 
-}
- ?>
+
+<!-- END PAGE 1 -->
+
+<!-- START PAGE 2 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
+           <div class="book_tabs_left"></div>
+			  <div class="book_tabs"><a href="#">Love</a></div>
+			  <div class="book_tabs_right"></div>
+		   
+		   <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Money</a></div>
+          <div class="book_tabs_right_love"></div>
+		  
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Career</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Fun</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Community</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right"></div>
+          
+      </div>
+       <div style="clear:both"></div>
+      
+      <div class="activate_friends_bg">
+        <div class="book_page_left">
+        <div class="chapter_love">Chapter - Money</div>
+        </div>
+        
+        <div class="book_page_right">
+        
+         <div class="chapter_love">Chapter - Career</div>
+         <div class="book_right_text">
+         
+         </div>
+      </div>
+     </div>
+	 
+	 </div>
+
+<!-- END PAGE 2  -->
+
+<!-- START PAGE 3 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
+          <div class="book_tabs_left"></div>
+		  <div class="book_tabs"><a href="#">Love</a></div>
+		  <div class="book_tabs_right"></div>
+		   
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Money</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Career</a></div>
+          <div class="book_tabs_right_love"></div>
+		  
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Fun</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Community</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right"></div>
+          
+      </div>
+       <div style="clear:both"></div>
+      
+		  <div class="activate_friends_bg">
+			<div class="book_page_left">
+			<div class="chapter_love">Chapter - Career</div>
+		  </div>
+        
+		  <div class="book_page_right">
+			
+			 <div class="chapter_love">Chapter - Fun</div>
+			 <div class="book_right_text">
+			 
+		  </div>
+      </div>
+     </div>
+	 
+	 </div>
+
+<!-- END PAGE 3  -->
+
+<!-- START PAGE 4 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
+          <div class="book_tabs_left"></div>
+		  <div class="book_tabs"><a href="#">Love</a></div>
+		  <div class="book_tabs_right"></div>
+		   
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Money</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Career</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		   <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Fun</a></div>
+          <div class="book_tabs_right_love"></div>
+		  
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Community</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right"></div>
+          
+      </div>
+       <div style="clear:both"></div>
+      
+		  <div class="activate_friends_bg">
+			<div class="book_page_left">
+			<div class="chapter_love">Chapter - Fun</div>
+		  </div>
+        
+		  <div class="book_page_right">
+			
+			 <div class="chapter_love">Chapter - Community</div>
+			 <div class="book_right_text">
+			 
+		  </div>
+      </div>
+     </div>
+	 
+	 </div>
+
+<!-- END PAGE 4  -->
+
+<!-- START PAGE 5 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
+          <div class="book_tabs_left"></div>
+		  <div class="book_tabs"><a href="#">Love</a></div>
+		  <div class="book_tabs_right"></div>
+		   
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Money</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Career</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		 <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Fun</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Community</a></div>
+          <div class="book_tabs_right_love"></div>
+		  
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+         
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+          <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right"></div>
+          
+      </div>
+       <div style="clear:both"></div>
+      
+		  <div class="activate_friends_bg">
+			<div class="book_page_left">
+			<div class="chapter_love">Chapter - Community</div>
+		  </div>
+        
+		  <div class="book_page_right">
+			
+			 <div class="chapter_love">Chapter - Beauty</div>
+			 <div class="book_right_text">
+			 
+		  </div>
+      </div>
+     </div>
+	 
+	 </div>
+
+<!-- END PAGE 5 -->
+
+<!-- START PAGE 6 --> 
+	<div class="activate_friends_main_top" style="background-image:url('images/welcome-to-bg.png')">
+     <div class="book_tabs_main_left" style="background-image:url('images/welcome-to-bg.png')">
+          <div class="book_tabs_left"></div>
+		  <div class="book_tabs"><a href="#">Love</a></div>
+		  <div class="book_tabs_right"></div>
+		   
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Money</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Career</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		 <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Fun</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		  <div class="book_tabs_left"></div>
+          <div class="book_tabs"><a href="#">Community</a></div>
+          <div class="book_tabs_right"></div>
+		  
+		   <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Beauty</a></div>
+          <div class="book_tabs_right_love"></div>
+		  
+      </div>
+      
+      <div class="book_tabs_main" style="background-image:url('images/welcome-to-bg.png')">
+          
+          
+          <div class="book_tabs_left_love"></div>
+          <div class="book_tabs_love"><a href="#">Wellness</a></div>
+          <div class="book_tabs_right_love"></div>
+          
+      </div>
+       <div style="clear:both"></div>
+      
+		  <div class="activate_friends_bg">
+			<div class="book_page_left">
+			<div class="chapter_love">Chapter - Beauty</div>
+		  </div>
+        
+		  <div class="book_page_right">
+			
+			 <div class="chapter_love">Chapter - Wellness</div>
+			 <div class="book_right_text">
+			 
+		  </div>
+      </div>
+     </div>
+	 
+	 </div>
+
+<!-- END PAGE 6 -->
+
+
+<!-- END PAGES -->
 </div>
 
 

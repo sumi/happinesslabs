@@ -69,12 +69,37 @@ body{ background:repeat-x left top #eeeaec;}
       mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
       mouseY = e.pageY - $(imgtag).offset().top;
       $('#tagit').remove(); // remove any tagit div first
-      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
+      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="file" id="avatar" name="avatar"/><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
       $('#tagit').css({top:mouseY,left:mouseX});      
       $('#tagname').focus();
     });
     
-    $('#tagit #btnsave').live('click',function(){
+	$('#tagit #btnsave').live('click',function(){
+	var file_data=$("#avatar").prop("files")[0];
+	name=$('#tagname').val();
+	var pic_id=document.getElementById('pic_id').value;
+	var form_data=new FormData();
+	form_data.append("file",file_data)
+	form_data.append("pic_id",pic_id)
+	form_data.append("name",name)
+	form_data.append("pic_x",mouseX)
+	form_data.append("pic_y",mouseY)	
+	
+	$.ajax({
+		url:"savetag.php?type=insert",
+		dataType:'script',
+		cache:false,
+		contentType:false,
+		processData:false,
+		data:form_data,
+		type:'POST',
+		success: function(data){
+		  viewtag(pic_id);
+		  $('#tagit').fadeOut();
+		}
+    })
+    })
+    /*$('#tagit #btnsave').live('click',function(){
       name=$('#tagname').val();
 	  var pic_id=document.getElementById('pic_id').value;
       $.ajax({
@@ -87,7 +112,7 @@ body{ background:repeat-x left top #eeeaec;}
           $('#tagit').fadeOut();
         }
       });      
-    });
+    });*/
     
      $('#tagit #btncancel').live('click',function(){
       $('#tagit').fadeOut();
