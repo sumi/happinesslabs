@@ -383,8 +383,8 @@ label {display: inline;}
 {
   background-color:#3476CE;
   border:solid 3px #3476CE;
-  /*width:100px;*/
-  height:16px;
+  border-radius:5px;
+  z-index:990;
   color:#FFFFFF;
   position:absolute;
   display:none;
@@ -453,59 +453,6 @@ label {display: inline;}
 {
   width:105px;
 }
-<!-- Start Book -->
-/*welcome tohappy living - Start*/
-.welcome_main{background-image:url(../images/welcome-to-bg.png);}
-.welcome_border{float:left; padding:65px 0 0 0;}
-.welcome_logo{float:left; padding:10px 0 30px 0; width:800px; text-align:center;}
-.text_wecometo{text-align:center; font-family:Cambria Math; font-size:20px; color:#69665e; min-height:50px;}
-.creditcard_img{float:left; padding-left:110px; margin:10px 0 40px 0;}
-.creditcard_left{float:left; margin:10px 0 40px 0;}
-.creditcard_botton{float:left; margin:10px 0 60px 0; padding-left:120px;}
-/*welcome tohappy living - End*/
-
-/*activate “love” bank card - Start*/
-.activate_top_main{float:left; text-align:center; width:800px; padding:45px 0 30px 0; font-family:Chaparral Pro; font-size:45px; color:#a19990;}
-.activate_img{text-align:center; padding-bottom:30px;}
-.activate_main_box{width:958px; padding-bottom:40px;}
-.activate_box_img{float:left; background-image:url(../images/activate-box.png); background-repeat:no-repeat; width:166px; height:147px; padding:9px 0 0 13px; margin-left:12px;}
-/*activate “love” bank card - Start*/
-
-/*activate “love” bank card friends - Start*/
-.activate_friends_main_top{width:1152px; margin:auto;}
-.activate_friends_main{ padding:20px 0 30px 0; text-align:center;}
-.activate_friends_bg{background-image:url(../images/book-story.png); background-repeat:no-repeat; width:1152px; height:597px; margin-left:8px; padding:7px; margin-bottom:30px;}
-.book_page_left{float:left; width:556px; margin-right:20px;padding-top:70px; text-align:center; font-size:18px;}
-.book_page_right{float:left;width:444px; padding-top:70px; padding-left:15px;}
-.book_tabs_main{float:right;}
-.book_tabs_main_left{float:left; margin-left:28px;}
-
-.book_tabs_left{float:left; background-image:url(../images/book-top-img_left.png); background-repeat:no-repeat; width:14px; height:21px;}
-.book_tabs{float:left;}
-.book_tabs a{background-image:url(../images/book-top-img.png); text-align:center; padding:3px 6px; font-size:12px; display:block; color:#000000; text-decoration:none;}
-.book_tabs a:hover{color:#FFFFFF;}
-.book_tabs_right{float:left; background-image:url(../images/book-top-img_right.png); background-repeat:no-repeat; width:14px; height:21px;}
-
-.book_tabs_left_love{float:left; background-image:url(../images/book-top-img_left_hover.png); background-repeat:no-repeat; width:14px; height:21px;}
-.book_tabs_love{float:left;}
-.book_tabs_love a{background-image:url(../images/book-top-img_hover.png); text-align:center; padding:3px 2px; font-size:12px; display:block; color:#000000; text-decoration:none;}
-.book_tabs_love a:hover{color:#FF0000;}
-.book_tabs_right_love{float:left; background-image:url(../images/book-top-img_right_hover.png); background-repeat:no-repeat; width:14px; height:21px;}
-
-
-
-.book_profile_text{border:#CCCCCC 2px solid; width:134px; margin:120px 0 5px 210px; padding:20px 0; font-size:16px; color:#bdbdbd;}
-.life_story_book_text{font-family:Brush Script Std; font-size:18px; margin-top:50px;}
-.book_right_text{ float:left; text-align:left; width:176px; margin:20px 0 0 30px;}
-.chapter_love{font-size:20px;}
-.book_right_friends_text{ float:left; text-align:left; width:180px; margin:20px 0 0 40px; font-size:18px; font-family:Vijaya;}
-.book_right_friends_text a{color:#d5d5d5; text-decoration:none;}
-.book_right_friends_text a:hover{}
-/*activate “love” bank card friends - End*/
-
-/*bank card friends - Start*/
-
-
 /*START MOUSE HOVER CSS*/
 
 .thumbnail-item { 

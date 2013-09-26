@@ -299,7 +299,8 @@ function fb_logout() {
 			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
 			</div>
        </div> -->
-       <div class="tell" style="padding-top: 35px;">
+       
+	   <!-- <div class="tell" style="padding-top: 35px;">
 	   		<div id="sample_attach_menu_parent" class="sample_attach">
 			<a href="happiness_book.php">My Life<br/>Story Book of<br/>Happy Living</a>
 			</div>
@@ -314,6 +315,11 @@ function fb_logout() {
        </div>
        <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
                                        Happy Living</a>
+      </div> -->
+	  <div class="tell" style="padding-left:100px">&nbsp;</div>
+	  <div class="tell"><a href="happiness_book.php" title="Tools for Heart"><img src="images/heart_icon.png"></a>
+       </div>
+       <div class="tell"><a href="ask_experts.php" title="Tools for Mind"><img src="images/mind_icon.png"></a>
       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
@@ -333,7 +339,7 @@ function fb_logout() {
       <div class="logo_home"><img src="images/logo_1.png" alt="" /></div>
       <div class="logo_text">&nbsp;</div>
       <div class="tell_mine">
-	  <div class="tell" style="padding-top: 46px;">
+	 <!--  <div class="tell" style="padding-top: 46px;">
 			<div id="sample_attach_menu_parent">
 			<a href="#">My Life<br/>Story Book of<br/>Happy Living</a>
 			</div>
@@ -348,6 +354,11 @@ function fb_logout() {
        </div>
        <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
                                        Happy Living</a>
+      </div> -->
+	   <div class="tell" style="padding-left:100px">&nbsp;</div>
+	   <div class="tell"><a href="happiness_book.php" title="Tools for Heart"><img src="images/heart_icon.png"></a>
+       </div>
+       <div class="tell"><a href="ask_experts.php" title="Tools for Mind"><img src="images/mind_icon.png"></a>
       </div>
       </div>
         <div class="facebook">

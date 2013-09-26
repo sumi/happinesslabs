@@ -1,3 +1,6 @@
 <?php
-echo "===>".md5('vi147258');
+/*echo "=========>";
+in_array('mod_rewrite',apache_get_modules());
+strpos(shell_exec('/usr/local/apache/bin/apachectl -l'),'mod_rewrite')!==false
+echo "<====================";*/
 ?>

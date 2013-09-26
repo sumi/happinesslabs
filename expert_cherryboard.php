@@ -830,11 +830,14 @@ function postToFeedExp() {
 					 while($selTagRow=mysql_fetch_array($selTag)){
 					   $tag_id=(int)$selTagRow['tag_id'];	
 					   $photo_id=(int)$selTagRow['photo_id'];	
-					   $tag_title=trim(ucwords($selTagRow['tag_title']));	
+					   $tag_title=trim(ucwords($selTagRow['tag_title']));
+					   $tag_photo=trim($selTagRow['tag_photo']);		
 					   $tag_x=(int)$selTagRow['tag_x'];	
 					   $tag_y=(int)$selTagRow['tag_y'];
-					   $tagY=$tag_y-25;		   
-				   $photoCnt.='<div id="div_hover_'.$photo_id.'"><div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tag_x.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.$tag_title.'</div></div>';
+					   $tagY=$tag_y-25;
+					   $tagX=$tag_x+10;		   
+					   $tagPhotoPath='images/expertboard/tag/'.$tag_photo;
+				   $photoCnt.='<div id="div_hover_'.$photo_id.'"><div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tagX.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.($tag_photo!=''?'<img src="'.$tagPhotoPath.'" height="100" width="100"><br/>'.$tag_title.'':''.$tag_title.'').'</div></div>';
 				     }
 				  } 
 				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
