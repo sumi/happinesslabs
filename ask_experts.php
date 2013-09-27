@@ -321,9 +321,30 @@ $category_id=(int)$_GET['category_id'];
    foreach($pagePhotosArray as $photoCnt=>$subPhotoArray){
 		$array_cherry=explode('_',$photoCnt);
 		$photoCnt=$array_cherry[0];
-		//$cherryboard_id=$array_cherry[1];
 		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
-		//<div style="height:30px;padding-top:3px;"><a href="download.php?cherryboard_id='.$cherryboard_id.'" title="Download" target="_blank" style="text-decoration:none;margin-right:5px;" class="button">Download</a></div>
+		$pagePhotoEffect.='<div style="width:200px; margin:auto; border:2px solid #131d1d; float:right;">
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:250px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">People</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Products</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Places</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Price</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Date</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Time</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Why</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">How</div>
+	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
+		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Happiness Score
+		</div>
+	    <div style="clear:both"></div>
+	    </div>
+	    <div style="float:left;">';
 		$imgCnt=1;
 		foreach($subPhotoArray as $subCnt=>$photoUrl){
 		  if($subCnt>241&&$subCnt<298){}else{
@@ -335,11 +356,10 @@ $category_id=(int)$_GET['category_id'];
 			   $pagePhotoEffect.='<br/>';
 			   $imgCnt=0;
 			}
-			//if($imgCnt==4){break;}
 			$imgCnt++;	
 		  }		
 		}
-		$pagePhotoEffect.='</div>';
+		$pagePhotoEffect.='</div></div>';
    }
    echo $pagePhotoEffect;
    ?>

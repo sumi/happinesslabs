@@ -5,7 +5,11 @@ include('include/app-common-config.php');
 $pic_id=(int)$_POST['pic_id'];
 if($_GET['type']=="insert")
 {  
-  $tag_photo=rand().'_'.$_FILES['file']['name'];
+  $tag_photo=$_FILES['file']['name'];
+  if($tag_photo!=''){
+  	 $tag_photo=rand().'_'.$_FILES['file']['name'];
+  }
+  
   $tmp_file_name=$_FILES['file']['tmp_name'];
   $uploadDirPath='images/expertboard/tag/'.$tag_photo;  
   if($_SERVER['SERVER_NAME']=="localhost"){
@@ -14,16 +18,17 @@ if($_GET['type']=="insert")
   	$thumb_command=$ImageMagic_Path."convert ".$tmp_file_name." -thumbnail 100 x 100 ".$uploadDirPath;
 	$last_line=system($thumb_command,$retval);
   }
-  if($retval){
+  //if($retval){
 	 $name=$_POST['name'];
+	 $tagtype=$_POST['tagtype'];
 	 $tag_x=(int)$_POST['pic_x'];
 	 $tag_y=(int)$_POST['pic_y'];
 	 $cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$pic_id);
-	 $sql="INSERT INTO  tbl_app_expert_tag_photo
-	 (tag_id,cherryboard_id,photo_id,user_id,tag_title,tag_photo,tag_x,tag_y) VALUES (NULL,'".$cherryboard_id."','".$pic_id."','".(int)USER_ID."','".$name."','".$tag_photo."','".$tag_x."','".$tag_y."')";
+	 $sql="INSERT INTO  tbl_app_tag_photo
+	 (tag_id,cherryboard_id,photo_id,user_id,tag_type,tag_title,tag_photo,tag_x,tag_y) VALUES (NULL,'".$cherryboard_id."','".$pic_id."','".(int)USER_ID."','".$tagtype."','".$name."','".$tag_photo."','".$tag_x."','".$tag_y."')";
 	 $qry=mysql_query($sql);
 	 exit(0);
-  }
+  //}
 }
 /*if($_POST['type']=="remove")
 {
@@ -33,7 +38,7 @@ if($_GET['type']=="insert")
 }*/
 //START FETCH TAG DATA
 if($_POST['type']=="display"){
-  $selTag=mysql_query("SELECT * FROM tbl_app_expert_tag_photo WHERE photo_id=".$pic_id." ORDER BY tag_id");
+  $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE photo_id=".$pic_id." ORDER BY tag_id");
   while($selTagRow=mysql_fetch_array($selTag)){
   		$tag_id=(int)$selTagRow['tag_id'];	
 	    $tag_title=trim(ucwords($selTagRow['tag_title']));	

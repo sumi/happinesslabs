@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html>
-<head>
+<html><head>
 <meta charset="utf-8" />
 <title>Fun challenges for BIG rewards</title>
 <style type="text/css">
@@ -8,7 +7,7 @@
 @import url("css/30daysnew_style.css");
 @import url("css/common_style.css");
 @import url("css/photo_block.css");
-@import url("css/happinesslabs_js.css");
+@import url("css/happinesslabs_js.css"); 
 @import url("css/happinesslabs.css");
 body{ background:repeat-x left top #eeeaec;}
 -->
@@ -69,19 +68,21 @@ body{ background:repeat-x left top #eeeaec;}
       mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
       mouseY = e.pageY - $(imgtag).offset().top;
       $('#tagit').remove(); // remove any tagit div first
-      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><input type="file" id="avatar" name="avatar"/><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
+      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><div class="text">Add Type</div><?=getTagType()?><div class="text">Add Photo</div><input type="file" id="avatar" name="avatar"/><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
       $('#tagit').css({top:mouseY,left:mouseX});      
       $('#tagname').focus();
     });
     
 	$('#tagit #btnsave').live('click',function(){
-	var file_data=$("#avatar").prop("files")[0];
+	var file_data=$("#avatar").attr("files")[0];//prop ==OR==> attr
 	name=$('#tagname').val();
+	tagtype=$('#tag_type_id').val();
 	var pic_id=document.getElementById('pic_id').value;
 	var form_data=new FormData();
 	form_data.append("file",file_data)
 	form_data.append("pic_id",pic_id)
 	form_data.append("name",name)
+	form_data.append("tagtype",tagtype)
 	form_data.append("pic_x",mouseX)
 	form_data.append("pic_y",mouseY)	
 	
@@ -220,6 +221,133 @@ body{ background:repeat-x left top #eeeaec;}
 <?php } ?>
 <!-- Photo Slider css -->
 <link rel="stylesheet" type="text/css" href="board_slider/slider2/style.css" />
+<!-- Start Header Menu Tooltip -->
+<style type="text/css">
+#personPopupContainer
+{
+    position:absolute;
+    left:0;
+    top:0;
+    display:none;
+    z-index: 20000;
+}
+#personPopupContent
+{
+	background-color: #FFF;
+    min-width: 175px;
+    min-height: 50px;
+	border:1px solid #A4C074; 
+	 border-radius:5px 5px 5px 5px;
+	-webkit-border-radius:5px 5px 5px 5px;
+	-moz-border-radius:5px 5px 5px 5px;
+	 box-shadow: 0 0 8px #666666;
+}
+</style>
+<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function()
+{
+  var hideDelay = 500;  
+  var currentID;
+  var hideTimer = null;
+
+  // One instance that's reused to show info for the current person
+  var container = $('<div id="personPopupContainer"><div id="personPopupContent"></div></div>');
+
+  $('body').append(container);
+
+  $('.personPopupTrigger').live('mouseover', function()
+  {
+      // format of 'rel' tag: pageid,personguid
+      var settings = $(this).attr('rel').split(',');
+      var pageID = settings[0];
+      currentID = settings[1];
+
+      // If no guid in url rel tag, don't popup blank
+      if (currentID == '')
+          return;
+
+      if (hideTimer)
+          clearTimeout(hideTimer);
+
+      var pos = $(this).offset();
+      var width = $(this).width();
+      container.css({
+          left: (pos.left + width) + 'px',
+          top: pos.top - 5 + 'px'
+      });
+
+      $('#personPopupContent').html('<Table><tr><td><img src="images/mind_icon.png"><td><td>Tools for Mind</td></tr></table>');
+      container.css('display', 'block');
+  });
+  
+  
+  $('.personPopupTrigger1').live('mouseover', function()
+  {
+      // format of 'rel' tag: pageid,personguid
+      var settings = $(this).attr('rel').split(',');
+      var pageID = settings[0];
+      currentID = settings[1];
+
+      // If no guid in url rel tag, don't popup blank
+      if (currentID == '')
+          return;
+
+      if (hideTimer)
+          clearTimeout(hideTimer);
+
+      var pos = $(this).offset();
+      var width = $(this).width();
+      container.css({
+          left: (pos.left + width) + 'px',
+          top: pos.top - 5 + 'px'
+      });
+
+      $('#personPopupContent').html('<Table><tr><td><img src="images/heart_icon.png"><td><td>Tools for Heart</td></tr></table>');
+      container.css('display', 'block');
+  });
+
+  $('.personPopupTrigger').live('mouseout', function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+  $('.personPopupTrigger1').live('mouseout', function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+
+  // Allow mouse over of details without hiding details
+  $('#personPopupContainer').mouseover(function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+  });
+
+  // Hide after mouseout
+  $('#personPopupContainer').mouseout(function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+});
+</script>
+<!-- End Header Menu Tooltip -->
 </head>
 <body>
 <!-- START FB LOGIN CODE -->
@@ -317,9 +445,10 @@ function fb_logout() {
                                        Happy Living</a>
       </div> -->
 	  <div class="tell" style="padding-left:100px">&nbsp;</div>
-	  <div class="tell"><a href="happiness_book.php" title="Tools for Heart"><img src="images/heart_icon.png"></a>
+	  <div class="tell"><a href="happiness_book.php" title="Tools for Heart" class="personPopupTrigger1"><img src="images/heart_icon.png"></a>
+	  
        </div>
-       <div class="tell"><a href="ask_experts.php" title="Tools for Mind"><img src="images/mind_icon.png"></a>
+       <div class="tell"><a href="ask_experts.php" title="Tools for Mind" class="personPopupTrigger"><img src="images/mind_icon.png"></a>
       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>

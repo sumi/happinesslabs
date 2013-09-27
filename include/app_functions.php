@@ -1343,4 +1343,17 @@ function getHappyDeductPoint($user_id){
 function updHappybankStatus($happybank_id,$user_id,$cherryboard_id){
 	$updSel=mysql_query("update tbl_app_happybank_points set status='1' where happybank_id='".$happybank_id."' and user_id='".$user_id."' and cherryboard_id='".$cherryboard_id."'");
 }
+//START GET TAG TYPE FUNCTION
+function getTagType($tag_type_id=0,$event='',$varName='tag_type_id')
+{
+	$select_box='<select class="ClearSelect" id="'.$varName.'" name="'.$varName.'" '.$event.'>';
+	$selType=mysql_query("SELECT * FROM tbl_app_tag_type ORDER BY tag_type_id");
+	$select_box.="<option value=\"0\" >Select Type</option>";
+	while($selRow=mysql_fetch_array($selType))
+	{
+		$selected=($selRow['tag_type_id'] == $tag_type_id)?" selected":"";
+		$select_box.="<option value=".$selRow['tag_type_id']." ".$selected.">".ucwords($selRow['tag_type_name'])."</option>";
+	}	
+	return $select_box.='</select>';
+}
 ?>

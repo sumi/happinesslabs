@@ -825,7 +825,7 @@ function postToFeedExp() {
 				   }	
 				   $photoCnt.='</div>';	
 				   //START PHOTO TAG DISPLAY CODE
-				   $selTag=mysql_query("SELECT * FROM tbl_app_expert_tag_photo WHERE photo_id=".$photo_id);
+				   $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE photo_id=".$photo_id);
 				   if(mysql_num_rows($selTag)>0){
 					 while($selTagRow=mysql_fetch_array($selTag)){
 					   $tag_id=(int)$selTagRow['tag_id'];	
