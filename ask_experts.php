@@ -322,7 +322,7 @@ $category_id=(int)$_GET['category_id'];
 		$array_cherry=explode('_',$photoCnt);
 		$photoCnt=$array_cherry[0];
 		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
-		$pagePhotoEffect.='<div style="width:200px; margin:auto; border:2px solid #131d1d; float:right;">
+		$pagePhotoEffect.='<div style="width:200px; margin:auto; border-left:2px solid #131d1d; border-bottom:2px solid #131d1d; float:right;">
 	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:250px;"
 		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">People</div>
 	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"

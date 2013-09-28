@@ -54,120 +54,13 @@ body{ background:repeat-x left top #eeeaec;}
 	<!-- Code for the space issue -->
 	<link rel="stylesheet" type="text/css" href="board_slider/style.css" />
 	<script type="text/javascript" src="board_slider/jquery.js"></script>
-	<!-- JS For The Images Mouse Over & Mouse Out -->
-	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
-<script type="text/javascript"> 
-  $(document).ready(function(){
-    var counter = 0;
-    var mouseX = 0;
-    var mouseY = 0;
-    
-    $("#imgtag img").click(function(e){ // make sure the image is click
-      var imgtag = $(this).parent(); // get the div to append the tagging list
-      mouseX = e.pageX - $(imgtag).offset().left; // x and y axis
-      mouseY = e.pageY - $(imgtag).offset().top;
-      $('#tagit').remove(); // remove any tagit div first
-      $(imgtag).append('<div id="tagit"><div class="box"></div><div class="name"><div class="text">Add Tag</div><input type="text" name="txtname" id="tagname" /><div class="text">Add Type</div><?=getTagType()?><div class="text">Add Photo</div><input type="file" id="avatar" name="avatar"/><input type="button" class="btn" name="btnsave" value="Save" id="btnsave" /><input type="button" class="btn" name="btncancel" value="Cancel" id="btncancel" /></div></div>');
-      $('#tagit').css({top:mouseY,left:mouseX});      
-      $('#tagname').focus();
-    });
-    
-	$('#tagit #btnsave').live('click',function(){
-	var file_data=$("#avatar").attr("files")[0];//prop ==OR==> attr
-	name=$('#tagname').val();
-	tagtype=$('#tag_type_id').val();
-	var pic_id=document.getElementById('pic_id').value;
-	var form_data=new FormData();
-	form_data.append("file",file_data)
-	form_data.append("pic_id",pic_id)
-	form_data.append("name",name)
-	form_data.append("tagtype",tagtype)
-	form_data.append("pic_x",mouseX)
-	form_data.append("pic_y",mouseY)	
-	
-	$.ajax({
-		url:"savetag.php?type=insert",
-		dataType:'script',
-		cache:false,
-		contentType:false,
-		processData:false,
-		data:form_data,
-		type:'POST',
-		success: function(data){
-		  viewtag(pic_id);
-		  $('#tagit').fadeOut();
-		}
-    })
-    })
-    /*$('#tagit #btnsave').live('click',function(){
-      name=$('#tagname').val();
-	  var pic_id=document.getElementById('pic_id').value;
-      $.ajax({
-        type: "POST", 
-        url: "savetag.php", 
-        data: "pic_id="+pic_id+"&name="+name+"&pic_x="+mouseX+"&pic_y="+mouseY+"&type=insert",
-        cache: true, 
-        success: function(data){
-          viewtag(pic_id);
-          $('#tagit').fadeOut();
-        }
-      });      
-    });*/
-    
-     $('#tagit #btncancel').live('click',function(){
-      $('#tagit').fadeOut();
-      
-    });
-	
-	$('#divHover').live('mouseover mouseout',function(event){
-      id=$(this).attr("rel");
-      if (event.type=="mouseover"){
-        $('#view_'+id).show();
-      }else{
-        $('#view_'+id).hide();
-      }
-    });
-  });
-  function viewtag(pic_id){
-  	$.ajax({
-		type: "POST", 
-		url: "savetag.php?", 
-		data: "pic_id="+pic_id+"&type=display",
-		cache: true, 
-		success: function(data){
-		  $('#div_hover_'+pic_id).html(data);
-		}
-	});
-  }
-  function setPicId(pic_id){
-  	document.getElementById('pic_id').value=pic_id;
-  }
-</script>
-	
-	<script type="text/javascript" src="js/ddaccordion.js"></script>
-	<script type="text/javascript">
-	ddaccordion.init({
-		headerclass: "silverheader", //Shared CSS class name of headers group
-		contentclass: "submenu", //Shared CSS class name of contents group
-		revealtype: "mouseover", //Reveal content when user clicks or onmouseover the header? Valid value: "click", "clickgo", or "mouseover"
-		mouseoverdelay: 200, //if revealtype="mouseover", set delay in milliseconds before header expands onMouseover
-		collapseprev: true, //Collapse previous content (so only one open at any time)? true/false
-		defaultexpanded: [0], //index of content(s) open by default [index1, index2, etc] [] denotes no content
-		onemustopen: true, //Specify whether at least one header should be open always (so never all headers closed)
-		animatedefault: false, //Should contents open by default be animated into view?
-		persiststate: true, //persist state of opened contents within browser session?
-		toggleclass: ["", "selected"], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-		togglehtml: ["", "", ""], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
-		animatespeed: "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
-		oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
-			//do nothing
-		},
-		onopenclose:function(header, index, state, isuseractivated){ //custom code to run whenever a header is opened or closed
-			//do nothing
-		}
-	})
-</script>
+
+<!-- START PHOTO TAGGING AND MOUSEOVER AND MOUSEOUT EVENT JS CODE -->	
+<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+<?php include('include/phototagging.php'); ?>
+<!-- END OF PHOTO TAGGING AND MOUSEOVER AND MOUSEOUT EVENT JS CODE -->
+<script type="text/javascript" src="js/ddaccordion.js"></script>
+<script type="text/javascript" src="js/commentmenu.js"></script>
 <?php } ?>
 <script type="text/javascript" src="scripts/jquery_002.js"></script>
 <script type="text/javascript" src="scripts/jquery.js"></script>

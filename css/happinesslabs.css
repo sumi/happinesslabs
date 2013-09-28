@@ -408,6 +408,7 @@ label {display: inline;}
   position:absolute;
   top:0;left:0;
   width:150px;
+  z-index:3;
 }
 #tagit .box
 {
@@ -424,7 +425,7 @@ label {display: inline;}
   float:left;
   background-color:#fff;
   width:111px;
-  height:170px;
+  height:165px;
   padding:5px;
 }
 #tagit .btn{
@@ -454,6 +455,22 @@ label {display: inline;}
 #tagit #tagname
 {
   width:105px;
+}
+#uploadMask{
+  width:100px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  padding-top:5px;
+}
+#uploadMask input{
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right:0;
+  opacity:0;
+  z-index:1; 
+  cursor: pointer;   
 }
 /*START MOUSE HOVER CSS*/
 

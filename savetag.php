@@ -18,17 +18,16 @@ if($_GET['type']=="insert")
   	$thumb_command=$ImageMagic_Path."convert ".$tmp_file_name." -thumbnail 100 x 100 ".$uploadDirPath;
 	$last_line=system($thumb_command,$retval);
   }
-  //if($retval){
-	 $name=$_POST['name'];
-	 $tagtype=$_POST['tagtype'];
-	 $tag_x=(int)$_POST['pic_x'];
-	 $tag_y=(int)$_POST['pic_y'];
-	 $cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$pic_id);
-	 $sql="INSERT INTO  tbl_app_tag_photo
-	 (tag_id,cherryboard_id,photo_id,user_id,tag_type,tag_title,tag_photo,tag_x,tag_y) VALUES (NULL,'".$cherryboard_id."','".$pic_id."','".(int)USER_ID."','".$tagtype."','".$name."','".$tag_photo."','".$tag_x."','".$tag_y."')";
-	 $qry=mysql_query($sql);
-	 exit(0);
-  //}
+  $name=$_POST['name'];
+  $tagtype=$_POST['tagtype'];
+  $tag_x=(int)$_POST['pic_x'];
+  $tag_y=(int)$_POST['pic_y'];
+  $cherryboard_id=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$pic_id);
+  $sql="INSERT INTO tbl_app_tag_photo 
+  (tag_id,cherryboard_id,photo_id,user_id,tag_type,tag_title,tag_photo,tag_x,tag_y)
+  VALUES (NULL,'". $cherryboard_id."','".$pic_id."','".(int)USER_ID."','".$tagtype."','".$name."','".$tag_photo."','".$tag_x."','".$tag_y."')";
+  $qry=mysql_query($sql);
+  exit(0);
 }
 /*if($_POST['type']=="remove")
 {

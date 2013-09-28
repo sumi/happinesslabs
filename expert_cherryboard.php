@@ -823,7 +823,7 @@ function postToFeedExp() {
 					<a href="javascript:void(0);" title="Edit" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
 					</div>';		
 				   }	
-				   $photoCnt.='</div>';	
+				   $photoCnt.='</div><div id="div_hover_'.$photo_id.'">';	
 				   //START PHOTO TAG DISPLAY CODE
 				   $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE photo_id=".$photo_id);
 				   if(mysql_num_rows($selTag)>0){
@@ -837,10 +837,10 @@ function postToFeedExp() {
 					   $tagY=$tag_y-25;
 					   $tagX=$tag_x+10;		   
 					   $tagPhotoPath='images/expertboard/tag/'.$tag_photo;
-				   $photoCnt.='<div id="div_hover_'.$photo_id.'"><div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tagX.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.($tag_photo!=''?'<img src="'.$tagPhotoPath.'" height="100" width="100"><br/>'.$tag_title.'':''.$tag_title.'').'</div></div>';
+				   $photoCnt.='<div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tagX.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.($tag_photo!=''?'<img src="'.$tagPhotoPath.'" height="100" width="100"><br/>'.$tag_title.'':''.$tag_title.'').'</div>';
 				     }
 				  } 
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
+				   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
 				   
 				   $photoCnt.='<div class="applemenu">';
 				   //COMMENT SECTION
