@@ -1356,4 +1356,29 @@ function getTagType($tag_type_id=0,$event='',$varName='tag_type_id')
 	}	
 	return $select_box.='</select>';
 }
+//START FUNCTION GET TAG DETAILS
+function getTagDetails($cherryboard_id){
+	$tagCnt='';
+	$selTagType=mysql_query("SELECT * FROM tbl_app_tag_type ORDER By tag_type_id");
+	while($selTagTypeRow=mysql_fetch_array($selTagType)){
+		  $tagTypeId=(int)$selTagTypeRow['tag_type_id'];	
+		  $tagTypeName=trim(ucwords($selTagTypeRow['tag_type_name']));
+		  $tagCnt.='<div style="color:#4e4e4e;font-size:24px;">'.$tagTypeName.'</div>';
+		  //START FETCH PHOTO TAG DATA
+		  $cnt=1;
+		  $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE tag_type=".$tagTypeId." AND cherryboard_id=".$cherryboard_id);
+		  while($selTagRow=mysql_fetch_array($selTag)){
+				$tagId=(int)$selTagRow['tag_id'];	
+				$cherryboardId=(int)$selTagRow['cherryboard_id'];	
+				$photoId=(int)$selTagRow['photo_id'];	
+				$tagTitle=trim(ucwords($selTagRow['tag_title']));
+				$tagPhoto=trim($selTagRow['tag_photo']);
+				$tagPhotoPath='images/expertboard/tag/'.$tagPhoto;			
+				$tagCnt.='<div style="color:#0000FF;text-align:center;display:inline;">
+				('.$cnt.')&nbsp;'.($tagPhoto!=''?''.$tagTitle.'<br/><img src="'.$tagPhotoPath.'" height="50" width="50"><br/>':''.$tagTitle.'<br/>').'</div>';
+				$cnt++;
+		  }
+	}
+	return $tagCnt;
+}
 ?>

@@ -11,6 +11,12 @@ function changeDivFont(font_name)
 	document.getElementById('imgText').style.fontFamily = font_name;
 	document.getElementById('txtcomment').style.fontFamily = font_name;
 }
+function changeDivFontSize(font_size)
+{
+	document.getElementById('imgText').style.fontSize = font_size;
+	document.getElementById('txtcomment').style.fontSize = font_size+"px";
+}
+
 function calculateSubmit(){
 	var p = $( "#imgText" );
 	var position = p.position();
@@ -47,7 +53,7 @@ function calculateSubmit(){
 <td>
 <div>
 <div id="files"><img alt="" src="a.jpg" width="300px" height="225px">
-	<div class="bg_images ui-widget-content" id="imgText" style="font-size:19px;font-family:Arial">Happinesslabs</div>
+	<div class="bg_images ui-widget-content" id="imgText" style="font-family:Arial;font-size:14px;">Happinesslabs</div>
 	
 </div>
 </div>
@@ -72,11 +78,18 @@ Font:
 <option value="Verdana">Verdana</option>
 <option value="Courier New">Courier</option>
 </select>
+Size:
+<select id="chg_size" name="chg_size" onChange="changeDivFontSize(this.value)">
+<option value="14">14px</option>
+<option value="16">16px</option>
+<option value="18">18px</option>
+<option value="24">24px</option>
+</select>
 </td>
 </tr>
 <tr>
 <td>
-<textarea onKeyPress="javascript:document.getElementById('imgText').innerHTML=document.getElementById('txtcomment').value;" id="txtcomment" class="textfield" rows="5" name="txtcomment" style="font-family:Arial">Happinesslabs</textarea>
+<textarea onKeyPress="javascript:document.getElementById('imgText').innerHTML=document.getElementById('txtcomment').value;" id="txtcomment" class="textfield" rows="5" name="txtcomment" style="font-family:Arial;font-size:12px;">Happinesslabs</textarea>
 <input type="submit" value="Upload" onClick="calculateSubmit()" name="btnsubmit" />
 </td>
 </tr>
