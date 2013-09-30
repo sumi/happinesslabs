@@ -62,6 +62,8 @@ position:absolute;
 display:none;
 border:5px solid black; /*Border around tooltip*/
 background:white;
+overflow:scroll;
+height:450px;
 z-index:3000;
 }
 .stickytooltip .stickystatus{ /*Style for footer bar within tooltip*/

@@ -324,8 +324,8 @@ $category_id=(int)$_GET['category_id'];
 		$cherryboard_id=$array_cherry[1];
 		$tagDetails=getTagDetails($cherryboard_id);
 		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
-		$pagePhotoEffect.='<div style="float:right;border:2px solid #131d1d;padding:8px;">'.$tagDetails.'</div>';
-		$pagePhotoEffect.='<div style="float:left;">';
+		$pagePhotoEffect.='<div style="float:right;border:2px solid #131d1d; padding:8px; background-color:#FFFFFF;">'.$tagDetails.'</div>';
+		$pagePhotoEffect.='<div style="float:left;background-color:#FFFFFF;">';
 		$imgCnt=1;
 		foreach($subPhotoArray as $subCnt=>$photoUrl){
 			$imgData=getResizeImgRatio($photoUrl,250,250);
@@ -338,11 +338,12 @@ $category_id=(int)$_GET['category_id'];
 			}
 			$imgCnt++;
 		}
-		$pagePhotoEffect.='</div></div>';
+		$pagePhotoEffect.='</div>';
+		$pagePhotoEffect.='</div>';
    }
    echo $pagePhotoEffect;
    ?>
-   <!--<div class="stickystatus"></div>-->
+   <div class="stickystatus"></div>
 	</div>
    <div style="padding-bottom:50px;"></div>
 <!-- START SEND REQUEST TO TELL A STORY CODE -->
