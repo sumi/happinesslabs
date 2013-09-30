@@ -32,7 +32,7 @@ $category_id=(int)$_GET['category_id'];
     <div class="bottom_main">
 		<div class="bottom_box_main">
 			<div class="todo" style="border:none;">
-			  <div class="todolist_left_1"><a href="#" style="cursor:default;">most smiles</a></div>
+			  <div class="todolist_left_1" style="font-size:21px;"><a href="customer_happy_story.php">Create story for happy mind</a></div>
 			  <div style="clear:both"></div> 
 			</div>
 			<div class="todolist_bt"><img src="images/banet_4.png" alt="" /></div>		
@@ -325,32 +325,9 @@ $category_id=(int)$_GET['category_id'];
 		$tagDetails=getTagDetails($cherryboard_id);
 		$pagePhotoEffect.='<div id="sticky'.$photoCnt.'" class="atip">';
 		$pagePhotoEffect.='<div style="float:right;border:2px solid #131d1d;padding:8px;">'.$tagDetails.'</div>';
-		$pagePhotoEffect.='<div style="width:200px; margin:auto; border:2px solid #131d1d; border-bottom:2px solid #131d1d; float:right;">
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:250px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">People</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Products</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Places</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Price</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Date</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Time</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Why</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">How</div>
-	    <div style="float:left; font-size:24px; color:#4e4e4e; padding:10px 0 10px 5px; width:200px;"
-		onmouseover="this.style.color=\'#0000FF\'" onmouseout="this.style.color=\'#000000\'">Happiness Score
-		</div>
-	    <div style="clear:both"></div>
-	    </div>
-	    <div style="float:left;">';
+		$pagePhotoEffect.='<div style="float:left;">';
 		$imgCnt=1;
 		foreach($subPhotoArray as $subCnt=>$photoUrl){
-		  if($subCnt>241&&$subCnt<298){}else{
 			$imgData=getResizeImgRatio($photoUrl,250,250);
 			$NewWidth=$imgData['width'];
 			$NewHeight=$imgData['height'];	 		
@@ -359,8 +336,7 @@ $category_id=(int)$_GET['category_id'];
 			   $pagePhotoEffect.='<br/>';
 			   $imgCnt=0;
 			}
-			$imgCnt++;	
-		  }		
+			$imgCnt++;
 		}
 		$pagePhotoEffect.='</div></div>';
    }
@@ -474,11 +450,7 @@ function ValidateForm(){
 	echo "<br/>======>".$photoCnt;
 	foreach($subPhotoArray as $subCnt=>$photoUrl){
 		echo "<br/>Sub :".$subCnt;
-		if($subCnt>241&&$subCnt<298){
-			echo 'No Image';
-		}else{
 		echo '<img src="'.$photoUrl.'" height="50" width="50" /><br/>';
-		}				
 	}
 }*/
 ?>

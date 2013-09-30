@@ -1362,8 +1362,8 @@ function getTagDetails($cherryboard_id){
 	$selTagType=mysql_query("SELECT * FROM tbl_app_tag_type ORDER By tag_type_id");
 	while($selTagTypeRow=mysql_fetch_array($selTagType)){
 		  $tagTypeId=(int)$selTagTypeRow['tag_type_id'];	
-		  $tagTypeName=trim(ucwords($selTagTypeRow['tag_type_name']));
-		  $tagCnt.='<div style="color:#4e4e4e;font-size:24px;">'.$tagTypeName.'</div>';
+		  $tagTypeName=trim(ucwords($selTagTypeRow['tag_type_name']));	
+		  $tagCnt.='<div style="color:#4e4e4e;font-size:24px;">'.$tagTypeName.'</div>';	  
 		  //START FETCH PHOTO TAG DATA
 		  $cnt=1;
 		  $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE tag_type=".$tagTypeId." AND cherryboard_id=".$cherryboard_id);

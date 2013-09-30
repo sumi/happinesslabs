@@ -31,6 +31,7 @@ body{ background:repeat-x left top #eeeaec;}
 		$stringVar='index_detail.php';
 	}
 ?>
+<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <?php if(SCRIPT_NAME=="index.php"||SCRIPT_NAME=="cherryboard.php"||SCRIPT_NAME=="setup2.php"||SCRIPT_NAME=="expert_cherryboard.php"||SCRIPT_NAME=="experts.php"||SCRIPT_NAME=="gift_profile.php"){ ?>
 	<script type="text/javascript" src="js/Ajaxfileupload-jquery-1.3.2.js" ></script>
@@ -56,7 +57,6 @@ body{ background:repeat-x left top #eeeaec;}
 	<script type="text/javascript" src="board_slider/jquery.js"></script>
 
 <!-- START PHOTO TAGGING AND MOUSEOVER AND MOUSEOUT EVENT JS CODE -->	
-<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
 <?php include('include/phototagging.php'); ?>
 <!-- END OF PHOTO TAGGING AND MOUSEOVER AND MOUSEOUT EVENT JS CODE -->
 <script type="text/javascript" src="js/ddaccordion.js"></script>
@@ -136,7 +136,6 @@ body{ background:repeat-x left top #eeeaec;}
 	 box-shadow: 0 0 8px #666666;
 }
 </style>
-<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function()
 {

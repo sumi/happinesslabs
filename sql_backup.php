@@ -82,3 +82,6 @@ CREATE TABLE IF NOT EXISTS `tbl_app_tag_type` (
   `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tag_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+09-30-2013
+Date,Time,Why,How,Happiness Score Type Add On tbl_app_tag_type Table
