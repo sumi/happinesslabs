@@ -3,7 +3,7 @@ include_once "fbmain.php";
 include('include/app-common-config.php');
 require('include/instagraph.php');
 error_reporting(0);
-$type=trim($_REQUEST['type']);
+$type=$_REQUEST['type'];
 $cherryboard_id=$_REQUEST['cherryboard_id'];
 $mainExpCherryId=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$cherryboard_id.'" and main_board="1"');
 $expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
@@ -37,11 +37,11 @@ if($fsize>$MAX_FILE_SIZE){
 }else{
 	if (move_uploaded_file($_FILES['uploadfile']['tmp_name'],$file)) {
 	$_SESSION['fname']=$fname; 
-   /* echo "<div class=\"comment_box\">
+    echo "<div class=\"comment_box\">
 		<Table>
 		<tr>
 		  <td colspan=\"2\">
-			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"192px\" width=\"192px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
+			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"100\" width=\"100\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
 		  </td>
 		  <td>
 			<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">Write your comment here...</textarea> 
@@ -60,66 +60,7 @@ if($fsize>$MAX_FILE_SIZE){
 		 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
 	   </tr>
 		</table>
-			  <div class=\"clear\"></div></div>";*/
-			  echo '<input type="hidden" value="0" name="imgLeft" id="imgLeft" />
-	 				<input type="hidden" value="0" name="imgTop" id="imgTop" />';
-			   echo "<Table>
-		<tr>
-		  <td colspan=\"2\">
-		  	  
-			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"219px\" width=\"219px\" class=\"image\" /><div class=\"bg_images ui-widget-content\" id=\"imgText\" style=\"font-family:Arial;font-size:14px;width:219px;text-align:left;\">Happinesslabs</div></div>
-			  
-			  <br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
-			  
-		  </td>
-		  <td valign=\"top\">
-			<table><tr><td>
-			<textarea style=\"width: 122px;height:60px;\" name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onKeyPress=\"javascript:document.getElementById('imgText').innerHTML=document.getElementById('txtcomment').value;\">Happinesslabs</textarea> 
-			</td></tr>
-			<tr>
-				<td>Color:<br/>
-				<select id=\"chg_color\" name=\"chg_color\" onChange=\"changeDivFontColor(this.value)\">
-				<option value=\"white\">White</option>
-				<option value=\"red\">Red</option>
-				<option value=\"green\">Green</option>
-				</select>
-			    </td>
-			</tr><tr>	
-				<td>Font:<br/>
-				<select id=\"chg_font\" name=\"chg_font\" onChange=\"changeDivFont(this.value)\">
-				<option value=\"Arial\">Arial</option>
-				<option value=\"Times New Roman\">Times NR</option>
-				<option value=\"Verdana\">Verdana</option>
-				<option value=\"Courier New\">Courier</option>
-				</select>
-			    </td>
-			</tr><tr>	
-				<td>Size:<br/>
-				<select id=\"chg_size\" name=\"chg_size\" onChange=\"changeDivFontSize(this.value)\">
-				<option value=\"14px\">14px</option>
-				<option value=\"16px\">16px</option>
-				<option value=\"18px\">18px</option>
-				<option value=\"24px\">24px</option>
-				</select>
-			    </td>
-			</tr>
-			</table>
-		  </td>
-		  <td valign=\"top\" rowspan=\"2\">
-			 ".displayFiltersImgs('expert')."
-		  </td>
-		</tr>
-		<tr>
-		<td><img src=\"images/round_arrow_90.jpg\" style=\"cursor:pointer\" onclick=\"rotate_photo('expert','".$fname."','90')\" alt=\"\" width=\"35\" height=\"35\" id=\"rotate_img\" />&nbsp;</td>
-		 <td>
-		  <div class=\"styleall\"><a href=\"javascript:void(0);\" onclick=\"photo_cancel('expert','".$fname."')\" class=\"right gray_link\">
-			  <img src=\"images/close_small1.png\"> Cancel</a>
-			  </div>
-		 </td>
-		 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
-	   </tr>
-		</table>
-			 ";
+			  <div class=\"clear\"></div></div>";
 		exit(0);
 	}
 }
@@ -300,20 +241,6 @@ if($type=="expert_add"||$type=="edit_exp_story_pic"){
 		
     	$insert_qry="INSERT INTO `tbl_app_expert_cherry_photo`(`photo_id`, `user_id`, `cherryboard_id`, `photo_title`, `photo_name`,photo_day,sub_day) VALUES ('',".$user_id.",".$cherryboard_id.",'".$comment."','".$photo_name."','".$photo_day."','".$sub_day."')";			   
 		$insert_qry_res=mysql_query($insert_qry);
-		$insert_last_id=mysql_insert_id();
-		$_SESSION['insert_photo_id']=$insert_last_id;
-		
-		//SECTION INSERT PHOTO TITLE SIZE
-		if($insert_last_id>0){
-			$top=$_GET['top'];
-			$left=$_GET['left'];
-			$font_type=$_GET['font_type'];
-			$font_color=$_GET['font_color'];
-			$font_size=$_GET['font_size'];
-			
-			$insPhotoTSize="INSERT INTO `tbl_app_photo_title_size` (`photo_title_id`, `photo_id`, `top`, `left`, `font_type`, `font_color`, `font_size`, `record_date`) VALUES (NULL, '".$insert_last_id."', '".$top."', '".$left."', '".$font_type."', '".$font_color."', '".$font_size."', '".date('Y-m-d')."')";		
-			mysql_query($insPhotoTSize);
-		}
 		//START UPLOAD PHOTO NOTIFICATION SEND TO STORYBOARD FRIENDS
 		if($insert_qry_res){
 		   $sel_meb=mysql_query("SELECT req_user_fb_id FROM tbl_app_expert_cherryboard_meb WHERE cherryboard_id=".$cherryboard_id." AND is_accept='1' AND user_id=".$user_id);
@@ -347,6 +274,8 @@ if($type=="expert_add"||$type=="edit_exp_story_pic"){
 			  }
 		   }
 		}
+		$insert_last_id=mysql_insert_id();
+		$_SESSION['insert_photo_id']=$insert_last_id;
 	 }else{	
 	 	//START CHANGE STORY PICTURE
 	 	$expStoryPic=trim(getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$story_photo_id));
@@ -444,7 +373,7 @@ if($type=="add_exp_reward_pic"){
    }
 }
 //START CHANGE EXPERT REWARD PICTURE 
-if($type=="edit_exp_reward_pic"){
+if($type=="edit_exp_reward_pic"){	
    $rnd=rand();
    $file_name=$_REQUEST['file_name'];
    $user_id=$_REQUEST['user_id'];

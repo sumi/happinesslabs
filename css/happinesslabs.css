@@ -513,3 +513,11 @@ label {display: inline;}
 }
 /*bank card friends - End*/
 <!-- End Book -->
+<!-- List Of Stories page css -->
+.main_book{height:150px; width:209px; margin:auto; padding-top:15px;}
+.top_main_book{text-align:right; width:200px; background-image:url(../images/love-images-top.png); background-repeat:no-repeat; height:9px; margin-right:10px;}
+.bottom_main_book{float:left; background-image:url(../images/images-book.png); background-repeat:no-repeat; height:137px; width:203px; box-shadow: 0 0 10px #d3d3d3;}
+.img_box_book{float:left; text-align:center; margin:12px 0 0 85px; border:1px solid #cccccc; padding:3px 3px 0 3px;}
+.text_Life_Story_Book{float:left; font-family:Brush Script Std; padding:25px 0 0 10px; font-size:9px;}
+.name_text{float:left; margin:2px 0; text-align:center; font-size:10px; width:209px;}
+.story_title_text{float:left; font-size:10px; margin-left:22px; width:180px;}
