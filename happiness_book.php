@@ -5,8 +5,7 @@ $userDetail=getUserDetail(USER_ID,'uid');
 $photo_url=$userDetail['photo_url'];
 $user_name=$userDetail['name'];
 ?>
-<?php include('site_header.php');?>
-     
+<?php include('site_header.php');?>     
 
 <!-- ================================== -->
 <script type="text/javascript" src="book/turn-jquery.js"></script>
@@ -68,35 +67,23 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top" style="width:569px">
        <div class="book_tabs_main_page">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Love</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Money</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Career</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Fun</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Community</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
+	   <?php
+	   $pillarCnt=1;
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+	   		 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==1){
+			 	echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+			 }else{
+			 	echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
@@ -115,42 +102,32 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+       <?php
+	   $selPillar=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no LIMIT 1");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+	   		 $pillarNo=(int)$selPillarRow['pillar_no'];
+	   		 $title=trim(ucwords($selPillarRow['title']));
+			 echo '<div class="book_tabs_left_love"></div>
+				   <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+				   <div class="book_tabs_right_love"></div>';
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
-        <div class="book_page_right">
-        
-         <div class="chapter_love">Chapter - LOVE</div>
+        <div class="book_page_right">        
+         <div class="chapter_love">Chapter - <?=$title?></div>
          <div class="book_right_text">
-          
-         FIRST KISS<br /><br />
-
-         PERFECT KISS<br /><br />
-    
-         FAVORITE MOVIE KISS SCENE<br /><br />
-
-         FIRST DATE<br /><br />
-
-         DREAM DATE<br /><br />
-
-         FAVORITE MOVIE DATE SCENE<br /><br />
-  
-         FIRST LOVE MAKING<br /><br />
-
-         DREAM LOVE MAKING<br /><br />
-
-         FAVORITE LOVE MAKING MOVIE <br />
-         SCENE
-</div>
-         
-        </div>
-      
+       <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarNo." ORDER BY pillar_no");
+	   while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+	   		 $title=trim(ucwords($selSubPlrRow['title']));
+			 echo $title."<br /><br />";
+	   }
+	   ?>
+		</div>         
+        </div>      
       </div>
      </div>
    </div>
@@ -160,46 +137,44 @@ $user_name=$userDetail['name'];
 <div class="welcome_main" style="background-color:#FFFFFF">
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
-       <div class="book_tabs_main_page">
-          
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Money</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Career</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Fun</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Community</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
+       <div class="book_tabs_main_page">         
+          <?php
+		   $pillarCnt=1;
+		   $titleVar='';
+		   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+		   while($selPillarRow=mysql_fetch_array($selPillar)){
+				 $title=trim(ucwords($selPillarRow['title']));
+				 if($pillarCnt==1){				 
+				 }elseif($pillarCnt==2){
+					echo '<div class="book_tabs_left_love"></div>
+						  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+						  <div class="book_tabs_right_love"></div>';
+						  $titleVar=$title;
+				 }else{
+					echo '<div class="book_tabs_left"></div>
+						  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+						  <div class="book_tabs_right"></div>';
+				 }
+				 $pillarCnt++;
+		   }
+		   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - Money</div>
-          <div class="book_right_text">
-        
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
+         <div class="book_right_text">
+         <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=2 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?> 
+         </div>
         </div>
-         
-        </div>
-      
       </div>
      </div>
    </div>
@@ -210,23 +185,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		   <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Money</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==2){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else{
+			 	if($pillarCnt==3){break;}
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>          
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right">
         
-         <div class="chapter_love">Chapter - Money</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
          <div class="book_right_text">
+		 <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=2 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?> 
         </div>
          
         </div>
@@ -240,37 +233,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page">
-          
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Career</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Fun</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Community</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==3){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else if($pillarCnt==1||$pillarCnt==2){
+			 }else{
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>          
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - Career</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
           <div class="book_right_text">
-        
+        <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=3 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?> 
         </div>
          
         </div>
@@ -284,28 +281,42 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		   <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Money</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		    <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Career</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==3){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else{
+			 	if($pillarCnt==4){break;}
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right">
         
-         <div class="chapter_love">Chapter - Career</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
          <div class="book_right_text">
-        </div>
+		 <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=3 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
+         </div>
          
         </div>
       
@@ -318,32 +329,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Fun</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Community</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==4){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else if($pillarCnt==1||$pillarCnt==2||$pillarCnt==3){
+			 }else{
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - Fun</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
           <div class="book_right_text">
-        
+        <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=4 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
         </div>
          
         </div>
@@ -357,31 +377,131 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		   <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Money</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		    <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Career</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Fun</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==4){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else{
+			 	if($pillarCnt==5){break;}
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right">
         
-         <div class="chapter_love">Chapter - Fun</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
          <div class="book_right_text">
+		 <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=4 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
+        </div>         
+        </div>      
+      </div>
+     </div>
+   </div>
+
+<div class="welcome_main" style="background-color:#FFFFFF">
+     <div style="clear:both"></div>
+     <div class="activate_friends_main_top">
+       <div class="book_tabs_main_page">
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==5){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else if($pillarCnt==1||$pillarCnt==2||$pillarCnt==3||$pillarCnt==4){
+			 }else{
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
+      </div>
+       <div style="clear:both"></div>
+      
+      <div class="activate_friends_bg">
+        <div class="book_page_right1">
+        
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
+          <div class="book_right_text">
+        <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=5 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
+        </div>         
+        </div>      
+      </div>
+     </div>
+   </div>
+
+<div class="welcome_main" style="background-color:#FFFFFF">
+     <div style="clear:both"></div>
+     <div class="activate_friends_main_top">
+       <div class="book_tabs_main_page_left">
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==5){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else{
+			 	if($pillarCnt==6){break;}
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
+      </div>
+       <div style="clear:both"></div>
+      
+      <div class="activate_friends_bg">
+        <div class="book_page_right">
+        
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
+         <div class="book_right_text">
+		 <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=5 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
         </div>
          
         </div>
@@ -395,28 +515,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Community</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==6){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else if($pillarCnt==1||$pillarCnt==2||$pillarCnt==3||$pillarCnt==4||$pillarCnt==5){
+			 }else{
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - Community</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
           <div class="book_right_text">
-        
+        <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=6 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
         </div>
          
         </div>
@@ -429,111 +562,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		   <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Money</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		    <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Career</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Fun</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Community</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+       <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==6){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else{
+			 	if($pillarCnt==7){break;}
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_privious()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right">
         
-         <div class="chapter_love">Chapter - Community</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
          <div class="book_right_text">
-        </div>
-         
-        </div>
-      
-      </div>
-     </div>
-   </div>
-
-
-<div class="welcome_main" style="background-color:#FFFFFF">
-     <div style="clear:both"></div>
-     <div class="activate_friends_main_top">
-       <div class="book_tabs_main_page">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Beauty</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right"></div>
-          
-      </div>
-       <div style="clear:both"></div>
-      
-      <div class="activate_friends_bg">
-        <div class="book_page_right1">
-        
-         <div class="chapter_love">Chapter - Beauty</div>
-          <div class="book_right_text">
-        
-        </div>
-         
-        </div>
-      
-      </div>
-     </div>
-   </div>
-
-<div class="welcome_main" style="background-color:#FFFFFF">
-     <div style="clear:both"></div>
-     <div class="activate_friends_main_top">
-       <div class="book_tabs_main_page_left">
-          
-          <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Love</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		   <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Money</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		    <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Career</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Fun</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left"></div>
-          <div class="book_tabs"><a href="#" onclick="trun_privious()">Community</a></div>
-          <div class="book_tabs_right"></div>
-		  
-		     <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_privious()">Beauty</a></div>
-          <div class="book_tabs_right_love"></div>
-          
-      </div>
-       <div style="clear:both"></div>
-      
-      <div class="activate_friends_bg">
-        <div class="book_page_right">
-        
-         <div class="chapter_love">Chapter - Beauty</div>
-         <div class="book_right_text">
+		 <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=6 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
         </div>
          
         </div>
@@ -546,20 +609,41 @@ $user_name=$userDetail['name'];
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page">
-          
-          <div class="book_tabs_left_love"></div>
-          <div class="book_tabs_love"><a href="#" onclick="trun_next()">Wellness</a></div>
-          <div class="book_tabs_right_love"></div>
-          
+        <?php
+	   $pillarCnt=1;
+	   $titleVar='';
+	   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+	   while($selPillarRow=mysql_fetch_array($selPillar)){
+			 $title=trim(ucwords($selPillarRow['title']));
+			 if($pillarCnt==7){
+				echo '<div class="book_tabs_left_love"></div>
+					  <div class="book_tabs_love"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right_love"></div>';
+					  $titleVar=$title;					  
+			 }else if($pillarCnt==1||$pillarCnt==2||$pillarCnt==3||$pillarCnt==4||$pillarCnt==5||$pillarCnt==6){
+			 }else{
+				echo '<div class="book_tabs_left"></div>
+					  <div class="book_tabs"><a href="#" onclick="trun_next()">'.$title.'</a></div>
+					  <div class="book_tabs_right"></div>';
+			 }
+			 $pillarCnt++;
+	   }
+	   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - Wellness</div>
+         <div class="chapter_love">Chapter - <?=$titleVar?></div>
           <div class="book_right_text">
-        
+        <?php
+	   $selSubPlr=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=7 ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br /><br />";
+		 }
+		 ?>
         </div>
          
         </div>

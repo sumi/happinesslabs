@@ -124,15 +124,6 @@ function add_photo(mtype,file_name)
 	var user_id=document.getElementById('user_id').value;
 	var cherryboard_id=document.getElementById('cherryboard_id').value;
 	var comment = document.getElementById('txtcomment').value;
-	var extra_vars='';
-
-	calculateSubmit();
-	var imgLeft = document.getElementById('imgLeft').value;
-	var imgTop = document.getElementById('imgTop').value;
-	var chg_color = document.getElementById('chg_color').value;
-	var chg_font = document.getElementById('chg_font').value;
-	var chg_size = document.getElementById('chg_size').value;
-	extra_vars="&left="+imgLeft+"&top="+imgTop+"&font_color="+chg_color+"&font_type="+chg_font+"&font_size="+chg_size;
 	
 	if(mtype=="expert"){
 		var subtype=document.getElementById('subtype').value;
@@ -152,8 +143,7 @@ function add_photo(mtype,file_name)
 			var url = "expert_uploadPhoto.php?type=edit_exp_story_pic&file_name="+file_name+"&user_id="+user_id+"&cherryboard_id="+cherryboard_id+"&comment="+comment+"&story_photo_id="+story_photo_id;
 		}else{
 			var photo_day=document.getElementById('photo_day').value;
-			var url="expert_uploadPhoto.php?type=expert_add&file_name="+file_name+"&user_id="+user_id+"&cherryboard_id="+cherryboard_id+"&comment="+comment+"&photo_day="+photo_day+extra_vars;
-			//alert(url);
+			var url="expert_uploadPhoto.php?type=expert_add&file_name="+file_name+"&user_id="+user_id+"&cherryboard_id="+cherryboard_id+"&comment="+comment+"&photo_day="+photo_day;
 		}
 	}else{
 		var url="uploadPhoto.php?type=add&file_name="+file_name+"&user_id="+user_id+"&cherryboard_id="+cherryboard_id+"&comment="+comment;
@@ -170,12 +160,9 @@ function handleHttpResponse_add_photo()
 	  if(http2.status==200) 
 	  { 
 		var results=http2.responseText;
-		results=results.replace(/(\r\n|\n|\r)/gm,"");
 		results_array=results.split('##===##');
 		var action_type=results_array[0];
 		var content=results_array[1];
-		//alert("=="+action_type+"==");
-		//alert(content);
 		if(action_type=="expert_add"||action_type=="add_exp_profile_pic"||action_type=="add_exp_reward_pic"||action_type=="edit_exp_reward_pic"||action_type=="edit_exp_story_pic"){
 			document.location='expert_cherryboard.php?cbid='+results_array[1];
 		}else{

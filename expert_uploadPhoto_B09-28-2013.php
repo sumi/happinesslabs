@@ -41,7 +41,7 @@ if($fsize>$MAX_FILE_SIZE){
 		<Table>
 		<tr>
 		  <td colspan=\"2\">
-			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"100px\" width=\"100px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
+			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"192px\" width=\"192px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
 		  </td>
 		  <td>
 			<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">Write your comment here...</textarea> 
