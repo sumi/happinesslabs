@@ -85,3 +85,7 @@ CREATE TABLE IF NOT EXISTS `tbl_app_tag_type` (
 
 09-30-2013
 Date,Time,Why,How,Happiness Score Type Add On tbl_app_tag_type Table
+
+10-02-2013
+ALTER TABLE `tbl_app_life_story_book_template` ADD `cherryboard_id` INT( 11 ) NOT NULL AFTER `pillar_no` 
+UPDATE `cherryfull`.`tbl_app_life_story_book_template` SET `cherryboard_id` = '819' WHERE `tbl_app_life_story_book_template`.`template_id`=1;

@@ -9,6 +9,19 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//STORY BOOK DO-IT CODE
+if($type=="doit_story"){
+ 	$cherryboard_id=(int)$_GET['cherryboard_id'];
+	$expertboard_id=(int)$_GET['expertboard_id'];
+	$user_id=(int)$_GET['user_id'];	
+	if($cherryboard_id>0&&$expertboard_id>0&&$user_id>0){
+	   $title=trim(ucwords(getFieldValue('title','tbl_app_life_story_book_template','cherryboard_id='.$cherryboard_id)));	
+	   $new_cherryboard_id=createExpertboard($expertboard_id,$cherryboard_id);
+	   $ajax_data.='&nbsp;&nbsp;&nbsp;'.$title.'&nbsp;<a href="expert_cherryboard.php?cbid='.$new_cherryboard_id.'" style="text-decoration:none;">View story</a>&nbsp;<span style="color:#009933;font-weight:bold;">Story Board Created Successfully</span><br />'; 
+	}
+	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+	echo $ajax_data;
+}
 //START LIKE AND UNLIKE CODE
 if($type=="like_story"||$type=="unlike_story"){
    $cherryboard_id=(int)$_GET['cherryboard_id'];

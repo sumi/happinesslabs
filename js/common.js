@@ -471,6 +471,10 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
+	//STORY BOOK DO-IT
+	if(type=="doit_story"){
+		isAction=1;
+	}
 	//LIKE AND UNLIKE STORY
 	if(type=="like_story"||type=="unlike_story"){
 		isAction=1;
