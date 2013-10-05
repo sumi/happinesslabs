@@ -3,10 +3,62 @@ include_once "fbmain.php";
 include('include/app-common-config.php');
 ?>
 <?php include('site_header.php'); ?>
+<?php
+if(isset($_POST['btncreate'])){
+   $day_type=(int)$_POST['day_type'];	
+   $storytitle=trim($_POST['storytitle']);
+   $storydesc=trim(addslashes($_POST['storydesc']));
+   $storycategory=(int)$_POST['storycategory'];
+   $storyprice=(int)$_POST['storyprice'];
+   $board_type=(int)$_POST['board_type'];
+   $storydays=(int)$_POST['storydays'];
+   $Customers='Customers';
+   
+ if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$storycategory>0&&$storyprice>0&&$storydays>0){
+ 
+    	$IsStoryBoard=(int)getFieldValue('expertboard_id','tbl_app_expertboard','expertboard_title="'.$storytitle.'" and user_id='.USER_ID);
+		if($IsStoryBoard==0){
+		   $ip_address=$_SERVER['REMOTE_ADDR'];
+		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative) VALUES (NULL,'".(int)USER_ID."','".$storycategory."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0')";
+		   $insQry=mysql_query($insstory);
+		   $storyBoardId=mysql_insert_id();
+		   if($storyBoardId>0){
+		   	  //CREATE GOAL DAYS
+		   	  $DayType=getDayType($storyBoardId);
+			  for($i=1;$i<=$storydays;$i++){
+				  $insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date) VALUES (NULL,'".$storyBoardId."','".$i."','".$DayType." ".$i."',CURRENT_TIMESTAMP)";
+				  $insDaysSql=mysql_query($insDays);
+			  }
+			  //CREATE STORY BOARD
+			  $insBoard="INSERT INTO tbl_app_expert_cherryboard
+			  (cherryboard_id,user_id,expertboard_id,record_date,main_board)
+			  VALUES (NULL,'".(int)USER_ID."','".$storyBoardId."',CURRENT_TIMESTAMP,'1')";
+			  $insboard=mysql_query($insBoard);
+			  $cherryBoardId=mysql_insert_id();
+			  //CREATE STORY TO-DO LIST
+			  if($cherryBoardId>0){
+			     //Deposit the happybank point
+				 happybankPoint('1',0,$cherryBoardId);
+				 for($i=1;$i<=$storydays;$i++){
+						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system) VALUES (NULL,'".(int)USER_ID."','".$cherryBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1')";
+						$insTodoSql=mysql_query($insTodo);
+				 }
+				 echo "<script>document.location='expert_cherryboard.php?cbid=".$cherryBoardId."'</script>";		
+			  }			  
+		   }
+		}else{
+		    $cherryboardId=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id='.$IsStoryBoard);
+			echo "<script>document.location='expert_cherryboard.php?cbid=".$cherryboardId."'</script>";		
+		}
+   }else{
+   		echo "<script>document.location='index_detail.php'</script>";	
+   }
+}
+?>
 <!-- START CUSTOMER HAPPY STORY FORM CODE -->
 <div style="background-color:#FFFFFF;">
  <div class="Create_Stity_Page_main">
-<form action="" method="post" name="createstory" id="createstory" enctype="multipart/form-data"><!--expertboard.php-->
+<form action="" method="post" name="createstory" id="createstory" enctype="multipart/form-data">
    <div class="Sumithra_tell_top">
    <?php
 	   $userDetails=getUserDetail(USER_ID);
@@ -69,6 +121,7 @@ include('include/app-common-config.php');
 	<!-- START CREATE BUTTON CODE -->
 	<div class="banner_day_5_left" style="width:172px;">
 		<div class="banner_day_5_bg" style="width:100px;">
+		<input type="hidden" name="btncreate" id="btncreate" value="Create">
 		<a href="javascript:document.createstory.submit();" title="Create" onClick="javascript:return CheckFormValidation('divStoryMessage','day_type#Please Select Story Template,storytitle#Please Enter Story Title,storydesc#Please Enter Discription,storycategory#Please Select Category#0,storyprice#Please Enter Story Price#0,board_type#Please Select Board Type,storydays#Please Select Story Days/Items/Steps/Dates#0');">Create</a></div>
 		<div class="banner_day_5_im"><img src="images/ban.png" alt="" /></div>		
 	</div>
