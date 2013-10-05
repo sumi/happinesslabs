@@ -184,11 +184,8 @@ function rotate_photo(mtype,file_name,rotate_degree)
 {	
 	showLoadingImg('rotate_img');
 	var txtcomment=document.getElementById('txtcomment').value;
-	var font_color=document.getElementById('font_color').value;
-	var font_type=document.getElementById('font_type').value;
-	var font_size=document.getElementById('font_size').value;
 	if(mtype=="expert"){
-		var url = "expert_uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment+"&font_color="+font_color+"&font_type="+font_type+"&font_size="+font_size;
+		var url = "expert_uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment;
 	}else{
 		var url = "uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment;
 	}
@@ -474,10 +471,6 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
-	//CREATE STORY SHOW FIELDS VALUE
-	if(type=="show_storytitle"||type=="show_storydesc"||type=="show_storyprice"||type=="show_storydays"){
-		isAction=1;
-	}	
 	//STORY DAY/ITEM/STEP
 	if(type=="selDay"||type=="selItem"||type=="selStep"||type=="selDate"){
 		isAction=1;
@@ -795,9 +788,7 @@ function handleHttpResponse_ajax_action()
 		var div_name=results_array[1];
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
-		if(action_type=="selDay"||action_type=="selItem"||action_type=="selStep"||action_type=="selDate"){
-		   document.getElementById('dayType').value=results_array[3];
-		}
+		
 		if(action_type=="focus_story_title"){
 			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
 			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';

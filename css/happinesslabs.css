@@ -521,3 +521,52 @@ label {display: inline;}
 .text_Life_Story_Book{float:left; font-family:Brush Script Std; padding:25px 0 0 10px; font-size:9px;}
 .name_text{float:left; margin:2px 0; text-align:center; font-size:10px; width:209px;}
 .story_title_text{float:left; font-size:10px; margin-left:22px; width:180px;}
+
+/*START CREATE STORY NEW DESIGN PAGE CSS*/
+
+/*--- Create Stoty pages - Start ---*/
+.Create_Stity_Page_main{width:958px; border-top:8px solid #e04e32; margin:auto;}
+.Sumithra_tell_top{padding:10px; width:958px;}
+.Sumithra_tell_top_text{float:left; font-size:18px; color:#e04e32; padding-top:8px;}
+.Sumithra_tell_top_span{float:left; padding-right:10px;}
+
+.Create_Stity_left{float:left; width:235px; margin:10px 30px 40px 25px;}
+.Create_Stity_right{float:left; width:665px; margin:10px 0 10px 0;}
+
+.Story_Title_box{float:left; background-color:#57585b; border:2px solid #818284; font-size:18px; color:#FFFFFF; padding:1px 6px;}
+.Story_Title_text{float:left; font-size:16px; color:#57585b; padding:5px 0 5px 10px;}
+.Story_Title_input_box{float:left; width:230px; margin-top:5px; border:1px solid #57585b; padding:5px; color:#3d3d3d; margin-bottom:15px;}
+
+.Select_Story_Template_main{float:left; width:625px; margin:10px 0 10px 38px;}
+.Select_Story_Template_box_main{float:left; width:135px; margin-right:20px;}
+.Select_Story_Template_day_text{float:left; font-size:14px; color:#57585b; width:126px;}
+.Select_Story_Template_day_box{float:left; border:1px solid #000000; box-shadow: 0 0 3px #646464; font-size:13px; padding:17px 3px; margin:5px 5px 0px 0; text-align:center; width:32px;
+ border-radius:0px 5px 0px 0px;
+-webkit-border-radius:0px 5px 0px 0px;
+-moz-border-radius:0px 5px 0px 0px;}
+.Select_Story_Template_day_text1{float:left; font-size:14px; color:#FF0000; width:126px;}
+.Select_Story_Template_day_box1{float:left; border:1px solid #FF0000; box-shadow: 0 0 3px #646464; font-size:13px; padding:17px 3px; margin:5px 5px 0px 0; text-align:center; width:32px;
+ border-radius:0px 5px 0px 0px;
+-webkit-border-radius:0px 5px 0px 0px;
+-moz-border-radius:0px 5px 0px 0px;}
+/*--- happiness labs_Home - Start ---*/
+.Slides_images{float:left; width:296px;}
+.Item_By_Item_10day_main{float:left; width:230px; margin:0 10px; color:#404041; font-size:10px;}
+.Day_Vegan_Challenge_10text{font-size:20px;}
+.by_Olivia_Janisch_text{font-size:12px; font-style:italic; font-weight:700; margin-bottom:10px;}
+.Total_10Days_text{font-size:12px; margin-top:5px;}
+.Total_10Days_style{font-size: 18px}
+.Classmates_more_main{float:left; width:68px;}
+.Classmates_more_text{font-size:12px; color:#666666;}
+.Price_Story_Access{float:left; background-image:url(../images/img-rewards.png); background-repeat:no-repeat; width:621px; height:270px; margin:10px 0 30px 0; padding:12px 0 0 13px;}
+.price_text{float:left; font-size:16px; color:#9f9f9f; width:137px; margin-right:8px; padding-left:2px;}
+.Number_of_Days{float:left; font-size:16px; color:#cc4d27; width:137px; margin-right:8px; padding-left:2px;}
+.storycat{
+border: 1px solid #57585B;
+color: #666666;
+float: left;
+margin-bottom: 15px;
+margin-top: 5px;
+padding: 5px;
+width: 240px;
+}

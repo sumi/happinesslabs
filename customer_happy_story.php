@@ -4,102 +4,146 @@ include('include/app-common-config.php');
 ?>
 <?php include('site_header.php'); ?>
 <!-- START CUSTOMER HAPPY STORY FORM CODE -->
-<div id="main">
-	<div id="wrapper" style="padding-top:10px;">
-	<form action="expertboard.php" method="post" name="frmcuststory" enctype="multipart/form-data">
-		<div class="border_top_main">
-			<div class="CreateStor_left" style="padding-left:100px;">
-				<div class="CreateStor_top">
-					<div class="CreateStor_img"><img src="<?php echo PHOTO_URL;?>" height="35" width="37" alt="<?php echo FIRST_NAME.'&nbsp;'.LAST_NAME;?>" /></div>
-					<div class="CreateStor_text" style="padding-top:3px;">
-					<?php echo FIRST_NAME.'&nbsp;'.LAST_NAME;?> - Tell A New Happy Story</div>
-					<div class="msg_red" id="div_frm_storymsg"></div>
-         		</div>
-				<div class="project_main">
-				  <div class="project_left" id="DivStoryTitle">
-				  <div class="project_left_2">1</div>
-				  </div>
-				  <div class="project_right">Project title: <input name="story_title" id="story_title" type="text" onFocus="ajax_action('focus_story_title','DivStoryTitle','stype=title');" style="border:1px solid #818284; color:#999999; font-size:16px; padding:5px 5px 4px 5px; width:250px;"/></div>
-				</div>
-				<div class="project_main">
-			  		<div class="project_left" id="DivStoryCategory">
-			  		<div class="project_left_2">2</div>
-			  		</div>
-			  		<div class="project_right">Story catagory: <?=getCategoryList(0,'onFocus="ajax_action(\'focus_story_category\',\'DivStoryCategory\',\'stype=category\');"','category_id2')?>
-			   		</div>
-				</div>
-				<div class="project_main">
-				  <div class="project_left" id="DivStoryAbout">
-				  <div class="project_left_2">3</div>
-				  </div>
-				  <div class="what_top">What is your happy story about?</div>
-				  <div class="what_bottom"><textarea name="story_detail" id="story_detail" onFocus="ajax_action('focus_story_about','DivStoryAbout','stype=about');" style="color:#999999; font-size:16px; padding:5px 5px 4px 10px; width:340px; height:90px; border:1px solid #818284;"></textarea></div>
-				</div>
-				<div class="project_main">
-				  <div class="project_left" id="DivStoryDayType">
-				  <div class="project_left_2">4</div>
-				  </div>
-				  <div class="how_main" style="float:left;">
-					  <div class="how_box">How will you tell your story?</div>
-					  <div class="day"><input name="day_type" onClick="ajax_action('focus_story_daytype','DivStoryDayType','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('DivDayType').style.display='inline';" id="day_type" type="radio" value="1" /> Day-by-Day</div>
-					  <div class="day"><input name="day_type" id="day_type" onClick="ajax_action('focus_story_daytype','DivStoryDayType','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('DivDayType').style.display='inline';" type="radio" value="2" />Item-By-Item</div>
-					  <div class="day"><input name="day_type" id="day_type" onClick="ajax_action('focus_story_daytype','DivStoryDayType','stype=daytype');javascript:document.getElementById('living_narrative').value='0';document.getElementById('DivDayType').style.display='inline';" type="radio" value="3" />Step-By-Step</div>
-					  <div class="day" id="DivDayType" style="display:inline">Approximate number of days/items/steps: <input name="number_days" id="number_days" type="text" value="1" onFocus="ajax_action('focus_story_daytype','DivStoryDayType','stype=daytype');" style="border:1px solid #818284; color:#999999; font-size:16px; padding:4px 5px 3px 5px; width:80px;"/></div>
-					  <div class="day">
-					  <input id="living_narrative" name="living_narrative" type="hidden" value="0"/>
-					  <input id="day_type" name="day_type" onClick="ajax_action('focus_story_daytype','DivStoryDayType','stype=daytype');javascript:document.getElementById('living_narrative').value='1';document.getElementById('DivDayType').style.display='none';" type="radio" value="4"/> living narrative (By dates entered)</div>
-				   </div>
-					<div style="clear:both"></div>
-				 </div>
-				 <div class="project_main">
-				   <div class="project_left" id="DivStoryBoardPrice">
-				   <div class="project_left_2">5</div>
-				   </div>
-				   <div class="storyboard_main">
-					<div class="storyboard_left">Storyboard price?</div>
-					<div class="storyboard_left">
-					 <input id="IsBoardPrice" name="IsBoardPrice" type="hidden" value="0"/>
-		<input name="chk_is_board_price" id="chk_is_board_price" type="radio" value="1" onClick="ajax_action('focus_story_price','DivStoryBoardPrice','stype=boardprice');javascript:document.getElementById('div_price').style.display='inline';document.getElementById('IsBoardPrice').value='1';" />            
-		Price board</div>
-					<div class="storyboard_left"><input name="chk_is_board_price" id="chk_is_board_price" type="radio" value="0" onClick="ajax_action('focus_story_price','DivStoryBoardPrice','stype=boardprice');javascript:document.getElementById('div_price').style.display='none';document.getElementById('IsBoardPrice').value='0';" /> 
-					Non-price board</div><br/>
-					 <div style="display:none;padding-left:150px;" id="div_price">
-						<Strong>Price :</Strong>
-						<input type="text" name="story_price" id="story_price" onFocus="ajax_action('focus_story_price','DivStoryBoardPrice','stype=boardprice');" value="0" style="width:50px;">	
-					  </div>
-				   </div>
-				  </div><br/>
-				  <div class="project_main">
-				   <div class="project_left" id="DivStoryBoardType">
-				   <div class="project_left_2">6</div>
-				   </div>
-				   <div class="storyboard_main">
-					<div class="storyboard_left">Storyboard type?</div>
-					<div class="storyboard_left"><input name="board_type" id="board_type" type="radio" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" value="0" /> 
-					Public</div>
-					<div class="storyboard_left"><input name="board_type" id="board_type" type="radio" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" value="1" /> 
-					Private</div>
-				    </div>
-				   </div>				
-			</div><!-- End of story left -->
-			<div class="CreateStor_right">
-				 <div class="sample_text" style="width:270px;">Sample Page</div>
-				 <div class="happiness_img"><img src="images/img_screen.png" alt="" /></div>
-				 <div class="create_left" style="padding-left:587px;">
-				  <div class="create_left_bg">
-				  <input type="hidden" name="btnCreateStory" id="btnCreateStory" value="Create">
-				  <a href="javascript:document.frmcuststory.submit();" onClick="javascript:return CheckFormValidation('div_frm_storymsg','story_title#Enter Story Title,category_id2#Select Category#0,story_detail#Enter story about#Enter story about,day_type#Please Select Days/Items/Steps,chk_is_board_price#Please Select Your Board Price ,number_days#Please Enter Days/Items/Steps#0,story_price#Please Enter Price#0,board_type#Please Select Board Type');">create!</a></div>
-				  <div class="create_left_img"><img src="images/ban.png" alt=""  height="48"/></div> 
-				 <div style="clear:both"></div>
-				 </div>
-				 <div class="create_right"><img src="images/img_1.png" alt="" /></div>
-			</div>
-		<div style="clear:both"></div>
-		</div>
-	</form>
-	<br/><br/><br/>
+<div style="background-color:#FFFFFF;">
+ <div class="Create_Stity_Page_main">
+<form action="" method="post" name="createstory" id="createstory" enctype="multipart/form-data"><!--expertboard.php-->
+   <div class="Sumithra_tell_top">
+   <?php
+	   $userDetails=getUserDetail(USER_ID);
+	   $userName=$userDetails['first_name'].' '.$userDetails['last_name'];
+	   $userPic=$userDetails['photo_url'];
+   ?>
+   <span class="Sumithra_tell_top_span"><img src="<?=$userPic?>" alt="" /></span>
+   <div class="Sumithra_tell_top_text"><?=$userName?> - Tell A Story For Happy Mind</div>
+   </div>
+   <div style="clear:both"></div>
+   <div class="msg_red" id="divStoryMessage"></div>
+   <!-- Left Part -->
+   <div class="Create_Stity_left">
+    <div class="Story_Title_box">2</div>
+    <div class="Story_Title_text">Story Title :</div>
+    <input name="storytitle" id="storytitle" type="text" onchange="ajax_action('show_storytitle','divshow_storytitle','stype=storytitle&txt_storytitle='+document.getElementById('storytitle').value);" class="Story_Title_input_box" />
+    
+    <div class="Story_Title_box">3</div>
+    <div class="Story_Title_text">Story Description :</div>
+	<textarea name="storydesc" id="storydesc" onchange="ajax_action('show_storydesc','divshow_storydesc','stype=storydesc&txt_storydesc='+document.getElementById('storydesc').value);" class="Story_Title_input_box"></textarea>
+    
+    <div class="Story_Title_box">4</div>
+    <div class="Story_Title_text">Story Category :</div>
+    <select size="1" id="storycategory" name="storycategory" class="storycat">
+       <option value="0">Select Category </option>
+       <?php
+	   $catArray=array(1=>2,2=>19,3=>21,4=>24,5=>29,6=>30,7=>31);	
+	   $catCnt=''; 
+	   foreach($catArray as $catid){
+	   	  $selCat=mysql_query("SELECT * FROM tbl_app_category WHERE category_id=".$catid);
+		  while($selCatRow=mysql_fetch_array($selCat)){ 	
+	   	  	$catCnt.='<option value="'.$catid.'">'.ucwords($selCatRow['category_name']).'</option>';
+		  }
+	   }
+	   echo $catCnt;  
+	   ?>
+    </select>
+    <div class="Story_Title_box">5</div>
+    <div class="Story_Title_text">Price :</div>
+    <input name="storyprice" id="storyprice" type="text" class="Story_Title_input_box" onchange="ajax_action('show_storyprice','divshow_storyprice','stype=storyprice&txt_storyprice='+document.getElementById('storyprice').value);" />
+    
+    <div class="Story_Title_box">6</div>
+    <div class="Story_Title_text">Story Access :</div>
+	<div class="Select_Story_Template_day_text" style="padding:5px 0 5px 0;width:221px;">
+	<input name="board_type" id="board_type" type="radio" value="0" /> Public &nbsp;
+    <input name="board_type" id="board_type" type="radio" value="1" /> Private &nbsp;&nbsp;
 	</div>
-    <div class="clear"></div>
+	
+    <div class="Story_Title_box">7</div>
+    <div class="Story_Title_text">Number of Days:</div>
+	<input name="dayType" id="dayType" type="hidden" value="" />
+    <select size="1" id="storydays" name="storydays" onchange="ajax_action('show_storydays','divshow_storydays','stype=storydays&txt_storydays='+document.getElementById('storydays').value+'&dayType='+document.getElementById('dayType').value);" class="storycat">
+       <option value="0">Select Days </option>
+	   <?php
+	   for($i=1;$i<=30;$i++){
+	   echo '<option value="'.$i.'">'.$i.'</option>';
+	   }
+	   ?>
+    </select>
+	<!-- START CREATE BUTTON CODE -->
+	<div class="banner_day_5_left" style="width:172px;">
+		<div class="banner_day_5_bg" style="width:100px;">
+		<a href="javascript:document.createstory.submit();" title="Create" onClick="javascript:return CheckFormValidation('divStoryMessage','day_type#Please Select Story Template,storytitle#Please Enter Story Title,storydesc#Please Enter Discription,storycategory#Please Select Category#0,storyprice#Please Enter Story Price#0,board_type#Please Select Board Type,storydays#Please Select Story Days/Items/Steps/Dates#0');">Create</a></div>
+		<div class="banner_day_5_im"><img src="images/ban.png" alt="" /></div>		
+	</div>
+	<div class="banner_day_5_right" style="float:right;"><img src="images/im.png" /></div>	
+	<!-- END CREATE BUTTON CODE -->	
+    </div>
+   <!-- Right Part -->
+   <div class="Create_Stity_right">
+     <div class="Story_Title_box">1</div>
+     <div class="Story_Title_text">Select Story Template :</div>
+    
+    <div class="Select_Story_Template_main"><!--style="this.style.backgroundColor='#CCCCCC';"-->
+      <div id="divDayByDay" class="Select_Story_Template_box_main">
+        <div class="Select_Story_Template_day_text">
+		<input name="day_type" id="day_type" type="radio" value="1"
+		onclick="ajax_action('selDay','divDayHeading','stype=dayselect');"/> Day By Day </div>
+        <div class="Select_Story_Template_day_box">day1</div>
+        <div class="Select_Story_Template_day_box">day2</div>
+        <div class="Select_Story_Template_day_box">day3</div>
+      </div>
+      
+      <div id="divItemByItem" class="Select_Story_Template_box_main">
+        <div class="Select_Story_Template_day_text">
+		<input name="day_type" id="day_type" type="radio" value="2" 
+		onclick="ajax_action('selItem','divDayHeading','stype=itemselect');"/> Item By Item</div>
+        <div class="Select_Story_Template_day_box">item1</div>
+        <div class="Select_Story_Template_day_box">item2</div>
+        <div class="Select_Story_Template_day_box">item3</div>
+      </div>
+      
+      <div id="divStepByStep" class="Select_Story_Template_box_main">
+        <div class="Select_Story_Template_day_text">
+		<input name="day_type" id="day_type" type="radio" value="3" 
+		onclick="ajax_action('selStep','divDayHeading','stype=stepselect');"/> Step By Step</div>
+        <div class="Select_Story_Template_day_box">step1</div>
+        <div class="Select_Story_Template_day_box">step2</div>
+        <div class="Select_Story_Template_day_box">step3</div>
+      </div>
+      
+      <div id="divDateByDate" class="Select_Story_Template_box_main">
+        <div class="Select_Story_Template_day_text">
+		<input name="day_type" id="day_type" type="radio" value="4"
+		onclick="ajax_action('selDate','divDayHeading','stype=dateselect');"/>Narration By Date</div>
+        <div class="Select_Story_Template_day_box">date1</div>
+        <div class="Select_Story_Template_day_box">date2</div>
+        <div class="Select_Story_Template_day_box">date3</div>
+      </div>
+    </div>
+    
+    <div class="Select_Story_Template_main">
+     <div class="Slides_images"><img src="images/image-day.png" alt="" /></div>
+     <div class="Item_By_Item_10day_main">
+       <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">10 Day Vegan Challenge</div>
+       <div class="by_Olivia_Janisch_text">by <?=$userName?></div>
+       <div id="divshow_storydesc" style="font-size:12px;">Map out this exciting challenge with support and 
+       guidance for 10 days of veganism! Map out this exciting challenge with support and guidance for 10 
+       days of veganism!</div>
+       <div id="divshow_storydays" class="Total_10Days_text">Total : <span class="Total_10Days_style">10 Days</span></div>
+       <div id="divshow_storyprice" class="Total_10Days_text">Price : <span class="Total_10Days_style">$0.00</span></div>  
+       <img src="images/do-it!---images.png" alt="" />             
+     </div>
+     <div class="Classmates_more_main">
+      <span class="Classmates_more_text">Classmates</span>
+      <img src="images/classmates-img.png" alt="" />
+     </div>
+     <div id="divDayHeading" class="Price_Story_Access">
+       <div class="price_text">Day 1</div>
+       <div class="price_text">Day 2</div>
+       <div class="Number_of_Days">Day 3</div>
+     </div>	
+    </div>    
+   </div>
+ </form>  
+ </div> 
+ <div style="clear:both;"></div> 
 </div>
 <!-- END CUSTOMER HAPPY STORY FORM CODE -->
 <?php include('site_footer.php');?> 

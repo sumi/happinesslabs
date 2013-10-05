@@ -9,6 +9,58 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//STORY SHOW FIELDS VALUE
+if($type=="show_storytitle"||$type=="show_storydesc"||$type=="show_storyprice"||$type=="show_storydays"){
+   $stype=trim($_GET['stype']);   
+   if($stype=='storytitle'){
+      $storyTitle=trim(ucwords($_GET['txt_storytitle'])); 		   
+   	  $ajax_data.=$storyTitle;
+   }else if($stype=='storydesc'){
+   	  $storyDesc=trim($_GET['txt_storydesc']);				   
+   	  $ajax_data.=$storyDesc;
+   }else if($stype=='storyprice'){
+   	  $storyPrice=(int)$_GET['txt_storyprice'];				   					   
+   	  $ajax_data.='Price : <span class="Total_10Days_style">$'.$storyPrice.'.00</span>';
+   }else if($stype=='storydays'){
+   	  $storyDays=(int)$_GET['txt_storydays'];
+	  $dayType=trim($_GET['dayType']);
+	  if($storyDays==1){
+   	  	 $ajax_data.='Total : <span class="Total_10Days_style">'.$storyDays.' '.$dayType.'</span>';
+	  }else{
+	  	 $ajax_data.='Total : <span class="Total_10Days_style">'.$storyDays.' '.$dayType.'s</span>';
+	  }
+   }      	 
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+   echo $ajax_data;
+}
+//STORY DAY/ITEM/STEP
+if($type=="selDay"||$type=="selItem"||$type=="selStep"||$type=="selDate"){
+   $stype=trim($_GET['stype']);
+   $dayType='';
+   if($stype=='dayselect'){		   
+   	  $ajax_data.='<div class="price_text">Day 1</div>
+      				<div class="price_text">Day 2</div>
+       				<div class="Number_of_Days">Day 3</div>';
+	  $dayType.='Day';
+   }else if($stype=='itemselect'){				   
+   	  $ajax_data.='<div class="price_text">Item 1</div>
+      				<div class="price_text">Item 2</div>
+       				<div class="Number_of_Days">Item 3</div>';
+	  $dayType.='Item';
+   }else if($stype=='stepselect'){				   
+   	  $ajax_data.='<div class="price_text">Step 1</div>
+      				<div class="price_text">Step 2</div>
+       				<div class="Number_of_Days">Step 3</div>';
+	  $dayType.='Step';
+   }else if($stype=='dateselect'){
+   	  $ajax_data.='<div class="price_text">Date 1</div>
+      				<div class="price_text">Date 2</div>
+       				<div class="Number_of_Days">Date 3</div>';
+	  $dayType.='Date';
+   }      	 
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$dayType;
+   echo $ajax_data;
+}
 //STORY BOOK DO-IT CODE
 if($type=="doit_story"){
  	$cherryboard_id=(int)$_GET['cherryboard_id'];

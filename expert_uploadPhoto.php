@@ -3,7 +3,7 @@ include_once "fbmain.php";
 include('include/app-common-config.php');
 require('include/instagraph.php');
 error_reporting(0);
-$type=$_REQUEST['type'];
+$type=trim($_REQUEST['type']);
 $cherryboard_id=$_REQUEST['cherryboard_id'];
 $mainExpCherryId=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$cherryboard_id.'" and main_board="1"');
 $expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
@@ -30,6 +30,55 @@ $fname=rand().'_'.$fname;
 $file = $uploaddir.$fname; 
 $MAX_FILE_SIZE=3145728;//3MB Size
 //photo cancel
+function uploadphoto_fields($file,$txtcomment='Happinesslabs',$font_color='Black',$font_type='Arial',$font_size='14px'){
+	$fields="
+	<table><tr>
+			<td>
+			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"219px\" width=\"219px\" class=\"image\" /><div class=\"bg_images ui-widget-content\" id=\"imgText\" style=\"font-family:Arial;font-size:14px;max-width:219px;min-width:100px;text-align:left;\">".$txtcomment."</div></div>
+			  
+			  <br/>
+			  <input type=\"hidden\" value=\"0\" name=\"imgLeft\" id=\"imgLeft\" />
+			  <input type=\"hidden\" value=\"0\" name=\"imgTop\" id=\"imgTop\" />
+			  <span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
+			  
+		  </td>
+		  <td valign=\"top\">
+			<table><tr><td>
+			<textarea style=\"width: 122px;height:60px;\" name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onKeyPress=\"javascript:document.getElementById('imgText').innerHTML=document.getElementById('txtcomment').value;\">".$txtcomment."</textarea> 
+			</td></tr>
+			<tr>
+				<td>Color:<br/>
+				<select id=\"font_color\" name=\"font_color\" onChange=\"changeDivFontColor(this.value)\">
+				<option value=\"black\" ".($font_color=="black"?'selected="selected"':'').">Black</option>
+				<option value=\"white\" ".($font_color=="white"?'selected="selected"':'').">White</option>
+				<option value=\"red\" ".($font_color=="red"?'selected="selected"':'').">Red</option>
+				<option value=\"green\" ".($font_color=="green"?'selected="selected"':'').">Green</option>
+				</select>
+			    </td>
+			</tr><tr>	
+				<td>Font:<br/>
+				<select id=\"font_type\" name=\"font_type\" onChange=\"changeDivFont(this.value)\">
+				<option value=\"Arial\" ".($font_type=="Arial"?'selected="selected"':'').">Arial</option>
+				<option value=\"Times New Roman\" ".($font_type=="Times New Roman"?'selected="selected"':'').">Times NR</option>
+				<option value=\"Verdana\" ".($font_type=="Verdana"?'selected="selected"':'').">Verdana</option>
+				<option value=\"Courier New\" ".($font_type=="Courier New"?'selected="selected"':'').">Courier</option>
+				</select>
+			    </td>
+			</tr><tr>	
+				<td>Size:<br/>
+				<select id=\"font_size\" name=\"font_size\" onChange=\"changeDivFontSize(this.value)\">
+				<option value=\"14px\" ".($font_size=="14px"?'selected="selected"':'').">14px</option>
+				<option value=\"16px\" ".($font_size=="16px"?'selected="selected"':'').">16px</option>
+				<option value=\"18px\" ".($font_size=="18px"?'selected="selected"':'').">18px</option>
+				<option value=\"24px\" ".($font_size=="24px"?'selected="selected"':'').">24px</option>
+				</select>
+			    </td>
+			</tr>
+			</table>
+		  </td>
+		  </tr></table>";
+	return $fields;
+}
 if($fsize>$MAX_FILE_SIZE){
 	$message = 'File too large. File allowed must be less than 3 megabytes.'; 
     echo '<script type="text/javascript">alert("'.$message.'");</script>';
@@ -37,11 +86,11 @@ if($fsize>$MAX_FILE_SIZE){
 }else{
 	if (move_uploaded_file($_FILES['uploadfile']['tmp_name'],$file)) {
 	$_SESSION['fname']=$fname; 
-    echo "<div class=\"comment_box\">
+   /* echo "<div class=\"comment_box\">
 		<Table>
 		<tr>
 		  <td colspan=\"2\">
-			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"100px\" width=\"100px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
+			  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"192px\" width=\"192px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
 		  </td>
 		  <td>
 			<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">Write your comment here...</textarea> 
@@ -60,7 +109,27 @@ if($fsize>$MAX_FILE_SIZE){
 		 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
 	   </tr>
 		</table>
-			  <div class=\"clear\"></div></div>";
+			  <div class=\"clear\"></div></div>";*/
+   echo "<Table>
+		<tr>
+		  <td colspan=\"2\">
+		  ".uploadphoto_fields($file)."
+		  </td>
+		  <td valign=\"top\">
+			 ".displayFiltersImgs('expert')."
+		  </td>
+		</tr>
+		<tr>
+		<td><img src=\"images/round_arrow_90.jpg\" style=\"cursor:pointer\" onclick=\"rotate_photo('expert','".$fname."','90')\" alt=\"\" width=\"35\" height=\"35\" id=\"rotate_img\" />&nbsp;</td>
+		 <td>
+		  <div class=\"styleall\"><a href=\"javascript:void(0);\" onclick=\"photo_cancel('expert','".$fname."')\" class=\"right gray_link\">
+			  <img src=\"images/close_small1.png\"> Cancel</a>
+			  </div>
+		 </td>
+		 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
+	   </tr>
+		</table>
+			 ";
 		exit(0);
 	}
 }
@@ -71,6 +140,10 @@ if($type=="cancel"){
 	$file_name=$_GET['file_name'];
 	$txtcomment=$_GET['txtcomment'];
 	$rotate_degree=$_GET['rotate_degree'];
+	$font_color=$_GET['font_color'];
+	$font_type=$_GET['font_type'];
+	$font_size=$_GET['font_size'];
+	
 	$rotate_img='round_arrow_90.jpg';
 	$new_rotate_degree=90;
     $newFileName=rand().'_'.$file_name;
@@ -90,16 +163,13 @@ if($type=="cancel"){
     $command='convert -rotate 90 '.$uploadPath.' '.$uploadNewPath;
 	passthru($command);
 	
-	echo "<div class=\"comment_box\">
+	echo "
 	<Table>
 	<tr>
 	  <td colspan=\"2\">
-		  <div id=\"files\"><img src=\"".$uploadNewPath."\" alt=\"\" height=\"100\" width=\"100\" class=\"image\" /></div><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB</span>
-      </td>
-	  <td>
-		<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">".$txtcomment."</textarea> 
+		  ".uploadphoto_fields($uploadNewPath,$txtcomment,$font_color,$font_type,$font_size)."
 	  </td>
-	  <td valign=\"top\" rowspan=\"2\">
+	  <td valign=\"top\">
 			".displayFiltersImgs('expert')."
 	   </td>
 	</tr>
@@ -107,13 +177,13 @@ if($type=="cancel"){
 	 <td><img src=\"images/".$rotate_img."\" style=\"cursor:pointer\" onclick=\"rotate_photo('expert','".$newFileName."','".($new_rotate_degree)."')\" alt=\"\" height=\"35\" id=\"rotate_img\" /></td>
 	 <td>
 	  <div class=\"styleall\"><a href=\"javascript:void(0);\" onclick=\"photo_cancel('expert','".$newFileName."')\" class=\"right gray_link\">
-		  <img src=\"images/close_small1.png\"> Cancel</a>
+		  <img src=\"images/close_small1.png\"> Cancel</a>&nbsp;
 		  </div>
      </td>
-	 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$newFileName."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
+	  <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
    </tr>
 	</table>
-		  <div class=\"clear\"></div></div>";
+		";
 	exit(0);
 }else if($type=="filter") {
 	$file_name=$_GET['file_name'];
@@ -154,16 +224,13 @@ if($type=="cancel"){
 		}
 	}
 	
-	echo "<div class=\"comment_box\">
+	echo "
 	<Table>
 	<tr>
 	  <td colspan=\"2\">
-		  <div id=\"files\"><img src=\"".$uploadNewPath."\" alt=\"\" height=\"100\" width=\"100\" class=\"image\" /></div><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB</span>
-      </td>
-	  <td>
-		<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">".$txtcomment."</textarea> 
+		  ".uploadphoto_fields($uploadNewPath,$txtcomment,$font_color,$font_type,$font_size)."
 	  </td>
-	   <td valign=\"top\" rowspan=\"2\">
+	   <td valign=\"top\">
 			  ".displayFiltersImgs('expert')."
 	   </td>
 	</tr>
@@ -177,7 +244,7 @@ if($type=="cancel"){
 	 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$newFileName."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
    </tr>
 	</table>
-		  <div class=\"clear\"></div></div>";
+		";
 	exit(0);
 }//End of if
 //=================> Start Insert Code <===================
@@ -241,6 +308,20 @@ if($type=="expert_add"||$type=="edit_exp_story_pic"){
 		
     	$insert_qry="INSERT INTO `tbl_app_expert_cherry_photo`(`photo_id`, `user_id`, `cherryboard_id`, `photo_title`, `photo_name`,photo_day,sub_day) VALUES ('',".$user_id.",".$cherryboard_id.",'".$comment."','".$photo_name."','".$photo_day."','".$sub_day."')";			   
 		$insert_qry_res=mysql_query($insert_qry);
+		$insert_last_id=mysql_insert_id();
+		$_SESSION['insert_photo_id']=$insert_last_id;
+		
+		//SECTION INSERT PHOTO TITLE SIZE
+		if($insert_last_id>0){
+			$top=$_GET['top'];
+			$left=$_GET['left'];
+			$font_type=$_GET['font_type'];
+			$font_color=$_GET['font_color'];
+			$font_size=$_GET['font_size'];
+			
+			$insPhotoTSize="INSERT INTO `tbl_app_photo_title_size` (`photo_title_id`, `photo_id`, `top`, `left`, `font_type`, `font_color`, `font_size`, `record_date`) VALUES (NULL, '".$insert_last_id."', '".$top."', '".$left."', '".$font_type."', '".$font_color."', '".$font_size."', '".date('Y-m-d')."')";		
+			mysql_query($insPhotoTSize);
+		}
 		//START UPLOAD PHOTO NOTIFICATION SEND TO STORYBOARD FRIENDS
 		if($insert_qry_res){
 		   $sel_meb=mysql_query("SELECT req_user_fb_id FROM tbl_app_expert_cherryboard_meb WHERE cherryboard_id=".$cherryboard_id." AND is_accept='1' AND user_id=".$user_id);
@@ -274,8 +355,6 @@ if($type=="expert_add"||$type=="edit_exp_story_pic"){
 			  }
 		   }
 		}
-		$insert_last_id=mysql_insert_id();
-		$_SESSION['insert_photo_id']=$insert_last_id;
 	 }else{	
 	 	//START CHANGE STORY PICTURE
 	 	$expStoryPic=trim(getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$story_photo_id));
@@ -373,7 +452,7 @@ if($type=="add_exp_reward_pic"){
    }
 }
 //START CHANGE EXPERT REWARD PICTURE 
-if($type=="edit_exp_reward_pic"){	
+if($type=="edit_exp_reward_pic"){
    $rnd=rand();
    $file_name=$_REQUEST['file_name'];
    $user_id=$_REQUEST['user_id'];

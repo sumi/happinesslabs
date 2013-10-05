@@ -45,12 +45,6 @@ body{ background:repeat-x left top #eeeaec;}
 				name: 'uploadfile',
 				onComplete: function(file, response){
 					document.getElementById('div_up_photo').innerHTML=response;
-					
-					$(function() {
-						$("#imgText").draggable({ containment: "#files", scroll: false });
-					  });
-					
-					
 				}
 			});			
 		});
@@ -120,51 +114,132 @@ body{ background:repeat-x left top #eeeaec;}
 <?php } ?>
 <!-- Photo Slider css -->
 <link rel="stylesheet" type="text/css" href="board_slider/slider2/style.css" />
-<!-- End Header Menu Tooltip -->
-<!-- start photo div movable -->
-<script>
-function changeDivFontColor(font_color)
+<!-- Start Header Menu Tooltip -->
+<style type="text/css">
+#personPopupContainer
 {
-	document.getElementById('imgText').style.color = font_color;
-}
-function changeDivFont(font_name)
-{
-	document.getElementById('imgText').style.fontFamily = font_name;
-}
-function changeDivFontSize(font_size)
-{
-	document.getElementById('imgText').style.fontSize = font_size;
-}
-
-function calculateSubmit(){
-	var p = $("#imgText" );
-	var position = p.position();
-	document.getElementById('imgLeft').value=position.left;
-	document.getElementById('imgTop').value=position.top;
-	//alert("left: " + position.left + ", top: " + position.top);
-}
-</script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <script>
-/*  $(function() {
-    $("#imgText").draggable({ containment: "#files", scroll: false });
-  });*/
-  </script>
-  <style>
-.main{ width:219px;}
-.bg_images{
-	color:#FFFFFF; text-align:center; top:-10px; cursor: move;
-    display:block;
-    opacity: 0.8;
     position:absolute;
-	z-index:1000;
-	top:77px;
+    left:0;
+    top:0;
+    display:none;
+    z-index: 20000;
 }
-.draggable { width: 100px; height: 30px; padding: 0.5em; float: left; margin:5px; }
-#files { border:2px solid #ccc;width:219px;height:219px; }
+#personPopupContent
+{
+	background-color: #FFF;
+    min-width: 175px;
+    min-height: 50px;
+	border:1px solid #A4C074; 
+	 border-radius:5px 5px 5px 5px;
+	-webkit-border-radius:5px 5px 5px 5px;
+	-moz-border-radius:5px 5px 5px 5px;
+	 box-shadow: 0 0 8px #666666;
+}
 </style>
-<!-- end photo div movable -->
+<script type="text/javascript">
+$(function()
+{
+  var hideDelay = 500;  
+  var currentID;
+  var hideTimer = null;
+
+  // One instance that's reused to show info for the current person
+  var container = $('<div id="personPopupContainer"><div id="personPopupContent"></div></div>');
+
+  $('body').append(container);
+
+  $('.personPopupTrigger').live('mouseover', function()
+  {
+      // format of 'rel' tag: pageid,personguid
+      var settings = $(this).attr('rel').split(',');
+      var pageID = settings[0];
+      currentID = settings[1];
+
+      // If no guid in url rel tag, don't popup blank
+      if (currentID == '')
+          return;
+
+      if (hideTimer)
+          clearTimeout(hideTimer);
+
+      var pos = $(this).offset();
+      var width = $(this).width();
+      container.css({
+          left: (pos.left + width) + 'px',
+          top: pos.top - 5 + 'px'
+      });
+
+      $('#personPopupContent').html('<Table><tr><td><img src="images/mind_icon.png"><td><td>Tools for Mind</td></tr></table>');
+      container.css('display', 'block');
+  });
+  
+  
+  $('.personPopupTrigger1').live('mouseover', function()
+  {
+      // format of 'rel' tag: pageid,personguid
+      var settings = $(this).attr('rel').split(',');
+      var pageID = settings[0];
+      currentID = settings[1];
+
+      // If no guid in url rel tag, don't popup blank
+      if (currentID == '')
+          return;
+
+      if (hideTimer)
+          clearTimeout(hideTimer);
+
+      var pos = $(this).offset();
+      var width = $(this).width();
+      container.css({
+          left: (pos.left + width) + 'px',
+          top: pos.top - 5 + 'px'
+      });
+
+      $('#personPopupContent').html('<Table><tr><td><img src="images/heart_icon.png"><td><td>Tools for Heart</td></tr></table>');
+      container.css('display', 'block');
+  });
+
+  $('.personPopupTrigger').live('mouseout', function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+  $('.personPopupTrigger1').live('mouseout', function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+
+  // Allow mouse over of details without hiding details
+  $('#personPopupContainer').mouseover(function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+  });
+
+  // Hide after mouseout
+  $('#personPopupContainer').mouseout(function()
+  {
+      if (hideTimer)
+          clearTimeout(hideTimer);
+      hideTimer = setTimeout(function()
+      {
+          container.css('display', 'none');
+      }, hideDelay);
+  });
+});
+</script>
+<!-- End Header Menu Tooltip -->
 </head>
 <body>
 <!-- START FB LOGIN CODE -->
