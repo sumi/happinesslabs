@@ -45,12 +45,6 @@ body{ background:repeat-x left top #eeeaec;}
 				name: 'uploadfile',
 				onComplete: function(file, response){
 					document.getElementById('div_up_photo').innerHTML=response;
-					
-					$(function() {
-						$("#imgText").draggable({ containment: "#files", scroll: false });
-					  });
-					
-					
 				}
 			});			
 		});
@@ -121,50 +115,6 @@ body{ background:repeat-x left top #eeeaec;}
 <!-- Photo Slider css -->
 <link rel="stylesheet" type="text/css" href="board_slider/slider2/style.css" />
 <!-- End Header Menu Tooltip -->
-<!-- start photo div movable -->
-<script>
-function changeDivFontColor(font_color)
-{
-	document.getElementById('imgText').style.color = font_color;
-}
-function changeDivFont(font_name)
-{
-	document.getElementById('imgText').style.fontFamily = font_name;
-}
-function changeDivFontSize(font_size)
-{
-	document.getElementById('imgText').style.fontSize = font_size;
-}
-
-function calculateSubmit(){
-	var p = $("#imgText" );
-	var position = p.position();
-	document.getElementById('imgLeft').value=position.left;
-	document.getElementById('imgTop').value=position.top;
-	//alert("left: " + position.left + ", top: " + position.top);
-}
-</script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <script>
-/*  $(function() {
-    $("#imgText").draggable({ containment: "#files", scroll: false });
-  });*/
-  </script>
-  <style>
-.main{ width:219px;}
-.bg_images{
-	color:#FFFFFF; text-align:center; top:-10px; cursor: move;
-    display:block;
-    opacity: 0.8;
-    position:absolute;
-	z-index:1000;
-	top:77px;
-}
-.draggable { width: 100px; height: 30px; padding: 0.5em; float: left; margin:5px; }
-#files { border:2px solid #ccc;width:219px;height:219px; }
-</style>
-<!-- end photo div movable -->
 </head>
 <body>
 <!-- START FB LOGIN CODE -->

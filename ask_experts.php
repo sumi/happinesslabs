@@ -165,7 +165,7 @@ $category_id=(int)$_GET['category_id'];
      <div style="clear:both"></div>
    </div>
    
-   <div id="mystickytooltip" class="stickytooltip">
+   <div id="mystickytooltip" class="stickytooltip" style="overflow:scroll;height:450px;">
    <div class="stickystatus"></div>
    <?php   
    $pagePhotoEffect='';
