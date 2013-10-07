@@ -50,8 +50,8 @@ body{ background:repeat-x left top #eeeaec;}
 		});
 	</script>
 	<!-- JS for the photo slider -->
-	<script type="text/javascript" src="scripts/autocore_002.js"></script>
-	<script type="text/javascript" src="scripts/autocore.js"></script>
+	<!-- <script type="text/javascript" src="scripts/autocore_002.js"></script>
+	<script type="text/javascript" src="scripts/autocore.js"></script> -->
 	<!-- Code for the space issue -->
 	<link rel="stylesheet" type="text/css" href="board_slider/style.css" />
 	<script type="text/javascript" src="board_slider/jquery.js"></script>
@@ -90,28 +90,6 @@ body{ background:repeat-x left top #eeeaec;}
 			});
 		}); 
 	 </script>
-<?php if(SCRIPT_NAME=="index.php"){ ?>
-<script type="text/javascript" src="scripts/jquery.js"></script>
-<script src="scripts/modernizr.js"></script>
-<script>window.jQuery || document.write('<script src="scripts/jquery-1.7.min.js">\x3C/script>')</script>
-<script defer src="scripts/jquery.flexslider.js"></script>
-  <script type="text/javascript">
-    $(function(){
-      SyntaxHighlighter.all();
-    });
-    $(window).load(function(){
-      $('.flexslider').flexslider({
-        animation: "slide",
-        start: function(slider){
-          $('body').removeClass('loading');
-        }
-      });
-    });
-  </script>
-  <style type="text/css">
-  body,td,th 		{ font-size: 14px; font-family: Arial, Helvetica, sans-serif; margin:0px; color:#333333; background:#F6F4F4;}
-  </style>
-<?php } ?>
 <!-- Photo Slider css -->
 <link rel="stylesheet" type="text/css" href="board_slider/slider2/style.css" />
 <!-- End Header Menu Tooltip -->
@@ -179,7 +157,7 @@ function fb_logout() {
 <!-- END FB LOGIN CODE -->
 
 <!--START HEADER CODE-->
-<script type="text/javascript" src="js/dropdown.js"></script>
+<!-- <script type="text/javascript" src="js/dropdown.js"></script> -->
   <!-- START LOGIN USER HEADER SECTION -->
   <?php if(FB_ID>0){ ?>
   <div class="main_bg">

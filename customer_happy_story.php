@@ -14,7 +14,7 @@ if(isset($_POST['btncreate'])){
    $storydays=(int)$_POST['storydays'];
    $Customers='Customers';
    
- if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$storycategory>0&&$storyprice>0&&$storydays>0){
+ if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$storycategory>0&&$storydays>0){
  
     	$IsStoryBoard=(int)getFieldValue('expertboard_id','tbl_app_expertboard','expertboard_title="'.$storytitle.'" and user_id='.USER_ID);
 		if($IsStoryBoard==0){
@@ -72,18 +72,24 @@ if(isset($_POST['btncreate'])){
    <div class="msg_red" id="divStoryMessage"></div>
    <!-- Left Part -->
    <div class="Create_Stity_left">
+    <div class="project_left" id="DivStoryTitle" style="padding-right:0px;">
     <div class="Story_Title_box">2</div>
+    </div>
     <div class="Story_Title_text">Story Title :</div>
-    <input name="storytitle" id="storytitle" type="text" onchange="ajax_action('show_storytitle','divshow_storytitle','stype=storytitle&txt_storytitle='+document.getElementById('storytitle').value);" class="Story_Title_input_box" />
+    <input name="storytitle" id="storytitle" type="text" onkeypress="ajax_action('show_storytitle','divshow_storytitle','stype=storytitle&txt_storytitle='+document.getElementById('storytitle').value);" onFocus="ajax_action('focus_story_title','DivStoryTitle','stype=StoryTitle');" class="Story_Title_input_box" value="Story Title"/>
     
+    <div class="project_left" id="DivStoryAbout" style="padding-right:0px;">
     <div class="Story_Title_box">3</div>
+    </div>
     <div class="Story_Title_text">Story Description :</div>
-	<textarea name="storydesc" id="storydesc" onchange="ajax_action('show_storydesc','divshow_storydesc','stype=storydesc&txt_storydesc='+document.getElementById('storydesc').value);" class="Story_Title_input_box"></textarea>
+	<textarea name="storydesc" id="storydesc" onkeypress="ajax_action('show_storydesc','divshow_storydesc','stype=storydesc&txt_storydesc='+document.getElementById('storydesc').value);" onFocus="ajax_action('focus_story_about','DivStoryAbout','stype=about');" class="Story_Title_input_box">Story Description</textarea>
     
-    <div class="Story_Title_box">4</div>
+    <div class="project_left" id="DivStoryCategory" style="padding-right:0px;">
+	<div class="Story_Title_box">4</div>
+	</div>
     <div class="Story_Title_text">Story Category :</div>
-    <select size="1" id="storycategory" name="storycategory" class="storycat">
-       <option value="0">Select Category </option>
+    <select size="1" id="storycategory" name="storycategory" class="storycat" onFocus="ajax_action('focus_story_category','DivStoryCategory','stype=StoryCat');">
+       <option value="0">Select Story Category </option>
        <?php
 	   $catArray=array(1=>2,2=>19,3=>21,4=>24,5=>29,6=>30,7=>31);	
 	   $catCnt=''; 
@@ -96,22 +102,28 @@ if(isset($_POST['btncreate'])){
 	   echo $catCnt;  
 	   ?>
     </select>
+    <div class="project_left" id="DivStoryBoardPrice" style="padding-right:0px;">
     <div class="Story_Title_box">5</div>
+    </div>
     <div class="Story_Title_text">Price :</div>
-    <input name="storyprice" id="storyprice" type="text" class="Story_Title_input_box" onchange="ajax_action('show_storyprice','divshow_storyprice','stype=storyprice&txt_storyprice='+document.getElementById('storyprice').value);" />
+    <input name="storyprice" id="storyprice" type="text" class="Story_Title_input_box" onkeypress="ajax_action('show_storyprice','divshow_storyprice','stype=storyprice&txt_storyprice='+document.getElementById('storyprice').value);" value="0" onFocus="ajax_action('focus_story_price','DivStoryBoardPrice','stype=boardprice')"/>
     
+    <div class="project_left" id="DivStoryBoardType">
     <div class="Story_Title_box">6</div>
+    </div>
     <div class="Story_Title_text">Story Access :</div>
 	<div class="Select_Story_Template_day_text" style="padding:5px 0 5px 0;width:221px;">
-	<input name="board_type" id="board_type" type="radio" value="0" /> Public &nbsp;
-    <input name="board_type" id="board_type" type="radio" value="1" /> Private &nbsp;&nbsp;
+	<input name="board_type" id="board_type" type="radio" checked="checked" value="0" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" /> Public &nbsp;
+    <input name="board_type" id="board_type" type="radio" value="1" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" /> Private &nbsp;&nbsp;
 	</div>
 	
+    <div class="project_left" id="DivStoryDayType">
     <div class="Story_Title_box">7</div>
+    </div>
     <div class="Story_Title_text">Number of Days:</div>
-	<input name="dayType" id="dayType" type="hidden" value="" />
-    <select size="1" id="storydays" name="storydays" onchange="ajax_action('show_storydays','divshow_storydays','stype=storydays&txt_storydays='+document.getElementById('storydays').value+'&dayType='+document.getElementById('dayType').value);" class="storycat">
-       <option value="0">Select Days </option>
+	<input name="dayType" id="dayType" type="hidden" value="Day" />
+    <select size="1" id="storydays" name="storydays" onchange="ajax_action('show_storydays','divshow_storydays','stype=storydays&txt_storydays='+document.getElementById('storydays').value+'&dayType='+document.getElementById('dayType').value);" class="storycat" onFocus="ajax_action('focus_story_daytype','DivStoryDayType','stype=DayType')">
+       <option value="0">Select Number of Days </option>
 	   <?php
 	   for($i=1;$i<=30;$i++){
 	   echo '<option value="'.$i.'">'.$i.'</option>';
@@ -122,7 +134,7 @@ if(isset($_POST['btncreate'])){
 	<div class="banner_day_5_left" style="width:172px;">
 		<div class="banner_day_5_bg" style="width:100px;">
 		<input type="hidden" name="btncreate" id="btncreate" value="Create">
-		<a href="javascript:document.createstory.submit();" title="Create" onClick="javascript:return CheckFormValidation('divStoryMessage','day_type#Please Select Story Template,storytitle#Please Enter Story Title,storydesc#Please Enter Discription,storycategory#Please Select Category#0,storyprice#Please Enter Story Price#0,board_type#Please Select Board Type,storydays#Please Select Story Days/Items/Steps/Dates#0');">Create</a></div>
+		<a href="javascript:document.createstory.submit();" title="Create" onClick="javascript:return CheckFormValidation('divStoryMessage','day_type#Please Select Story Template,storytitle#Please Enter Story Title,storydesc#Please Enter Discription,storycategory#Please Select Category#0,storyprice#Please Enter Story Price,board_type#Please Select Board Type,storydays#Please Select Number Of Days#0');">Create</a></div>
 		<div class="banner_day_5_im"><img src="images/ban.png" alt="" /></div>		
 	</div>
 	<div class="banner_day_5_right" style="float:right;"><img src="images/im.png" /></div>	
@@ -130,13 +142,16 @@ if(isset($_POST['btncreate'])){
     </div>
    <!-- Right Part -->
    <div class="Create_Stity_right">
-     <div class="Story_Title_box">1</div>
+     <div class="project_left" id="DivStoryTemplate" style="padding-right:0px;">
+     <div class="project_left_1">1</div>
+	 <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>
+     </div>
      <div class="Story_Title_text">Select Story Template :</div>
     
     <div class="Select_Story_Template_main"><!--style="this.style.backgroundColor='#CCCCCC';"-->
       <div id="divDayByDay" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
-		<input name="day_type" id="day_type" type="radio" value="1"
+		<input name="day_type" id="day_type" type="radio" checked="checked" value="1"
 		onclick="ajax_action('selDay','divDayHeading','stype=dayselect');"/> Day By Day </div>
         <div class="Select_Story_Template_day_box">day1</div>
         <div class="Select_Story_Template_day_box">day2</div>
@@ -174,13 +189,11 @@ if(isset($_POST['btncreate'])){
     <div class="Select_Story_Template_main">
      <div class="Slides_images"><img src="images/image-day.png" alt="" /></div>
      <div class="Item_By_Item_10day_main">
-       <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">10 Day Vegan Challenge</div>
+       <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">Story Title</div>
        <div class="by_Olivia_Janisch_text">by <?=$userName?></div>
-       <div id="divshow_storydesc" style="font-size:12px;">Map out this exciting challenge with support and 
-       guidance for 10 days of veganism! Map out this exciting challenge with support and guidance for 10 
-       days of veganism!</div>
-       <div id="divshow_storydays" class="Total_10Days_text">Total : <span class="Total_10Days_style">10 Days</span></div>
-       <div id="divshow_storyprice" class="Total_10Days_text">Price : <span class="Total_10Days_style">$0.00</span></div>  
+       <div id="divshow_storydesc" style="font-size:12px;">Story Description</div>
+       <div id="divshow_storydays" class="Total_10Days_text">Total : <span class="Total_10Days_style">1 Day</span></div>
+       <div id="divshow_storyprice" class="Total_10Days_text">Price : $0.00</div>  
        <img src="images/do-it!---images.png" alt="" />             
      </div>
      <div class="Classmates_more_main">

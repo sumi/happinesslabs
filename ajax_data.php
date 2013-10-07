@@ -37,6 +37,7 @@ if($type=="show_storytitle"||$type=="show_storydesc"||$type=="show_storyprice"||
 if($type=="selDay"||$type=="selItem"||$type=="selStep"||$type=="selDate"){
    $stype=trim($_GET['stype']);
    $dayType='';
+   $divHighlight='';
    if($stype=='dayselect'){		   
    	  $ajax_data.='<div class="price_text">Day 1</div>
       				<div class="price_text">Day 2</div>
@@ -57,8 +58,10 @@ if($type=="selDay"||$type=="selItem"||$type=="selStep"||$type=="selDate"){
       				<div class="price_text">Date 2</div>
        				<div class="Number_of_Days">Date 3</div>';
 	  $dayType.='Date';
-   }      	 
-   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$dayType;
+   }
+   $divHighlight.='<div class="project_left_1">1</div>
+           		  <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>';      	 
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$dayType."##===##".$divHighlight;
    echo $ajax_data;
 }
 //STORY BOOK DO-IT CODE
@@ -158,7 +161,10 @@ if($type=="focus_story_title"||$type=="focus_story_category"||$type=="focus_stor
    }else if($stype=='about'){ $cnt=3;
    }else if($stype=='daytype'){ $cnt=4;
    }else if($stype=='boardprice'){ $cnt=5;
-   }else if($stype=='boardtype'){ $cnt=6;}
+   }else if($stype=='boardtype'){ $cnt=6;
+   }else if($stype=='StoryTitle'){ $cnt=2;
+   }else if($stype=='StoryCat'){ $cnt=4;
+   }else if($stype=='DayType'){ $cnt=7;}
    if($stype!=''){
    	  $ajax_data='<div class="project_left_1">'.$cnt.'</div>
            		  <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>';

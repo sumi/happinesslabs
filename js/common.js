@@ -184,11 +184,8 @@ function rotate_photo(mtype,file_name,rotate_degree)
 {	
 	showLoadingImg('rotate_img');
 	var txtcomment=document.getElementById('txtcomment').value;
-	var font_color=document.getElementById('font_color').value;
-	var font_type=document.getElementById('font_type').value;
-	var font_size=document.getElementById('font_size').value;
 	if(mtype=="expert"){
-		var url = "expert_uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment+"&font_color="+font_color+"&font_type="+font_type+"&font_size="+font_size;
+		var url = "expert_uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment;
 	}else{
 		var url = "uploadPhoto.php?type=rotate&file_name="+file_name+"&rotate_degree="+rotate_degree+"&txtcomment="+txtcomment;
 	}
@@ -797,6 +794,13 @@ function handleHttpResponse_ajax_action()
 		//alert(action_type);alert(div_name);alert(div_content);
 		if(action_type=="selDay"||action_type=="selItem"||action_type=="selStep"||action_type=="selDate"){
 		   document.getElementById('dayType').value=results_array[3];
+		   document.getElementById('DivStoryTemplate').innerHTML =results_array[4];
+		   document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+		   document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+		   document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+		   document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+		   document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
+		   document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
 		if(action_type=="focus_story_title"){
 			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
@@ -843,47 +847,54 @@ function handleHttpResponse_ajax_action()
 		
 		<!-- START CUSTOMER HAPPY STORY DIV SECTION -->		
 		if(action_type=="focus_story_title"&&div_name=="DivStoryTitle"){
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
 		if(action_type=="focus_story_category"&&div_name=="DivStoryCategory"){
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
 		if(action_type=="focus_story_about"&&div_name=="DivStoryAbout"){
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
 		if(action_type=="focus_story_daytype"&&div_name=="DivStoryDayType"){
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
 		}
 		if(action_type=="focus_story_price"&&div_name=="DivStoryBoardPrice"){
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="project_left_2">6</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
 		if(action_type=="focus_story_type"&&div_name=="DivStoryBoardType"){
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="project_left_2">5</div>';
+			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
+			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
+			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
+			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
+			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
+			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
 		}
+		
 		//Refresh Expert Days Or Item Page
 		if(action_type=="increase_expdays_items"){
 			if(results_array[3]>0){
@@ -968,6 +979,16 @@ function CheckFormValidation(divName,FormVars){
 				document.getElementById(divName).innerHTML=FieldMsg;
 				return false;
 			}
+		}else if(FieldVar[0]=="storytitle"){
+			  if(FieldValue==""||FieldValue=="Story Title"){
+				 document.getElementById(divName).innerHTML=FieldMsg;
+				 return false;
+			  }
+		}else if(FieldVar[0]=="storydesc"){
+			  if(FieldValue==""||FieldValue=="Story Description"){
+				 document.getElementById(divName).innerHTML=FieldMsg;
+				 return false;
+			  }
 		}else if(FieldVar[0]=="number_days"){
 			if(document.getElementById('living_narrative').value==0){
 				if(FieldValue==""||FieldValue==0){
