@@ -436,168 +436,200 @@ if($type=="del_expert_photo"&&$_GET['del_photo_id']>0){
 if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$type=="rotate"){
  $sort=$_GET['sort'];
  if(trim($sort)==""){$sort="asc";}
-  //DAYS TITLE
-  $selDays=mysql_query("select day_title from tbl_app_expertboard_days where expertboard_id=".$expertboard_id." order by day_no");
-  $DaysTitleArr=array();
-  if(mysql_num_rows($selDays)>0){
-	  $cntDay=1;
-	  while($selDaysRow=mysql_fetch_array($selDays)){
-		$DaysTitleArr[$cntDay]=$selDaysRow['day_title'];
-		$cntDay++;
-	  }
-  }
-  //EXPERT BOARD PHOTOS
-  $qryphoto="select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_id desc";
-  $selphoto=mysql_query($qryphoto);
-  $cntPhoto=mysql_num_rows($selphoto);
-  $photoDayArr=array();
-  if($cntPhoto>0){
-	while($selphotoRow1=mysql_fetch_array($selphoto)){
-		$photo_id=$selphotoRow1['photo_id'];
-		$photo_day=((int)$selphotoRow1['photo_day']);
-		$photoDayArr[$photo_id]=$photo_day;
-	}
-  }
-  $photoDayArr = array_unique($photoDayArr);
-  $GoalDays=getExpertGoalDays($cherryboard_id);
-  $expUser_id=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);	
-  $photoCntArray=array();
-  
-  for($i=1;$i<=$GoalDays;$i++){  
-	   $swap_id=0;
-	   if(in_array($i,$photoDayArr)){
-			$selphoto=mysql_query("select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." and photo_day='".$i."' order by photo_id");
-			$sub_day=1;
-			$sub_photoCntArray=array();
-			$totalPhoto=mysql_num_rows($selphoto);
-			while($selphotoRow=mysql_fetch_array($selphoto)){
-				$photo_id=$selphotoRow['photo_id'];
-				$user_id=$selphotoRow['user_id'];
-				$swap_id=$photo_id;
-				$photo_title=ucwords(stripslashes($selphotoRow['photo_title']));
-				$photo_name=$selphotoRow['photo_name'];
-				$record_date=$selphotoRow['new_record_date'];
-				$photoPath='images/expertboard/'.$photo_name;
-				$photo_day=(int)$selphotoRow['photo_day'];
-				if($photo_title==""){
-					$photo_title='<div style="width:180px;height:18px">&nbsp;</div>';
-				}
-				if(is_file($photoPath)){
-				   $photoCnt='';
-				   if($totalPhoto>1){
-					 $printDay=$photo_day.'.'.$sub_day;
-				   }else{ $printDay=$photo_day; }
-				   	 $TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
-				   $photoCnt.='<div class="bottom_box_main">';				   
-				   if($i==3){
-				   	  $photoCnt.='<div class="bottom_daya">'.$DayType.' '.$printDay.' '.($user_id==$_SESSION['USER_ID']?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
-					  <img src="images/banet_2.png" alt="" />';
-					  $varClass='day_got_1';
-					  $varClass1='bottom_healthy_box_1';
-				   }else{
-				   	  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.$printDay.' '.($user_id==$_SESSION['USER_ID']?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
-					  $varClass='bottom_box_text';
-					  $varClass1='bottom_healthy_box';
-				   }
-				   $photoCnt.='<div class="bottom_box_bg">
-				   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.$_SESSION['USER_ID'].'\')" title="Edit Comment" class="cleanLink">':'').''.$photo_title.'</a></div>
-				   </div>';
-				   $photoCnt.='<div class="bottom_healthy">
-						   <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
-						   <div class="bottom_healthy_12" id="div_expert_cheers_'.$photo_id.'">
-						   '.$TotalCheers.' cheers!</div>
-						   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'">
-						   '.($expOwner_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'\',\'stype=add&photo_day='.$photo_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day].'&nbsp;</a>            	   </div>
-					  <div style="clear:both"></div>
-					  </div>';
-				   $photoCnt.='<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
-				   <div class="feedbox">';
-				   if($user_id==$_SESSION['USER_ID']){
-						$photoCnt.='<div class="actions"><a class="delete" href="#" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
-						//Change Photo Hover Code
-						$photoCnt.='<div class="message">
-						<a href="javascript:void(0);" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change">Change Photo</a>
-						</div>';		
-				   }	
-				   $photoCnt.='</div>';			   
-				   $photoCnt.='<img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px">
-				   </div>';
-				   $photoCnt.='<div class="applemenu">';
-				   //COMMENT SECTION
-				   $photoCnt.='<div id="div_cherry_comment_'.$photo_id.'">';
-				   $photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
-				   $photoCnt.='</div>';	
-				   //QUESTION SECTION
-				   $photoCnt.='<div id="div_cherry_question_'.$photo_id.'">';
-				   $photoCnt.=expert_question_section($cherryboard_id,$photo_id,$photo_day);
-				   $photoCnt.='</div>';				   
-				   //NOTES SECTION
-				   if($expUser_id==$_SESSION['USER_ID']){
-					   $photoCnt.='<div id="div_expert_notes_'.$photo_id.'">';
-					   $photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
-					   $photoCnt.='</div>';
-				   }   						   
-		 
-				   $photoCnt.='</div>
-				   <div style="clear:both"></div>
-				   </div>';
-				   				   
-						$sub_photoCntArray[$sub_day]=$photoCnt;
-						$sub_day++;	
-					}
-				}
-				$photoCntArray[$i]=$sub_photoCntArray;
-		}else{
-			 $photoCnt='';
-			 $sub_photoCntArray=array();
-			 $photoPath='images/cherryboard/no_image.png'; 
-			 $photoCnt.='<div class="bottom_box_main">
-			 			 <div class="bottom_day_box">'.$DayType.' '.$i.''.($user_id==$_SESSION['USER_ID']?'&nbsp;<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
-						 <div class="bottom_box_bg">
-						 	<div class="bottom_box_text" id="photo_title'.$i.'">No Photo</div>
-						 </div>
-						 <div class="bottom_healthy">
-							 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
-							 <div class="bottom_healthy_box"><a href="#">'.$DaysTitleArr[$i].'</a></div>
-							 <div style="clear:both"></div>
-         				 </div>
-						 <div class="day_img" style="padding:12px;">
-						 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"':'').' src="'.$photoPath.'">
-						 </div>
-						 </div>';
-			 $photoCnt.='</div>';
-			 		
-			 $sub_photoCntArray[1]=$photoCnt;
-			 $photoCntArray[$i]=$sub_photoCntArray;
+    //DAYS TITLE
+	  $selDays=mysql_query("select * from tbl_app_expertboard_days where expertboard_id=".$expertboard_id." order by day_no");
+	  $DaysTitleArr=array();
+	  if(mysql_num_rows($selDays)>0){
+		  while($selDaysRow=mysql_fetch_array($selDays)){
+			$DaysTitleArr[$selDaysRow['day_no'].'_'.$selDaysRow['sub_day']]=$selDaysRow['day_title'];
 		  }
-	}
-	$NewphotoCnt='';
-	$AscDescArrow='<table><tr><td><a title="Sort" name="Sort" href="javascript:void(0);" onclick="javascript:ajax_action(\'exp_photo_refresh\',\'right_container\',\'cherryboard_id='.$cherryboard_id.'&sort='.($sort=="asc"?'desc':'asc').'\')">'.($sort=="asc"?'<img id="des" src="images/des.jpg" height="35" width="35"/>':'<img id="asc" src="images/asc.jpg" height="35" width="35"/>').'</a></td><td><img id="rotate_asc" src="images/transparent.png" height="25" width="25"/></td></tr></table>';
-		
-	$NewphotoCnt.='<table border="0"><tr>';
-	if($sort=="asc"){
-		$cnt=1;
-		for($i=1;$i<=$GoalDays;$i++){
-			foreach($photoCntArray[$i] as $photosection){
-				$NewphotoCnt.='<td valign="top" style="height:100%">'.$photosection.'</td>';
-				if($cnt%3==0){$NewphotoCnt.='</tr><tr>';}
-				$cnt++;
-			}				
+	  }
+	  //EXPERT BOARD PHOTOS
+	  $qryphoto="select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_id desc";
+	  $selphoto=mysql_query($qryphoto);
+	  $cntPhoto=mysql_num_rows($selphoto);
+	  $photoDayArr=array();
+	  if($cntPhoto>0){
+		while($selphotoRow1=mysql_fetch_array($selphoto)){
+			$photo_id=$selphotoRow1['photo_id'];
+			$photo_day=((int)$selphotoRow1['photo_day']);
+			$photoDayArr[$photo_id]=$photo_day;
 		}
-	}else{
-		$cnt=1;
-		for($i=$GoalDays;$i>=1;$i--){
-			foreach($photoCntArray[$i] as $photosection){
-				$NewphotoCnt.='<td valign="top" style="height:100%">'.$photosection.'</td>';
-				if($cnt%3==0){$NewphotoCnt.='</tr><tr>';}
-				$cnt++;
+	  }
+	  $photoDayArr = array_unique($photoDayArr);
+	  $GoalDays=getExpertGoalDays($cherryboard_id);
+	  $expUser_id=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);	
+	  $photoCntArray=array();
+	  $pagePhotosArray=array();
+	  for($i=1;$i<=$GoalDays;$i++){  
+		   $swap_id=0;
+		   if(in_array($i,$photoDayArr)){
+				$selphoto=mysql_query("select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." and photo_day='".$i."' order by photo_id");
+				$sub_day=1;
+				$sub_photoCntArray=array();
+				$page_photoArray=array();
+				$totalPhoto=mysql_num_rows($selphoto);
+				while($selphotoRow=mysql_fetch_array($selphoto)){
+					$photo_id=$selphotoRow['photo_id'];
+					$user_id=$selphotoRow['user_id'];
+					$swap_id=$photo_id;
+					$photo_title=ucwords(stripslashes($selphotoRow['photo_title']));
+					$photo_name=$selphotoRow['photo_name'];
+					$record_date=$selphotoRow['new_record_date'];
+					$photoPath='images/expertboard/'.$photo_name;
+					$photoProfileSlide='images/expertboard/profile_slide/'.$photo_name;
+					$photo_day=(int)$selphotoRow['photo_day'];
+					if($photo_title==""){
+						$photo_title='<div style="width:180px;height:18px">&nbsp;</div>';
+					}
+						
+					if(is_file($photoPath)){
+					   $photoCnt='';
+					   if($totalPhoto>1){
+						 $printDay=$photo_day.'_'.$sub_day;
+					   }else{ $printDay=$photo_day; }
+					   $TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
+					   $photoCnt.='<div class="bottom_box_main">';				   
+					   if($i==3){
+						  $photoCnt.='<div class="bottom_daya">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
+						  <img src="images/banet_2.png" alt="" />';
+						  $varClass='day_got_1';
+						  $varClass1='bottom_healthy_box_1';
+					   }else{
+						  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
+						  $varClass='bottom_box_text';
+						  $varClass1='bottom_healthy_box';
+					   }
+					   $photoCnt.='<div class="bottom_box_bg">
+					   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==USER_ID?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.USER_ID.'\')" title="Edit Comment" class="cleanLink">':'').''.$photo_title.'</a></div>
+					   </div>';
+					   $photoCnt.='<div class="bottom_healthy">
+							   <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
+							   <div class="bottom_healthy_12" id="div_expert_cheers_'.$photo_id.'">
+							   '.$TotalCheers.' cheers!</div>
+							   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'_'.$sub_day.'">
+							   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
+						  <div style="clear:both"></div>
+						  </div>';				
+					 
+					   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')"':'').'>
+					   <div class="feedbox">';
+					   if($user_id==USER_ID){
+							$photoCnt.='<div class="actions"><a class="delete" href="#" title="Delete" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
+						 //Change Photo Hover Code
+						 $photoCnt.='<div class="message1">
+						<a href="javascript:void(0);" title="Edit" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
+						</div>';		
+					   }	
+					   $photoCnt.='</div><div id="div_hover_'.$photo_id.'">';	
+					   //START PHOTO TAG DISPLAY CODE
+					   $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE photo_id=".$photo_id);
+					   if(mysql_num_rows($selTag)>0){
+						 while($selTagRow=mysql_fetch_array($selTag)){
+						   $tag_id=(int)$selTagRow['tag_id'];	
+						   $photo_id=(int)$selTagRow['photo_id'];	
+						   $tag_title=trim(ucwords($selTagRow['tag_title']));
+						   $tag_photo=trim($selTagRow['tag_photo']);		
+						   $tag_x=(int)$selTagRow['tag_x'];	
+						   $tag_y=(int)$selTagRow['tag_y'];
+						   $tagY=$tag_y-25;
+						   $tagX=$tag_x+10;		   
+						   $tagPhotoPath='images/expertboard/tag/'.$tag_photo;
+					   $photoCnt.='<div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tagX.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.($tag_photo!=''?'<img src="'.$tagPhotoPath.'" height="100" width="100"><br/>'.$tag_title.'':''.$tag_title.'').'</div>';
+						 }
+					  } 
+					   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:219px" onclick="setPicId('.$photo_id.');"></div></div>';
+					   
+					   $photoCnt.='<div class="applemenu">';
+					   //COMMENT SECTION
+					   $photoCnt.='<div id="div_cherry_comment_'.$photo_id.'">';
+					   $photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
+					   $photoCnt.='</div>';	
+					   //QUESTION SECTION
+					   $photoCnt.='<div id="div_cherry_question_'.$photo_id.'">';
+					   $photoCnt.=expert_question_section($cherryboard_id,$photo_id,$photo_day);
+					   $photoCnt.='</div>';				   
+					   //NOTES SECTION
+					   if($expUser_id==USER_ID){
+						   $photoCnt.='<div id="div_expert_notes_'.$photo_id.'">';
+						   $photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
+						   $photoCnt.='</div>';
+					   }   						   
+			 
+					   $photoCnt.='</div>
+					   <div style="clear:both"></div>
+					   </div>';
+									   
+							$sub_photoCntArray[$photo_id]=$photoCnt;
+							$pagePhotosArray[$photo_id]=$photoProfileSlide;
+							$sub_day++;	
+						}
+					}
+					$photoCntArray[$i]=$sub_photoCntArray;
+			}else{
+				 $photoCnt='';
+				 //CHECK TODAY PICTURE UPLOADED OR NOT
+				 $doit_id=(int)getFieldValue('doit_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
+				 if($doit_id>0){
+					$todayDate=date('Y-m-d');
+					$selQuery=mysql_query("SELECT DATE_FORMAT(record_date,'%Y-%m-%d') AS uploadDate FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." AND user_id=".USER_ID);
+					while($selQryRow=mysql_fetch_array($selQuery)){
+						$uploadDate=$selQryRow['uploadDate'];
+						if($todayDate==$uploadDate){
+						   $UploadDate=$uploadDate;
+						}
+					}	
+				 }else{
+					$todayDate=1;
+					$UploadDate=2;
+				 }
+				 $sub_photoCntArray=array();
+				 $photoPath='images/cherryboard/no_image.png'; 
+				 $photoCnt.='<div class="bottom_box_main">
+							 <div class="bottom_day_box">'.$DayType.' '.$i.''.($user_id==USER_ID?'&nbsp;<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
+							 <div class="bottom_box_bg">
+								<div class="bottom_box_text" id="photo_title'.$i.'">No Photo</div>
+							 </div>
+							 <div class="bottom_healthy">
+								 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
+								 <div class="bottom_healthy_box"><a href="#">'.$DaysTitleArr[$i.'_1'].'</a></div>
+								 <div style="clear:both"></div>
+							 </div>
+							 <div class="day_img" style="padding:12px;">
+							 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
+							 </div>
+							 </div>';
+				 $photoCnt.='</div>';
+						
+				 $sub_photoCntArray[1]=$photoCnt;
+				 $photoCntArray[$i]=$sub_photoCntArray;
+			  }
+		}
+		$NewphotoCnt='';
+		$NewphotoCnt='<table border="0"><tr>';
+		if($sort=="asc"){
+			$cnt=1;
+			for($i=1;$i<=$GoalDays;$i++){
+				foreach($photoCntArray[$i] as $photosection){
+					$NewphotoCnt.='<td valign="top" style="height:100%">'.$photosection.'</td>';
+					if($cnt%3==0){$NewphotoCnt.='</tr><tr>';}
+					$cnt++;
+				}				
 			}
-		}
-	}		
-	$NewphotoCnt.='</tr>
-	<tr><td colspan="3" style="height:50px;padding-left:450px;">'.($expOwner_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);" onclick="ajax_action(\'increase_expdays_items\',\'div_exp_day_'.$expertboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.$_SESSION['USER_ID'].'\')" title="Add '.$DayType.'" class="gray_link_15">+</a>':'&nbsp;').'</td></tr>';
-	
-	$NewphotoCnt.='</table>';
+		}else{
+			$cnt=1;
+			for($i=$GoalDays;$i>=1;$i--){
+				foreach($photoCntArray[$i] as $photosection){
+					$NewphotoCnt.='<td valign="top" style="height:100%">'.$photosection.'</td>';
+					if($cnt%3==0){$NewphotoCnt.='</tr><tr>';}
+					$cnt++;
+				}
+			}
+		}		
+		$NewphotoCnt.='</tr>
+		<tr><td colspan="3" style="height:50px;padding-left:450px;">'.($expOwner_id==USER_ID?'<a href="javascript:void(0);" onclick="ajax_action(\'increase_expdays_items\',\'div_exp_day_'.$expertboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.USER_ID.'\')" title="Add '.$DayType.'" class="gray_link_15">+</a>':'&nbsp;').'</td></tr>';
+		
+		$NewphotoCnt.='</table>';
 }			
 //START DELETE EXPERT PICTURE
 if($type=="del_expert_photo"||$type=="exp_photo_refresh"||$type=="rotate"){

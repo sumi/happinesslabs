@@ -363,7 +363,7 @@ include('site_header.php');
 				if($UserId==USER_ID){
 					$expertCnt.='<div id="div_story_publish">';					
 					if($IsPublish==0){
-						$expertCnt.='<div class="banner_day_5_left" style="width:197px;">
+						$expertCnt.='<div class="banner_day_5_left" style="width:200px;">
 					    <div class="banner_day_5_bg" id="div_story_publish">
 						<a href="javascript:void(0);" onclick="return checkIsPhoto('.$goal_days.','.$photoCnt.')?ajax_action(\'publish_story\',\'div_story_publish\',\'stype=publish&cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\'):false" title="Publish">Publish</a>
 						</div>
@@ -810,7 +810,7 @@ function postToFeedExp() {
 						   <div class="bottom_healthy_12" id="div_expert_cheers_'.$photo_id.'">
 						   '.$TotalCheers.' cheers!</div>
 						   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'_'.$sub_day.'">
-						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a>            	   </div>
+						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
 					  <div style="clear:both"></div>
 					  </div>';				
 			     
@@ -870,6 +870,21 @@ function postToFeedExp() {
 				$photoCntArray[$i]=$sub_photoCntArray;
 		}else{
 			 $photoCnt='';
+			 //CHECK TODAY PICTURE UPLOADED OR NOT
+			 $doit_id=(int)getFieldValue('doit_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
+			 if($doit_id>0){
+				$todayDate=date('Y-m-d');
+				$selQuery=mysql_query("SELECT DATE_FORMAT(record_date,'%Y-%m-%d') AS uploadDate FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." AND user_id=".USER_ID);
+				while($selQryRow=mysql_fetch_array($selQuery)){
+					$uploadDate=$selQryRow['uploadDate'];
+					if($todayDate==$uploadDate){
+					   $UploadDate=$uploadDate;
+					}
+				}	
+			 }else{
+			 	$todayDate=1;
+				$UploadDate=2;
+			 }
 			 $sub_photoCntArray=array();
 			 $photoPath='images/cherryboard/no_image.png'; 
 			 $photoCnt.='<div class="bottom_box_main">
@@ -883,7 +898,7 @@ function postToFeedExp() {
 							 <div style="clear:both"></div>
          				 </div>
 						 <div class="day_img" style="padding:12px;">
-						 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"':'').' src="'.$photoPath.'">
+						 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
 						 </div>
 						 </div>';
 			 $photoCnt.='</div>';

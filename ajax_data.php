@@ -264,13 +264,13 @@ if($type=="increase_expdays_items"){
 	if($cherryboard_id>0&&$user_id>0){
 		$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 		if($expertboard_id>0){
-			$goal_days=getFieldValue('goal_days','tbl_app_expertboard','expertboard_id='.$expertboard_id);
-			$ownerUserId=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
-			$numberDays=$goal_days+1;
-			$editExpGoalDays=mysql_query("UPDATE tbl_app_expertboard SET goal_days='".$numberDays."' WHERE expertboard_id=".$expertboard_id);
-			$dayType=getDayType($expertboard_id);
-			//INSERT DAYS
-			$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date) VALUES (NULL,'".$expertboard_id."','".$numberDays."','".$dayType." ".$numberDays."', CURRENT_TIMESTAMP)";
+		   $goal_days=(int)getFieldValue('goal_days','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+		   $ownerUserId=(int)getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+		   $numberDays=$goal_days+1;
+		   $editExpGoalDays=mysql_query("UPDATE tbl_app_expertboard SET goal_days='".$numberDays."' WHERE expertboard_id=".$expertboard_id);
+		   $dayType=getDayType($expertboard_id);
+		   //INSERT DAYS
+		   $insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date) VALUES (NULL,'".$expertboard_id."','".$numberDays."','".$dayType." ".$numberDays."', CURRENT_TIMESTAMP)";
 			$insDaysSql=mysql_query($insDays);
 			//DISPLAY GOAL DAYS
 			$ajax_data.='Total :<a href="javascript:void(0);" '.($user_id==$ownerUserId?'ondblclick="ajax_action(\'edt_exp_goal_day\',\''.$div_name.'\',\'stype=add&expertboard_id='.$expertboard_id.'&user_id='.$user_id.'\')"':'').' title="Edit '.$dayType.'" class="cleanLink"> <span class="style3"> '.$numberDays.' '.$dayType.'s</span></a>';
@@ -729,7 +729,7 @@ if($type=="edt_exp_photo_day"){
 	
 	if($stype=="add"){
 	  $dayTitle=getFieldValue('day_title',$tblName,'expertboard_id='.$expertboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);
-	  $ajax_data.='<textarea onmouseout="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=save&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.$user_id.'&edt_day=\'+this.value)" id="edt_exp_text'.$photo_day.'_'.$sub_day.'" class="input_comments" name="edt_exp_text'.$photo_day.'_'.$sub_day.'" style="height:25px;">'.$dayTitle.'</textarea>';		
+	  $ajax_data.='<textarea onmouseout="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=save&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.$user_id.'&edt_day=\'+this.value)" id="edt_exp_text'.$photo_day.'_'.$sub_day.'" class="input_comments" name="edt_exp_text'.$photo_day.'_'.$sub_day.'" style="height:25px;color:#FFFFFF;">'.$dayTitle.'</textarea>';		
 	}
 	if($stype=="save"){
 		$photo_day=$_GET['photo_day'];

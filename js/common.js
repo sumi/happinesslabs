@@ -1161,3 +1161,8 @@ function checkIsPhoto(totalDay,totalPhoto){
 		return false;
 	}
 }
+//START TODAY PHOTO UPLODE OR NOT
+function checkIsTodayPhoto(){
+	alert('You Have Already Uploaded Today Picture');
+	return false;	
+}
