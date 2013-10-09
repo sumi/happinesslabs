@@ -331,7 +331,8 @@ include('site_header.php');
 				  $strOriginal='<em>Original by <a href="expert_cherryboard.php?cbid='.$copyboard_id.'" style="text-decoration:none;color:#404041;">'.$OriginalName.'</a></em><br/>';
 				}
 				$expertCnt.='</div>
-       			<div class="banner_day" style="width:315px"><span style="font-size:16px;">'.$strCopy.'</span>
+       			<div class="banner_day" style="width:315px"><span style="font-size:16px;">'.$category_name.'
+				</span><span style="font-size:16px;">'.$strCopy.'</span>
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>
 				</div>
         		<div class="banner_day_2"><em>by '.$userName.'</em><br/>'.$strOriginal.'';

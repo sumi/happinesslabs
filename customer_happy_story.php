@@ -72,23 +72,26 @@ if(isset($_POST['btncreate'])){
    <div class="msg_red" id="divStoryMessage"></div>
    <!-- Left Part -->
    <div class="Create_Stity_left">
-    <div class="project_left" id="DivStoryTitle" style="padding-right:0px;">
-    <div class="Story_Title_box">2</div>
-    </div>
+        <div class="project_left" style="padding-right:0px;">
+            <div class="Story_Title_box" id="DivStoryTitle">2</div>
+            <div id="divStoryImg" class="project_left_one"></div>
+        </div>    
     <div class="Story_Title_text">Story Title :</div>
-    <input name="storytitle" id="storytitle" type="text" onkeypress="ajax_action('show_storytitle','divshow_storytitle','stype=storytitle&txt_storytitle='+document.getElementById('storytitle').value);" onFocus="ajax_action('focus_story_title','DivStoryTitle','stype=StoryTitle');" class="Story_Title_input_box" value="Story Title"/>
+    <input name="storytitle" id="storytitle" type="text" onkeyup="showValueonDiv('divshow_storytitle',this.value)" onFocus="changeDivClass('DivStoryTitle','divStoryImg')" class="Story_Title_input_box" value="Story Title"/>
     
-    <div class="project_left" id="DivStoryAbout" style="padding-right:0px;">
-    <div class="Story_Title_box">3</div>
-    </div>
+        <div class="project_left" style="padding-right:0px;">
+            <div class="Story_Title_box" id="DivStoryDesc">3</div>
+             <div id="divDescImg" class="project_left_one"></div>
+        </div>
     <div class="Story_Title_text">Story Description :</div>
-	<textarea name="storydesc" id="storydesc" onkeypress="ajax_action('show_storydesc','divshow_storydesc','stype=storydesc&txt_storydesc='+document.getElementById('storydesc').value);" onFocus="ajax_action('focus_story_about','DivStoryAbout','stype=about');" class="Story_Title_input_box">Story Description</textarea>
+	<textarea name="storydesc" id="storydesc" onkeyup="showValueonDiv('divshow_storydesc',this.value)" onFocus="changeDivClass('DivStoryDesc','divDescImg')" class="Story_Title_input_box">Story Description</textarea>
     
-    <div class="project_left" id="DivStoryCategory" style="padding-right:0px;">
-	<div class="Story_Title_box">4</div>
-	</div>
+        <div class="project_left" style="padding-right:0px;">
+            <div class="Story_Title_box" id="DivStoryCategory">4</div>
+            <div id="divStoryCatImg" class="project_left_one"></div>
+        </div>
     <div class="Story_Title_text">Story Category :</div>
-    <select size="1" id="storycategory" name="storycategory" class="storycat" onFocus="ajax_action('focus_story_category','DivStoryCategory','stype=StoryCat');">
+    <select size="1" id="storycategory" name="storycategory" class="storycat" onchange="ajax_action('show_storycat','divshow_storycat','stype=storycat&txt_storycat='+document.getElementById('storycategory').value);" onFocus="changeDivClass('DivStoryCategory','divStoryCatImg')" >
        <option value="0">Select Story Category </option>
        <?php
 	   $catArray=array(1=>2,2=>19,3=>21,4=>24,5=>29,6=>30,7=>31);	
@@ -102,33 +105,36 @@ if(isset($_POST['btncreate'])){
 	   echo $catCnt;  
 	   ?>
     </select>
-    <div class="project_left" id="DivStoryBoardPrice" style="padding-right:0px;">
-    <div class="Story_Title_box">5</div>
+    <div class="project_left" style="padding-right:0px;">
+    	<div class="Story_Title_box" id="DivStoryBoardPrice">5</div>
+        <div id="divStoryPriceImg" class="project_left_one"></div>
     </div>
     <div class="Story_Title_text">Price :</div>
-    <input name="storyprice" id="storyprice" type="text" class="Story_Title_input_box" onkeypress="ajax_action('show_storyprice','divshow_storyprice','stype=storyprice&txt_storyprice='+document.getElementById('storyprice').value);" value="0" onFocus="ajax_action('focus_story_price','DivStoryBoardPrice','stype=boardprice')"/>
+    <input name="storyprice" id="storyprice" type="text" class="Story_Title_input_box" onkeyup="showValueonDiv('divshow_storyprice','$'+this.value+'.00')" value="0" onFocus="changeDivClass('DivStoryBoardPrice','divStoryPriceImg')"/>
     
-    <div class="project_left" id="DivStoryBoardType">
-    <div class="Story_Title_box">6</div>
+    <div class="project_left">
+        <div class="Story_Title_box" id="DivStoryBoardType">6</div>
+        <div id="divStoryTypeImg" class="project_left_one"></div>
     </div>
     <div class="Story_Title_text">Story Access :</div>
 	<div class="Select_Story_Template_day_text" style="padding:5px 0 5px 0;width:221px;">
-	<input name="board_type" id="board_type" type="radio" checked="checked" value="0" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" /> Public &nbsp;
-    <input name="board_type" id="board_type" type="radio" value="1" onClick="ajax_action('focus_story_type','DivStoryBoardType','stype=boardtype');" /> Private &nbsp;&nbsp;
+	<input name="board_type" id="board_type" type="radio" checked="checked" value="0" onClick="changeDivClass('DivStoryBoardType','divStoryTypeImg')" /> Public &nbsp;
+    <input name="board_type" id="board_type" type="radio" value="1" onClick="changeDivClass('DivStoryBoardType','divStoryTypeImg')" /> Private &nbsp;&nbsp;
 	</div>
 	
-    <div class="project_left" id="DivStoryDayType">
-    <div class="Story_Title_box">7</div>
+    <div class="project_left">
+        <div class="Story_Title_box" id="DivStoryDayType">7</div>
+        <div id="divStoryDayImg" class="project_left_one"></div>
     </div>
-    <div class="Story_Title_text">Number of Days:</div>
+    <div id="divPhotoNo" class="Story_Title_text">Number of Days:</div>
 	<input name="dayType" id="dayType" type="hidden" value="Day" />
-    <select size="1" id="storydays" name="storydays" onchange="ajax_action('show_storydays','divshow_storydays','stype=storydays&txt_storydays='+document.getElementById('storydays').value+'&dayType='+document.getElementById('dayType').value);" class="storycat" onFocus="ajax_action('focus_story_daytype','DivStoryDayType','stype=DayType')">
-       <option value="0">Select Number of Days </option>
-	   <?php
-	   for($i=1;$i<=30;$i++){
-	   echo '<option value="'.$i.'">'.$i.'</option>';
-	   }
-	   ?>
+    <select size="1" id="storydays" name="storydays" onchange="showValueonDiv('divshow_storydays',this.value)" class="storycat" onFocus="changeDivClass('DivStoryDayType','divStoryDayImg')">
+    <option value="0">Select Number of Days </option>
+    <?php
+    for($i=1;$i<=30;$i++){
+    echo '<option value="'.$i.'">'.$i.'</option>';
+    }
+    ?>
     </select>
 	<!-- START CREATE BUTTON CODE -->
 	<div class="banner_day_5_left" style="width:172px;">
@@ -141,18 +147,18 @@ if(isset($_POST['btncreate'])){
 	<!-- END CREATE BUTTON CODE -->	
     </div>
    <!-- Right Part -->
-   <div class="Create_Stity_right">
-     <div class="project_left" id="DivStoryTemplate" style="padding-right:0px;">
-     <div class="project_left_1">1</div>
-	 <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>
-     </div>
+     <div class="Create_Stity_right">
+         <div class="project_left" style="padding-right:0px;">
+     	     <div class="project_left_1" id="DivStoryTemplate">1</div>
+             <div class="project_left_one" id="divTemplateImg"><img src="images/one_2.png" alt="" /></div>
+		</div>
      <div class="Story_Title_text">Select Story Template :</div>
     
-    <div class="Select_Story_Template_main"><!--style="this.style.backgroundColor='#CCCCCC';"-->
+    <div class="Select_Story_Template_main">
       <div id="divDayByDay" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" checked="checked" value="1"
-		onclick="ajax_action('selDay','divDayHeading','stype=dayselect');"/> Day By Day </div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Day 1#Day 2#Day 3#day 1 action#day 2 action#day 3 action#Theme Day 1#Theme Day 2#Theme Day 3#Upload<br/>Pic<br/>For<br/>Day 1<br/>Action#Upload Pic<br/>For Day 2<br/>Action#Upload<br/>Pic<br/>For<br/>Day 3<br/>Action#Number of Days:#Days');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Day By Day </div>
         <div class="Select_Story_Template_day_box">day1</div>
         <div class="Select_Story_Template_day_box">day2</div>
         <div class="Select_Story_Template_day_box">day3</div>
@@ -161,7 +167,7 @@ if(isset($_POST['btncreate'])){
       <div id="divItemByItem" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="2" 
-		onclick="ajax_action('selItem','divDayHeading','stype=itemselect');"/> Item By Item</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Item 1#Item 2#Item 3#item 1 action#item 2 action#item 3 action#Theme Item 1#Theme Item 2#Theme Item 3#Upload<br/>Pic<br/>For<br/>Item 1<br/>Action#Upload Pic<br/>For Item 2<br/>Action#Upload<br/>Pic<br/>For<br/>Item 3<br/>Action#Number of Items:#Items');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Item By Item</div>
         <div class="Select_Story_Template_day_box">item1</div>
         <div class="Select_Story_Template_day_box">item2</div>
         <div class="Select_Story_Template_day_box">item3</div>
@@ -170,7 +176,7 @@ if(isset($_POST['btncreate'])){
       <div id="divStepByStep" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="3" 
-		onclick="ajax_action('selStep','divDayHeading','stype=stepselect');"/> Step By Step</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Step 1#Step 2#Step 3#step 1 action#step 2 action#step 3 action#Theme Step 1#Theme Step 2#Theme Step 3#Upload<br/>Pic<br/>For<br/>Step 1<br/>Action#Upload Pic<br/>For Step 2<br/>Action#Upload<br/>Pic<br/>For<br/>Step 3<br/>Action#Number of Steps:#Steps');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Step By Step</div>
         <div class="Select_Story_Template_day_box">step1</div>
         <div class="Select_Story_Template_day_box">step2</div>
         <div class="Select_Story_Template_day_box">step3</div>
@@ -179,7 +185,7 @@ if(isset($_POST['btncreate'])){
       <div id="divDateByDate" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="4"
-		onclick="ajax_action('selDate','divDayHeading','stype=dateselect');"/>Narration By Date</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Date 1#Date 2#Date 3#date 1 action#date 2 action#date 3 action#Theme Date 1#Theme Date 2#Theme Date 3#Upload<br/>Pic<br/>For<br/>Date 1<br/>Action#Upload Pic<br/>For Date 2<br/>Action#Upload<br/>Pic<br/>For<br/>Date 3<br/>Action#Number of Dates:#Dates');changeDivClass('DivStoryTemplate','divTemplateImg')"/>Narration By Date</div>
         <div class="Select_Story_Template_day_box">date1</div>
         <div class="Select_Story_Template_day_box">date2</div>
         <div class="Select_Story_Template_day_box">date3</div>
@@ -187,23 +193,61 @@ if(isset($_POST['btncreate'])){
     </div>
     
     <div class="Select_Story_Template_main">
-     <div class="Slides_images"><img src="images/image-day.png" alt="" /></div>
+     <div class="Slides_images"><img src="images/MISSON.png" alt="" /></div>
      <div class="Item_By_Item_10day_main">
+       <div id="divshow_storycat" style="font-size:12px;">Category</div>
        <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">Story Title</div>
        <div class="by_Olivia_Janisch_text">by <?=$userName?></div>
        <div id="divshow_storydesc" style="font-size:12px;">Story Description</div>
-       <div id="divshow_storydays" class="Total_10Days_text">Total : <span class="Total_10Days_style">1 Day</span></div>
-       <div id="divshow_storyprice" class="Total_10Days_text">Price : $0.00</div>  
+       <div class="Total_10Days_text">
+           <div class="Total_Days_text">Total :</div>
+           <div id="divshow_storydays" class="Total_10Days_style">10</div>
+           <div id="divDayShow" class="Total_10Days_style">Days</div>
+       </div>
+       <div class="Total_10Days_text">
+           <div class="Total_Days_text">Price :</div>
+           <div id="divshow_storyprice" class="Total_10Days_style">$0.00</div>
+       </div>  
        <img src="images/do-it!---images.png" alt="" />             
      </div>
      <div class="Classmates_more_main">
       <span class="Classmates_more_text">Classmates</span>
-      <img src="images/classmates-img.png" alt="" />
+      <img src="images/Menbers.png" alt="" />
      </div>
-     <div id="divDayHeading" class="Price_Story_Access">
-       <div class="price_text">Day 1</div>
-       <div class="price_text">Day 2</div>
-       <div class="Number_of_Days">Day 3</div>
+     <div class="Price_Story_Access">
+       <div class="price_text" id="photo1_no">Day 1</div>
+       <div class="price_text" id="photo2_no">Day 2</div>
+       <div class="Number_of_Days" id="photo3_no">Day 3</div>
+       
+       <div class="day_action_box_main">
+           <div class="day_action_box" id="photo1_act">day 1 action</div>
+           <div class="day_action_box" id="photo2_act">day 2 action</div>
+           <div class="day_action_box" id="photo3_act">day 3 action</div>
+       </div>
+       
+       <div class="Upload_Pic_Day_right">
+           <div class="Upload_Pic_Day_Rewards">Upload<br /> Pic<br /> For<br /> rewards</div>
+       </div>
+       
+       <div class="THEME_main_bg">
+            <div class="THEME_main">
+             <div class="day_THEME" id="photo1_thm">Theme Day 1</div>
+            </div>
+            <div class="THEME_main">
+             <div class="day_THEME" id="photo2_thm">Theme Day 2</div>
+            </div>
+        </div>
+        <div class="day_THEME2" id="photo3_thm">Theme Day 3</div>
+        
+        <div class="Upload_Pic_Day_main">
+           <div class="Upload_Pic_Day" id="photo1_upd">Upload<br /> Pic<br /> For<br /> Day 1<br /> Action</div>
+        </div>
+        <div class="Upload_Pic_Day_main2">
+          <div class="Upload_Pic_Day2" id="photo2_upd">Upload Pic<br /> For Day 2<br /> Action</div>
+        </div>
+        <div class="Upload_Pic_Day_main">
+          <div class="Upload_Pic_Day" id="photo3_upd">Upload<br /> Pic<br /> For<br /> Day 3<br /> Action</div>
+        </div>
      </div>	
     </div>    
    </div>
@@ -212,4 +256,28 @@ if(isset($_POST['btncreate'])){
  <div style="clear:both;"></div> 
 </div>
 <!-- END CUSTOMER HAPPY STORY FORM CODE -->
+<script language="javascript">
+//START SHOW INPUT VALUE IN DIV FUNCTION
+function showValueonDiv(divName,divCnt){	
+	var divArr=divName.split('#');
+	var divArrCnt=divCnt.split('#');
+	for(i=0;i<divArr.length;i++){
+		document.getElementById(divArr[i]).innerHTML=divArrCnt[i];
+	}
+}
+//START CHANGE DIV CSS STYLE CLASS FUNCTION
+function changeDivClass(divname,divImg){   	
+	var divArr=['DivStoryTemplate','DivStoryTitle','DivStoryDesc','DivStoryCategory','DivStoryBoardPrice','DivStoryBoardType','DivStoryDayType'];
+	var imgArr=['divTemplateImg','divStoryImg','divDescImg','divStoryCatImg','divStoryPriceImg','divStoryTypeImg','divStoryDayImg'];
+	for(i=0;i<divArr.length;i++){
+		if(divArr[i]==divname){ 
+		   document.getElementById(divname).className='project_left_1';
+		   document.getElementById(divImg).innerHTML='<img src="images/one_2.png" alt="" />';	
+		}else{ 
+		   document.getElementById(divArr[i]).className='Story_Title_box'; 
+		   document.getElementById(imgArr[i]).innerHTML='';
+		}
+	}
+}
+</script>
 <?php include('site_footer.php');?> 

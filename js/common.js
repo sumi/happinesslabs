@@ -471,12 +471,8 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
-	//CREATE STORY SHOW FIELDS VALUE
-	if(type=="show_storytitle"||type=="show_storydesc"||type=="show_storyprice"||type=="show_storydays"){
-		isAction=1;
-	}	
-	//STORY DAY/ITEM/STEP
-	if(type=="selDay"||type=="selItem"||type=="selStep"||type=="selDate"){
+	//CREATE STORY SHOW CATEGORY VALUE
+	if(type=="show_storycat"){
 		isAction=1;
 	}
 	//STORY BOOK DO-IT
@@ -781,7 +777,7 @@ function ajax_action(type,div_name,stringVar)
 }
 function handleHttpResponse_ajax_action()
 {    
-	if (http2.readyState == 4) 
+	if (http2.readyState==4) 
 	{ 
 	  if(http2.status==200) 
 	  { 
@@ -792,16 +788,6 @@ function handleHttpResponse_ajax_action()
 		var div_name=results_array[1];
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
-		if(action_type=="selDay"||action_type=="selItem"||action_type=="selStep"||action_type=="selDate"){
-		   document.getElementById('dayType').value=results_array[3];
-		   document.getElementById('DivStoryTemplate').innerHTML =results_array[4];
-		   document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-		   document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-		   document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-		   document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-		   document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-		   document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
 		if(action_type=="focus_story_title"){
 			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
 			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
@@ -843,58 +829,7 @@ function handleHttpResponse_ajax_action()
 			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
 			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
 			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-		}
-		
-		<!-- START CUSTOMER HAPPY STORY DIV SECTION -->		
-		if(action_type=="focus_story_title"&&div_name=="DivStoryTitle"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
-		if(action_type=="focus_story_category"&&div_name=="DivStoryCategory"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
-		if(action_type=="focus_story_about"&&div_name=="DivStoryAbout"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
-		if(action_type=="focus_story_daytype"&&div_name=="DivStoryDayType"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-		}
-		if(action_type=="focus_story_price"&&div_name=="DivStoryBoardPrice"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-			document.getElementById('DivStoryBoardType').innerHTML ='<div class="Story_Title_box">6</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
-		if(action_type=="focus_story_type"&&div_name=="DivStoryBoardType"){
-			document.getElementById('DivStoryTemplate').innerHTML ='<div class="Story_Title_box">1</div>';
-			document.getElementById('DivStoryTitle').innerHTML ='<div class="Story_Title_box">2</div>';
-			document.getElementById('DivStoryAbout').innerHTML ='<div class="Story_Title_box">3</div>';
-			document.getElementById('DivStoryCategory').innerHTML ='<div class="Story_Title_box">4</div>';
-			document.getElementById('DivStoryBoardPrice').innerHTML ='<div class="Story_Title_box">5</div>';
-			document.getElementById('DivStoryDayType').innerHTML ='<div class="Story_Title_box">7</div>';
-		}
-		
+		}	
 		//Refresh Expert Days Or Item Page
 		if(action_type=="increase_expdays_items"){
 			if(results_array[3]>0){

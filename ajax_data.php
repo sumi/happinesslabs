@@ -9,59 +9,15 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
-//STORY SHOW FIELDS VALUE
-if($type=="show_storytitle"||$type=="show_storydesc"||$type=="show_storyprice"||$type=="show_storydays"){
+//STORY SHOW CATEGORY FIELDS VALUE
+if($type=="show_storycat"){
    $stype=trim($_GET['stype']);   
-   if($stype=='storytitle'){
-      $storyTitle=trim(ucwords($_GET['txt_storytitle'])); 		   
-   	  $ajax_data.=$storyTitle;
-   }else if($stype=='storydesc'){
-   	  $storyDesc=trim($_GET['txt_storydesc']);				   
-   	  $ajax_data.=$storyDesc;
-   }else if($stype=='storyprice'){
-   	  $storyPrice=(int)$_GET['txt_storyprice'];				   					   
-   	  $ajax_data.='Price : <span class="Total_10Days_style">$'.$storyPrice.'.00</span>';
-   }else if($stype=='storydays'){
-   	  $storyDays=(int)$_GET['txt_storydays'];
-	  $dayType=trim($_GET['dayType']);
-	  if($storyDays==1){
-   	  	 $ajax_data.='Total : <span class="Total_10Days_style">'.$storyDays.' '.$dayType.'</span>';
-	  }else{
-	  	 $ajax_data.='Total : <span class="Total_10Days_style">'.$storyDays.' '.$dayType.'s</span>';
-	  }
-   }      	 
+   if($stype=='storycat'){
+   	  $storyCat=(int)$_GET['txt_storycat'];
+	  $catName=trim(ucwords(getFieldValue('category_name','tbl_app_category','category_id='.$storyCat)));
+   	  $ajax_data.=$catName;
+   }     	 
    $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
-   echo $ajax_data;
-}
-//STORY DAY/ITEM/STEP
-if($type=="selDay"||$type=="selItem"||$type=="selStep"||$type=="selDate"){
-   $stype=trim($_GET['stype']);
-   $dayType='';
-   $divHighlight='';
-   if($stype=='dayselect'){		   
-   	  $ajax_data.='<div class="price_text">Day 1</div>
-      				<div class="price_text">Day 2</div>
-       				<div class="Number_of_Days">Day 3</div>';
-	  $dayType.='Day';
-   }else if($stype=='itemselect'){				   
-   	  $ajax_data.='<div class="price_text">Item 1</div>
-      				<div class="price_text">Item 2</div>
-       				<div class="Number_of_Days">Item 3</div>';
-	  $dayType.='Item';
-   }else if($stype=='stepselect'){				   
-   	  $ajax_data.='<div class="price_text">Step 1</div>
-      				<div class="price_text">Step 2</div>
-       				<div class="Number_of_Days">Step 3</div>';
-	  $dayType.='Step';
-   }else if($stype=='dateselect'){
-   	  $ajax_data.='<div class="price_text">Date 1</div>
-      				<div class="price_text">Date 2</div>
-       				<div class="Number_of_Days">Date 3</div>';
-	  $dayType.='Date';
-   }
-   $divHighlight.='<div class="project_left_1">1</div>
-           		  <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>';      	 
-   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$dayType."##===##".$divHighlight;
    echo $ajax_data;
 }
 //STORY BOOK DO-IT CODE
@@ -161,10 +117,7 @@ if($type=="focus_story_title"||$type=="focus_story_category"||$type=="focus_stor
    }else if($stype=='about'){ $cnt=3;
    }else if($stype=='daytype'){ $cnt=4;
    }else if($stype=='boardprice'){ $cnt=5;
-   }else if($stype=='boardtype'){ $cnt=6;
-   }else if($stype=='StoryTitle'){ $cnt=2;
-   }else if($stype=='StoryCat'){ $cnt=4;
-   }else if($stype=='DayType'){ $cnt=7;}
+   }else if($stype=='boardtype'){ $cnt=6;}
    if($stype!=''){
    	  $ajax_data='<div class="project_left_1">'.$cnt.'</div>
            		  <div class="project_left_one"><img src="images/one_2.png" alt="" /></div>';
