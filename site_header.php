@@ -200,7 +200,7 @@ function fb_logout() {
             <a href="ask_experts.php" class="toolTip"><img src="images/mind_icon.png">
             <span><img class="callout" src="images/callout.gif" />
             <img src="images/mind_icon.png" style="vertical-align:middle;">Happy Living University</span></a>
-      </div>
+       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
          <div class="img_logout"><a href="javascript:void();" onClick="fb_logout();" title="Logout">Logout</a>
@@ -236,11 +236,18 @@ function fb_logout() {
                                        Happy Living</a>
       </div> -->
 	   <div class="tell" style="padding-left:100px">&nbsp;</div>
-	   <div class="tell"><a href="happiness_book.php" title="Tools for Heart"><img src="images/heart_icon.png"></a>
+	   	   <div class="tell">
+           <a href="happiness_book.php" class="toolTip"><img src="images/heart_icon.png">
+           <span><img class="callout" src="images/callout.gif" />
+           <img src="images/heart_icon.png" style="vertical-align:middle;">
+           My Happy Life Story Book</span></a>	  
        </div>
-       <div class="tell"><a href="ask_experts.php" title="Tools for Mind"><img src="images/mind_icon.png"></a>
-      </div>
-      </div>
+       <div class="tell">
+           <a href="ask_experts.php" class="toolTip"><img src="images/mind_icon.png">
+           <span><img class="callout" src="images/callout.gif" />
+           <img src="images/mind_icon.png" style="vertical-align:middle;">Happy Living University</span></a>
+       </div>
+       </div>
         <div class="facebook">
          <div class="facebook_left"></div>
          <div class="facebook_bottom"><a href="#" onClick="fb_login();">login with facebook</a></div>

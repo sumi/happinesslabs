@@ -59,7 +59,7 @@ $cnt=0;
 $MainSlide='';
 $IconSlide='';
 $storyPhoto=mysql_query("select cherryboard_id,expertboard_id from tbl_app_expert_cherryboard where cherryboard_id 
-in (44,83,84,85,110,86,150,264,345) order by cherryboard_id desc");
+in (851) order by cherryboard_id desc");
 while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
 		$expertboard_id=$storyPhotoRow['expertboard_id'];
