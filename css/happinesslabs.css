@@ -38,6 +38,29 @@ body {
 .tell_mine{float:left; padding-left:100px; padding-right:17px;}/*width:294px;*/
 .tell{float:left; padding:65px 30px 0 0px;}
 .tell a{text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#6d6e70;}
+/*START HEADER TOOLTIP MENU CSS*/
+a.toolTip {outline:none;text-decoration:none; }
+a.toolTip:hover {text-decoration:none;} 
+a.toolTip span {
+    z-index:10;display:none; padding:14px 20px;
+    margin-top:-50px; margin-left:60px;
+    width:190px; line-height:15px;
+}
+a.toolTip:hover span{
+    display:inline; position:absolute; color:#111;
+    border:1px solid #DCA; background:#fffAF0;}
+.callout {z-index:20;position:absolute;top:10px;border:0;left:-12px;}
+    
+/*CSS3 extras*/
+a.toolTip span
+{
+    border-radius:4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;        
+    -moz-box-shadow: 5px 5px 8px #CCC;
+    -webkit-box-shadow: 5px 5px 8px #CCC;
+    box-shadow: 5px 5px 8px #CCC;
+}
 
 .facebook{float:right; margin:60px 57px 0 0;}
 .facebook_left{background-image:url(../images/left-im.png); background-repeat:no-repeat;}
@@ -583,3 +606,9 @@ width: 240px;
 .Upload_Pic_Day_right{float:right; width:156px; margin:2px 18px 0 0;}
 .Upload_Pic_Day_main2{float:left; width:137px; margin:0px 9px 0 0;}
 .Upload_Pic_Day2{background-color:#c0c0c0; border:3px solid #ededef; font-size:16px; text-align:center; width:124px; height:75px; margin:auto; color:#ffffff; padding-top:10px;}
+.Happy_Mission_bg{background-image:url(../images/Happy-Mission.png); background-repeat:no-repeat; width:60px; height:60px; font-size:17px; text-align:center; font-family:Adobe Caslon Pro; color:#ea6a5f; box-shadow: 0 0 3px #a0abb9;}
+.Happy_Mission_text{font-size:10px; min-height:41px;}
+/*Story Profile CSS*/
+.bottom_box_text1{float:left; font-size:12px; background-color:#b1b1b1; background-repeat:no-repeat; color:#FFFFFF; width:178px; padding:7px; margin:0 0 3px 2px;min-height:30px;}
+.icon_home_page{float:left; width:20px; padding:3px 0 0 3px;}
+.icon_home_page_text{float:right; color:#e04e32; margin:5px 5px 0 5px; font-size:14px;}

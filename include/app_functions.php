@@ -1381,4 +1381,26 @@ function getTagDetails($cherryboard_id){
 	}
 	return $tagCnt;
 }
+//START CATEGORY ICON FUNCTION
+function getCategoryIcon($catgory_name){
+	$iconPath='';
+	if($catgory_name!=''){
+	   if($catgory_name=='Love'){
+	   	  $iconPath.='images/Love_icon.png';
+	   }else if($catgory_name=='Career'){
+	   	  $iconPath.='images/Career_icon.png';
+	   }else if($catgory_name=='Money'){
+	   	  $iconPath.='images/Money_icon.png';
+	   }else if($catgory_name=='Wellness'){
+	   	  $iconPath.='images/Wellness_icon.png';
+	   }else if($catgory_name=='Fun'){
+	   	  $iconPath.='images/Fun_icon.png';
+	   }else if($catgory_name=='Beauty'){
+	   	  $iconPath.='images/Beauty_icon.png';
+	   }else if($catgory_name=='Community'){
+	   	  $iconPath.='images/Community_icon.png';
+	   } 
+	   return $iconPath;
+	}	
+}
 ?>

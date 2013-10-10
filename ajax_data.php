@@ -14,7 +14,7 @@ if($type=="show_storycat"){
    $stype=trim($_GET['stype']);   
    if($stype=='storycat'){
    	  $storyCat=(int)$_GET['txt_storycat'];
-	  $catName=trim(ucwords(getFieldValue('category_name','tbl_app_category','category_id='.$storyCat)));
+	  $catName=trim(ucwords(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$storyCat)));
    	  $ajax_data.=$catName;
    }     	 
    $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
@@ -885,7 +885,7 @@ if($type=="upd_photo_title"){
 	}
 	if($stype=="add"||$stype=="eadd"){
 		$photoTitle=getFieldValue('photo_title',$tblName,'photo_id='.$photo_id);
-		$ajax_data.='<textarea onmouseout="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype='.$tpsave.'&photo_id='.$photo_id.'&user_id='.$user_id.'&upd_title=\'+this.value)" id="cherry_comment'.$photo_id.'" class="input_comments" name="cherry_comment'.$photo_id.'" style="height:30px;">'.$photoTitle.'</textarea>';
+		$ajax_data.='<textarea onmouseout="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype='.$tpsave.'&photo_id='.$photo_id.'&user_id='.$user_id.'&upd_title=\'+this.value)" id="cherry_comment'.$photo_id.'" class="input_comments" name="cherry_comment'.$photo_id.'" style="height:30px;color:#FFFFFF;">'.$photoTitle.'</textarea>';
 		$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
 	}
 	if($stype=="save"||$stype=="esave"){

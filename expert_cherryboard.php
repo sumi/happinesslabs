@@ -156,7 +156,8 @@ include('site_header.php');
 			$expertboard_detail=trim(stripslashes($fetchExpertRow['expertboard_detail']));
 			$customers=trim($fetchExpertRow['customers']);
 			$category_id=(int)$fetchExpertRow['category_id'];
-			$category_name=getFieldValue('category_name','tbl_app_category','category_id='.$category_id);
+			$category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$category_id)));
+			$iconPath=getCategoryIcon($category_name);
 			//START PARENT STORY CODE
 			$parent_id=(int)$fetchExpertRow['parent_id'];
 			if($parent_id>0){
@@ -331,8 +332,8 @@ include('site_header.php');
 				  $strOriginal='<em>Original by <a href="expert_cherryboard.php?cbid='.$copyboard_id.'" style="text-decoration:none;color:#404041;">'.$OriginalName.'</a></em><br/>';
 				}
 				$expertCnt.='</div>
-       			<div class="banner_day" style="width:315px"><span style="font-size:16px;">'.$category_name.'
-				</span><span style="font-size:16px;">'.$strCopy.'</span>
+       			<div class="banner_day" style="width:315px"><span style="font-size:16px;">
+				<img src="'.$iconPath.'" /></span><span style="font-size:16px;">'.$strCopy.'</span>
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>
 				</div>
         		<div class="banner_day_2"><em>by '.$userName.'</em><br/>'.$strOriginal.'';
@@ -800,18 +801,19 @@ function postToFeedExp() {
 					  $varClass1='bottom_healthy_box_1';
 				   }else{
 				   	  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
-					  $varClass='bottom_box_text';
+					  $varClass='bottom_box_text1';
 					  $varClass1='bottom_healthy_box';
 				   }
 				   $photoCnt.='<div class="bottom_box_bg">
+				   <div class="icon_home_page"><img src="'.$iconPath.'" alt="" /></div>
 				   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==USER_ID?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.USER_ID.'\')" title="Edit Comment" class="cleanLink">':'').''.$photo_title.'</a></div>
 				   </div>';
 				   $photoCnt.='<div class="bottom_healthy">
-						   <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
 						   <div class="bottom_healthy_12" id="div_expert_cheers_'.$photo_id.'">
 						   '.$TotalCheers.' cheers!</div>
 						   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'_'.$sub_day.'">
 						   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
+						   <div class="icon_home_page_text">+10</div>
 					  <div style="clear:both"></div>
 					  </div>';				
 			     

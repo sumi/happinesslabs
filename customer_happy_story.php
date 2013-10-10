@@ -9,17 +9,19 @@ if(isset($_POST['btncreate'])){
    $storytitle=trim($_POST['storytitle']);
    $storydesc=trim(addslashes($_POST['storydesc']));
    $storycategory=(int)$_POST['storycategory'];
+   $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$storycategory);
+   $category_id=(int)getFieldValue('category_id','tbl_app_happiness_pillar','pillar_no='.$pillar_no);
    $storyprice=(int)$_POST['storyprice'];
    $board_type=(int)$_POST['board_type'];
    $storydays=(int)$_POST['storydays'];
    $Customers='Customers';
    
- if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$storycategory>0&&$storydays>0){
+ if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$category_id>0&&$storydays>0){
  
     	$IsStoryBoard=(int)getFieldValue('expertboard_id','tbl_app_expertboard','expertboard_title="'.$storytitle.'" and user_id='.USER_ID);
 		if($IsStoryBoard==0){
 		   $ip_address=$_SERVER['REMOTE_ADDR'];
-		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative) VALUES (NULL,'".(int)USER_ID."','".$storycategory."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0')";
+		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative) VALUES (NULL,'".(int)USER_ID."','".$category_id."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0')";
 		   $insQry=mysql_query($insstory);
 		   $storyBoardId=mysql_insert_id();
 		   if($storyBoardId>0){
@@ -72,39 +74,36 @@ if(isset($_POST['btncreate'])){
    <div class="msg_red" id="divStoryMessage"></div>
    <!-- Left Part -->
    <div class="Create_Stity_left">
-        <div class="project_left" style="padding-right:0px;">
-            <div class="Story_Title_box" id="DivStoryTitle">2</div>
-            <div id="divStoryImg" class="project_left_one"></div>
-        </div>    
+    <div class="project_left" style="padding-right:0px;">
+        <div class="Story_Title_box" id="DivStoryCategory">2</div>
+        <div id="divStoryCatImg" class="project_left_one"></div>
+    </div>
+    <div class="Story_Title_text">Select Happy Mission :</div>
+    <select size="1" id="storycategory" name="storycategory" class="storycat" onchange="ajax_action('show_storycat','divshow_storycat','stype=storycat&txt_storycat='+document.getElementById('storycategory').value);" onFocus="changeDivClass('DivStoryCategory','divStoryCatImg')" >
+       <option value="0">Select Happy Mission </option>
+       <?php	
+	   $happyMissionCnt='';
+	   $selMission=mysql_query("SELECT * FROM tbl_app_happy_mission ORDER BY happy_mission_id");
+	   while($selMissionRow=mysql_fetch_array($selMission)){ 	
+		     $happyMissionCnt.='<option value="'.$selMissionRow['happy_mission_id'].'">'.ucwords($selMissionRow['happy_mission_title']).'</option>';
+	   }
+	   echo $happyMissionCnt;  
+	   ?>
+    </select>
+    <div class="project_left" style="padding-right:0px;">
+        <div class="Story_Title_box" id="DivStoryTitle">3</div>
+        <div id="divStoryImg" class="project_left_one"></div>
+    </div>    
     <div class="Story_Title_text">Story Title :</div>
     <input name="storytitle" id="storytitle" type="text" onkeyup="showValueonDiv('divshow_storytitle',this.value)" onFocus="changeDivClass('DivStoryTitle','divStoryImg')" class="Story_Title_input_box" value="Story Title"/>
     
         <div class="project_left" style="padding-right:0px;">
-            <div class="Story_Title_box" id="DivStoryDesc">3</div>
+            <div class="Story_Title_box" id="DivStoryDesc">4</div>
              <div id="divDescImg" class="project_left_one"></div>
         </div>
     <div class="Story_Title_text">Story Description :</div>
-	<textarea name="storydesc" id="storydesc" onkeyup="showValueonDiv('divshow_storydesc',this.value)" onFocus="changeDivClass('DivStoryDesc','divDescImg')" class="Story_Title_input_box">Story Description</textarea>
+	<textarea name="storydesc" id="storydesc" onkeyup="showValueonDiv('divshow_storydesc',this.value)" onFocus="changeDivClass('DivStoryDesc','divDescImg')" class="Story_Title_input_box">Story Description</textarea>    
     
-        <div class="project_left" style="padding-right:0px;">
-            <div class="Story_Title_box" id="DivStoryCategory">4</div>
-            <div id="divStoryCatImg" class="project_left_one"></div>
-        </div>
-    <div class="Story_Title_text">Story Category :</div>
-    <select size="1" id="storycategory" name="storycategory" class="storycat" onchange="ajax_action('show_storycat','divshow_storycat','stype=storycat&txt_storycat='+document.getElementById('storycategory').value);" onFocus="changeDivClass('DivStoryCategory','divStoryCatImg')" >
-       <option value="0">Select Story Category </option>
-       <?php
-	   $catArray=array(1=>2,2=>19,3=>21,4=>24,5=>29,6=>30,7=>31);	
-	   $catCnt=''; 
-	   foreach($catArray as $catid){
-	   	  $selCat=mysql_query("SELECT * FROM tbl_app_category WHERE category_id=".$catid);
-		  while($selCatRow=mysql_fetch_array($selCat)){ 	
-	   	  	$catCnt.='<option value="'.$catid.'">'.ucwords($selCatRow['category_name']).'</option>';
-		  }
-	   }
-	   echo $catCnt;  
-	   ?>
-    </select>
     <div class="project_left" style="padding-right:0px;">
     	<div class="Story_Title_box" id="DivStoryBoardPrice">5</div>
         <div id="divStoryPriceImg" class="project_left_one"></div>
@@ -195,7 +194,9 @@ if(isset($_POST['btncreate'])){
     <div class="Select_Story_Template_main">
      <div class="Slides_images"><img src="images/MISSON.png" alt="" /></div>
      <div class="Item_By_Item_10day_main">
-       <div id="divshow_storycat" style="font-size:12px;">Category</div>
+       <div class="Happy_Mission_bg">
+        <div id="divshow_storycat" class="Happy_Mission_text">Happy Family Mission</div>
+       </div>
        <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">Story Title</div>
        <div class="by_Olivia_Janisch_text">by <?=$userName?></div>
        <div id="divshow_storydesc" style="font-size:12px;">Story Description</div>
