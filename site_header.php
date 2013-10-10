@@ -192,11 +192,14 @@ function fb_logout() {
 	  <div class="tell" style="padding-left:100px">&nbsp;</div>
 	   <div class="tell">
            <a href="happiness_book.php" class="toolTip"><img src="images/heart_icon.png">
-           <span><img class="callout" src="images/callout.gif" />My Happy Life Story Book</span></a>	  
+           <span><img class="callout" src="images/callout.gif" />
+           <img src="images/heart_icon.png" style="vertical-align:middle;">
+           My Happy Life Story Book</span></a>	  
        </div>
        <div class="tell">
             <a href="ask_experts.php" class="toolTip"><img src="images/mind_icon.png">
-            <span><img class="callout" src="images/callout.gif" />Happy Living University</span></a>
+            <span><img class="callout" src="images/callout.gif" />
+            <img src="images/mind_icon.png" style="vertical-align:middle;">Happy Living University</span></a>
       </div>
         <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
