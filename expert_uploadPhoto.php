@@ -10,6 +10,10 @@ $expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','che
 $expOwner_id=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 $checkIsExpertBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','expertboard_id='.$expertboard_id.' and user_id='.$_SESSION['USER_ID']);
 $DayType=getDayType($expertboard_id);
+//GET CATEGORY DETAILS AND ICON
+$category_id=(int)getFieldValue('category_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+$category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$category_id)));
+$iconPath=getCategoryIcon($category_name);
 //Buyer Detail
 $Buyer_id=getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 $BuyerDetail=getUserDetail($Buyer_id);
@@ -490,25 +494,27 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   }else{ $printDay=$photo_day; }
 					   $TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
 					   $photoCnt.='<div class="bottom_box_main">';				   
-					   if($i==3){
+					   /*if($i==3){
 						  $photoCnt.='<div class="bottom_daya">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
 						  <img src="images/banet_2.png" alt="" />';
 						  $varClass='day_got_1';
 						  $varClass1='bottom_healthy_box_1';
-					   }else{
+					   }else{*/
 						  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
-						  $varClass='bottom_box_text';
+						  $varClass='bottom_box_text1';
 						  $varClass1='bottom_healthy_box';
-					   }
+					   //}
 					   $photoCnt.='<div class="bottom_box_bg">
-					   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==USER_ID?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.USER_ID.'\')" title="Edit Comment" class="cleanLink">':'').''.$photo_title.'</a></div>
+					   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==USER_ID?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.USER_ID.'\')" title="Edit Comment" style="text-decoration:none;color:#FFFFFF;font-size:14px;">':'').''.$photo_title.'</a></div>
 					   </div>';
 					   $photoCnt.='<div class="bottom_healthy">
-							   <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
+							   <!--<div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
 							   <div class="bottom_healthy_12" id="div_expert_cheers_'.$photo_id.'">
-							   '.$TotalCheers.' cheers!</div>
+							   '.$TotalCheers.' cheers!</div>--> 
+							  <div class="icon_home_page"><img src="'.$iconPath.'" height="40" width="40"/></div>
 							   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'_'.$sub_day.'">
 							   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
+						  <div class="icon_home_page_text">+10</div>	   
 						  <div style="clear:both"></div>
 						  </div>';				
 					 
@@ -588,11 +594,12 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 				 $photoCnt.='<div class="bottom_box_main">
 							 <div class="bottom_day_box">'.$DayType.' '.$i.''.($user_id==USER_ID?'&nbsp;<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
 							 <div class="bottom_box_bg">
-								<div class="bottom_box_text" id="photo_title'.$i.'">No Photo</div>
+								<div class="bottom_box_text1" id="photo_title'.$i.'">No Photo</div>
 							 </div>
 							 <div class="bottom_healthy">
-								 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
+							  <div class="icon_home_page"><img src="'.$iconPath.'" height="40" width="40"/></div>
 								 <div class="bottom_healthy_box"><a href="#">'.$DaysTitleArr[$i.'_1'].'</a></div>
+								 <div class="icon_home_page_text">+10</div>
 								 <div style="clear:both"></div>
 							 </div>
 							 <div class="day_img" style="padding:12px;">
@@ -606,6 +613,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 			  }
 		}
 		$NewphotoCnt='';
+		$AscDescArrow='<table><tr><td><a title="Sort" name="Sort" href="javascript:void(0);" onclick="javascript:ajax_action(\'exp_photo_refresh\',\'right_container\',\'cherryboard_id='.$cherryboard_id.'&sort='.($sort=="asc"?'desc':'asc').'\')">'.($sort=="asc"?'<img id="des" src="images/des.jpg" height="35" width="35"/>':'<img id="asc" src="images/asc.jpg" height="35" width="35"/>').'</a></td><td><img id="rotate_asc" src="images/transparent.png" height="25" width="25"/></td></tr></table>';
 		$NewphotoCnt='<table border="0"><tr>';
 		if($sort=="asc"){
 			$cnt=1;

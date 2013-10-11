@@ -8,20 +8,20 @@ if(isset($_POST['btncreate'])){
    $day_type=(int)$_POST['day_type'];	
    $storytitle=trim($_POST['storytitle']);
    $storydesc=trim(addslashes($_POST['storydesc']));
-   $storycategory=(int)$_POST['storycategory'];
-   $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$storycategory);
+   $happy_mission_id=(int)$_POST['storycategory'];
+   $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$happy_mission_id);
    $category_id=(int)getFieldValue('category_id','tbl_app_happiness_pillar','pillar_no='.$pillar_no);
    $storyprice=(int)$_POST['storyprice'];
    $board_type=(int)$_POST['board_type'];
    $storydays=(int)$_POST['storydays'];
    $Customers='Customers';
    
- if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$category_id>0&&$storydays>0){
+ if((int)USER_ID>0&&$day_type>0&&$storytitle!=''&&$storydesc!=''&&$category_id>0&&$storydays>0&&$happy_mission_id>0){
  
     	$IsStoryBoard=(int)getFieldValue('expertboard_id','tbl_app_expertboard','expertboard_title="'.$storytitle.'" and user_id='.USER_ID);
 		if($IsStoryBoard==0){
 		   $ip_address=$_SERVER['REMOTE_ADDR'];
-		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative) VALUES (NULL,'".(int)USER_ID."','".$category_id."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0')";
+		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative,happy_mission_id) VALUES (NULL,'".(int)USER_ID."','".$category_id."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0','".$happy_mission_id."')";
 		   $insQry=mysql_query($insstory);
 		   $storyBoardId=mysql_insert_id();
 		   if($storyBoardId>0){
@@ -194,6 +194,7 @@ if(isset($_POST['btncreate'])){
     <div class="Select_Story_Template_main">
      <div class="Slides_images"><img src="images/MISSON.png" alt="" /></div>
      <div class="Item_By_Item_10day_main">
+       <div id="divshow_catIcon" class="icon_home_page" style="height:57px;"></div>	
        <div class="Happy_Mission_bg">
         <div id="divshow_storycat" class="Happy_Mission_text">Happy Family Mission</div>
        </div>

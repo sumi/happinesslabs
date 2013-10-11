@@ -183,3 +183,6 @@ INSERT INTO `tbl_app_happy_mission` (`happy_mission_id`, `pillar_no`, `happy_mis
 (80, 7, 'Happy Rivers Mission'),
 (81, 7, 'Happy Forest Mission'),
 (82, 7, 'Happy Gardens Mission');
+
+10/10/2013
+ALTER TABLE `tbl_app_expertboard` ADD `happy_mission_id` INT( 11 ) NOT NULL

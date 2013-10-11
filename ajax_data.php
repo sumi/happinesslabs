@@ -14,10 +14,15 @@ if($type=="show_storycat"){
    $stype=trim($_GET['stype']);   
    if($stype=='storycat'){
    	  $storyCat=(int)$_GET['txt_storycat'];
+	  $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$storyCat);
+   	  $category_id=(int)getFieldValue('category_id','tbl_app_happiness_pillar','pillar_no='.$pillar_no);
+	  $category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$category_id)));
+	  $iconPath=getCategoryIcon($category_name);
 	  $catName=trim(ucwords(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$storyCat)));
    	  $ajax_data.=$catName;
+	  $catIcon='<img src="'.$iconPath.'" height="40" width="40" />';
    }     	 
-   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$catIcon;
    echo $ajax_data;
 }
 //STORY BOOK DO-IT CODE
@@ -894,7 +899,7 @@ if($type=="upd_photo_title"){
 		$updateTitle=parseString($_GET['upd_title']);
 		$ownerUserId=getFieldValue('user_id',$tblName,'photo_id='.$photo_id);
 		$update_title=mysql_query("update ".$tblName." set photo_title='".$updateTitle."'  where photo_id=".$photo_id);
-		$ajax_data.='<div class="comment_box1" id="photo_title'.$photo_id.'"><a href="javascript:void(0);" '.($user_id==$ownerUserId?'ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.$user_id.'\')"':'').' title="Edit Comment" class="cleanLink">'.getLimitString($updateTitle,55).'</a></div><div class="clear"></div>';
+		$ajax_data.='<div class="comment_box1" id="photo_title'.$photo_id.'"><a href="javascript:void(0);" '.($user_id==$ownerUserId?'ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.$user_id.'\')"':'').' title="Edit Comment" style="text-decoration:none;color:#FFFFFF;font-size:14px;">'.getLimitString($updateTitle,55).'</a></div><div class="clear"></div>';
 		$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
 	}
 	echo $ajax_data;

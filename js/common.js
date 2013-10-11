@@ -788,6 +788,9 @@ function handleHttpResponse_ajax_action()
 		var div_name=results_array[1];
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
+		if(action_type=="show_storycat"){
+		   document.getElementById('divshow_catIcon').innerHTML=results_array[3];
+		}
 		if(action_type=="focus_story_title"){
 			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
 			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';

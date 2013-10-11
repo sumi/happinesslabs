@@ -136,15 +136,16 @@ a.toolTip span
 .bottom_day_box{font-size:30px; color:#979797; padding:5px 0 5px 0;}
 .bottom_box_bg{background-color:#FFFFFF; width:217px; border-left:1px solid #f5f5f3; border-right:1px solid #f5f5f3;}
 .bottom_box_text{font-size:12px; color:#57585b; padding:11px 0 7px 15px;}
-.day_got_1{font-size:12px; color:#57585b; padding:5px 0 7px 15px;}
-.bottom_healthy{padding:0 0 5px 10px; background-color:#FFFFFF;}
+/*.day_got_1{font-size:12px; color:#57585b; padding:5px 0 7px 15px;}*/
+.bottom_healthy{background-color:#FFFFFF;}/*padding:0 0 0px 10px;*/
 .bottom_healthy_im{float:left; padding-right:4px; width:26px;}
 .bottom_healthy_12{float:left; font-size:12px; color:#57585b; padding:10px 5px 0 0;}
-.bottom_healthy_box{float:right; background-color:#999999; background-repeat:repeat-x; border:1px solid #b3b3b3; padding:5px; color:#FFFFFF; }
+/*.bottom_healthy_box1{float:right; background-color:#999999; background-repeat:repeat-x; border:1px solid #b3b3b3; padding:5px; color:#FFFFFF; }*/
+.bottom_healthy_box{float:left; background-color:#999999; background-repeat:repeat-x; border:1px solid #b3b3b3; padding:5px 3px 5px 3px; color:#FFFFFF;margin-left:3px;width:130px;min-height:30px;}
 .bottom_healthy_box a{text-align:center; font-size:14px; color:#FFFFFF; text-decoration:none;}
 .bottom_healthy_box a:hover{color:#FFFFFF;}/*#e04e32*/
 
-.bottom_healthy_box_1{float:right; background-color:#e04e32; background-repeat:repeat-x; border:1px solid #f7d3cc; padding:5px; color:#FFFFFF; }
+/*.bottom_healthy_box_1{float:right; background-color:#e04e32; background-repeat:repeat-x; border:1px solid #f7d3cc; padding:5px; color:#FFFFFF; }*/
 .bottom_healthy_box_1 a{text-align:center; font-size:14px; color:#FFFFFF; text-decoration:none;}
 .bottom_healthy_box_1 a:hover{color:#CCCCCC;}
 
@@ -184,7 +185,7 @@ a.toolTip span
 .expert_notes{background-color:#b1b1b1; padding:5px 15px; font-size:14px; border-top:1px solid #FFFFFF; color:#FFFFFF; font-weight:bold;}
 
 .bottom_day3{float:left; width:219px;}
-.bottom_daya{font-size:30px; color:#da4c30; margin-top:5px; background-color:#FFFFFF;}
+/*.bottom_daya{font-size:30px; color:#da4c30; margin-top:5px; background-color:#FFFFFF;}*/
 .bottom_right_container{float:right; width:248px; margin-left:9px;}
 .bottom_day_bg{ background-color:#FFFFFF; border-top:1px solid #f5f5f3; border-left:1px solid #f5f5f3; border-right:1px solid #f5f5f3;}
 .bottom_day4_top{padding:8px;}
@@ -608,9 +609,9 @@ width: 240px;
 .Upload_Pic_Day_right{float:right; width:156px; margin:2px 18px 0 0;}
 .Upload_Pic_Day_main2{float:left; width:137px; margin:0px 9px 0 0;}
 .Upload_Pic_Day2{background-color:#c0c0c0; border:3px solid #ededef; font-size:16px; text-align:center; width:124px; height:75px; margin:auto; color:#ffffff; padding-top:10px;}
-.Happy_Mission_bg{background-image:url(../images/Happy-Mission.png); background-repeat:no-repeat; width:60px; height:60px; font-size:17px; text-align:center; font-family:Adobe Caslon Pro; color:#ea6a5f; box-shadow: 0 0 3px #a0abb9;}
+.Happy_Mission_bg{background-image:url(../images/Happy-Mission.png); background-repeat:no-repeat; width:60px; height:60px; font-size:17px; text-align:center; font-family:Adobe Caslon Pro; color:#ea6a5f; box-shadow: 0 0 3px #a0abb9;float:right;margin-right:115px;}
 .Happy_Mission_text{font-size:10px; min-height:41px;}
 /*Story Profile CSS*/
-.bottom_box_text1{float:left; font-size:12px; background-color:#b1b1b1; background-repeat:no-repeat; color:#FFFFFF; width:178px; padding:7px; margin:0 0 3px 2px;min-height:30px;}
-.icon_home_page{float:left; width:20px; padding:3px 0 0 3px;}
+.bottom_box_text1{float:left; font-size:12px; background-color:#b1b1b1; background-repeat:no-repeat; color:#FFFFFF; width:204px; padding:7px;}
+.icon_home_page{float:left; width:40px; padding:3px 0 0 3px;}
 .icon_home_page_text{float:right; color:#e04e32; margin:5px 5px 0 5px; font-size:14px;}
