@@ -792,10 +792,17 @@ if($type=="swap_image"){
 	$img_sort=$_GET['img_sort'];
     $imgswap_from=explode('_',$_GET['imgswap_from']);
 	$imgswap_to=explode('_',$_GET['imgswap_to']);
+	
 	$from_photo_day=$imgswap_from[0];
 	$from_photo_id=$imgswap_from[1];
+	$from_sub_day=$imgswap_from[2];
+	if($from_sub_day==0){$from_sub_day=1;}
+	
 	$to_photo_day=$imgswap_to[0];
-	$to_photo_id=$imgswap_to[1];
+	$to_photo_id=$imgswap_to[1];	
+	$to_sub_day=$imgswap_to[2];
+	if($to_sub_day==0){$to_sub_day=1;}
+	
 	$swap_frm_div='photo_title';
 	$swap_frm_title='';
 	$swap_to_div='photo_title';
@@ -803,12 +810,13 @@ if($type=="swap_image"){
 	
 	$cherryboard_id=getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
 	$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+	$DayType=getDayType($expertboard_id);
 	//GET FROM PHOTO DAY TITLE
-	$fromDaysArray=getFieldsValueArray('expertboard_day_id,day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' and day_no='.$from_photo_day);
+	$fromDaysArray=getFieldsValueArray('expertboard_day_id,day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' and day_no='.$from_photo_day.' and sub_day='.$from_sub_day);
 	$from_expertboard_day_id=$fromDaysArray[0];
 	$from_day_title=$fromDaysArray[1];
 	//GET TO PHOTO DAY TITLE
-	$toDaysArray=getFieldsValueArray('expertboard_day_id,day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' and day_no='.$to_photo_day);
+	$toDaysArray=getFieldsValueArray('expertboard_day_id,day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' and day_no='.$to_photo_day.' and sub_day='.$to_sub_day);
 	$to_expertboard_day_id=$toDaysArray[0];
 	$to_day_title=$toDaysArray[1];
 	
@@ -823,8 +831,14 @@ if($type=="swap_image"){
 				$updtQue=mysql_query("UPDATE tbl_app_expert_question_answer SET photo_day=".$to_photo_day." WHERE question_id=".$checkDay);
 			}
 			//UPDATE FROM DAY TITLE SECTION
+			$toDayTitle=$DayType.' '.$to_photo_day;
+			$fromDayTitle=$DayType.' '.$from_photo_day;
+			$to_day_title=str_replace($toDayTitle,$fromDayTitle,$to_day_title);
 			$updtFromDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$to_day_title."' WHERE expertboard_day_id=".$from_expertboard_day_id);
 			//UPDATE TO DAY TITLE SECTION
+			$toDayTitle=$DayType.' '.$to_photo_day;
+			$fromDayTitle=$DayType.' '.$from_photo_day;
+			$from_day_title=str_replace($fromDayTitle,$toDayTitle,$from_day_title);
 			$updtToDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$from_day_title."' WHERE expertboard_day_id=".$to_expertboard_day_id);
 			
 			$ImgDetailArray=getFieldsValueArray('cherryboard_id,photo_title','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
@@ -844,7 +858,10 @@ if($type=="swap_image"){
 				if($checkDay>0){
 					$updtQue=mysql_query("UPDATE tbl_app_expert_question_answer SET photo_day=".$to_photo_day." WHERE question_id=".$checkDay);
 				}
-				//UPDATE FROM DAY TITLE SECTION
+				//UPDATE FROM DAY TITLE SECTION 
+				$toDayTitle=$DayType.' '.$to_photo_day;
+				$fromDayTitle=$DayType.' '.$from_photo_day;
+				$to_day_title=str_replace($toDayTitle,$fromDayTitle,$to_day_title);
 				$updtFromDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$to_day_title."' WHERE expertboard_day_id=".$from_expertboard_day_id);	
 							
 				$fromImgDetailArray=getFieldsValueArray('cherryboard_id,photo_title','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
@@ -862,6 +879,9 @@ if($type=="swap_image"){
 					$updtQue=mysql_query("UPDATE tbl_app_expert_question_answer SET photo_day=".$from_photo_id." WHERE question_id=".$checkDay);
 				}
 				//UPDATE TO DAY TITLE SECTION
+				$toDayTitle=$DayType.' '.$to_photo_day;
+				$fromDayTitle=$DayType.' '.$from_photo_day;
+				$from_day_title=str_replace($fromDayTitle,$toDayTitle,$from_day_title);
 				$updtToDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$from_day_title."' WHERE expertboard_day_id=".$to_expertboard_day_id);
 				
 				$toImgDetailArray=getFieldsValueArray('cherryboard_id,photo_title','tbl_app_expert_cherry_photo','photo_id='.$to_photo_id);
