@@ -58,12 +58,16 @@ if(FB_ID>0){
 $cnt=0;
 $MainSlide='';
 $IconSlide='';
-$storyPhoto=mysql_query("select cherryboard_id,expertboard_id from tbl_app_expert_cherryboard where cherryboard_id 
-in (851) order by cherryboard_id desc");
+$storyPhoto=mysql_query("SELECT cherryboard_id,expertboard_id FROM tbl_app_expert_cherryboard WHERE cherryboard_id in (851) ORDER BY cherryboard_id DESC");//851===846
 while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
 		$expertboard_id=$storyPhotoRow['expertboard_id'];
-		$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_day");
+		/*$catId=(int)getFieldValue('category_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+		$category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$catId)));
+		$iconPath=getCategoryIcon($category_name);
+		$iconImg='<img src="'.$iconPath.'"/>';*/
+		
+		$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." ORDER BY photo_day");
 		$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
 		if($totalExpPhotos>0){
 			$MainSlidePhotoArr=array();
@@ -72,8 +76,20 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 				if($photo_title!=""){$photo_title=' - '.$photo_title;}
 				$photo_name=$exportPhotoRow['photo_name'];
 				$photo_day=$exportPhotoRow['photo_day'];
+				$sub_day=$exportPhotoRow['sub_day'];
+				$dayType=getDayType($expertboard_id);
+				$dayTitle=$dayType.' '.$photo_day;
+				if($sub_day==0){$sub_day=1;}				
 				$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
-				$photoTitle=$expertboardTitle.' : '.getDayType($expertboard_id).' '.$photo_day.$photo_title;
+				$day_title=ucwords(trim(getFieldValue('day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' AND day_no='.$photo_day.' AND sub_day='.$sub_day)));
+				
+				if($dayTitle==$day_title){
+				   $day_title='';
+				}else{
+				   $day_title=' : '.$day_title;
+				}
+				
+				$photoTitle=$expertboardTitle.' : '.$dayType.' '.$photo_day.$day_title.' - 10 Happy Points';
 				
 				$photoPath='images/expertboard/slider/'.$photo_name;
 				if(!is_file($photoPath)){

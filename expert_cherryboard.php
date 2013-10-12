@@ -262,10 +262,10 @@ include('site_header.php');
      			<div class="banner_main" style="width:1465px">       
        			<div class="banner">';
 				//PHOTO BANNER SECTION CODE
-				$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id);
+				$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id);
 				$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
 				if($totalExpPhotos==0){
-					$exportPhoto=mysql_query("select cherryboard_id,photo_title,photo_name,photo_day from tbl_app_expert_cherry_photo where cherryboard_id=".$expertboard_cehrry_id);
+					$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$expertboard_cehrry_id);
 					$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
 				}
 				if($totalExpPhotos>0){
@@ -278,8 +278,19 @@ include('site_header.php');
 						if($photo_title!=""){$photo_title=' - '.$photo_title;}
 						$photo_name=$exportPhotoRow['photo_name'];
 						$photo_day=$exportPhotoRow['photo_day'];
-						$photoTitle=getDayType($expertboard_id).' '.$photo_day.$photo_title;
+						$sub_day=$exportPhotoRow['sub_day'];
+						$dayType=getDayType($expertboard_id);
+						$dayTitle=$dayType.' '.$photo_day;
+						if($sub_day==0){$sub_day=1;}
+						$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
+						$day_title=ucwords(trim(getFieldValue('day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' AND day_no='.$photo_day.' AND sub_day='.$sub_day)));
+						if($dayTitle==$day_title){
+						   $day_title='';
+						}else{
+						   $day_title=' : '.$day_title;
+						}
 						
+						$photoTitle=$expertboardTitle.' : '.$dayType.' '.$photo_day.$day_title.' - 10 Happy Points';
 						$photoPath='images/expertboard/slider/'.$photo_name;
 						if(!is_file($photoPath)){
 							$photoPath='images/expertboard/'.$photo_name;
