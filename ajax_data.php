@@ -310,7 +310,7 @@ if($type=="add_expert_notes"||$type=="del_expert_note"){
 	$expOwner_id=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 
 	//ADD NOTES	
-	if($type=="add_expert_notes"&&$cherry_note!=""&&$photo_id>0){
+	if($type=="add_expert_notes"&&$cherry_note!="Add a notes..."&&$photo_id>0){
 		$ins_query="INSERT INTO ".$tbl_name." (notes_id,user_id,cherryboard_id,photo_id,photo_day, cherry_notes,record_date) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$photo_id."','".$photo_day."','".$cherry_note."',CURRENT_TIMESTAMP)";
 		$ins_sql=mysql_query($ins_query);
 	}
@@ -723,7 +723,7 @@ if($type=="ask_expert_question"||$type=="cherry_answer"||$type=="del_expert_ques
 	
 	
 		//ADD ASK QUESTION	
-		if($type=="ask_expert_question"&&$cherry_question!=""&&$photo_id>0){
+		if($type=="ask_expert_question"&&$cherry_question!="Ask a question"&&$photo_id>0){
 			$ins_query="INSERT INTO `tbl_app_expert_question_answer` (`question_id`, `cherryboard_id`, `photo_id`, `user_id`, `cherry_question`, `cherry_answer`, `photo_day`, `record_date`) VALUES (NULL, '".$cherryboard_id."', '".$photo_id."', '".$user_id."', '".$cherry_question."','', '".$photo_day."', CURRENT_TIMESTAMP)";
 			$ins_sql=mysql_query($ins_query);
 			//send mail to owner of the expertboard
@@ -745,7 +745,7 @@ if($type=="ask_expert_question"||$type=="cherry_answer"||$type=="del_expert_ques
 			SendMail($to,$subject,$message);
 		}
 		//ADD QUESTION ANSWER 
-		if($type=="cherry_answer"&&$cherry_answer!=""){
+		if($type=="cherry_answer"&&$cherry_answer!="Add a Answer"){
 			$question_id=(int)$_GET['question_id'];
 			$ins_query="update ".$tbl_name." set `cherry_answer`='".$cherry_answer."' where question_id=".$question_id;
 		    $ins_sql=mysql_query($ins_query);
@@ -1562,7 +1562,7 @@ if($type=="add_cherry_comment"||$type=="del_cherry_comment"||$type=="add_cheers"
 		}	
 		
 		//ADD EXPERT COMMENT
-		if(($type=="add_cherry_comment"||$type=="add_cherry_expert_comment")&&$cherry_comment!=""&&$photo_id>0){
+		if(($type=="add_cherry_comment"||$type=="add_cherry_expert_comment")&&$cherry_comment!="Add a comment..."&&$photo_id>0){
 			$ins_query="INSERT INTO ".$tbl_name." (`comment_id`, `cherryboard_id`, `photo_id`, `user_id`, `cherry_comment`) VALUES (NULL, '".$cherryboard_id."', '".$photo_id."', '".$user_id."', '".$cherry_comment."')";
 			$ins_sql=mysql_query($ins_query);
 		}

@@ -158,8 +158,8 @@ a.toolTip span
 .comments_left{float:left; padding-right:5px;}
 .comments_right{font-size:11px; color:#666666;}
 .add_comment_main{padding:12px 0 8px 5px;}
-.add_comment_left{float:left; padding-right:18px;}
-.add_comment_right{padding-top:7px;}
+.add_comment_left{float:left; padding-right:8px;}
+.add_comment_right{padding-top:1px;}
 .comment_im{float:right; padding-right:3px;}
 .comment_button{padding-bottom:18px;}
 /*button{float:right; margin-right:20px; text-align:center; color:#554d4d; padding:2px 5px;}*/

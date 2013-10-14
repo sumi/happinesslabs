@@ -565,7 +565,7 @@ function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 				   </div>
 				   <div class="add_comment_right">
 				   <label>
-				   <input type="text" name="cherry_answer_'.$question_id.'" id="cherry_answer_'.$question_id.'" style=" width:120px; height:25px; color:#908081; padding:0px 5px 5px 5px; border:1px solid #e6e6e6;" value="Add a Answer" onfocus=" if (this.value == \'Add a Answer\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a Answer\')"/>
+				   <textarea name="cherry_answer_'.$question_id.'" id="cherry_answer_'.$question_id.'" onfocus=" if (this.value == \'Add a Answer\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a Answer\')" style="width:150px;height:80px;">Add a Answer</textarea>
 				   </label>
 				   </div>
 				   </div>';
@@ -619,7 +619,7 @@ function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 				   </div>
 				   <div class="add_comment_right">
 				   <label>
-				   <input type="text" name="cherry_answer_'.$question_id.'" id="cherry_answer_'.$question_id.'" style=" width:120px; height:25px; color:#908081; padding:0px 5px 5px 5px; border:1px solid #e6e6e6;" value="Add a Answer" onfocus=" if (this.value == \'Add a Answer\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a Answer\')"/>
+				   <textarea name="cherry_answer_'.$question_id.'" id="cherry_answer_'.$question_id.'" onfocus=" if (this.value == \'Add a Answer\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a Answer\')" style="width:150px;height:80px;">Add a Answer</textarea>
 				   </label>
 				   </div>
 				   </div>';
@@ -636,7 +636,7 @@ function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 			   </div>
 			   <div class="add_comment_right">
 			   <label>
-			   <input type="text" name="cherry_question_'.$photo_id.'" id="cherry_question_'.$photo_id.'" style=" width:120px; height:25px; color:#908081; padding:0px 5px 5px 5px; border:1px solid #e6e6e6;" value="Ask a question" onfocus=" if (this.value == \'Ask a question\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Ask a question\')"/>
+			   <textarea name="cherry_question_'.$photo_id.'" id="cherry_question_'.$photo_id.'" onfocus=" if (this.value == \'Ask a question\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Ask a question\')" style="width:150px;height:80px;">Ask a question</textarea>
 			   </label>
 			   </div>
 			   </div>
@@ -693,8 +693,8 @@ function expert_comment_section($cherryboard_id,$photo_id,$photo_day=0){
 			   <div class="add_comment_left"><img src="'.$current_userPic.'" alt="" width="40" height="40" />
 			   </div>
 			   <div class="add_comment_right">
-			   <label>
-			   <input type="text" name="cherry_comment_'.$photo_id.'" id="cherry_comment_'.$photo_id.'" style=" width:120px; height:25px; color:#908081; padding:0px 5px 5px 5px; border:1px solid #e6e6e6;" value="Add a comment..." onfocus=" if (this.value == \'Add a comment...\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a comment...\')"/>
+			   <label>			  
+			   <textarea name="cherry_comment_'.$photo_id.'" id="cherry_comment_'.$photo_id.'" onfocus=" if (this.value == \'Add a comment...\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a comment...\')" style="width:150px;height:80px;">Add a comment...</textarea>
 			   </label>
 			   </div>
 			   </div>
@@ -890,7 +890,7 @@ function expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
 		   </div>
 		   <div class="add_comment_right">
 		   <label>
-		   <input type="text" name="cherry_notes_'.$photo_id.'" id="cherry_notes_'.$photo_id.'" style=" width:120px; height:25px; color:#908081; padding:0px 5px 5px 5px; border:1px solid #e6e6e6;" value="Add a notes..." onfocus=" if (this.value == \'Add a notes...\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a notes...\')"/>
+		    <textarea name="cherry_notes_'.$photo_id.'" id="cherry_notes_'.$photo_id.'" onfocus=" if (this.value == \'Add a notes...\') (this.value = \'\')" onblur=" if (this.value == \'\') (this.value = \'Add a notes...\')" style="width:150px;height:80px;">Add a notes...</textarea>
 		   </label>
 		   </div>
 		   </div>
