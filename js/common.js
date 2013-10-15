@@ -70,8 +70,9 @@ function handleHttpResponse_cherryComment()
 		if(cherryboard_id>0){
 			ajax_action('refresh_inspir_feed','inspir_feed1','cherryboard_id='+cherryboard_id);
 		}
-		document.getElementById("cherry_comment_"+results_array[0]).value = 'Add a comment...'; 
+		document.getElementById("cherry_comment_"+results_array[0]).value = 'Add a comment...';		
 		document.getElementById("div_cherry_comment_"+results_array[0]).innerHTML = results_array[1];
+		document.getElementById("div_expert_comment_cnt_"+results_array[0]).innerHTML = results_array[3];
 	  } 
 	} 
 }
@@ -788,51 +789,20 @@ function handleHttpResponse_ajax_action()
 		var div_name=results_array[1];
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
+		
+		//Total Notes Count
+		if(action_type=="add_expert_notes"||action_type=="del_expert_note"){
+			var div_nameArr=div_name.split('_');
+			document.getElementById('div_expert_notes_cnt_'+div_nameArr[3]).innerHTML=results_array[3];
+		}
+		//Total Question Count
+		if(action_type=="ask_expert_question"||action_type=="del_expert_question"||action_type=="cherry_answer"||action_type=="del_expert_answer"){
+			var div_nameArr=div_name.split('_');
+			document.getElementById('div_expert_question_cnt_'+div_nameArr[3]).innerHTML=results_array[3];
+		}
 		if(action_type=="show_storycat"){
 		   document.getElementById('divshow_catIcon').innerHTML=results_array[3];
 		}
-		if(action_type=="focus_story_title"){
-			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('div_story_board_type').innerHTML ='<div class="project_left_2">6</div>';
-		}
-		if(action_type=="focus_story_category"){
-			document.getElementById('div_story_title').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('div_story_board_type').innerHTML ='<div class="project_left_2">6</div>';
-		}
-		if(action_type=="focus_story_about"){
-			document.getElementById('div_story_title').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('div_story_board_type').innerHTML ='<div class="project_left_2">6</div>';
-		}
-		if(action_type=="focus_story_daytype"){
-			document.getElementById('div_story_title').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-			document.getElementById('div_story_board_type').innerHTML ='<div class="project_left_2">6</div>';
-		}
-		if(action_type=="focus_story_price"){
-			document.getElementById('div_story_title').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('div_story_board_type').innerHTML ='<div class="project_left_2">6</div>';
-		}
-		if(action_type=="focus_story_type"){
-			document.getElementById('div_story_title').innerHTML ='<div class="project_left_2">1</div>';
-			document.getElementById('div_story_category').innerHTML ='<div class="project_left_2">2</div>';
-			document.getElementById('div_story_about').innerHTML ='<div class="project_left_2">3</div>';
-			document.getElementById('div_story_day_type').innerHTML ='<div class="project_left_2">4</div>';
-			document.getElementById('div_story_board_price').innerHTML ='<div class="project_left_2">5</div>';
-		}	
 		//Refresh Expert Days Or Item Page
 		if(action_type=="increase_expdays_items"){
 			if(results_array[3]>0){
@@ -894,6 +864,7 @@ function handleHttpResponse_ajax_action()
 		}	
 		
 		document.getElementById(div_name).innerHTML=div_content;
+		
 		//photo refresh of the board
 		if(action_type=="photo_refresh"||action_type=="exp_photo_refresh"){
 		    ajax_action('refresh_todo_list','div_todo_list','cherryboard_id='+results_array[3]+'&sort='+results_array[4]);

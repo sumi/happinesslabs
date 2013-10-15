@@ -502,11 +502,6 @@ function getExpGoalDetail($cherryboard_id){
 //START EXPERT QUESTION AND ANSWER SECTION FUNCTION
 function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 	$photoCnt='';
-	$TotalQue=(int)getFieldValue('count(photo_id)','tbl_app_expert_question_answer','photo_id='.$photo_id);
-	$photoCnt.='<div class="silverheader">
-				<div class="questions">'.$TotalQue.' questions</div>
-				</div>';
-	
 	if($photo_day==0){
 		$photo_day=(int)getFieldValue('photo_day','tbl_app_expert_cherry_photo','photo_id='.$photo_id);
 	}
@@ -518,9 +513,7 @@ function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 	$expOwnerName=$expOwner_Detail[0].' '.$expOwner_Detail[1];
 	$expOwner_Pic=$expOwner_Detail[2];
 			
-	$photoCnt.='<div class="submenu">
-				<div class="bt_comments_img"></div>';
-				
+	$photoCnt.='<div id="div_cherry_question_'.$photo_id.'">';			
 	if($main_board==1&&$expOwner_id==$_SESSION['USER_ID']){
 	   //select a.* from tbl_app_expert_question_answer a,tbl_app_expert_cherryboard b where a.cherryboard_id=b.cherryboard_id and b.expertboard_id=".$expertboard_id." and photo_day='".$photo_day."' order by question_id	
 	   $selCmt=mysql_query("SELECT * FROM tbl_app_expert_question_answer WHERE cherryboard_id='".$cherryboard_id."' AND photo_id='".$photo_id."' ORDER BY question_id");
@@ -644,29 +637,13 @@ function expert_question_section($cherryboard_id,$photo_id,$photo_day="0"){
 				 <a href="javascript:void(0);" onclick="ajax_action(\'ask_expert_question\',\'div_cherry_question_'.$photo_id.'\',\'photo_id='.$photo_id.'&cherryboard_id='.$cherryboard_id.'&user_id='.$_SESSION['USER_ID'].'&photo_day='.$photo_day.'&question=\'+document.getElementById(\'cherry_question_'.$photo_id.'\').value);" style="text-decoration:none;"><input type="button" value="Ask" class="button"/></a>
 				 <div class="comment_im"><img src="images/box.png" alt=""  width="23" height="26"/></div>
 				 <div style="clear:both"></div>
-			   </div>';
-	$photoCnt.='</div>';	
+			   </div>';   	
 	return $photoCnt;
 }
 //START EXPERT COMMENT SECTION FUNCTION
-function expert_comment_section($cherryboard_id,$photo_id,$photo_day=0){
-
-  $current_userPic=getFieldValue('fb_photo_url','tbl_app_users','user_id='.$_SESSION['USER_ID']);
-  $TotalCmt=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_comment','photo_id='.$photo_id);
-  
-  $photoCnt.='<div class="silverheader">
-			  <div class="expert_comments">
-				<div class="left_comments">'.$TotalCmt.' comments</div>
-				<div class="right_comments">
-				<a href="javascript:void(0);" 
-				onclick="ajax_action(\'add_expert_cheers\',\'div_expert_cheers_'.$photo_id.'\',\'photo_id='.$photo_id.'&cherryboard_id='.$cherryboard_id.'&user_id='.(int)$_SESSION['USER_ID'].'\')">cheers?</a></div>
-				<div class="img_comments"><img src="images/box1.png" alt="" /></div>
-			   <div style="clear:both"></div> 
-			   </div>
-			   </div>';
-   $photoCnt.='<div class="submenu">
-			   <div class="bt_comments_img"></div>';
-			   
+function expert_comment_section($cherryboard_id,$photo_id,$photo_day=0){			   
+   $photoCnt.='<div id="div_cherry_comment_'.$photo_id.'">';		
+   $current_userPic=getFieldValue('fb_photo_url','tbl_app_users','user_id='.$_SESSION['USER_ID']);	   
    $selExpCmt=mysql_query("select * from tbl_app_expert_cherry_comment where photo_id=".$photo_id." order by comment_id desc limit 2");
    if(mysql_num_rows($selExpCmt)>0){
    		while($selExpCmtRow=mysql_fetch_array($selExpCmt)){
@@ -855,13 +832,8 @@ function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
 }
 //ADD EXPERT NOTES SECTION FUNCTION
 function expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
-  $current_userPic=getFieldValue('fb_photo_url','tbl_app_users','user_id='.$_SESSION['USER_ID']);
-  $TotalNotes=(int)getFieldValue('count(photo_id)','tbl_app_expert_notes','photo_id='.$photo_id);	
-  $photoCnt.='<div class="silverheader">
-				   <div class="expert_notes">'.$TotalNotes.' notes </div>';
-  $photoCnt.='<div class="submenu">
-			  <div class="bt_comments_img"></div>';
-  		
+  $current_userPic=getFieldValue('fb_photo_url','tbl_app_users','user_id='.$_SESSION['USER_ID']);  
+  $photoCnt.='<div id="div_expert_notes_'.$photo_id.'">';		
   $selNotes=mysql_query("SELECT * FROM tbl_app_expert_notes WHERE photo_id=".$photo_id." ORDER BY notes_id DESC LIMIT 2");
   	
   if(mysql_num_rows($selNotes)>0){
@@ -900,8 +872,7 @@ function expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
 			 <div style="clear:both"></div>
 			 </div>';
 			   
-  $photoCnt.='</div>
-  			  </div>';
+  $photoCnt.='</div>';
   return  $photoCnt;
 }
 //DEFINE FUNCTION DELETE EXPERTBOARD
@@ -1402,5 +1373,54 @@ function getCategoryIcon($catgory_name){
 	   } 
 	   return $iconPath;
 	}	
+}
+function main_expert_question_section($cherryboard_id,$photo_id,$photo_day=0){
+	$photoCnt='';
+	if($photo_day==0){
+	   $photo_day=(int)getFieldValue('photo_day','tbl_app_expert_cherry_photo','photo_id='.$photo_id);
+	}
+	$TotalQue=(int)getFieldValue('count(photo_id)','tbl_app_expert_question_answer','photo_id='.$photo_id);
+    $photoCnt.='<div class="silverheader">
+    <div class="questions" id="div_expert_question_cnt_'.$photo_id.'">'.$TotalQue.' questions</div>
+    </div>';
+    $photoCnt.='<div class="submenu">
+    <div class="bt_comments_img"></div>';
+    $photoCnt.=expert_question_section($cherryboard_id,$photo_id,$photo_day);
+    $photoCnt.='</div>';			   
+    $photoCnt.='</div>';
+	return $photoCnt;
+}
+function main_expert_comment_section($cherryboard_id,$photo_id,$photo_day=0){
+	$photoCnt='';	
+    $TotalCmt=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_comment','photo_id='.$photo_id);
+  
+    $photoCnt.='<div class="silverheader">
+			  <div class="expert_comments">
+				<div class="left_comments" id="div_expert_comment_cnt_'.$photo_id.'">'.$TotalCmt.' comments
+				</div>
+				<div class="right_comments">
+				<a href="javascript:void(0);" 
+				onclick="ajax_action(\'add_expert_cheers\',\'div_expert_cheers_'.$photo_id.'\',\'photo_id='.$photo_id.'&cherryboard_id='.$cherryboard_id.'&user_id='.(int)$_SESSION['USER_ID'].'\')">cheers?</a></div>
+				<div class="img_comments"><img src="images/box1.png" alt="" /></div>
+			   <div style="clear:both"></div> 
+			   </div>
+			   </div>';
+   $photoCnt.='<div class="submenu">
+			   <div class="bt_comments_img"></div>';
+    $photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
+    $photoCnt.='</div>';
+	return $photoCnt;
+}
+function main_expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
+	$photoCnt='';	
+    $TotalNotes=(int)getFieldValue('count(photo_id)','tbl_app_expert_notes','photo_id='.$photo_id);	
+    $photoCnt.='<div class="silverheader">
+				<div class="expert_notes" id="div_expert_notes_cnt_'.$photo_id.'">'.$TotalNotes.' notes </div>';
+    $photoCnt.='<div class="submenu">
+			    <div class="bt_comments_img"></div>';
+    $photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
+    $photoCnt.='</div>';
+	$photoCnt.='</div>';
+	return $photoCnt;
 }
 ?>

@@ -323,13 +323,11 @@ if($type=="add_expert_notes"||$type=="del_expert_note"){
 	
 	//ADD EXPERT NOTES SECTION
 	if($expUserId==$_SESSION['USER_ID']){
-		$TotalNotes=(int)getFieldValue('count(photo_id)','tbl_app_expert_notes','photo_id='.$photo_id);
-		$notesCnt=$TotalNotes.' notes';
-		$photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
+	$photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
 	}
 	
 	$ajax_data.=$photoCnt;	
-	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$notesCnt;
+	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
 	echo $ajax_data;
 	exit(0);
 }
@@ -783,11 +781,9 @@ if($type=="ask_expert_question"||$type=="cherry_answer"||$type=="del_expert_ques
 			$del_sql=mysql_query($del_query);
 		}
 	//QUESTION/ANSWER SECTION
-	$TotalQue=(int)getFieldValue('count(photo_id)','tbl_app_expert_question_answer','photo_id='.$photo_id);
-	$questionCnt=$TotalQue.' questions';
 	$photoCnt.=expert_question_section($cherryboard_id,$photo_id,$photo_day);	
 	$ajax_data.=$photoCnt;	
-	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$questionCnt;
+	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
 	echo $ajax_data;
 	exit(0);
 }
@@ -800,24 +796,19 @@ if($type=="swap_image"){
 	$from_photo_day=$imgswap_from[0];
 	$from_photo_id=$imgswap_from[1];
 	$from_sub_day=$imgswap_from[2];
-	
+	if($from_sub_day==0){$from_sub_day=1;}
 	
 	$to_photo_day=$imgswap_to[0];
 	$to_photo_id=$imgswap_to[1];	
 	$to_sub_day=$imgswap_to[2];
-	
+	if($to_sub_day==0){$to_sub_day=1;}
 	
 	$swap_frm_div='photo_title';
 	$swap_frm_title='';
 	$swap_to_div='photo_title';
 	$swap_to_title='';
 	
-	//FROM DETAIL
-	$from_photoDetail=getFieldsValueArray('cherryboard_id,photo_name','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
-	$cherryboard_id=$from_photoDetail[0];
-	$from_photo_name=$from_photoDetail[1];
-	
-	
+	$cherryboard_id=getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
 	$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 	$DayType=getDayType($expertboard_id);
 	//GET FROM PHOTO DAY TITLE
@@ -830,14 +821,9 @@ if($type=="swap_image"){
 	$to_day_title=$toDaysArray[1];
 	
 	if($from_photo_id>0&&$to_photo_id==0){
-		//UPDATE FRom PHOTO DAY
+		//UPDATE PHOTO DAY
 		$swap_type='new_swaped';
 		$updtCherry=mysql_query("UPDATE tbl_app_expert_cherry_photo SET photo_day=".$to_photo_day." WHERE photo_id=".$from_photo_id);
-		//UPDATE TO PHOTO DAY
-		$insQry="INSERT INTO `tbl_app_expert_cherry_photo` (`photo_id`, `user_id`, `cherryboard_id`, `photo_title`, `photo_name`, `photo_day`, `record_date`, `sub_day`) VALUES (NULL, '".$_SESSION['USER_ID']."', '".$cherryboard_id."', '".$from_day_title."', '".$from_photo_name."', '".$to_photo_day."', CURRENT_TIMESTAMP, '".$to_sub_day."')";
-		mysql_query($insQry);
-		
-		
 		if($updtCherry){
 			//UPDATE QUESTION AND ANSWER SECTION
 			$checkDay=getFieldValue('question_id','tbl_app_expert_question_answer','photo_day='.$from_photo_day.' and photo_id='.$from_photo_id);
@@ -848,7 +834,6 @@ if($type=="swap_image"){
 			$toDayTitle=$DayType.' '.$to_photo_day;
 			$fromDayTitle=$DayType.' '.$from_photo_day;
 			$to_day_title=str_replace($toDayTitle,$fromDayTitle,$to_day_title);
-			
 			$updtFromDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$to_day_title."' WHERE expertboard_day_id=".$from_expertboard_day_id);
 			//UPDATE TO DAY TITLE SECTION
 			$toDayTitle=$DayType.' '.$to_photo_day;
@@ -866,7 +851,7 @@ if($type=="swap_image"){
 	}else if($from_photo_id>0&&$to_photo_id>0){
 		$swap_type='new_swaped';
 		if($from_photo_id>0){
-			$upddelFromPhoto=mysql_query("UPDATE tbl_app_expert_cherry_photo SET photo_day=".$to_photo_day.",sub_day=".$to_sub_day." WHERE photo_id=".$from_photo_id);
+			$upddelFromPhoto=mysql_query("UPDATE tbl_app_expert_cherry_photo SET photo_day=".$to_photo_day." WHERE photo_id=".$from_photo_id);
 			if($upddelFromPhoto){
 				//UPDATE QUESTION AND ANSWER SECTION
 				$checkDay=getFieldValue('question_id','tbl_app_expert_question_answer','photo_day='.$from_photo_day.' and photo_id='.$from_photo_id);
@@ -877,7 +862,6 @@ if($type=="swap_image"){
 				$toDayTitle=$DayType.' '.$to_photo_day;
 				$fromDayTitle=$DayType.' '.$from_photo_day;
 				$to_day_title=str_replace($toDayTitle,$fromDayTitle,$to_day_title);
-				$to_day_title=str_replace($toDayTitle.'.'.$to_sub_day,$fromDayTitle.'.'.$from_sub_day,$to_day_title);
 				$updtFromDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$to_day_title."' WHERE expertboard_day_id=".$from_expertboard_day_id);	
 							
 				$fromImgDetailArray=getFieldsValueArray('cherryboard_id,photo_title','tbl_app_expert_cherry_photo','photo_id='.$from_photo_id);
@@ -887,7 +871,7 @@ if($type=="swap_image"){
 			}	
 		}	
 		if($to_photo_id>0){
-			$upddelFromToPhoto=mysql_query("UPDATE tbl_app_expert_cherry_photo SET photo_day=".$from_photo_day." ,sub_day=".$from_sub_day." WHERE photo_id=".$to_photo_id);
+			$upddelFromToPhoto=mysql_query("UPDATE tbl_app_expert_cherry_photo SET photo_day=".$from_photo_day." WHERE photo_id=".$to_photo_id);
 			if($upddelFromToPhoto){
 				//UPDATE QUESTION AND ANSWER SECTION
 				$checkDay=getFieldValue('question_id','tbl_app_expert_question_answer','photo_day='.$to_photo_day.' and photo_id='.$to_photo_id);
@@ -898,8 +882,7 @@ if($type=="swap_image"){
 				$toDayTitle=$DayType.' '.$to_photo_day;
 				$fromDayTitle=$DayType.' '.$from_photo_day;
 				$from_day_title=str_replace($fromDayTitle,$toDayTitle,$from_day_title);
-				$from_day_title=str_replace($fromDayTitle.'.'.$from_sub_day,$toDayTitle.'.'.$to_sub_day,$from_day_title);
-				$updtToDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$from_day_title."' WHERE expertboard_day_id=".$to_expertboard_day_id);	
+				$updtToDayTitle=mysql_query("UPDATE tbl_app_expertboard_days SET day_title='".$from_day_title."' WHERE expertboard_day_id=".$to_expertboard_day_id);
 				
 				$toImgDetailArray=getFieldsValueArray('cherryboard_id,photo_title','tbl_app_expert_cherry_photo','photo_id='.$to_photo_id);
 				$cherryboard_id=$toImgDetailArray[0];
@@ -1593,8 +1576,6 @@ if($type=="add_cherry_comment"||$type=="del_cherry_comment"||$type=="add_cheers"
 	//START EXPERT CHERRYBOARD COMMENT AND CHEERS PATRS
 	if($type=="add_cherry_expert_comment"||$type=="del_cherry_expert_comment"){
 		//COMMENT SECTION
-		$TotalCmt=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_comment','photo_id='.$photo_id);
-		$commentCnt=$TotalCmt.' comments';
 		$photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
 		
 	}else{
@@ -1607,7 +1588,7 @@ if($type=="add_cherry_comment"||$type=="del_cherry_comment"||$type=="add_cheers"
 		$ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
 		echo $ajax_data;
 	}else{
-		echo $photo_id.'###'.$ajax_data.'###'.$cherryboard_id.'###'.$commentCnt;
+		echo $photo_id.'###'.$ajax_data.'###'.$cherryboard_id;
 	}
 }
 //Get More Link

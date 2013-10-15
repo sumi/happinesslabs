@@ -239,10 +239,8 @@ if($type=="expert_add"||$type=="edit_exp_story_pic"){
 		$sub_day=0;
 		if($TotalPhoto>0){
 			$sub_day=($TotalPhoto+1);
-			$insDay="INSERT INTO `tbl_app_expertboard_days` (`expertboard_day_id`, `expertboard_id`, `day_no`, `day_title`, `record_date`, `sub_day`) VALUES (NULL, '".$expertboard_id."', '".$photo_day."', '".$DayType." ".$photo_day.".".$sub_day."','".date('Y-m-d')."', '".$sub_day."')";
+			$insDay="INSERT INTO `tbl_app_expertboard_days` (`expertboard_day_id`, `expertboard_id`, `day_no`, `day_title`, `record_date`, `sub_day`) VALUES (NULL, '".$expertboard_id."', '".$photo_day."', 'Day ".$photo_day.".".$sub_day."','".date('Y-m-d')."', '".$sub_day."')";
 			$insSql=mysql_query($insDay);
-		}else{
-			$sub_day=1;
 		}
 		
     	$insert_qry="INSERT INTO `tbl_app_expert_cherry_photo`(`photo_id`, `user_id`, `cherryboard_id`, `photo_title`, `photo_name`,photo_day,sub_day) VALUES ('',".$user_id.",".$cherryboard_id.",'".$comment."','".$photo_name."','".$photo_day."','".$sub_day."')";			   
@@ -419,13 +417,7 @@ if($type=="edit_exp_reward_pic"){
 //DELETE EXPERT PHOTO
 if($type=="del_expert_photo"&&$_GET['del_photo_id']>0){
 	$del_photo_id=$_GET['del_photo_id'];
-	$photoDetail=getFieldsValueArray('photo_name,photo_day,sub_day,cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$del_photo_id);
-	$photo_name=$photoDetail[0];
-	$photo_day=$photoDetail[1];
-	$sub_day=$photoDetail[2];
-	$cherryboard_id=$photoDetail[3];
-	
-	
+	$photo_name=getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$del_photo_id);
 	$photo_path='images/expertboard/'.$photo_name;
 	$thumb_path='images/expertboard/thumb/'.$photo_name;
 	$profileSlidePath='images/expertboard/profile_slide/'.$photo_name;
@@ -436,14 +428,6 @@ if($type=="del_expert_photo"&&$_GET['del_photo_id']>0){
 		$delQuestion=mysql_query('DELETE FROM tbl_app_expert_question_answer WHERE photo_id='.$del_photo_id);
 		$delNotes=mysql_query('DELETE FROM tbl_app_expert_notes WHERE photo_id='.$del_photo_id);
 		$delCheers=mysql_query('DELETE FROM tbl_app_expert_cherryboard_cheers WHERE photo_id='.$del_photo_id);
-		
-		if($sub_day>1){
-			$boardDetail=getFieldsValueArray('expertboard_id,user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
-			$expertboard_id=$boardDetail[0];
-			if($_SESSION['USER_ID']==$boardDetail[1]){
-				$delCheers=mysql_query('DELETE FROM tbl_app_expertboard_days WHERE expertboard_id='.$expertboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);
-			}
-		}
 		if($del_photo){
 			unlink($photo_path);
 			unlink($thumb_path); 
@@ -477,7 +461,6 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 		}
 	  }
 	  $photoDayArr = array_unique($photoDayArr);
-	  sort($photoDayArr);
 	  $GoalDays=getExpertGoalDays($cherryboard_id);
 	  $expUser_id=(int)getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);	
 	  $photoCntArray=array();
@@ -485,7 +468,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 	  for($i=1;$i<=$GoalDays;$i++){  
 		   $swap_id=0;
 		   if(in_array($i,$photoDayArr)){
-				$selphoto=mysql_query("select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." and photo_day='".$i."' order by sub_day");
+				$selphoto=mysql_query("select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." and photo_day='".$i."' order by photo_id");
 				$sub_day=1;
 				$sub_photoCntArray=array();
 				$page_photoArray=array();
@@ -565,12 +548,18 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   
 					   $photoCnt.='<div class="applemenu">';
 					   //COMMENT SECTION
-					   $photoCnt.=main_expert_comment_section($cherryboard_id,$photo_id,$photo_day);
+					   $photoCnt.='<div id="div_cherry_comment_'.$photo_id.'">';
+					   $photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
+					   $photoCnt.='</div>';	
 					   //QUESTION SECTION
-					   $photoCnt.=main_expert_question_section($cherryboard_id,$photo_id,$photo_day);		   
+					   $photoCnt.='<div id="div_cherry_question_'.$photo_id.'">';
+					   $photoCnt.=expert_question_section($cherryboard_id,$photo_id,$photo_day);
+					   $photoCnt.='</div>';				   
 					   //NOTES SECTION
 					   if($expUser_id==USER_ID){
-						   $photoCnt.=main_expert_notes_section($cherryboard_id,$photo_id,$photo_day);
+						   $photoCnt.='<div id="div_expert_notes_'.$photo_id.'">';
+						   $photoCnt.=expert_notes_section($cherryboard_id,$photo_id,$photo_day);
+						   $photoCnt.='</div>';
 					   }   						   
 			 
 					   $photoCnt.='</div>
