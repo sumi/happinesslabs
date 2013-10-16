@@ -774,6 +774,16 @@ function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
 		$insExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard (cherryboard_id,user_id,expertboard_id, category_id,cherryboard_title,record_date,makeover,qualified,help_people,start_date,price,fb_album_id,doit_id)
 		VALUES (NULL, '".$user_id."','".$expertboard_id."','0','', CURRENT_TIMESTAMP,'','','','','0','','".$cherryboard_id."')");
 		$lastCreatedId=mysql_insert_id();
+		//DO-IT EXPERTBOARD DAYS
+		$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
+		while($selDaysRow=mysql_fetch_array($selDays)){
+			$day_no=$selDaysRow['day_no'];
+			$day_title=$selDaysRow['day_title'];
+			$insDays="INSERT INTO tbl_app_expertboard_days
+			(expertboard_day_id,expertboard_id,cherryboard_id,day_no,day_title,record_date)
+			VALUES (NULL,'".$NewExpBoardId."','".$newCherryBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP)";
+			$insDaysRes=mysql_query($insDays);
+		}
 		//ADD CHECKIST ITEMS TO BUY EXPERTBOARD		
 		$expertOwnerId=(int)GetFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 		$selChkList=mysql_query("SELECT * FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id);
@@ -1122,27 +1132,32 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 				$is_board_price=$selExpBoardRow['is_board_price'];
 				$board_type=$selExpBoardRow['board_type'];
 				$living_narrative=$selExpBoardRow['living_narrative'];
+				$happy_mission_id=$selExpBoardRow['happy_mission_id'];
 				
 				//CREATE NEW EXPERTBOARD
 				$ip_address=$_SERVER['REMOTE_ADDR'];
-				$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,living_narrative,copyboard_id) VALUES (NULL,'".$user_id."','".$category_id."','".$expertboard_title."','".addslashes($expertboard_detail)."','".$goal_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$customers."','".$ip_address."','".$living_narrative."','".$expertBoardId."')";
+				$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,living_narrative,copyboard_id,happy_mission_id) VALUES (NULL,'".$user_id."','".$category_id."','".$expertboard_title."','".addslashes($expertboard_detail)."','".$goal_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$customers."','".$ip_address."','".$living_narrative."','".$expertBoardId."','".$happy_mission_id."')";
 				$insExpBoardRes=mysql_query($insExpBoard);
 				$NewExpBoardId=mysql_insert_id();
 				//CREATE NEW GOAL DAYS
-				if($NewExpBoardId>0){
-					$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
-					while($selDaysRow=mysql_fetch_array($selDays)){
-						$day_no=$selDaysRow['day_no'];
-						$day_title=$selDaysRow['day_title'];
-						$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date) VALUES (NULL,'".$NewExpBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP)";
-						$insDaysRes=mysql_query($insDays);
-					}
+				if($NewExpBoardId>0){					
 					//CREATE NEW EXPERT CHERRYBOARD
 					//$cherryBoardId=getExpGoalMainId($expertBoardId);
 					$insNewExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard 
 					(cherryboard_id,user_id,expertboard_id,record_date,main_board,copyboard_id)
-				 VALUES (NULL,'".$user_id."','".$NewExpBoardId."',CURRENT_TIMESTAMP,'1','".$cherryboard_id."')");
+				 VALUES(NULL,'".$user_id."','".$NewExpBoardId."',CURRENT_TIMESTAMP,'1','".$cherryboard_id."')");
 					$newCherryBoardId=mysql_insert_id();
+					//COPY EXPERTBOARD DAYS
+					$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
+					while($selDaysRow=mysql_fetch_array($selDays)){
+						$day_no=$selDaysRow['day_no'];
+						$day_title=$selDaysRow['day_title'];
+						$sub_day=$selDaysRow['sub_day'];
+						$insDays="INSERT INTO tbl_app_expertboard_days
+						(expertboard_day_id,expertboard_id,cherryboard_id,day_no,day_title,record_date,sub_day)
+						VALUES (NULL,'".$NewExpBoardId."','".$newCherryBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP,'".$sub_day."')";
+						$insDaysRes=mysql_query($insDays);
+					}
 					//ADD TO-DO LIST ITEM IN NEW EXPERT CHERRYBOARD				
 					$selTodoList=mysql_query("SELECT * FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id);
 					while($selTodoListRow=mysql_fetch_array($selTodoList)){
@@ -1173,6 +1188,7 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 						$photo_title=$selExpPicRow['photo_title'];
 						$photo_name=$selExpPicRow['photo_name'];
 						$photo_day=$selExpPicRow['photo_day'];
+						$sub_day=$selExpPicRow['sub_day'];
 						
 						$old_uploaddir='images/expertboard/'.$photo_name;
 						$old_uploaddirThumb='images/expertboard/thumb/'.$photo_name;
@@ -1191,7 +1207,7 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 							$last_line=system($thumb_command_thumb,$retval);
 						}
 						if($retval){
-							$insExpPic=mysql_query("INSERT INTO tbl_app_expert_cherry_photo (photo_id,user_id, cherryboard_id,photo_title,photo_name,photo_day,record_date) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$photo_title."','".$new_photo_name."','".$photo_day."',CURRENT_TIMESTAMP)");
+							$insExpPic=mysql_query("INSERT INTO tbl_app_expert_cherry_photo (photo_id,user_id, cherryboard_id,photo_title,photo_name,photo_day,record_date,sub_day) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$photo_title."','".$new_photo_name."','".$photo_day."',CURRENT_TIMESTAMP,'".$sub_day."')");
 						}
 					}
 					//SEND MAIL OF THE EXPERTBOARD OWNER

@@ -59,14 +59,7 @@ if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 			$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative) VALUES (NULL,'".(int)USER_ID."','".$category_id."','".$expertboard_title."','".$expertboard_detail."','".$number_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$Customers."','".$ip_address."','".$parent_id."','".$living_narrative."')";
 			$insQry=mysql_query($insExpBoard);
 			$NewexpertBoardId=mysql_insert_id();
-			if($NewexpertBoardId>0){
-				//GET DAY TYPE
-				$DayType=getDayType($NewexpertBoardId);
-			    //created goal days
-				for($i=1;$i<=$number_days;$i++){
-					$insDays="INSERT INTO `tbl_app_expertboard_days` (`expertboard_day_id`, `expertboard_id`, `day_no`, `day_title`, `record_date`) VALUES (NULL, '".$NewexpertBoardId."', '".$i."', '".$DayType." ".$i."', CURRENT_TIMESTAMP)";
-					$insDaysSql=mysql_query($insDays);
-				}
+			if($NewexpertBoardId>0){				
 				//new main goal board
 				if($cherryboard_parent_id>0){	
 					$cherryBoardId=$cherryboard_parent_id;
@@ -75,7 +68,15 @@ if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 				VALUES (NULL, '".(int)USER_ID."','".$NewexpertBoardId."','0','', CURRENT_TIMESTAMP,'','','','','0','','1','".$cherryBoardId."')");
 				$GoalBoardId=mysql_insert_id();
 				if($GoalBoardId>0){
-					
+					//GET DAY TYPE
+					$DayType=getDayType($NewexpertBoardId);
+					//created goal days
+					for($i=1;$i<=$number_days;$i++){
+						$insDays="INSERT INTO tbl_app_expertboard_days
+						(expertboard_day_id,expertboard_id,cherryboard_id,day_no,day_title,record_date)
+						VALUES (NULL,'".$NewexpertBoardId."','".$GoalBoardId."','".$i."','".$DayType." ".$i."',CURRENT_TIMESTAMP)";
+						$insDaysSql=mysql_query($insDays);
+					}
 					//Deposit the happybank point
 					happybankPoint('1',0,$GoalBoardId);
 					//Create Goal To-Do List

@@ -345,8 +345,8 @@ include('site_header.php');
 				}
 				$expertCnt.='</div>
        			<div class="banner_day" style="width:315px">
-				<div class="icon_home_page"><img src="'.$iconPath.'" height="40" width="40" /></div>	
-			    <div class="Happy_Mission_bg" style="margin-right:80px;margin-bottom:5px;">
+				<div class="icon_home_page" style="height:150px;"><img src="'.$iconPath.'" height="40" width="40" /></div>	
+			    <div class="Happy_Mission_bg" style="margin-right:95px;margin-bottom:5px;">
 				<img src="images/mission/mission_'.$happy_mission_id.'.png" height="150" width="150"/>
 			    </div><span style="font-size:16px;">'.$strCopy.'</span>
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>

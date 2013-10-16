@@ -24,13 +24,7 @@ if(isset($_POST['btncreate'])){
 		   $insstory="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,parent_id,living_narrative,happy_mission_id) VALUES (NULL,'".(int)USER_ID."','".$category_id."','".$storytitle."','".$storydesc."','".$storydays."','".$storyprice."',CURRENT_TIMESTAMP,'".$day_type."','1','".$board_type."','".$Customers."','".$ip_address."','0','0','".$happy_mission_id."')";
 		   $insQry=mysql_query($insstory);
 		   $storyBoardId=mysql_insert_id();
-		   if($storyBoardId>0){
-		   	  //CREATE GOAL DAYS
-		   	  $DayType=getDayType($storyBoardId);
-			  for($i=1;$i<=$storydays;$i++){
-				  $insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date) VALUES (NULL,'".$storyBoardId."','".$i."','".$DayType." ".$i."',CURRENT_TIMESTAMP)";
-				  $insDaysSql=mysql_query($insDays);
-			  }
+		   if($storyBoardId>0){		   	  
 			  //CREATE STORY BOARD
 			  $insBoard="INSERT INTO tbl_app_expert_cherryboard
 			  (cherryboard_id,user_id,expertboard_id,record_date,main_board)
@@ -39,6 +33,14 @@ if(isset($_POST['btncreate'])){
 			  $cherryBoardId=mysql_insert_id();
 			  //CREATE STORY TO-DO LIST
 			  if($cherryBoardId>0){
+			     //CREATE GOAL DAYS
+				  $DayType=getDayType($storyBoardId);
+				  for($i=1;$i<=$storydays;$i++){
+					  $insDays="INSERT INTO tbl_app_expertboard_days
+					  (expertboard_day_id,expertboard_id,cherryboard_id,day_no, day_title,record_date)
+					  VALUES (NULL,'".$storyBoardId."','".$cherryBoardId."','".$i."','".$DayType." ".$i."',CURRENT_TIMESTAMP)";
+					  $insDaysSql=mysql_query($insDays);
+				  }
 			     //Deposit the happybank point
 				 happybankPoint('1',0,$cherryBoardId);
 				 for($i=1;$i<=$storydays;$i++){
