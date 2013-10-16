@@ -186,3 +186,6 @@ INSERT INTO `tbl_app_happy_mission` (`happy_mission_id`, `pillar_no`, `happy_mis
 
 10/10/2013
 ALTER TABLE `tbl_app_expertboard` ADD `happy_mission_id` INT( 11 ) NOT NULL
+
+10/16/2013
+ALTER TABLE  `tbl_app_expertboard_days` ADD  `cherryboard_id` INT( 11 ) NOT NULL AFTER  `expertboard_id`

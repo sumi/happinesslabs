@@ -13,13 +13,12 @@ $ajax_data='';
 if($type=="show_storycat"){
    $stype=trim($_GET['stype']);   
    if($stype=='storycat'){
-   	  $storyCat=(int)$_GET['txt_storycat'];
-	  $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$storyCat);
+   	  $missionId=(int)$_GET['txt_storycat'];
+	  $pillar_no=(int)getFieldValue('pillar_no','tbl_app_happy_mission','happy_mission_id='.$missionId);
    	  $category_id=(int)getFieldValue('category_id','tbl_app_happiness_pillar','pillar_no='.$pillar_no);
 	  $category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$category_id)));
-	  $iconPath=getCategoryIcon($category_name);
-	  $catName=trim(ucwords(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$storyCat)));
-   	  $ajax_data.=$catName;
+	  $iconPath=getCategoryIcon($category_name);	  //$catName=trim(ucwords(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$storyCat)));
+   	  $ajax_data.='<img src="images/mission/mission_'.$missionId.'.png" height="150" width="150"/>';
 	  $catIcon='<img src="'.$iconPath.'" height="40" width="40" />';
    }     	 
    $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$catIcon;

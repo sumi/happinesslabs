@@ -102,7 +102,7 @@ if(isset($_POST['btncreate'])){
              <div id="divDescImg" class="project_left_one"></div>
         </div>
     <div class="Story_Title_text">Story Description :</div>
-	<textarea name="storydesc" id="storydesc" onkeyup="showValueonDiv('divshow_storydesc',this.value)" onFocus="changeDivClass('DivStoryDesc','divDescImg')" class="Story_Title_input_box">Story Description</textarea>    
+	<textarea name="storydesc" id="storydesc" onkeyup="showValueonDiv('divshow_storydesc',this.value)" onFocus="changeDivClass('DivStoryDesc','divDescImg')" rows="7" class="Story_Title_input_box">Story Description</textarea>    
     
     <div class="project_left" style="padding-right:0px;">
     	<div class="Story_Title_box" id="DivStoryBoardPrice">5</div>
@@ -157,7 +157,7 @@ if(isset($_POST['btncreate'])){
       <div id="divDayByDay" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" checked="checked" value="1"
-		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Day 1#Day 2#Day 3#day 1 action#day 2 action#day 3 action#Theme Day 1#Theme Day 2#Theme Day 3#Upload<br/>Pic<br/>For<br/>Day 1<br/>Action#Upload Pic<br/>For Day 2<br/>Action#Upload<br/>Pic<br/>For<br/>Day 3<br/>Action#Number of Days:#Days');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Day By Day </div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Day 1#Day 2#Day 3#day 1 action#day 2 action#day 3 action#Day 1 Theme#Day 2 Theme#Day 3 Theme#Upload<br/>Pic<br/>For<br/>Day 1<br/>Action#Upload Pic<br/>For Day 2<br/>Action#Upload<br/>Pic<br/>For<br/>Day 3<br/>Action#Number of Days:#Days');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Day By Day </div>
         <div class="Select_Story_Template_day_box">day1</div>
         <div class="Select_Story_Template_day_box">day2</div>
         <div class="Select_Story_Template_day_box">day3</div>
@@ -166,7 +166,7 @@ if(isset($_POST['btncreate'])){
       <div id="divItemByItem" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="2" 
-		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Item 1#Item 2#Item 3#item 1 action#item 2 action#item 3 action#Theme Item 1#Theme Item 2#Theme Item 3#Upload<br/>Pic<br/>For<br/>Item 1<br/>Action#Upload Pic<br/>For Item 2<br/>Action#Upload<br/>Pic<br/>For<br/>Item 3<br/>Action#Number of Items:#Items');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Item By Item</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Item 1#Item 2#Item 3#item 1 action#item 2 action#item 3 action#Item 1 Theme#Item 2 Theme#Item 3 Theme#Upload<br/>Pic<br/>For<br/>Item 1<br/>Action#Upload Pic<br/>For Item 2<br/>Action#Upload<br/>Pic<br/>For<br/>Item 3<br/>Action#Number of Items:#Items');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Item By Item</div>
         <div class="Select_Story_Template_day_box">item1</div>
         <div class="Select_Story_Template_day_box">item2</div>
         <div class="Select_Story_Template_day_box">item3</div>
@@ -175,7 +175,7 @@ if(isset($_POST['btncreate'])){
       <div id="divStepByStep" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="3" 
-		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Step 1#Step 2#Step 3#step 1 action#step 2 action#step 3 action#Theme Step 1#Theme Step 2#Theme Step 3#Upload<br/>Pic<br/>For<br/>Step 1<br/>Action#Upload Pic<br/>For Step 2<br/>Action#Upload<br/>Pic<br/>For<br/>Step 3<br/>Action#Number of Steps:#Steps');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Step By Step</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Step 1#Step 2#Step 3#step 1 action#step 2 action#step 3 action#Step 1 Theme#Step 2 Theme#Step 3 Theme#Upload<br/>Pic<br/>For<br/>Step 1<br/>Action#Upload Pic<br/>For Step 2<br/>Action#Upload<br/>Pic<br/>For<br/>Step 3<br/>Action#Number of Steps:#Steps');changeDivClass('DivStoryTemplate','divTemplateImg')"/> Step By Step</div>
         <div class="Select_Story_Template_day_box">step1</div>
         <div class="Select_Story_Template_day_box">step2</div>
         <div class="Select_Story_Template_day_box">step3</div>
@@ -184,7 +184,7 @@ if(isset($_POST['btncreate'])){
       <div id="divDateByDate" class="Select_Story_Template_box_main">
         <div class="Select_Story_Template_day_text">
 		<input name="day_type" id="day_type" type="radio" value="4"
-		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Date 1#Date 2#Date 3#date 1 action#date 2 action#date 3 action#Theme Date 1#Theme Date 2#Theme Date 3#Upload<br/>Pic<br/>For<br/>Date 1<br/>Action#Upload Pic<br/>For Date 2<br/>Action#Upload<br/>Pic<br/>For<br/>Date 3<br/>Action#Number of Dates:#Dates');changeDivClass('DivStoryTemplate','divTemplateImg')"/>Narration By Date</div>
+		onclick="showValueonDiv('photo1_no#photo2_no#photo3_no#photo1_act#photo2_act#photo3_act#photo1_thm#photo2_thm#photo3_thm#photo1_upd#photo2_upd#photo3_upd#divPhotoNo#divDayShow','Date 1#Date 2#Date 3#date 1 action#date 2 action#date 3 action#Date 1 Theme#Date 2 Theme#Date 3 Theme#Upload<br/>Pic<br/>For<br/>Date 1<br/>Action#Upload Pic<br/>For Date 2<br/>Action#Upload<br/>Pic<br/>For<br/>Date 3<br/>Action#Number of Dates:#Dates');changeDivClass('DivStoryTemplate','divTemplateImg')"/>Narration By Date</div>
         <div class="Select_Story_Template_day_box">date1</div>
         <div class="Select_Story_Template_day_box">date2</div>
         <div class="Select_Story_Template_day_box">date3</div>
@@ -194,16 +194,16 @@ if(isset($_POST['btncreate'])){
     <div class="Select_Story_Template_main">
      <div class="Slides_images"><img src="images/MISSON.png" alt="" /></div>
      <div class="Item_By_Item_10day_main">
-       <div id="divshow_catIcon" class="icon_home_page" style="height:57px;"></div>	
-       <div class="Happy_Mission_bg">
-        <div id="divshow_storycat" class="Happy_Mission_text">Happy Family Mission</div>
+       <div id="divshow_catIcon" class="icon_home_page" style="height:150px;"></div>	
+       <div id="divshow_storycat" class="Happy_Mission_bg">
+        <img src="images/mission/mission_1.png" height="150" width="150"/>
        </div>
        <div id="divshow_storytitle" class="Day_Vegan_Challenge_10text">Story Title</div>
        <div class="by_Olivia_Janisch_text">by <?=$userName?></div>
        <div id="divshow_storydesc" style="font-size:12px;">Story Description</div>
        <div class="Total_10Days_text">
            <div class="Total_Days_text">Total :</div>
-           <div id="divshow_storydays" class="Total_10Days_style">10</div>
+           <div id="divshow_storydays" class="Total_10Days_style">0</div>
            <div id="divDayShow" class="Total_10Days_style">Days</div>
        </div>
        <div class="Total_10Days_text">
@@ -219,7 +219,7 @@ if(isset($_POST['btncreate'])){
      <div class="Price_Story_Access">
        <div class="price_text" id="photo1_no">Day 1</div>
        <div class="price_text" id="photo2_no">Day 2</div>
-       <div class="Number_of_Days" id="photo3_no">Day 3</div>
+       <div class="price_text" id="photo3_no">Day 3</div>
        
        <div class="day_action_box_main">
            <div class="day_action_box" id="photo1_act">day 1 action</div>
@@ -233,13 +233,13 @@ if(isset($_POST['btncreate'])){
        
        <div class="THEME_main_bg">
             <div class="THEME_main">
-             <div class="day_THEME" id="photo1_thm">Theme Day 1</div>
+             <div class="day_THEME" id="photo1_thm">Day 1 Theme</div>
             </div>
             <div class="THEME_main">
-             <div class="day_THEME" id="photo2_thm">Theme Day 2</div>
+             <div class="day_THEME" id="photo2_thm">Day 2 Theme</div>
             </div>
         </div>
-        <div class="day_THEME2" id="photo3_thm">Theme Day 3</div>
+        <div class="day_THEME2" id="photo3_thm">Day 3 Theme</div>
         
         <div class="Upload_Pic_Day_main">
            <div class="Upload_Pic_Day" id="photo1_upd">Upload<br /> Pic<br /> For<br /> Day 1<br /> Action</div>
@@ -257,6 +257,7 @@ if(isset($_POST['btncreate'])){
  </div> 
  <div style="clear:both;"></div> 
 </div>
+<br/><br/>
 <!-- END CUSTOMER HAPPY STORY FORM CODE -->
 <script language="javascript">
 //START SHOW INPUT VALUE IN DIV FUNCTION

@@ -158,8 +158,7 @@ include('site_header.php');
 			$category_id=(int)$fetchExpertRow['category_id'];
 			$happy_mission_id=(int)$fetchExpertRow['happy_mission_id'];
 			$category_name=ucwords(trim(getFieldValue('category_name','tbl_app_category','category_id='.$category_id)));
-			$iconPath=getCategoryIcon($category_name);
-			$missionTitle=ucwords(trim(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$happy_mission_id)));
+			$iconPath=getCategoryIcon($category_name);			//$missionTitle=ucwords(trim(getFieldValue('happy_mission_title','tbl_app_happy_mission','happy_mission_id='.$happy_mission_id)));
 			//START PARENT STORY CODE 
 			$parent_id=(int)$fetchExpertRow['parent_id'];
 			if($parent_id>0){
@@ -347,8 +346,8 @@ include('site_header.php');
 				$expertCnt.='</div>
        			<div class="banner_day" style="width:315px">
 				<div class="icon_home_page"><img src="'.$iconPath.'" height="40" width="40" /></div>	
-			    <div class="Happy_Mission_bg" style="margin-right:205px;margin-bottom:5px;">
-				<div class="Happy_Mission_text">'.$missionTitle.'</div>
+			    <div class="Happy_Mission_bg" style="margin-right:80px;margin-bottom:5px;">
+				<img src="images/mission/mission_'.$happy_mission_id.'.png" height="150" width="150"/>
 			    </div><span style="font-size:16px;">'.$strCopy.'</span>
         		<div class="banner_day_1" id="div_exp_title_'.$expertboard_id.'"><a '.($expOwner_id==USER_ID?'href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_title\',\'div_exp_title_'.$expertboard_id.'\',\'stype=add&fieldname=expertboard_title&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Title"':' href="expert_cherryboard.php?cbid='.$main_BoardId.'"').' class="cleanLink">'.$expertboard_title.'</a>
 				</div>

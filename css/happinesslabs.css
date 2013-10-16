@@ -587,7 +587,7 @@ label {display: inline;}
 .Classmates_more_text{font-size:12px; color:#666666;}
 .Price_Story_Access{float:left; background-image:url(../images/img-rewards.png); background-repeat:no-repeat; width:621px; height:270px; margin:10px 0 30px 0; padding:12px 0 0 13px;}
 .price_text{float:left; font-size:16px; color:#9f9f9f; width:137px; margin-right:8px; padding-left:2px;}
-.Number_of_Days{float:left; font-size:16px; color:#cc4d27; width:137px; margin-right:8px; padding-left:2px;}
+/*.Number_of_Days{float:left; font-size:16px; color:#cc4d27; width:137px; margin-right:8px; padding-left:2px;}*/
 .storycat{
 border: 1px solid #57585B;
 color: #666666;
@@ -609,8 +609,10 @@ width: 240px;
 .Upload_Pic_Day_right{float:right; width:156px; margin:2px 18px 0 0;}
 .Upload_Pic_Day_main2{float:left; width:137px; margin:0px 9px 0 0;}
 .Upload_Pic_Day2{background-color:#c0c0c0; border:3px solid #ededef; font-size:16px; text-align:center; width:124px; height:75px; margin:auto; color:#ffffff; padding-top:10px;}
-.Happy_Mission_bg{background-image:url(../images/Happy-Mission.png); background-repeat:no-repeat; width:60px; height:60px; font-size:17px; text-align:center; font-family:Adobe Caslon Pro; color:#ea6a5f; box-shadow: 0 0 3px #a0abb9;float:right;margin-right:115px;}
-.Happy_Mission_text{font-size:10px; min-height:41px;}
+.Happy_Mission_bg{float:right;margin-right:15px;padding-bottom:3px;height:150px;}
+/*.Happy_Mission_bg{background-image:url(../images/Happy-Mission.png); background-repeat:no-repeat; width:60px; height:60px; font-size:17px; text-align:center; font-family:Adobe Caslon Pro; color:#ea6a5f; box-shadow: 0 0 3px #a0abb9;float:right;margin-right:115px;}
+.Happy_Mission_text{font-size:10px; min-height:41px;}*/
+
 /*Story Profile CSS*/
 .bottom_box_text1{float:left; font-size:12px; background-color:#b1b1b1; background-repeat:no-repeat; color:#FFFFFF; width:204px; padding:7px;}
 .icon_home_page{float:left; width:40px; padding:3px 0 0 3px;}
