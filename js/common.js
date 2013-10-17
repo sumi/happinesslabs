@@ -797,6 +797,20 @@ function handleHttpResponse_ajax_action()
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
 		
+		//Extra action for checklist 
+		if(action_type=="add_expert_checklist"||action_type=="remove_expert_checklist"){
+		//action_type=="add_checklist"||
+		   var div_nameArr=div_name.split('_');
+		 document.getElementById('div_expert_todolist_cnt_'+div_nameArr[3]).innerHTML=results_array[3]+' to do';	
+		   document.getElementById('txt_todolist_'+div_nameArr[3]).value='add something to To-Do List';			
+			//var cherryboard_id=results_array[3];
+			/*if(action_type=="add_checklist"){
+				ajax_action('refresh_inspir_feed','inspir_feed1','cherryboard_id='+cherryboard_id);
+			}
+			if(action_type=="add_expert_checklist"){
+				ajax_action('refresh_expert_inspir_feed','inspir_feed1','cherryboard_id='+cherryboard_id);
+			}*/
+		}
 		//Total Notes Count
 		if(action_type=="add_expert_notes"||action_type=="del_expert_note"){
 			var div_nameArr=div_name.split('_');
@@ -847,18 +861,7 @@ function handleHttpResponse_ajax_action()
 				document.location='setup2.php';	
 			}
 			
-		}
-		//extra action for checklist
-		if(action_type=="add_checklist"||action_type=="add_expert_checklist"){
-			var cherryboard_id=results_array[3];
-			document.getElementById('txt_todolist').value='add something to To-Do List';
-			if(action_type=="add_checklist"){
-				ajax_action('refresh_inspir_feed','inspir_feed1','cherryboard_id='+cherryboard_id);
-			}
-			if(action_type=="add_expert_checklist"){
-				ajax_action('refresh_expert_inspir_feed','inspir_feed1','cherryboard_id='+cherryboard_id);
-			}
-		}
+		}		
 		//extra action for select expert
 		if(action_type=="add_goal_expert"){
 			var cherryboard_id=results_array[3];

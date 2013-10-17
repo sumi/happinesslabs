@@ -479,8 +479,7 @@ function getSuperAdmin($user_id){
   }	
 	return (int)$adminRight;
 }
-function getExpertGoalDays($cherryboard_id){
-	
+function getExpertGoalDays($cherryboard_id){	
 	$goal_days=(int)getFieldValue('count(distinct(day_no))','tbl_app_expertboard_days','cherryboard_id='.$cherryboard_id);
 	if($goal_days==0){
 		$goal_days=getFieldValue('a.goal_days','tbl_app_expertboard a,tbl_app_expert_cherryboard b','a.expertboard_id=b.expertboard_id and b.cherryboard_id='.$cherryboard_id);
@@ -778,11 +777,21 @@ function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
 		$insExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard (cherryboard_id,user_id,expertboard_id, category_id,cherryboard_title,record_date,makeover,qualified,help_people,start_date,price,fb_album_id,doit_id)
 		VALUES (NULL, '".$user_id."','".$expertboard_id."','0','', CURRENT_TIMESTAMP,'','','','','0','','".$cherryboard_id."')");
 		$lastCreatedId=mysql_insert_id();
+		//DO-IT EXPERTBOARD DAYS
+		$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertboard_id." AND cherryboard_id=".$cherryboard_id);
+		while($selDaysRow=mysql_fetch_array($selDays)){
+			$day_no=$selDaysRow['day_no'];
+			$day_title=$selDaysRow['day_title'];
+			$insDays="INSERT INTO tbl_app_expertboard_days
+			(expertboard_day_id,expertboard_id,cherryboard_id,day_no,day_title,record_date)
+			VALUES (NULL,'".$expertboard_id."','".$lastCreatedId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP)";
+			$insDaysRes=mysql_query($insDays);
+		}
 		//ADD CHECKIST ITEMS TO BUY EXPERTBOARD		
 		$expertOwnerId=(int)GetFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
 		$selChkList=mysql_query("SELECT * FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id);
 		while($selChkListRow=mysql_fetch_array($selChkList)){
-			$insTodoList=mysql_query("INSERT INTO tbl_app_expert_checklist (checklist_id,user_id, cherryboard_id,checklist,record_date,is_checked,is_system) VALUES (NULL,'".$expertOwnerId."','".$lastCreatedId."','".addslashes($selChkListRow['checklist'])."',CURRENT_TIMESTAMP,'".$selChkListRow['is_checked']."','".$selChkListRow['is_system']."')");			
+			$insTodoList=mysql_query("INSERT INTO tbl_app_expert_checklist (checklist_id,user_id, cherryboard_id,checklist,record_date,is_checked,is_system,day_no,sub_day) VALUES (NULL,'".$expertOwnerId."','".$lastCreatedId."','".addslashes($selChkListRow['checklist'])."',CURRENT_TIMESTAMP,'".$selChkListRow['is_checked']."','".$selChkListRow['is_system']."','".$selChkListRow['day_no']."','".$selChkListRow['sub_day']."')");			
 		} 
 		//ADD EXPERT REWARD PICTURE
 		$selExpReward=mysql_query("SELECT * FROM tbl_app_expert_reward_photo WHERE cherryboard_id=".$cherryboard_id);
@@ -826,9 +835,6 @@ function createExpertboard($expertboard_id,$cherryboard_id,$user_id=0){
 			if($_SERVER['SERVER_NAME']!="localhost"){
 				SendMail($to,$subject,$message);
 			}
-			//debug mail
-		 /*$message1='user id ==>'.$user_id.'==='.$_SERVER['REMOTE_ADDR']."===".date('Y-m-d H:i:s');
-			SendMail('uniquewebinfo@gmail.com',$subject,$message1);*/
 			return 	$lastCreatedId;	
 		}
 	}
@@ -922,7 +928,8 @@ function deleteExpertBoard($cherryboard_id){
 			}
 		}
 		 //DELETE Happybank records
-	    $cherry_buy=mysql_query('DELETE FROM tbl_app_happybank_points WHERE cherryboard_id="'.$cherryboard_id.'"');
+	    $cherry_bank=mysql_query('DELETE FROM tbl_app_happybank_points WHERE cherryboard_id="'.$cherryboard_id.'"');
+		$delDays=mysql_query('DELETE FROM tbl_app_expertboard_days WHERE cherryboard_id="'.$cherryboard_id.'"');
 	}
 }
 function parseString($str){
@@ -938,8 +945,8 @@ function printString($str){
 	return $str;
 }
 //START GET TO-DO LIST FUNCTION
-function getToDoListItem($cherryboard_id,$sort=''){
-	$selToDoList=mysql_query("select *,date_format(record_date,'%m-%d-%Y') as record_date from tbl_app_expert_checklist where cherryboard_id=".$cherryboard_id." order by checklist_id ".$sort);
+function getToDoListItem($cherryboard_id,$sort='',$day_no=0,$sub_day=1,$photo_id=0){	
+	$selToDoList=mysql_query("SELECT *,date_format(record_date,'%m-%d-%Y') as record_date FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id." AND day_no=".$day_no." AND sub_day=".$sub_day." ORDER BY checklist_id ".$sort);
 	$toDoListCnt='';
 	$swap_id=0;
 	while($selToDoListRow=mysql_fetch_array($selToDoList)){
@@ -960,7 +967,7 @@ function getToDoListItem($cherryboard_id,$sort=''){
 		<a href="javascript:void(0);" '.($chk_user_id==$_SESSION['USER_ID']?' ondblclick="ajax_action(\'edit_todo_list\',\'div_todo_list_'.$checklist_id.'\',\'stype=add&checklist_id='.$checklist_id.'&user_id='.(int)$_SESSION['USER_ID'].'\')"':'').' title="Edit To-Do List" class="cleanLink" id="drag_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$swap_id.'\')">'.$toDoListItem.'</a></div>
 		<span class="style6">added '.$record_date.'&nbsp;</span>';
 		if($chk_user_id==$_SESSION['USER_ID']&&$is_system==0){
-		  $toDoListCnt.='&nbsp;&nbsp;<img src="images/close_small1.png" onclick="ajax_action(\'remove_expert_checklist\',\'div_todo_list\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&cuid='.(int)$_SESSION['USER_ID'].'\')" style="cursor:pointer" title="Delete"/>';
+		  $toDoListCnt.='&nbsp;&nbsp;<img src="images/close_small1.png" onclick="ajax_action(\'remove_expert_checklist\',\'div_todo_list_'.$photo_id.'\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&day_no='.$day_no.'&sub_day='.$sub_day.'&photo_id='.$photo_id.'\')" style="cursor:pointer" title="Delete"/>';
 		}
 		$toDoListCnt.='</div>';//<span class="style5">day 1:</span>
 	}
@@ -1126,31 +1133,36 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 				$is_board_price=$selExpBoardRow['is_board_price'];
 				$board_type=$selExpBoardRow['board_type'];
 				$living_narrative=$selExpBoardRow['living_narrative'];
+				$happy_mission_id=$selExpBoardRow['happy_mission_id'];
 				
 				//CREATE NEW EXPERTBOARD
 				$ip_address=$_SERVER['REMOTE_ADDR'];
-				$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,living_narrative,copyboard_id) VALUES (NULL,'".$user_id."','".$category_id."','".$expertboard_title."','".addslashes($expertboard_detail)."','".$goal_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$customers."','".$ip_address."','".$living_narrative."','".$expertBoardId."')";
+				$insExpBoard="INSERT INTO tbl_app_expertboard (expertboard_id,user_id,category_id,expertboard_title, expertboard_detail,goal_days,price,record_date,day_type,is_board_price,board_type,customers,ip_address,living_narrative,copyboard_id,happy_mission_id) VALUES (NULL,'".$user_id."','".$category_id."','".$expertboard_title."','".addslashes($expertboard_detail)."','".$goal_days."','".$price."',CURRENT_TIMESTAMP,'".$day_type."','".$is_board_price."','".$board_type."','".$customers."','".$ip_address."','".$living_narrative."','".$expertBoardId."','".$happy_mission_id."')";
 				$insExpBoardRes=mysql_query($insExpBoard);
 				$NewExpBoardId=mysql_insert_id();
 				//CREATE NEW GOAL DAYS
-				if($NewExpBoardId>0){
-					$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
-					while($selDaysRow=mysql_fetch_array($selDays)){
-						$day_no=$selDaysRow['day_no'];
-						$day_title=$selDaysRow['day_title'];
-						$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no, day_title,record_date) VALUES (NULL,'".$NewExpBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP)";
-						$insDaysRes=mysql_query($insDays);
-					}
+				if($NewExpBoardId>0){					
 					//CREATE NEW EXPERT CHERRYBOARD
 					//$cherryBoardId=getExpGoalMainId($expertBoardId);
 					$insNewExpBoard=mysql_query("INSERT INTO tbl_app_expert_cherryboard 
 					(cherryboard_id,user_id,expertboard_id,record_date,main_board,copyboard_id)
-				 VALUES (NULL,'".$user_id."','".$NewExpBoardId."',CURRENT_TIMESTAMP,'1','".$cherryboard_id."')");
+				 VALUES(NULL,'".$user_id."','".$NewExpBoardId."',CURRENT_TIMESTAMP,'1','".$cherryboard_id."')");
 					$newCherryBoardId=mysql_insert_id();
+					//COPY EXPERTBOARD DAYS
+					$selDays=mysql_query("SELECT * FROM tbl_app_expertboard_days WHERE expertboard_id=".$expertBoardId);
+					while($selDaysRow=mysql_fetch_array($selDays)){
+						$day_no=$selDaysRow['day_no'];
+						$day_title=$selDaysRow['day_title'];
+						$sub_day=$selDaysRow['sub_day'];
+						$insDays="INSERT INTO tbl_app_expertboard_days
+						(expertboard_day_id,expertboard_id,cherryboard_id,day_no,day_title,record_date,sub_day)
+						VALUES (NULL,'".$NewExpBoardId."','".$newCherryBoardId."','".$day_no."','".$day_title."',CURRENT_TIMESTAMP,'".$sub_day."')";
+						$insDaysRes=mysql_query($insDays);
+					}
 					//ADD TO-DO LIST ITEM IN NEW EXPERT CHERRYBOARD				
 					$selTodoList=mysql_query("SELECT * FROM tbl_app_expert_checklist WHERE cherryboard_id=".$cherryboard_id);
 					while($selTodoListRow=mysql_fetch_array($selTodoList)){
-						$insTodoList=mysql_query("INSERT INTO tbl_app_expert_checklist (checklist_id,user_id, cherryboard_id,checklist,record_date,is_checked,is_system) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".addslashes($selTodoListRow['checklist'])."',CURRENT_TIMESTAMP,'".$selTodoListRow['is_checked']."','".$selTodoListRow['is_system']."')");
+						$insTodoList=mysql_query("INSERT INTO tbl_app_expert_checklist (checklist_id,user_id, cherryboard_id,checklist,record_date,is_checked,is_system,day_no,sub_day) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".addslashes($selTodoListRow['checklist'])."',CURRENT_TIMESTAMP,'".$selTodoListRow['is_checked']."','".$selTodoListRow['is_system']."','".$selTodoListRow['day_no']."','".$selTodoListRow['sub_day']."')");
 					}
 					//ADD EXPERT REWARD PICTURE
 					$selExpReward=mysql_query("SELECT * FROM tbl_app_expert_reward_photo WHERE cherryboard_id=".$cherryboard_id);
@@ -1177,6 +1189,7 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 						$photo_title=$selExpPicRow['photo_title'];
 						$photo_name=$selExpPicRow['photo_name'];
 						$photo_day=$selExpPicRow['photo_day'];
+						$sub_day=$selExpPicRow['sub_day'];
 						
 						$old_uploaddir='images/expertboard/'.$photo_name;
 						$old_uploaddirThumb='images/expertboard/thumb/'.$photo_name;
@@ -1195,7 +1208,7 @@ function CopyExpertBoard($expertBoardId,$cherryboard_id,$user_id=0){
 							$last_line=system($thumb_command_thumb,$retval);
 						}
 						if($retval){
-							$insExpPic=mysql_query("INSERT INTO tbl_app_expert_cherry_photo (photo_id,user_id, cherryboard_id,photo_title,photo_name,photo_day,record_date) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$photo_title."','".$new_photo_name."','".$photo_day."',CURRENT_TIMESTAMP)");
+							$insExpPic=mysql_query("INSERT INTO tbl_app_expert_cherry_photo (photo_id,user_id, cherryboard_id,photo_title,photo_name,photo_day,record_date,sub_day) VALUES (NULL,'".$user_id."','".$newCherryBoardId."','".$photo_title."','".$new_photo_name."','".$photo_day."',CURRENT_TIMESTAMP,'".$sub_day."')");
 						}
 					}
 					//SEND MAIL OF THE EXPERTBOARD OWNER
@@ -1399,18 +1412,10 @@ function main_expert_comment_section($cherryboard_id,$photo_id,$photo_day=0){
     $TotalCmt=(int)getFieldValue('count(photo_id)','tbl_app_expert_cherry_comment','photo_id='.$photo_id);
   
     $photoCnt.='<div class="silverheader">
-			  <div class="expert_comments">
-				<div class="left_comments" id="div_expert_comment_cnt_'.$photo_id.'">'.$TotalCmt.' comments
-				</div>
-				<div class="right_comments">
-				<a href="javascript:void(0);" 
-				onclick="ajax_action(\'add_expert_cheers\',\'div_expert_cheers_'.$photo_id.'\',\'photo_id='.$photo_id.'&cherryboard_id='.$cherryboard_id.'&user_id='.(int)$_SESSION['USER_ID'].'\')">cheers?</a></div>
-				<div class="img_comments"><img src="images/box1.png" alt="" /></div>
-			   <div style="clear:both"></div> 
-			   </div>
-			   </div>';
-   $photoCnt.='<div class="submenu">
-			   <div class="bt_comments_img"></div>';
+    <div class="questions" id="div_expert_comment_cnt_'.$photo_id.'">'.$TotalCmt.' comments</div>
+    </div>';
+    $photoCnt.='<div class="submenu">
+    <div class="bt_comments_img"></div>';
     $photoCnt.=expert_comment_section($cherryboard_id,$photo_id,$photo_day);
     $photoCnt.='</div>';
 	return $photoCnt;
@@ -1426,5 +1431,47 @@ function main_expert_notes_section($cherryboard_id,$photo_id,$photo_day=0){
     $photoCnt.='</div>';
 	$photoCnt.='</div>';
 	return $photoCnt;
+}
+function main_expert_todolist_section($cherryboard_id,$photo_id,$photo_day=0,$sub_day=1){
+	$photoCnt='';	
+    $TotalTodo=(int)getFieldValue('count(checklist_id)','tbl_app_expert_checklist','cherryboard_id='.$cherryboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);
+  
+    $photoCnt.='<div class="silverheader">
+			  <div class="expert_comments">
+				<div class="left_comments" id="div_expert_todolist_cnt_'.$photo_id.'">'.$TotalTodo.' to do
+				</div>
+				<div class="right_comments">
+				<a href="javascript:void(0);" 
+				onclick="ajax_action(\'add_expert_cheers\',\'div_expert_cheers_'.$photo_id.'\',\'photo_id='.$photo_id.'&cherryboard_id='.$cherryboard_id.'&user_id='.(int)$_SESSION['USER_ID'].'\')">cheers?</a></div>
+				<div class="img_comments"><img src="images/box1.png" alt="" /></div>
+			   <div style="clear:both"></div> 
+			   </div>
+			   </div>';
+    $photoCnt.='<div class="submenu">
+			   <div class="bt_comments_img"></div>';
+    $photoCnt.=expert_todolist_section($cherryboard_id,$photo_id,$photo_day,$sub_day);
+    $photoCnt.='</div>';
+	return $photoCnt;
+}
+//START EXPERT TODOLIST SECTION FUNCTION
+function expert_todolist_section($cherryboard_id,$photo_id,$photo_day=0,$sub_day=1){
+   $photoCnt=''; 	
+   if($cherryboard_id>0){
+   	  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+	  $expOwner_id=getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+   }
+   if($expOwner_id==$_SESSION['USER_ID']){
+   	  $photoCnt.='<input name="txt_todolist_'.$photo_id.'" id="txt_todolist_'.$photo_id.'" type="text" onfocus="if(this.value==\'add something to To-Do List\') this.value=\'\';" onblur="if(this.value==\'\') this.value=\'add something to To-Do List\';" value="add something to To-Do List" style="padding:8px;margin-bottom:1px;margin-left:5px;width:190px;">
+		<div style="padding-top:5px;padding-bottom:5px;">
+		 <a href="javascript:void(0);" onclick="ajax_action(\'add_expert_checklist\',\'div_todo_list_'.$photo_id.'\',\'cherryboard_id='.$cherryboard_id.'&day_no='.$photo_day.'&sub_day='.$sub_day.'&photo_id='.$photo_id.'&txt_checklist=\'+document.getElementById(\'txt_todolist_'.$photo_id.'\').value);" style="text-decoration:none;padding:0px;"><input type="button" value="Add Todo" class="button"/></a>
+		 <div class="comment_im"><img src="images/box.png" alt=""  width="23" height="26"/></div>
+		 <div style="clear:both"></div>
+		</div>';
+   }
+   $photoCnt.='<div id="div_todo_list_'.$photo_id.'">';
+   $photoCnt.=getToDoListItem($cherryboard_id,$sort,$photo_day,$sub_day,$photo_id);
+   $photoCnt.='</div>
+		   	   <div style="clear:both"></div>';
+   return $photoCnt;
 }
 ?>
