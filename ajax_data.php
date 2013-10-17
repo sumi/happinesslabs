@@ -707,7 +707,7 @@ if($type=="edit_todo_list"){
 		$checklistItem=getFieldValue('checklist',$tblName,'checklist_id='.$checklist_id);
 		$toDoList=str_replace('w.','w.<br/>',$checklistItem);
 		$toDoListItem=wordwrap($toDoList,30,"<br/>",TRUE);
-		$ajax_data.='<textarea onmouseout="ajax_action(\'edit_todo_list\',\'div_todo_list_'.$checklist_id.'\',\'stype=save&checklist_id='.$checklist_id.'&user_id='.$user_id.'&todo_list=\'+this.value)" id="edit_todo_text'.$checklist_id.'" class="input_comments" name="edit_todo_text'.$checklist_id.'" style="height:70px;">'.$toDoListItem.'</textarea>';
+		$ajax_data.='<textarea onmouseout="ajax_action(\'edit_todo_list\',\'div_todo_list_'.$checklist_id.'\',\'stype=save&checklist_id='.$checklist_id.'&user_id='.$user_id.'&todo_list=\'+this.value)" id="edit_todo_text'.$checklist_id.'" class="input_comments" name="edit_todo_text'.$checklist_id.'" style="height:70px;width:190px;">'.$toDoListItem.'</textarea>';
 	}
 	if($stype=="save"){
 		$checklist_id=$_GET['checklist_id'];
@@ -1535,12 +1535,14 @@ if($type=="add_checklist"||$type=="add_expert_checklist"||$type=="remove_checkli
 	if($type=="add_expert_checklist"||$type=="remove_expert_checklist"||$type=="checked_expert_checklist"){
 		$tbl_name='tbl_app_expert_checklist';
 		$chk_type='checked_expert_checklist';
-		$chk_remove='remove_expert_checklist';
+		$chk_remove='remove_expert_checklist';		
 	}
 
 	$txt_checklist=addslashes($_GET['txt_checklist']);
 	$cherryboard_id=$_GET['cherryboard_id'];
-	$user_id=(int)$_GET['user_id'];
+	$day_no=(int)$_GET['day_no'];
+	$sub_day=(int)$_GET['sub_day'];
+	$photo_id=$_GET['photo_id'];
 	//CHECKED CHECKLIST
 	if($type=="checked_checklist"||$type=="checked_expert_checklist"){	
 		$checklist_id=$_GET['checklist_id'];
@@ -1556,9 +1558,9 @@ if($type=="add_checklist"||$type=="add_expert_checklist"||$type=="remove_checkli
 	}
 	//ADD CHECKLIST / TODO LIST
 	if(($type=="add_checklist"||$type=="add_expert_checklist")&&$txt_checklist!=""&&$txt_checklist!="add something to To-Do List"){
-		$ins_query="INSERT INTO ".$tbl_name." (checklist_id,user_id,cherryboard_id,checklist) VALUES (NULL,'".$user_id."','".$cherryboard_id."','".$txt_checklist."')";
+		$ins_query="INSERT INTO ".$tbl_name." (checklist_id,user_id,cherryboard_id,checklist,day_no,sub_day)
+		VALUES (NULL,'".$_SESSION['USER_ID']."','".$cherryboard_id."','".$txt_checklist."','".$day_no."','".$sub_day."')";
 		$ins_sql=mysql_query($ins_query);
-		$currentUserId=$user_id;
 	}
 	//REFRESH TODO LIST
 	$sort='';
@@ -1566,10 +1568,12 @@ if($type=="add_checklist"||$type=="add_expert_checklist"||$type=="remove_checkli
 	   $sort=trim($_GET['sort']);
 	   if(trim($sort)=='asc'){$sort='';}
 	}
+	//COUNT TOTAL TODO LIST
+	$TotalTodo=(int)getFieldValue('count(checklist_id)','tbl_app_expert_checklist','cherryboard_id='.$cherryboard_id.' and day_no='.$day_no.' and sub_day='.$sub_day);
 	//Call Expert Section
 	if($type=="add_expert_checklist"||$type=="remove_expert_checklist"||$type=="checked_expert_checklist"||$type=="refresh_todo_list"){
 		//Call To-Do List Items
-		$ajax_data.=getToDoListItem($cherryboard_id,$sort);			
+		$ajax_data.=getToDoListItem($cherryboard_id,$sort,$day_no,$sub_day,$photo_id);
 	}else{
 		$selchk=mysql_query("select *,date_format(record_date,'%m-%d-%Y') as record_date from ".$tbl_name." where cherryboard_id=".$cherryboard_id." order by checklist_id") or die(mysql_error());
 		$checkCnt='';
@@ -1580,10 +1584,10 @@ if($type=="add_checklist"||$type=="add_expert_checklist"||$type=="remove_checkli
 			$is_checked=$selchkRow['is_checked'];
 			$user_id=$selchkRow['user_id'];
 			$toDoList=wordwrap($checklist,30,"<br/>",TRUE);
-			$ajax_data.='<div class="box_container" style="width: 230px;"><label><input type="checkbox" id="chkfield_'.$checklist_id.'"  name="chkfield_'.$checklist_id.'" '.($is_checked==1?'checked="checked"':'').' value="1" onclick="checked_checklist(\''.$chk_type.'\',\'div_checklist\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&cuid='.$currentUserId.'\',\'chkfield_'.$checklist_id.'\')" class="checkbox"></label>&nbsp;'.$toDoList.'<br/><span class="smalltext">added '.$record_date.'&nbsp;'.($user_id==$currentUserId?'<img src="images/close_small1.png"  onclick="ajax_action(\''.$chk_remove.'\',\'div_checklist\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&cuid='.$currentUserId.'\')" style="cursor:pointer">':'').'</span></div>';
+			$ajax_data.='<div class="box_container" style="width: 230px;"><label><input type="checkbox" id="chkfield_'.$checklist_id.'"  name="chkfield_'.$checklist_id.'" '.($is_checked==1?'checked="checked"':'').' value="1" onclick="checked_checklist(\''.$chk_type.'\',\'div_checklist\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&cuid='.$_SESSION['USER_ID'].'\',\'chkfield_'.$checklist_id.'\')" class="checkbox"></label>&nbsp;'.$toDoList.'<br/><span class="smalltext">added '.$record_date.'&nbsp;'.($user_id==$_SESSION['USER_ID']?'<img src="images/close_small1.png"  onclick="ajax_action(\''.$chk_remove.'\',\'div_checklist\',\'cherryboard_id='.$cherryboard_id.'&checklist_id='.$checklist_id.'&cuid='.$_SESSION['USER_ID'].'\')" style="cursor:pointer">':'').'</span></div>';
 		}
 	}		
-	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$cherryboard_id;
+	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$TotalTodo;
 	echo $ajax_data;
 	exit(0);
 }

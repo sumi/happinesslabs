@@ -858,6 +858,8 @@ function postToFeedExp() {
 				   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:213px" onclick="setPicId('.$photo_id.');"></div></div>';
 				   
 				   $photoCnt.='<div class="applemenu">';
+				   //TODO LIST SECTION
+				   $photoCnt.=main_expert_todolist_section($cherryboard_id,$photo_id,$photo_day,$sub_day);
 				   //COMMENT SECTION				   
 				   $photoCnt.=main_expert_comment_section($cherryboard_id,$photo_id,$photo_day);
 				   //QUESTION SECTION

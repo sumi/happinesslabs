@@ -441,7 +441,8 @@ if($type=="del_expert_photo"&&$_GET['del_photo_id']>0){
 		if($sub_day>1){
 			$boardDetail=getFieldsValueArray('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 			if($_SESSION['USER_ID']==$boardDetail[0]){
-				$delCheers=mysql_query('DELETE FROM tbl_app_expertboard_days WHERE cherryboard_id='.$cherryboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);
+				$delDays=mysql_query('DELETE FROM tbl_app_expertboard_days WHERE cherryboard_id='.$cherryboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);
+				$delTodoList=mysql_query('DELETE FROM tbl_app_expert_checklist WHERE cherryboard_id='.$cherryboard_id.' and day_no='.$photo_day.' and sub_day='.$sub_day);				
 			}
 		}
 		if($del_photo){
@@ -566,6 +567,8 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:213px" onclick="setPicId('.$photo_id.');"></div></div>';
 					   
 					   $photoCnt.='<div class="applemenu">';
+					    //TODO LIST SECTION
+				   	   $photoCnt.=main_expert_todolist_section($cherryboard_id,$photo_id,$photo_day,$sub_day);
 					   //COMMENT SECTION
 					   $photoCnt.=main_expert_comment_section($cherryboard_id,$photo_id,$photo_day);
 					   //QUESTION SECTION

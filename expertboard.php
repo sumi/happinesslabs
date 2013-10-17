@@ -81,7 +81,7 @@ if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 					happybankPoint('1',0,$GoalBoardId);
 					//Create Goal To-Do List
 					for($i=1;$i<=$number_days;$i++){
-						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system) VALUES (NULL,'".(int)USER_ID."','".$GoalBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1')";
+						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system,day_no,sub_day) VALUES (NULL,'".(int)USER_ID."','".$GoalBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1','".$i."','1')";
 						$insTodoSql=mysql_query($insTodo);
 					}
 					echo "<script>document.location='expert_cherryboard.php?cbid=".$GoalBoardId."'</script>";		

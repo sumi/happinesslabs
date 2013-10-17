@@ -44,7 +44,7 @@ if(isset($_POST['btncreate'])){
 			     //Deposit the happybank point
 				 happybankPoint('1',0,$cherryBoardId);
 				 for($i=1;$i<=$storydays;$i++){
-						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system) VALUES (NULL,'".(int)USER_ID."','".$cherryBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1')";
+						$insTodo="INSERT INTO tbl_app_expert_checklist (checklist_id,user_id,cherryboard_id, checklist,record_date,is_checked,is_system,day_no,sub_day) VALUES (NULL,'".(int)USER_ID."','".$cherryBoardId."','".$DayType." ".$i."',CURRENT_TIMESTAMP,'0','1','".$i."','1')";
 						$insTodoSql=mysql_query($insTodo);
 				 }
 				 echo "<script>document.location='expert_cherryboard.php?cbid=".$cherryBoardId."'</script>";		
