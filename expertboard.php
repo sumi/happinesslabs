@@ -14,7 +14,7 @@ if($expertBoardId>0&&$type=='copy'&&USER_ID>0&&$cherryboard_id>0){
 	happybankPoint('3',$ownerId,$newCherryBoardId);
   echo "<script>document.location='expert_cherryboard.php?cbid=".$newCherryBoardId."'</script>";		
 }
-//START CREATE EXPERTBOARD/STORYBOARD CODE
+//START CREATE EXPERTBOARD/STORYBOARD AND SUBSTORYBOARD CODE
 if(isset($_POST['btnCreateExpert'])||isset($_POST['btnCreateStory'])){
 
 	if(isset($_POST['btnCreateExpert'])){

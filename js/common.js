@@ -472,6 +472,13 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
+	//ADD EXP DAY
+	if(type=="add_expday"){
+		if(confirm('Are you sure to add new day?')){
+			isAction=1;
+		}
+	}
+	
 	//CREATE STORY SHOW CATEGORY VALUE
 	if(type=="show_storycat"){
 		isAction=1;
@@ -870,6 +877,10 @@ function handleHttpResponse_ajax_action()
 		    ajax_action('refresh_todo_list','div_todo_list','cherryboard_id='+results_array[3]+'&sort='+results_array[4]);
 			document.getElementById('asc_desc_arrow').innerHTML=results_array[5];
 			//setupBlocks();			
+		}
+		//photo refresh of the board
+		if(action_type=="add_expday"){
+		    ajax_action('exp_photo_refresh','right_container','cherryboard_id='+results_array[3]+'&sort=asc')
 		}
 		
 	  } 

@@ -3,7 +3,8 @@ include_once "fbmain.php";
 include('include/app-common-config.php');
 
 $query=array();
-$query[]="ALTER TABLE  `tbl_app_expertboard_days` ADD  `cherryboard_id` INT( 11 ) NOT NULL AFTER  `expertboard_id`";
+$query[]="ALTER TABLE `tbl_app_expert_checklist` ADD `day_no` INT( 11 ) NOT NULL ,
+ADD `sub_day` INT( 11 ) NOT NULL DEFAULT '1'";
 /*$query[]="CREATE TABLE IF NOT EXISTS `tbl_app_happy_mission` (
   `happy_mission_id` int(11) NOT NULL AUTO_INCREMENT,
   `pillar_no` int(11) NOT NULL,

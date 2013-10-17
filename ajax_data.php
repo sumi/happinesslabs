@@ -221,16 +221,61 @@ if($type=="increase_expdays_items"){
 	if($cherryboard_id>0&&$user_id>0){
 		$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
 		if($expertboard_id>0){
-		   $goal_days=(int)getFieldValue('goal_days','tbl_app_expertboard','expertboard_id='.$expertboard_id);
-		   $ownerUserId=(int)getFieldValue('user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+		    $daysDetail=getFieldsValueArray('goal_days,user_id','tbl_app_expertboard','expertboard_id='.$expertboard_id);
+		    $goal_days=(int)$daysDetail[0];
+		    $ownerUserId=(int)$daysDetail[1];
 		   $numberDays=$goal_days+1;
 		   $editExpGoalDays=mysql_query("UPDATE tbl_app_expertboard SET goal_days='".$numberDays."' WHERE expertboard_id=".$expertboard_id);
 		   $dayType=getDayType($expertboard_id);
 		   //INSERT DAYS
-		   $insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date) VALUES (NULL,'".$expertboard_id."','".$numberDays."','".$dayType." ".$numberDays."', CURRENT_TIMESTAMP)";
+		   $insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date,cherryboard_id,sub_day) VALUES (NULL,'".$expertboard_id."','".$numberDays."','".$dayType." ".$numberDays."', CURRENT_TIMESTAMP,'".$cherryboard_id."','1')";
 			$insDaysSql=mysql_query($insDays);
 			//DISPLAY GOAL DAYS
 			$ajax_data.='Total :<a href="javascript:void(0);" '.($user_id==$ownerUserId?'ondblclick="ajax_action(\'edt_exp_goal_day\',\''.$div_name.'\',\'stype=add&expertboard_id='.$expertboard_id.'&user_id='.$user_id.'\')"':'').' title="Edit '.$dayType.'" class="cleanLink"> <span class="style3"> '.$numberDays.' '.$dayType.'s</span></a>';
+		}
+	}
+	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$cherryboard_id;
+	echo $ajax_data;
+}
+
+//START ADD + EXPERT GOAL DAYS OR ITEMS
+if($type=="add_expday"){
+	$cherryboard_id=(int)$_GET['cherryboard_id'];
+	$day_no=(int)$_GET['day_no'];
+	if($cherryboard_id>0&&$day_no>0){
+		$expertboard_id=getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+		$dayType=getDayType($expertboard_id);
+		
+		//Add Day Total into Expertboard
+		$dayArr=explode('.',$day_no);
+		$newDay=$dayArr[0];
+		$newSubDay=(int)$dayArr[1];
+		if($newSubDay==0){$newSubDay=1;}
+		//ADD Main Day
+		if(count($dayArr)==1){
+			$dayTitle=$dayType." ".$newDay;
+			$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date,cherryboard_id,sub_day) VALUES (NULL,'".$expertboard_id."','".$newDay."','".$dayTitle."', CURRENT_TIMESTAMP,'".$cherryboard_id."','1')";
+			$insDaysSql=mysql_query($insDays);
+			$lastDayId=mysql_insert_id();
+			//update all past days
+			if($lastDayId>0){
+				$updDays=mysql_query("update `tbl_app_expertboard_days` set `day_no`=`day_no`+1 where `day_no`>=".$newDay." and cherryboard_id=".$cherryboard_id." and expertboard_day_id!=".$lastDayId);
+				
+				$updPhotos=mysql_query("update `tbl_app_expert_cherry_photo` set `photo_day`=`photo_day`+1 where `photo_day`>=".$newDay." and cherryboard_id=".$cherryboard_id);
+			}
+		
+		}else{ //ADD subday/point day
+		/*	$dayTitle=$dayType." ".$newDay.".".$newSubDay;
+			$insDays="INSERT INTO tbl_app_expertboard_days (expertboard_day_id,expertboard_id,day_no,day_title, record_date,cherryboard_id,sub_day) VALUES (NULL,'".$expertboard_id."','".$newDay."','".$dayTitle."', CURRENT_TIMESTAMP,'".$cherryboard_id."','".$newSubDay."')";
+			$insDaysSql=mysql_query($insDays);
+			$lastDayId=mysql_insert_id();
+			//update all past days
+			if($lastDayId>0){
+				$updDays=mysql_query("update `tbl_app_expertboard_days` set `sub_day`=`sub_day`+1 where `sub_day`>=".$newSubDay." and day_no=".$newDay." and cherryboard_id=".$cherryboard_id." and expertboard_day_id!=".$lastDayId);
+				
+				$updPhotos=mysql_query("update `tbl_app_expert_cherry_photo` set `sub_day`=`sub_day`+1 where `sub_day`>=".$newSubDay." and photo_day=".$newDay." and cherryboard_id=".$cherryboard_id);
+			}
+		*/
 		}
 	}
 	$ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$cherryboard_id;

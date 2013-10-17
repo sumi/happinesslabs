@@ -189,3 +189,6 @@ ALTER TABLE `tbl_app_expertboard` ADD `happy_mission_id` INT( 11 ) NOT NULL
 
 10/16/2013
 ALTER TABLE  `tbl_app_expertboard_days` ADD  `cherryboard_id` INT( 11 ) NOT NULL AFTER  `expertboard_id`
+
+ALTER TABLE `tbl_app_expert_checklist` ADD `day_no` INT( 11 ) NOT NULL ,
+ADD `sub_day` INT( 11 ) NOT NULL DEFAULT '1'
