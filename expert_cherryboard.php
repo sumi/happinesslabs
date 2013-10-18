@@ -261,10 +261,10 @@ include('site_header.php');
      			<div class="banner_main" style="width:1465px">       
        			<div class="banner">';
 				//PHOTO BANNER SECTION CODE
-				$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id);
+				$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." ORDER BY photo_day");
 				$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
 				if($totalExpPhotos==0){
-					$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$expertboard_cehrry_id);
+					$exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$expertboard_cehrry_id." ORDER BY photo_day");
 					$totalExpPhotos=(int)mysql_num_rows($exportPhoto);
 				}
 				if($totalExpPhotos>0){
@@ -286,10 +286,10 @@ include('site_header.php');
 						if($dayTitle==$day_title){
 						   $day_title='';
 						}else{
-						   $day_title=' : '.$day_title;
+						   $day_title=' - '.$day_title;
 						}
 						
-						$photoTitle=$expertboardTitle.' : '.$dayType.' '.$photo_day.$day_title.' - 10 Happy Points';
+						$photoTitle=$expertboardTitle.' : '.$dayType.' '.$photo_day.$photo_title.$day_title.' - 10 Happy Points';
 						$photoPath='images/expertboard/slider/'.$photo_name;
 						if(!is_file($photoPath)){
 							$photoPath='images/expertboard/'.$photo_name;
@@ -388,7 +388,7 @@ include('site_header.php');
 						</div>
 						<img src="images/im.png" />';
 					}else{
-						$expertCnt.='<div class="banner_day_5_left" style="width:245px;">
+						$expertCnt.='<div class="banner_day_5_left" style="width:247px;">
 					    <div class="banner_day_5_bg" id="div_story_publish">
 						<a href="javascript:void(0);" onclick="ajax_action(\'unpublish_story\',\'div_story_publish\',\'stype=unpublish&cherryboard_id='.$cherryboard_id.'&user_id='.(int)USER_ID.'\')" title="UnPublish">Unpublish</a>
 						</div>
@@ -703,54 +703,22 @@ function postToFeedExp() {
 	   $expRewardCnt.=getExpertReward($cherryboard_id);
 	   $expRewardCnt.='</div>';
 	   echo $expRewardCnt;
-	  ?>	  
-      <!--<div class="applemenu">
-			<div class="silverheader">-->
-			<div class="todo" style="width:232px;">
-				<div class="todolist_left_1"><a href="#">to do list</a></div>
-				<div class="img_comments"><img src="images/box2.png" alt="" /></div>
-				<div style="clear:both"></div> 
-			</div>
-			<!--</div>
-			<div class="submenu">-->
-			<div class="todolist_bt"><img src="images/banet_4.png" alt="" /></div>
-			<div style="clear:both"></div>
-			<!-- START ADD TO-DO LIST SECTION -->
-		    <?php if($expOwner_id==USER_ID){ ?>
-		    <input name="txt_todolist" id="txt_todolist" type="text" onfocus="if(this.value=='add something to To-Do List') this.value='';" onblur="if(this.value=='') this.value='add something to To-Do List';" value="add something to To-Do List" style="padding:8px;margin-bottom:10px;margin-left:8px;width:211px;">
-			<div class="banner_day_5_left" style="margin-top:11px;width:150px;margin-left:10px;">
-          	  <div class="banner_day_5_bg">
-				 <a href="javascript:void(0);" onclick="ajax_action('add_expert_checklist','div_todo_list','cherryboard_id=<?=$cherryboard_id;?>&txt_checklist='+document.getElementById('txt_todolist').value+'&user_id=<?=USER_ID?>');" title="Post">Post</a>
-			  </div>
-			<img src="images/ban.png" alt="" />
-			</div>
-			<img src="images/im.png" />
-		    <br/>
-			<!-- END ADD TO-DO LIST SECTION -->
-		    <?php } ?>
-			<div id="div_todo_list">
-			<?php
-			//TO-DO LIST BLOCK
-			$checkCnt='';
-			//CALL FUNCTION GET TODOLIST ITEMS
-			$checkCnt.=getToDoListItem($cherryboard_id);
-			echo $checkCnt;
-			?>
-			</div>
-		   <div style="clear:both"></div>
-		   <!--</div>
-			<div class="silverheader">
-				<div class="todo" style="width:232px;">
-				to do list 2
-				</div>
-			<div style="clear:both"></div>
-			</div>
-			<div class="submenu">
-			Some random content here<br />
-			</div>
-	   </div>-->
-       </div>
-       <div style="clear:both"></div>
+	  ?>
+    <!-- START TAG DETAILS -->  
+    <div class="todo" style="width:232px;">
+        <div class="todolist_left_1"><a href="#">Tag Details</a></div>
+        <div class="img_comments"><img src="images/box2.png" alt="" /></div>
+        <div style="clear:both"></div> 
+    </div>
+    <div class="todolist_bt"><img src="images/banet_4.png" alt="" /></div>
+    <div style="clear:both"></div>
+    <?php
+	$tagDetails=getTagDetails($cherryboard_id);
+	echo '<div style="padding-left:10px;">'.$tagDetails.'</div>';
+	?>
+	<!-- END TAG DETAILS -->		
+    </div>
+    <div style="clear:both"></div>
    </div>	   
   <!-- START DAY PICTURE SECTION -->
   <div id="right_container" class="bottom_left_container" style="width:718px;float:none;">  
@@ -1023,11 +991,11 @@ foreach($pagePhotosArray as $photoId=>$photoUrl){
 		$imgWidth=(int)($imgInfo[0]);
 		$imgHeight=(int)($imgInfo[1]);
 	}
-	
-	
-	$pagePhotoEffect.='<div id="stickyCherry'.$photoId.'" class="atip">
-		<img src="'.$photoUrl.'" width="'.$imgWidth.'px" height="'.$imgHeight.'px" />
-		</div>';
+	$tagDetails=getTagDetails(0,$photoId);
+	$pagePhotoEffect.='<div id="stickyCherry'.$photoId.'" class="atip">';
+	$pagePhotoEffect.='<div style="float:right;border-left:2px solid #131d1d; padding:8px; background-color:#FFFFFF;">'.$tagDetails.'</div>';
+	$pagePhotoEffect.='<img src="'.$photoUrl.'" width="'.$imgWidth.'px" height="'.$imgHeight.'px" />';
+	$pagePhotoEffect.='</div>';
 }
 //Rewards photos
 foreach($pageRewardPhotosArray as $photoId=>$photoUrl){

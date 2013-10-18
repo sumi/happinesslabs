@@ -472,6 +472,11 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
+	//HOME PAGE MAIN SLIDER
+	if(type=="home_main_slider"){
+		isAction=1;
+	}
+	
 	//ADD EXP DAY
 	if(type=="add_expday"){
 		if(confirm('Are you sure to add new day?')){

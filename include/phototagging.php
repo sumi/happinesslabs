@@ -15,7 +15,7 @@
     });
     
 	$('#tagit #btnsave').live('click',function(){
-	var file_data=$("#avatar").attr("files")[0];//prop ==OR==> attr
+	var file_data=$("#avatar").prop("files")[0];//prop ==OR==> attr
 	name=$('#tagname').val();
 	tagtype=$('#tag_type_id').val();
 	var pic_id=document.getElementById('pic_id').value;

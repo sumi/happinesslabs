@@ -9,6 +9,46 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//HOME PAGE MAIN SLIDER CODE
+if($type=="home_main_slider"){
+   $cherryboard_id=(int)$_GET['cherryboard_id'];
+   $cnt=0;
+   $exportPhoto=mysql_query("SELECT * FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." ORDER BY photo_day");
+   $totalExpPhotos=(int)mysql_num_rows($exportPhoto);
+   if($totalExpPhotos>0){
+   	  $ajax_data.='<ul>';
+	  while($exportPhotoRow=mysql_fetch_array($exportPhoto)){
+			$photo_title=trim(ucwords($exportPhotoRow['photo_title']));
+			if($photo_title!=""){$photo_title=' - '.$photo_title;}
+			$photo_name=$exportPhotoRow['photo_name'];
+			$photo_day=$exportPhotoRow['photo_day'];
+			$sub_day=$exportPhotoRow['sub_day'];
+			$dayType=getDayType($expertboard_id);
+			$dayTitle=$dayType.' '.$photo_day;
+			if($sub_day==0){$sub_day=1;}
+			$expertboard_id=ucwords(getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id));				
+			$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
+			$day_title=ucwords(trim(getFieldValue('day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' AND day_no='.$photo_day.' AND sub_day='.$sub_day)));			
+			if($dayTitle==$day_title){
+			   $day_title='';
+			}else{
+			   $day_title=' - '.$day_title;
+			}			
+			$photoTitle=$expertboardTitle.' : '.$dayType.' '.$photo_day.$photo_title.$day_title.' - 10 Happy Points';			
+			$photoPath='images/expertboard/slider/'.$photo_name;
+			if(!is_file($photoPath)){
+				$photoPath='images/expertboard/'.$photo_name;
+			}
+			if(is_file($photoPath)){
+				$ajax_data.='<li><img src="'.$photoPath.'" alt="'.$photoTitle.'" title="'.$photoTitle.'" id="wows1_'.$cnt.'"/></li>';
+				$cnt++;
+			}	
+	   }
+	   $ajax_data.='</ul>';
+   }
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+   echo $ajax_data;
+}
 //STORY SHOW CATEGORY FIELDS VALUE
 if($type=="show_storycat"){
    $stype=trim($_GET['stype']);   

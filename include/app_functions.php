@@ -1334,7 +1334,7 @@ function updHappybankStatus($happybank_id,$user_id,$cherryboard_id){
 //START GET TAG TYPE FUNCTION
 function getTagType($tag_type_id=0,$event='',$varName='tag_type_id')
 {
-	$select_box='<select class="ClearSelect" id="'.$varName.'" name="'.$varName.'" '.$event.'>';
+	$select_box='<select class="ClearSelect" id="'.$varName.'" name="'.$varName.'" '.$event.' style="width:111px;">';
 	$selType=mysql_query("SELECT * FROM tbl_app_tag_type ORDER BY tag_type_id");
 	$select_box.="<option value=\"0\" >Select Type</option>";
 	while($selRow=mysql_fetch_array($selType))
@@ -1345,7 +1345,7 @@ function getTagType($tag_type_id=0,$event='',$varName='tag_type_id')
 	return $select_box.='</select>';
 }
 //START FUNCTION GET TAG DETAILS
-function getTagDetails($cherryboard_id){
+function getTagDetails($cherryboard_id=0,$photo_id=0){
 	$tagCnt='';
 	$selTagType=mysql_query("SELECT * FROM tbl_app_tag_type ORDER By tag_type_id");
 	while($selTagTypeRow=mysql_fetch_array($selTagType)){
@@ -1354,7 +1354,11 @@ function getTagDetails($cherryboard_id){
 		  $tagCnt.='<div style="color:#4e4e4e;font-size:24px;">'.$tagTypeName.'</div>';	  
 		  //START FETCH PHOTO TAG DATA
 		  $cnt=1;
-		  $selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE tag_type=".$tagTypeId." AND cherryboard_id=".$cherryboard_id);
+		  if($cherryboard_id>0&&$photo_id==0){		 
+		  	 	$selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE tag_type=".$tagTypeId." AND cherryboard_id=".$cherryboard_id);
+		  }else if($photo_id>0&&$cherryboard_id==0){
+		  	 	$selTag=mysql_query("SELECT * FROM tbl_app_tag_photo WHERE tag_type=".$tagTypeId." AND photo_id=".$photo_id);
+		  }
 		  while($selTagRow=mysql_fetch_array($selTag)){
 				$tagId=(int)$selTagRow['tag_id'];	
 				$cherryboardId=(int)$selTagRow['cherryboard_id'];	
