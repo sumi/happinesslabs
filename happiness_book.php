@@ -6,57 +6,12 @@ $photo_url=$userDetail['photo_url'];
 $user_name=$userDetail['name'];
 ?>
 <?php include('site_header.php');?>     
-
 <!-- ================================== -->
+<!-- Include stylesheet happiness book -->
+<link rel="stylesheet" type="text/css" href="css/happiness_book.css" />
+
 <script type="text/javascript" src="book/turn-jquery.js"></script>
 <script type="text/javascript" src="book/turn.js"></script>
-
-<style type="text/css">
-#magazine{
-	width:1152px;
-	height:552px;
-}
-#magazine .turn-page{
-	background-color:#ccc;
-	background-size:100% 100%;
-}
-<!-- Start Book -->
-@charset "utf-8";
-/* CSS Document */
-
-.welcome_main{background-color:#FFFFFF;}
-.book_tabs_main{float:left; z-index:200px; width:566px; padding-left:10px;}
-.book_tabs_left_love{float:left; background-image:url(images/book-top-img_left_hover.png); background-repeat:no-repeat; width:14px; height:21px;}
-
-.book_tabs_love{float:left;}
-.book_tabs_love a{background-image:url(images/book-top-img_hover.png); text-align:center; padding:3px 2px 2px 2px; font-size:12px; display:block; color:#000000; text-decoration:none; border-top:1px solid #f1f1f1;}
-.book_tabs_love a:hover{color:#FF0000;}
-.book_tabs_right_love{float:left; background-image:url(images/book-top-img_right_hover.png); background-repeat:no-repeat; width:14px; height:21px;}
-
-.book_tabs_left{float:left; background-image:url(images/book-top-img_left.png); background-repeat:no-repeat; width:14px; height:21px;}
-.book_tabs{float:left;}
-.book_tabs a{background-image:url(images/book-top-img.png); text-align:center; padding:2px 6px; font-size:12px; display:block; color:#000000; text-decoration:none;}
-.book_tabs a:hover{color:#FFFFFF;}
-.book_tabs_right{float:left; background-image:url(images/book-top-img_right.png); background-repeat:no-repeat; width:14px; height:21px;}
-
-.book_tabs_main{float:right; z-index:200px;}
-.activate_friends_bg{ height:575px; margin-bottom:50px;}
-.book_page_left{float:left; background-image:url(images/book-story.png); background-repeat:no-repeat; width:576px; font-size:18px; height:580px; text-align:center; box-shadow: 0 0 25px #d3d3d3;}
-.book_profile_text{border:#CCCCCC 2px solid; width:134px; text-align:center; margin:120px 0 5px 210px; padding:20px 0; font-size:16px; color:#bdbdbd;}
-.life_story_book_text{font-family:Brush Script Std; font-size:18px; margin-top:50px;}
-.book_page_right{float:right; background-image:url(images/book-story.png); background-repeat:no-repeat; width:560px; font-size:18px; height:514px; text-align:center; box-shadow: 0 0 25px #d3d3d3;}
-.book_page_right1{float:left; background-image:url(images/book-story1.png); background-repeat:no-repeat; width:560px; font-size:18px; height:514px; text-align:center; box-shadow: 0 0 25px #d3d3d3;}
-.book_tabs_main{float:left; z-index:200px; width:566px; padding-left:10px;}
-.book_tabs_main_page{float:right; z-index:200px; }
-.book_tabs_main_page_left{float:right; z-index:200px; width:576px; padding-left:10px;}
-.book_tabs_main_left{float:left; z-index:200px; width:576px;}
-.chapter_love{font-size:20px; text-align:left; padding:70px 0 0 30px;}
-.book_right_text{ float:left; text-align:left; margin:20px 0 0 60px; font-size:12px;}
-.activate_friends_main_top{float:right; width:576px; margin:auto;}
-.activate_friends_bg_right{float:right; background-image:url(../images/book-story1.png); background-repeat:no-repeat; width:545px; height:575px; margin-left:18px; padding:7px; margin-bottom:50px; box-shadow: 0 0 25px #d3d3d3;}
-
-</style>
-
 
 <div class="relationship_bg" style="padding:50px 0; background-color:#FFFFFF;">
 <div id="magazine" style="margin:auto;">

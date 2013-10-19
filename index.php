@@ -1,7 +1,6 @@
 <?php
 include_once "fbmain.php";	
 include('include/app-common-config.php');
-$cherryboard_id=(int)$_GET['cbid'];
 ?>
 <style>
 .div_navigation{
@@ -85,8 +84,8 @@ if(FB_ID>0){
 $cnt=0;
 $MainSlide='';
 $IconSlide='';
-if($cherryboard_id==0){$cherryboard_id=851;}
-$storyPhoto=mysql_query("SELECT cherryboard_id,expertboard_id FROM tbl_app_expert_cherryboard WHERE cherryboard_id=".$cherryboard_id." ORDER BY cherryboard_id DESC");//851===850 in (850)
+$cherryboard_id=851;
+$storyPhoto=mysql_query("SELECT cherryboard_id,expertboard_id FROM tbl_app_expert_cherryboard WHERE cherryboard_id=".$cherryboard_id." ORDER BY cherryboard_id DESC");
 while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 		$cherryboard_id=$storyPhotoRow['cherryboard_id'];
 		$expertboard_id=$storyPhotoRow['expertboard_id'];
@@ -104,7 +103,7 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
 				$dayType=getDayType($expertboard_id);
 				$dayTitle=$dayType.' '.$photo_day;
 				if($sub_day==0){$sub_day=1;}				
-				$expertboardTitle=ucwords(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id));
+				$expertboardTitle=ucwords(trim(getFieldValue('expertboard_title','tbl_app_expertboard','expertboard_id='.$expertboard_id)));
 				$day_title=ucwords(trim(getFieldValue('day_title','tbl_app_expertboard_days','expertboard_id='.$expertboard_id.' AND day_no='.$photo_day.' AND sub_day='.$sub_day)));
 				
 				if($dayTitle==$day_title){
@@ -132,25 +131,26 @@ while($storyPhotoRow=mysql_fetch_array($storyPhoto)){
     <div class="mine_bottom_bg" style="text-align:center">
 	<div class="mine_bottom" style="padding-top:10px;padding-bottom:60px">
        <div id="wowslider-container1">
-				<div id="div_home_main_slider" class="ws_images">
+				<div class="ws_images">
 					<ul><?=$MainSlide?></ul>
 				</div>
 				<div class="ws_bullets" style="display:none">
 					<div><?=$IconSlide?></div>
 				</div>
 		</div>
-        <div class="div_navigation">
-            <a href="index.php?cbid=851" <?=($cherryboard_id=="851"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation">1</a>
-            <a href="index.php?cbid=879" <?=($cherryboard_id=="879"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation">2</a>
-            <a href="index.php?cbid=880" <?=($cherryboard_id=="880"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation">3</a>
-            <a href="index.php?cbid=881" <?=($cherryboard_id=="881"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation">4</a>
-            <!--<a href="javascript:void(0);" <?=($cherryboard_id=="850"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_main_slider','div_home_main_slider','cherryboard_id=850')">5</a>
-            <a href="javascript:void(0);" <?=($cherryboard_id=="851"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_main_slider','div_home_main_slider','cherryboard_id=851');">1</a>
-            <a href="javascript:void(0);" <?=($cherryboard_id=="879"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_main_slider','div_home_main_slider','cherryboard_id=879');">2</a>
-            <a href="javascript:void(0);" <?=($cherryboard_id=="880"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_main_slider','div_home_main_slider','cherryboard_id=880');">3</a>
-            <a href="javascript:void(0);" <?=($cherryboard_id=="881"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_main_slider','div_home_main_slider','cherryboard_id=881');">4</a>-->
+        <div class="div_navigation">   
+        
+            <img width="25" height="25" src="images/transparent.png" id="rotate_asc" style="float:left;">
+            
+            <a href="javascript:void(0);" <?=($cherryboard_id=="851"||$cherryboard_id==""?'style="background: #ababab;"':'')?> class="page_navigation" onclick="ajax_action('home_refresh_slider','wowslider-container1','cherryboard_id=851');" id="lnkdiv_851">1</a>
+            
+            <a href="javascript:void(0);" class="page_navigation" onclick="ajax_action('home_refresh_slider','wowslider-container1','cherryboard_id=879');" id="lnkdiv_879">2</a>
+            
+            <a href="javascript:void(0);" class="page_navigation" onclick="ajax_action('home_refresh_slider','wowslider-container1','cherryboard_id=880');" id="lnkdiv_880">3</a>
+            
+            <a href="javascript:void(0);" class="page_navigation" onclick="ajax_action('home_refresh_slider','wowslider-container1','cherryboard_id=881');" id="lnkdiv_881">4</a>
         </div>
-	</div>	      
+	</div>  
       <div style="clear:both"></div>
     </div>
 <!--Body End-->

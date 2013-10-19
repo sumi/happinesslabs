@@ -472,9 +472,10 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
-	//HOME PAGE MAIN SLIDER
-	if(type=="home_main_slider"){
+	//Home Page Refresh Slider
+	if(type=="home_refresh_slider"){
 		isAction=1;
+		showLoadingImg('rotate_asc');
 	}
 	
 	//ADD EXP DAY
@@ -889,6 +890,21 @@ function handleHttpResponse_ajax_action()
 		//photo refresh of the board
 		if(action_type=="add_expday"){
 		    ajax_action('exp_photo_refresh','right_container','cherryboard_id='+results_array[3]+'&sort=asc')
+		}
+		//action for refresh slider
+		if(action_type=="home_refresh_slider"){
+			var cherryboard_id=results_array[3];
+			jQuery("#wowslider-container1").wowSlider({effect:"kenburns",prev:"prev",next:"next",duration:20*100,delay:20*100,width:900,height:500,autoPlay:true,stopOnHover:false,loop:false,bullets:true,caption:true,captionEffect:"slide",controls:true,onBeforeStep:0,images:0});
+			document.getElementById('rotate_asc').src="images/transparent.png";
+			var IdsString='851,879,880,881';
+			var IdsStringArr=IdsString.split(',');
+			for(i=0;i<IdsStringArr.length;i++){
+				if(IdsStringArr[i]==cherryboard_id){
+					document.getElementById('lnkdiv_'+IdsStringArr[i]).style.backgroundColor ='#ababab';
+				}else{
+					document.getElementById('lnkdiv_'+IdsStringArr[i]).style.backgroundColor ='#FFFFFF';
+				}
+			}
 		}
 		
 	  } 
