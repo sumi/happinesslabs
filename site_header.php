@@ -46,7 +46,24 @@ body{ background:repeat-x left top #eeeaec;}
 				onComplete: function(file, response){
 					document.getElementById('div_up_photo').innerHTML=response;
 				}
-			});			
+			});
+			//PHOTO EDITOR CODE
+			var btnUpload=$('#me1');
+			var files=$('#files');
+			new AjaxUpload(btnUpload,{
+				action:'upload_photo_editor.php',
+				name: 'uploadfile',
+				onComplete: function(file, results){
+					results=results.replace(/(\r\n|\n|\r)/gm,"");
+					results_array=results.split('##===##');
+					var fname=results_array[0];
+					var upload_file=results_array[1];
+					
+					document.getElementById('file_name').value=fname;
+					document.getElementById('load_dir').value='temp/';
+					document.getElementById("photo_img").src=upload_file;
+				}
+			});
 		});
 	</script>
 	<!-- JS for the photo slider -->

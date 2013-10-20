@@ -472,6 +472,10 @@ function ajax_action(type,div_name,stringVar)
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
+	//NEW USER FLOW HAPPYMISSION
+	if(type=="newuser_happy_mission"){
+		isAction=1;
+	}
 	//Home Page Refresh Slider
 	if(type=="home_refresh_slider"){
 		isAction=1;
@@ -803,6 +807,10 @@ function handleHttpResponse_ajax_action()
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
 		
+		//New user flow happy mission top menu
+		if(action_type=="newuser_happy_mission"){
+			document.getElementById('div_mission_top_menu').innerHTML=results_array[3];
+		}
 		//Extra action for checklist 
 		if(action_type=="add_expert_checklist"||action_type=="remove_expert_checklist"){
 		//action_type=="add_checklist"||
@@ -895,6 +903,7 @@ function handleHttpResponse_ajax_action()
 		if(action_type=="home_refresh_slider"){
 			var cherryboard_id=results_array[3];
 			jQuery("#wowslider-container1").wowSlider({effect:"kenburns",prev:"prev",next:"next",duration:20*100,delay:20*100,width:900,height:500,autoPlay:true,stopOnHover:false,loop:false,bullets:true,caption:true,captionEffect:"slide",controls:true,onBeforeStep:0,images:0});
+			
 			document.getElementById('rotate_asc').src="images/transparent.png";
 			var IdsString='851,879,880,881';
 			var IdsStringArr=IdsString.split(',');

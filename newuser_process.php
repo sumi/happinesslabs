@@ -36,27 +36,34 @@ $user_name=$userDetail['name'];
 </div>          
 <!-- START LEFT PAGE -->
 <div class="activate_friends_main_top">
-    <div class="book_tabs_main_page_left">
+    <div id="div_mission_top_menu" class="book_tabs_main_page_left">
     <?php
-    $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+    $selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
     while($selPillarRow=mysql_fetch_array($selPillar)){
-     	  $title=trim(ucwords($selPillarRow['title']));    
-          echo '<div class="book_tabs_left"></div>
-                <div class="book_tabs"><a href="#">'.$title.'</a></div>
-                <div class="book_tabs_right"></div>';
+     	  $title=trim(ucwords($selPillarRow['title'])); 
+		  $pillar_no=$selPillarRow['pillar_no'];   
+		  if($pillar_no==1){
+          echo '<div class="book_tabs_left_love"></div>
+               <div class="book_tabs_love"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
+               <div class="book_tabs_right_love"></div>';
+		 }else{
+		 echo '<div class="book_tabs_left"></div>
+               <div class="book_tabs"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
+               <div class="book_tabs_right"></div>';
+		 }
     }
     ?>
     </div>
 	<div style="clear:both"></div>      
     <div class="activate_friends_bg">
         <div class="book_page_right_new">
-        <div style="padding-top:5px;width:530px;margin:auto;padding-bottom:35px;">
+        <div id="div_newuser_mission" style="padding-top:5px;width:530px;margin:auto;padding-bottom:35px;">
         <table border="0">
         <tr>
         <?php
 			$happyMissionCnt='';
 			$cnt=1;
-	   		$selMission=mysql_query("SELECT * FROM tbl_app_happy_mission ORDER BY happy_mission_id");
+	   		$selMission=mysql_query("SELECT * FROM tbl_app_happy_mission WHERE pillar_no=1 ORDER BY happy_mission_id");
 	   		while($selMissionRow=mysql_fetch_array($selMission)){ 
 				  $happy_mission_id=(int)$selMissionRow['happy_mission_id'];
 				  $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));

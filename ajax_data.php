@@ -8,7 +8,46 @@ include('include/app_functions.php');
 $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
-
+//NEW USER FLOW HAPPY MISSION
+if($type=="newuser_happy_mission"){
+   $pillar_no=(int)$_GET['pillar_no'];
+   $missionMenuCnt='';
+   $cnt=1;
+   if($pillar_no>0){
+   	   //Happy Mission Header Section
+	   $selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+       while($selPillarRow=mysql_fetch_array($selPillar)){
+     	     $title=trim(ucwords($selPillarRow['title'])); 
+		     $pillarNo=$selPillarRow['pillar_no'];   
+		     if($pillar_no==$pillarNo){
+             $missionMenuCnt.='<div class="book_tabs_left_love"></div>
+                   <div class="book_tabs_love"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillarNo.'\');">'.$title.'</a></div>
+                   <div class="book_tabs_right_love"></div>';
+		 }else{
+		     $missionMenuCnt.='<div class="book_tabs_left"></div>
+                   <div class="book_tabs"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillarNo.'\');">'.$title.'</a></div>
+                   <div class="book_tabs_right"></div>';
+		 }
+       }
+   	   //Happy Mission Picture Section 	
+	   $ajax_data.='<table border="0"><tr>';
+	   $selMission=mysql_query("SELECT * FROM tbl_app_happy_mission WHERE pillar_no=".$pillar_no." ORDER BY happy_mission_id");
+	   while($selMissionRow=mysql_fetch_array($selMission)){ 
+			 $happy_mission_id=(int)$selMissionRow['happy_mission_id'];
+			 $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));
+			 $ajax_data.='<td>';
+			 $ajax_data.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" style="height:20px;width:20px;"></div>';
+			  
+			 $ajax_data.='<div class="friends_box_img_new"><img src="images/mission/mission_'.$happy_mission_id.'.png" width="150px" height="150px" title="'.$happy_mission_title.'"/></div>';
+			 $ajax_data.='</td>';
+			 if($cnt==3){$ajax_data.='</tr><tr>'; $cnt=0;}
+			 $cnt++;
+	   }
+	   $ajax_data.='</tr></table>';
+   }
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$missionMenuCnt;
+   echo $ajax_data;
+}
 //HOME PAGE REFRESH SLIDER CODE
 if($type=="home_refresh_slider"){
    $cherryboard_id=(int)$_GET['cherryboard_id'];

@@ -19,37 +19,15 @@ if(isset($_FILES['uploadfile']['name'])&&$_FILES['uploadfile']['name']!=""){
 	$MAX_FILE_SIZE=3145728;//3MB Size
 	//photo cancel
 	if($fsize>$MAX_FILE_SIZE){
-		$message = 'File too large. File allowed must be less than 3 megabytes.'; 
+		$message = 'File size invalid.'; 
 		echo '<script type="text/javascript">alert("'.$message.'");</script>';
 		exit(0);
 	}else{
 		if (move_uploaded_file($_FILES['uploadfile']['tmp_name'],$file)) {
-		$_SESSION['fname']=$fname; 
-		echo "<div class=\"comment_box\">
-			<Table>
-			<tr>
-			  <td colspan=\"2\">
-				  <div id=\"files\"><img src=\"".$file."\" alt=\"\" height=\"100px\" width=\"100px\" class=\"image\" /></div><br/><span class=\"comment_txt1\" style=\"font-size:10px;margin-left: 2px;\">Max allowed 3MB </span>
-			  </td>
-			  <td>
-				<textarea name=\"txtcomment\" rows=\"5\" class=\"textfield\" id=\"txtcomment\" onfocus=\"if(this.value=='Write your comment here...') this.value='';\" onblur=\"if(this.value=='') this.value='Write your comment here...';\">Write your comment here...</textarea> 
-			  </td>
-			  <td valign=\"top\" rowspan=\"2\">
-				 ".displayFiltersImgs('expert')."
-			  </td>
-			</tr>
-			<tr>
-			<td><img src=\"images/round_arrow_90.jpg\" style=\"cursor:pointer\" onclick=\"rotate_photo('expert','".$fname."','90')\" alt=\"\" width=\"35\" height=\"35\" id=\"rotate_img\" />&nbsp;</td>
-			 <td>
-			  <div class=\"styleall\"><a href=\"javascript:void(0);\" onclick=\"photo_cancel('expert','".$fname."')\" class=\"right gray_link\">
-				  <img src=\"images/close_small1.png\"> Cancel</a>
-				  </div>
-			 </td>
-			 <td><input name=\"button\" type=\"button\" onclick=\"add_photo('expert','".$fname."')\" value=\"Post\" title=\"Post\" class=\"btn_small right\"></td>
-		   </tr>
-			</table>
-				  <div class=\"clear\"></div></div>";
-			exit(0);
+		$_SESSION['fname']=$fname;
+		$ajaxData=$fname.'##===##'.$file;
+		echo $ajaxData;
+		exit(0);
 		}
 	}
 
