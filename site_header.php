@@ -84,16 +84,16 @@ body{ background:repeat-x left top #eeeaec;}
 <script type="text/javascript" src="scripts/stickytooltip.js"></script><!-- photo mous hover effect -->
 <script type="text/javascript">
 	//var k = jQuery.noConflict(); ===> top : 100, 
-	$(function() {
+	/*$(function() {
 		$('a[rel*=leanModal]').leanModal({closeButton: ".modal_close" });		
-	});
+	});*/
 </script>
 <!--AUTO CLICK LEANMODAL SCRIPT
 <script type="text/javascript">
 	$(function() {
 		$('a[rel*=trigger_id]').leanModal({ top : 100, closeButton: ".modal_close" }).trigger('click');		
 	});
-</script>-->
+</script>
 
 <script language="javascript">
 	var name = "#floatMenu";
@@ -106,7 +106,7 @@ body{ background:repeat-x left top #eeeaec;}
 				$(name).animate({top:offset},{duration:500,queue:false});
 			});
 		}); 
-	 </script>
+	 </script>-->
 <!-- Photo Slider css -->
 <link rel="stylesheet" type="text/css" href="board_slider/slider2/style.css" />
 <!-- End Header Menu Tooltip -->
@@ -275,7 +275,7 @@ function fb_logout() {
    </div>
   <?php } ?>
 <script type="text/javascript">
-	at_attach("sample_attach_menu_parent", "sample_attach_menu_child", "hover", "y", "pointer");
+	/*at_attach("sample_attach_menu_parent", "sample_attach_menu_child", "hover", "y", "pointer");*/
 </script>
 <!--END HEADER CODE-->	
 <!-- START EXPERT BOARD CODE AND DIV -->	

@@ -1289,16 +1289,51 @@ function calculateSubmit(){
 	document.getElementById('imgLeft').value=position.left;
 	document.getElementById('imgTop').value=position.top;
 	//alert("left: " + position.left + ", top: " + position.top);
-	return true;
+	
 }
 function openPhotoEditor(photo_id,photo_path){
 	toggleDiv('photo_editor');
 	document.getElementById('photo_img').src=photo_path;
 	document.getElementById('pedit_photo_id').value=photo_id;
 }
-
+function uploadPhotoEditor(){
+   calculateSubmit();
+   var photo_id=document.getElementById('pedit_photo_id').value;
+   var file_name=document.getElementById('file_name').value;
+   var comment=document.getElementById('txtcomment').value;
+   var imgLeft=document.getElementById('imgLeft').value;
+   var imgTop=document.getElementById('imgTop').value;
+   var load_dir=document.getElementById('load_dir').value;
+   var chg_font=document.getElementById('chg_font').value;
+   var chg_size=document.getElementById('chg_size').value;
+   var font_color=document.getElementById('font_color').value;
+	
+	var url = "upload_photo_editor.php?type=add_upd_photo&photo_id="+photo_id+"&file_name="+file_name+"&comment="+comment+"&imgLeft="+imgLeft+"&imgTop="+imgTop+"&load_dir="+load_dir+"&chg_font="+chg_font+"&chg_size="+chg_size+"&font_color="+font_color;	
+	alert(url);
+	
+	http2.open("GET", url , true); 
+	http2.onreadystatechange = handleHttpResponse_uploadPhotoEditor; 
+	http2.send(null);	
+}
+function handleHttpResponse_uploadPhotoEditor()
+{    
+	if (http2.readyState == 4) 
+	{ 
+	  if(http2.status==200) 
+	  { 
+		var results=http2.responseText;
+		results=results.replace(/(\r\n|\n|\r)/gm,"");
+		alert(results);
+		results_array=results.split('##===##');
+		var action_type=results_array[0];
+		var cherryboard_id=results_array[1];
+		document.location='expert_cherryboard.php?cbid='+cherryboard_id;
+		
+	  } 
+	} 
+}
 </script>
-<script src="js/jquery-1.9.1.js"></script>
+<!-- <script src="js/jquery-1.9.1.js"></script> -->
 <script src="js/photo-editor.js"></script>
   <script>
   $(function() {
@@ -1308,15 +1343,13 @@ function openPhotoEditor(photo_id,photo_path){
 <!-- START PHOTO EDITOR CODE -->
 <form action="" method="post" name="frmpeditor" enctype="multipart/form-data">
 <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 100px; width:667px;border:5px solid #000000;" id="photo_editor" class="popup_div">
-		<a class="modal_close" href="javascript:void(0);" onclick="toggleDiv('photo_editor')" title="close"></a>	
-		
 		<div class="Upload_Photo_bg" style="background-color:#FFFFFF">
 		 <input type="hidden" value="0" name="imgLeft" id="imgLeft" />
 		 <input type="hidden" value="0" name="imgTop" id="imgTop" />
-		 <input type="text" value="" name="file_name" id="file_name" />
+		 <input type="hidden" value="0" name="file_name" id="file_name" />
 		 <input type="hidden" value="90" name="rotate_degree" id="rotate_degree" />
-		 <input type="text" value="" name="load_dir" id="load_dir" />
-		 <input type="text" value="0" name="pedit_photo_id" id="pedit_photo_id" />
+		 <input type="hidden" value="0" name="load_dir" id="load_dir" />
+		 <input type="hidden" value="0" name="pedit_photo_id" id="pedit_photo_id" />
    <div class="Upload_Photo_left_bottom">
     <div class="left_Scumbag_img">
 	<div id="files1"><img alt="" id="photo_img" src="images/test.jpg" width="192px" height="192px">
@@ -1378,11 +1411,9 @@ function openPhotoEditor(photo_id,photo_path){
         <div class="right_Upload_icon"><img height="50" width="50" onclick="photo_filter1('effect3')" style="cursor:pointer" src="images/filter/effect3.jpg"></div>
         <div class="right_Upload_icon"><img height="50" width="50" onclick="photo_filter1('effect4')" style="cursor:pointer" src="images/filter/effect4.jpg"></div>
         <div class="right_Upload_icon"><img height="50" width="50" onclick="photo_filter1('effect0')" style="cursor:pointer" src="images/filter/effect0.jpg"></div>
-		 <div class="right_Upload_Cancel"><a href="#">Cancel</a></div>
-        <div class="right_Upload_Cancel"><a href="#">Post</a></div>
+		 <div class="right_Upload_Cancel"><a href="javascript:void(0);" onclick="toggleDiv('photo_editor')">Cancel</a></div>
+        <div class="right_Upload_Cancel"><a href="javascript:void(0);" onclick="uploadPhotoEditor();">Post</a></div>
 		</div>
-      
-	   
    </div>
    
  </div>

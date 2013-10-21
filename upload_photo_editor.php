@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 include('include/app-db-connect.php');
 include('include/app_functions.php');
 require('include/instagraph.php');
@@ -34,9 +33,9 @@ if(isset($_FILES['uploadfile']['name'])&&$_FILES['uploadfile']['name']!=""){
 }
 
 if($type=="rotate"){
-	$file_name=$_GET['file_name'];
-	$rotate_degree=$_GET['rotate_degree'];
-	$load_dir=trim($_GET['load_dir']);
+	$file_name=$_REQUEST['file_name'];
+	$rotate_degree=$_REQUEST['rotate_degree'];
+	$load_dir=trim($_REQUEST['load_dir']);
 	$new_rotate_degree=90;
 	$rotate_img='round_arrow_90.jpg';
 	$newFileName=rand().'_'.$file_name;
@@ -65,9 +64,9 @@ if($type=="rotate"){
 	echo $photoCnt;
 	exit(0);
 }else if($type=="filter") {
-	$file_name=$_GET['file_name'];
-	$filter_type=$_GET['filter_type'];
-	$load_dir=trim($_GET['load_dir']);
+	$file_name=$_REQUEST['file_name'];
+	$filter_type=$_REQUEST['filter_type'];
+	$load_dir=trim($_REQUEST['load_dir']);
 	
 	$newFileName=rand().'_'.$file_name;
 	$uploadPath = 'images/expertboard/'.$load_dir.$file_name;
@@ -105,4 +104,93 @@ if($type=="rotate"){
 	echo $photoCnt;
 	exit(0);
 }//End of if
+
+
+if($type=="add_upd_photo"){
+   $rnd=rand();
+   $photo_id=$_REQUEST['photo_id'];
+   $file_name=$_REQUEST['file_name'];
+   $comment=$_REQUEST['comment'];
+   $imgLeft=$_REQUEST['imgLeft'];
+   $imgTop=$_REQUEST['imgTop'];
+   $load_dir=$_REQUEST['load_dir'];
+   $chg_font=$_REQUEST['chg_font'];
+   $chg_size=$_REQUEST['chg_size'];
+   $font_color=$_REQUEST['font_color'];
+	
+   $photo_name=$rnd.'_'.$file_name;//photo_path set in db
+   $uploaddir='images/expertboard/'.$photo_name;
+   $uploadProfileSlide='images/expertboard/profile_slide/'.$photo_name;
+   $uploaddirThumb='images/expertboard/thumb/'.$photo_name;
+   $uploaddirSliderThumb='images/expertboard/slider/'.$photo_name;
+   $old_uploaddir='images/expertboard/'.$load_dir.$file_name;
+   
+   $cherryboard_id=getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$photo_id);
+   //for local due to ImageMagic not working in local
+   if($_SERVER['SERVER_NAME']=="localhost"){
+   		$retval=copy($old_uploaddir,$uploaddir);
+		$retval1=copy($old_uploaddir,$uploadProfileSlide);
+		$retval2=copy($old_uploaddir,$uploaddirThumb);
+		$retval3=copy($old_uploaddir,$uploaddirSliderThumb);
+   }else{
+   		//profile page part
+	    $thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 219 x 219 ".$uploaddir;
+		$last_line1=system($thumb_command, $retval);
+		
+		//profile multiple 2 time
+	    $thumb_command=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 438 x 438 ".$uploadProfileSlide;
+		$last_line2=system($thumb_command, $retval1);
+   		//thumb part
+		$thumb_command_thumb=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail 60 x 60 ".$uploaddirThumb;
+		$last_line3=system($thumb_command_thumb, $retval2);
+		//Slider Part
+		$imgInfo1=getImageRatio($old_uploaddir,900,500);
+		$NewImgW1=$imgInfo1['width'];
+		$NewImgH1=$imgInfo1['height'];
+		$thumb_command_slide_thumb=$ImageMagic_Path."convert ".$old_uploaddir." -thumbnail ".$NewImgW1." x ".$NewImgH1." ".$uploaddirSliderThumb;
+		$last_line4=system($thumb_command_slide_thumb, $retval3);
+		
+		//Adding Empty BG with photo
+		if($NewImgW1<(900-80)||$NewImgW1<(500-60)){
+			$bg_command_slide_thumb="convert images/expertboard/slider_emptyBG.jpg -gravity Center ".$uploaddirSliderThumb." -compose Over -composite ".$uploaddirSliderThumb;
+			$last_line5=system($bg_command_slide_thumb, $retval4);
+		}
+		
+   }
+   if($retval){
+	  	//START CHANGE STORY PICTURE
+	 	$expStoryPic=trim(getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$photo_id));
+		$expStoryPicPath='images/expertboard/'.$expStoryPic;
+		$expStoryPicProfile='images/expertboard/profile_slide/'.$expStoryPic;
+   		$expStoryPicThumb='images/expertboard/thumb/'.$expStoryPic;
+   		$expStoryPicSlider='images/expertboard/slider/'.$expStoryPic;
+		$updtQry="UPDATE tbl_app_expert_cherry_photo SET photo_title='".$comment."',photo_name='".$photo_name."' WHERE photo_id=".$photo_id;
+		$updtQryRes=mysql_query($updtQry);
+		//update title detail
+		$photo_title_id=(int)getFieldValue('photo_title_id','tbl_app_photo_title_size','photo_id='.$photo_id);
+		if($photo_title_id>0){
+			$insTitle="update `tbl_app_photo_title_size` set `top`='".$imgTop."', `left`='".$imgLeft."', `font_type`='".$chg_font."', `font_color`='".$font_color."', `chg_size`='".$chg_size."' where photo_title_id=".$photo_title_id;
+			$insTitleSql=mysql_query($insTitle);
+		}else{
+			$insTitle="INSERT INTO `tbl_app_photo_title_size` (`photo_title_id`, `photo_id`, `top`, `left`, `font_type`, `font_color`, `font_size`, `record_date`) VALUES (NULL, '".$photo_id."', '".$imgTop."', '".$imgLeft."', '".$chg_font."', '".$font_color."', '".$chg_size."', '".date('y-m-d')."')";
+			$insTitleSql=mysql_query($insTitle);
+		}
+		
+		
+		if($updtQryRes){
+		  	unlink($expStoryPicPath);
+			unlink($expStoryPicProfile);
+			unlink($expStoryPicThumb);
+			unlink($expStoryPicSlider);
+			unlink($old_uploaddir);
+		}				
+	 	echo $type.'##===##'.$cherryboard_id;
+		exit(0);
+   }else{
+		echo "Photo Inserting Error...";
+		unlink($_REQUEST['file_name']);
+		exit(0);
+   }
+}
+
 ?>

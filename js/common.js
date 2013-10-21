@@ -1119,3 +1119,12 @@ function checkIsTodayPhoto(){
 	alert('You Have Already Uploaded Today Picture');
 	return false;	
 }
+function toggleDiv(divName) {
+	var ele = document.getElementById(divName);
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
+} 

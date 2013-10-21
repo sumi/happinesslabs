@@ -1,8 +1,9 @@
 <?php
-include_once "fbmain.php";
-include('include/app-common-config.php');
-require('include/instagraph.php');
 error_reporting(0);
+include('include/app-db-connect.php');
+include('include/app_functions.php');
+require('include/instagraph.php');
+
 $type=$_REQUEST['type'];
 $cherryboard_id=$_REQUEST['cherryboard_id'];
 $mainExpCherryId=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','cherryboard_id="'.$cherryboard_id.'" and main_board="1"');
@@ -514,18 +515,13 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   }else{ $printDay=$photo_day; }
 					   $TotalCheers=getFieldValue('count(cheers_id)','tbl_app_expert_cherryboard_cheers','photo_id='.$photo_id);
 					   $photoCnt.='<div class="bottom_box_main"  style="padding-right:0px;">';				   
-					   /*if($i==3){
-						  $photoCnt.='<div class="bottom_daya">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
-						  <img src="images/banet_2.png" alt="" />';
-						  $varClass='day_got_1';
-						  $varClass1='bottom_healthy_box_1';
-					   }else{*/
-						  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==USER_ID?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
+					   
+						  $photoCnt.='<div class="bottom_day_box">'.$DayType.' '.str_replace('_','.',$printDay).' '.($user_id==$_SESSION['USER_ID']?'<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>';
 						  $varClass='bottom_box_text1';
 						  $varClass1='bottom_healthy_box';
-					   //}
+					  
 					   $photoCnt.='<div class="bottom_box_bg">
-					   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==USER_ID?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.USER_ID.'\')" title="Edit Comment" style="text-decoration:none;color:#FFFFFF;font-size:14px;">':'').''.$photo_title.'</a></div>
+					   <div class="'.$varClass.'" id="photo_title'.$photo_id.'">'.($user_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);" ondblclick="ajax_action(\'upd_photo_title\',\'photo_title'.$photo_id.'\',\'stype=eadd&photo_id='.$photo_id.'&user_id='.$_SESSION['USER_ID'].'\')" title="Edit Comment" style="text-decoration:none;color:#FFFFFF;font-size:14px;">':'').''.$photo_title.'</a></div>
 					   </div>';
 					   $photoCnt.='<div class="bottom_healthy">
 							   <!--<div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
@@ -533,14 +529,14 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 							   '.$TotalCheers.' cheers!</div>--> 
 							  <div class="icon_home_page"><img src="'.$iconPath.'" height="40" width="40"/></div>
 							   <div class="'.$varClass1.'" id="div_photo_day'.$photo_day.'_'.$sub_day.'">
-							   '.($expOwner_id==USER_ID?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
+							   '.($expOwner_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);"  ondblclick="ajax_action(\'edt_exp_photo_day\',\'div_photo_day'.$photo_day.'_'.$sub_day.'\',\'stype=add&photo_day='.$photo_day.'&sub_day='.$sub_day.'&expertboard_id='.$expertboard_id.'&user_id='.$_SESSION['USER_ID'].'\')" title="Edit Day Title">':'').' &nbsp;'.$DaysTitleArr[$photo_day.'_'.$sub_day].'&nbsp;</a></div>
 						  <div class="icon_home_page_text">+10</div>	   
 						  <div style="clear:both"></div>
 						  </div>';				
 					 
-					   $photoCnt.=''.($user_id==USER_ID?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')"':'').'>
+					   $photoCnt.=''.($user_id==$_SESSION['USER_ID']?'<div id="imgtag">':'<div id="imgtag1">').'<div class="img_box_container" align="center" id="div'.$i.'_'.$swap_id.'" '.($user_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')"':'').'>
 					   <div class="feedbox">';
-					   if($user_id==USER_ID){
+					   if($user_id==$_SESSION['USER_ID']){
 							$photoCnt.='<div class="actions"><a class="delete" href="#" title="Delete" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
 						 //Change Photo Hover Code
 						 $photoCnt.='<div class="message1">
@@ -574,7 +570,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   //QUESTION SECTION
 					   $photoCnt.=main_expert_question_section($cherryboard_id,$photo_id,$photo_day);		   
 					   //NOTES SECTION
-					   if($expUser_id==USER_ID){
+					   if($expUser_id==$_SESSION['USER_ID']){
 						   $photoCnt.=main_expert_notes_section($cherryboard_id,$photo_id,$photo_day);
 					   }   						   
 			 
@@ -592,10 +588,10 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 			}else{
 				 $photoCnt='';
 				 //CHECK TODAY PICTURE UPLOADED OR NOT
-				 $doit_id=(int)getFieldValue('doit_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
+				 $doit_id=(int)getFieldValue('doit_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id.' AND user_id='.$_SESSION['USER_ID']);
 				 if($doit_id>0){
 					$todayDate=date('Y-m-d');
-					$selQuery=mysql_query("SELECT DATE_FORMAT(record_date,'%Y-%m-%d') AS uploadDate FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." AND user_id=".USER_ID);
+					$selQuery=mysql_query("SELECT DATE_FORMAT(record_date,'%Y-%m-%d') AS uploadDate FROM tbl_app_expert_cherry_photo WHERE cherryboard_id=".$cherryboard_id." AND user_id=".$_SESSION['USER_ID']);
 					while($selQryRow=mysql_fetch_array($selQuery)){
 						$uploadDate=$selQryRow['uploadDate'];
 						if($todayDate==$uploadDate){
@@ -610,7 +606,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 				 $sub_photoDayArray=array("1"=>$i);
 				 $photoPath='images/cherryboard/no_image.png'; 
 				 $photoCnt.='<div class="bottom_box_main"  style="padding-right:0px;">
-							 <div class="bottom_day_box">'.$DayType.' '.$i.''.($user_id==USER_ID?'&nbsp;<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
+							 <div class="bottom_day_box">'.$DayType.' '.$i.''.($user_id==$_SESSION['USER_ID']?'&nbsp;<img src="images/upload.png" onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';" height="15" width="15" style="vertical-align:middle;cursor:pointer;" title="Add Your Picture" />':'').'</div>
 							 <div class="bottom_box_bg">
 								<div class="bottom_box_text1" id="photo_title'.$i.'">No Photo</div>
 							 </div>
@@ -621,7 +617,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 								 <div style="clear:both"></div>
 							 </div>
 							 <div class="day_img" style="padding:12px;">
-							 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
+							 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
 							 </div>
 							 </div>';
 				 $photoCnt.='</div>';
@@ -658,7 +654,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 			}
 		}		
 		$NewphotoCnt.='</tr>
-		<tr><td colspan="3" style="height:50px;padding-left:450px;">'.($expOwner_id==USER_ID?'<a href="javascript:void(0);" onclick="ajax_action(\'increase_expdays_items\',\'div_exp_day_'.$expertboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.USER_ID.'\')" title="Add '.$DayType.'" class="gray_link_15">+</a>':'&nbsp;').'</td></tr>';
+		<tr><td colspan="3" style="height:50px;padding-left:450px;">'.($expOwner_id==$_SESSION['USER_ID']?'<a href="javascript:void(0);" onclick="ajax_action(\'increase_expdays_items\',\'div_exp_day_'.$expertboard_id.'\',\'cherryboard_id='.$cherryboard_id.'&user_id='.$_SESSION['USER_ID'].'\')" title="Add '.$DayType.'" class="gray_link_15">+</a>':'&nbsp;').'</td></tr>';
 		
 		$NewphotoCnt.='</table>';
 }			

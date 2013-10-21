@@ -36,7 +36,7 @@ $user_name=$userDetail['name'];
 </div>          
 <!-- START LEFT PAGE -->
 <div class="activate_friends_main_top">
-    <div id="div_mission_top_menu" class="book_tabs_main_page_left">
+    <div id="div_mission_top_menu" class="book_tabs_main_page_left">    
     <?php
     $selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
     while($selPillarRow=mysql_fetch_array($selPillar)){
@@ -44,11 +44,16 @@ $user_name=$userDetail['name'];
 		  $pillar_no=$selPillarRow['pillar_no'];   
 		  if($pillar_no==1){
           echo '<div class="book_tabs_left_love"></div>
-               <div class="book_tabs_love"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
+               <div class="book_tabs_love">
+			   <div class="process_box" id="div_checkbox_checked_'.$pillar_no.'"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
+			   </div>
                <div class="book_tabs_right_love"></div>';
 		 }else{
 		 echo '<div class="book_tabs_left"></div>
-               <div class="book_tabs"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
+               <div class="book_tabs">
+			   <div class="process_box" id="div_checkbox_checked_'.$pillar_no.'"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a>
+			   </div>
+			   </div>
                <div class="book_tabs_right"></div>';
 		 }
     }
@@ -66,9 +71,10 @@ $user_name=$userDetail['name'];
 	   		$selMission=mysql_query("SELECT * FROM tbl_app_happy_mission WHERE pillar_no=1 ORDER BY happy_mission_id");
 	   		while($selMissionRow=mysql_fetch_array($selMission)){ 
 				  $happy_mission_id=(int)$selMissionRow['happy_mission_id'];
+				  $PillarNo=(int)$selMissionRow['pillar_no'];
 				  $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));
 				  $happyMissionCnt.='<td>';
-				  $happyMissionCnt.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" style="height:20px;width:20px;"></div>';
+				  $happyMissionCnt.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" onclick="getCheckedBoxes(\'happy_mission_'.$happy_mission_id.'\',\''.$PillarNo.'\');" style="height:20px;width:20px;"></div>';
 				  
 				  $happyMissionCnt.='<div class="friends_box_img_new"><img src="images/mission/mission_'.$happy_mission_id.'.png" width="150px" height="150px" title="'.$happy_mission_title.'"/></div>';
 				  $happyMissionCnt.='</td>';
@@ -90,5 +96,20 @@ $user_name=$userDetail['name'];
 <div style="clear:both"></div>
 <div style="padding-bottom:60px;"></div>
 <!-- END MIDDLE SECTION -->
+<script type="text/javascript">
+//GET CHECKBOX VALUE FUNCTION
+function getCheckedBoxes(chkboxName,pillarNo){
+	var checkboxes=document.getElementsByName(chkboxName);
+	for(var i=0;i<checkboxes.length;i++){
+		if(checkboxes[i].checked){
+		   document.getElementById('div_checkbox_checked_'+pillarNo).className='process_box_checked';
+		   return true;
+		}else{
+		   document.getElementById('div_checkbox_checked_'+pillarNo).className='process_box';
+		   return false;
+		}
+	}
+}
+</script>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>
