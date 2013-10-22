@@ -467,13 +467,12 @@ function showDynamicDiv(DivName,totalDyndivName){
 	document.getElementById(totalDyndivName).value=divnum;
 }
 //==ajax
-function ajax_action(type,div_name,stringVar)
-{	
+function ajax_action(type,div_name,stringVar){	
 	var isAction=0;
 	var script_name='ajax_data.php';
 	
 	//NEW USER FLOW HAPPYMISSION
-	if(type=="newuser_happy_mission"){
+	if(type=="newuser_happy_mission"||type=="chk_newuser_mission"){
 		isAction=1;
 	}
 	//Home Page Refresh Slider
@@ -807,9 +806,15 @@ function handleHttpResponse_ajax_action()
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
 		
-		//New user flow happy mission top menu
-		if(action_type=="newuser_happy_mission"){
-			document.getElementById('div_mission_top_menu').innerHTML=results_array[3];
+		//SHOW MISSION ARROW FOR NEW USER FLOW
+		if(results_array[3]=="show_mission_arrow"){
+		   document.getElementById('magazine').style.width='1307px';
+		   document.getElementById('div_mission_middle_arrow').style.display='block';	
+		}
+		//HIDE MISSION ARROW FOR NEW USER FLOW
+		if(results_array[3]=="hide_mission_arrow"){
+		   document.getElementById('magazine').style.width='1152px';
+		   document.getElementById('div_mission_middle_arrow').style.display='none';	
 		}
 		//Extra action for checklist 
 		if(action_type=="add_expert_checklist"||action_type=="remove_expert_checklist"){

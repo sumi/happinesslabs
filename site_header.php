@@ -172,53 +172,29 @@ function fb_logout() {
 }());
 </script>
 <!-- END FB LOGIN CODE -->
-
 <!--START HEADER CODE-->
-<!-- <script type="text/javascript" src="js/dropdown.js"></script> -->
-  <!-- START LOGIN USER HEADER SECTION -->
-  <?php if(FB_ID>0){ ?>
-  <div class="main_bg">
-    <div class="main_top">      
-      <div class="logo"><a href="index_detail.php"><img src="images/logo_1.png" alt="" /></a></div>		
-	   <!-- <div class="text_1">
-	   		<div id="sample_attach_menu_parent" class="sample_attach">
-			<a href="#">Happiness<br />Bank</a>
-			</div>
-			<div id="sample_attach_menu_child">
-			<a class="sample_attach" href="add_happy_experience.php">Add Happy Experience</a>
-			<a class="sample_attach" href="add_unhappy_experience.php">Add Unhappy Experience</a>
-			</div>
-       </div> -->
-       
-	   <!-- <div class="tell" style="padding-top: 35px;">
-	   		<div id="sample_attach_menu_parent" class="sample_attach">
-			<a href="happiness_book.php">My Life<br/>Story Book of<br/>Happy Living</a>
-			</div>
-			<div id="sample_attach_menu_child">
-			<a class="sample_attach_one" rel="leanModal" href="#create_expert_board">My Life Story</a>
-			<a class="sample_attach_one" href="customer_happy_story.php">Customer Happy Story</a>
-			<a class="sample_attach_one" rel="leanModal" href="#add_story_template">Add Story Template</a>
-		    </div>	  
-       </div> 
-       <div class="tell"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
-                                       Happy Living</a>
-       </div>
-       <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
-                                       Happy Living</a>
-      </div> -->
-	  <div class="tell" style="padding-left:100px">&nbsp;</div>
-	   <div class="tell">
-           <a href="happiness_book.php" class="toolTip"><img src="images/heart_icon.png">
-           <span><img class="callout" src="images/callout.gif" />
-           <img src="images/heart_icon.png" style="vertical-align:middle;">
-           My Happy Life Story Book</span></a>	  
-       </div>
-       <div class="tell">
-            <a href="ask_experts.php" class="toolTip"><img src="images/mind_icon.png">
+<div class="mine_top_bg">
+    <div class="mine_top_index">
+    	<div class="logo_home"><img src="images/logo_1.png" alt="" /></div>
+    	<div class="logo_text">&nbsp;</div>
+    <div class="tell_mine">	 
+    	<div class="tell" style="padding-left:100px">&nbsp;</div>
+        <div class="tell">
+            <a href="happiness_book.php" class="toolTipMenu">
+            <img src="images/heart_icon.png">
+            <span><img class="callout" src="images/callout.gif" />
+            <img src="images/heart_icon.png" style="vertical-align:middle;">
+            My Happy Life Story Book</span></a>	  
+        </div>
+        <div class="tell">
+            <a href="ask_experts.php" class="toolTipMenu">
+            <img src="images/mind_icon.png">
             <span><img class="callout" src="images/callout.gif" />
             <img src="images/mind_icon.png" style="vertical-align:middle;">Happy Living University</span></a>
-       </div>
-        <div class="img_top">
+        </div>
+    </div>
+    <?php if(FB_ID>0){ ?>
+    	 <div class="img_top">
          <div class="img_ima"><a href="index_detail.php"><img src="<?php echo PHOTO_URL;?>" alt="" /></a></div>
          <div class="img_logout"><a href="javascript:void();" onClick="fb_logout();" title="Logout">Logout</a>
 		 </div>
@@ -226,57 +202,16 @@ function fb_logout() {
         <a href="index_detail.php" style="text-decoration:none;color:#e04e32;font-size:14px;">
 		 Welcome<br />
          <?php echo FIRST_NAME.'&nbsp;'.LAST_NAME;?></a>
-    </div>
-    <div style="clear:both"></div>
-  </div> 
-  <!-- START HOME PAGE (WITHOUT LOGIN USER) HEADER SECTION --> 
-  <?php }else{ ?>
- <div class="mine_top_bg">
-    <div class="mine_top_index">
-      <div class="logo_home"><img src="images/logo_1.png" alt="" /></div>
-      <div class="logo_text">&nbsp;</div>
-      <div class="tell_mine">
-	 <!--  <div class="tell" style="padding-top: 46px;">
-			<div id="sample_attach_menu_parent">
-			<a href="#">My Life<br/>Story Book of<br/>Happy Living</a>
-			</div>
-			<div id="sample_attach_menu_child" style="z-index:111;">
-			<a <?=(FB_ID>0?'rel="leanModal" href="#create_expert_board"':'href="javascript:void(0);"')?> class="sample_attach_one">My Life Story</a>
-			<a class="sample_attach_one" href="customer_happy_story.php">Customer Happy Story</a>
-			<a <?=(FB_ID>0?'rel="leanModal" href="#add_story_template"':'href="javascript:void(0);"')?> class="sample_attach_one">Add Story Template</a>
-			</div>
-      </div>
-       <div class="tell"><a href="win_rewards.php" title="Happy Rewards For You">University of<br />
-                                       Happy Living</a>
-       </div>
-       <div class="tell"><a href="ask_experts.php" title="Happy Stories To Inspire">Bank of<br />
-                                       Happy Living</a>
-      </div> -->
-	   <div class="tell" style="padding-left:100px">&nbsp;</div>
-	   	   <div class="tell">
-           <a href="happiness_book.php" class="toolTip"><img src="images/heart_icon.png">
-           <span><img class="callout" src="images/callout.gif" />
-           <img src="images/heart_icon.png" style="vertical-align:middle;">
-           My Happy Life Story Book</span></a>	  
-       </div>
-       <div class="tell">
-           <a href="ask_experts.php" class="toolTip"><img src="images/mind_icon.png">
-           <span><img class="callout" src="images/callout.gif" />
-           <img src="images/mind_icon.png" style="vertical-align:middle;">Happy Living University</span></a>
-       </div>
-       </div>
+     <?php }else{ ?>    
         <div class="facebook">
-         <div class="facebook_left"></div>
-         <div class="facebook_bottom"><a href="#" onClick="fb_login();">login with facebook</a></div>
-         <div class="facebook_right"></div>
+        <div class="facebook_left"></div>
+        <div class="facebook_bottom"><a href="#" onClick="fb_login();">login with facebook</a></div>
+        <div class="facebook_right"></div>
         </div>
-	 </div>
-   <div style="clear:both"></div>
-   </div>
-  <?php } ?>
-<script type="text/javascript">
-	/*at_attach("sample_attach_menu_parent", "sample_attach_menu_child", "hover", "y", "pointer");*/
-</script>
+     <?php } ?>
+    </div>
+<div style="clear:both"></div>
+</div>
 <!--END HEADER CODE-->	
 <!-- START EXPERT BOARD CODE AND DIV -->	
 <?php

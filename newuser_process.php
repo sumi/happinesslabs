@@ -33,36 +33,38 @@ $user_name=$userDetail['name'];
         	<div class="life_story_book_text">Life Story Book</div>
         </div>
     </div>
-</div>          
+</div>         
+<!-- START MIDDLE MISSION BOOK ARROW -->
+<div class="middle_mission_div" id="div_mission_middle_arrow" style="display:none;">
+<div class="wellness_button_images"></div>
+<div class="wellness_button" style="padding:0px;margin:20px 0 10px 0;">
+<a href="javascript:void(0);">Move my<br/> happy missions<br/> into my happy<br/> life story book</a>
+</div>
+</div>
+<!-- END OF MIDDLE MISSION BOOK ARROW --> 
 <!-- START LEFT PAGE -->
-<div class="activate_friends_main_top">
-    <div id="div_mission_top_menu" class="book_tabs_main_page_left">    
+<div class="activate_friends_main_top" id="div_newuser_mission">
+    <div class="book_tabs_main_page_left">    
     <?php
     $selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
     while($selPillarRow=mysql_fetch_array($selPillar)){
      	  $title=trim(ucwords($selPillarRow['title'])); 
 		  $pillar_no=$selPillarRow['pillar_no'];   
-		  if($pillar_no==1){
-          echo '<div class="book_tabs_left_love"></div>
-               <div class="book_tabs_love">
-			   <div class="process_box" id="div_checkbox_checked_'.$pillar_no.'"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a></div>
-			   </div>
-               <div class="book_tabs_right_love"></div>';
-		 }else{
-		 echo '<div class="book_tabs_left"></div>
-               <div class="book_tabs">
-			   <div class="process_box" id="div_checkbox_checked_'.$pillar_no.'"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a>
+		  $_SESSION['mission_'.$pillar_no]='';
+		 echo '<div class="book_tabs_left'.($pillar_no==1?'_love':'').'"></div>
+               <div class="book_tabs'.($pillar_no==1?'_love':'').'">
+			   <div class="process_box"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillar_no.'\');">'.$title.'</a>
 			   </div>
 			   </div>
-               <div class="book_tabs_right"></div>';
-		 }
+               <div class="book_tabs_right'.($pillar_no==1?'_love':'').'"></div>';
+		 
     }
     ?>
     </div>
 	<div style="clear:both"></div>      
     <div class="activate_friends_bg">
         <div class="book_page_right_new">
-        <div id="div_newuser_mission" style="padding-top:5px;width:530px;margin:auto;padding-bottom:35px;">
+        <div style="padding-top:5px;width:530px;margin:auto;padding-bottom:35px;">
         <table border="0">
         <tr>
         <?php
@@ -74,7 +76,7 @@ $user_name=$userDetail['name'];
 				  $PillarNo=(int)$selMissionRow['pillar_no'];
 				  $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));
 				  $happyMissionCnt.='<td>';
-				  $happyMissionCnt.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" onclick="getCheckedBoxes(\'happy_mission_'.$happy_mission_id.'\',\''.$PillarNo.'\');" style="height:20px;width:20px;"></div>';
+				  $happyMissionCnt.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission[]" name="happy_mission[]" onclick="ajax_action(\'chk_newuser_mission\',\'div_newuser_mission\',\'pillar_no='.$PillarNo.'&happy_mission_id='.$happy_mission_id.'\');" style="height:20px;width:20px;"></div>';
 				  
 				  $happyMissionCnt.='<div class="friends_box_img_new"><img src="images/mission/mission_'.$happy_mission_id.'.png" width="150px" height="150px" title="'.$happy_mission_title.'"/></div>';
 				  $happyMissionCnt.='</td>';

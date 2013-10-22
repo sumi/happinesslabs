@@ -8,49 +8,89 @@ include('include/app_functions.php');
 $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
+
 //NEW USER FLOW HAPPY MISSION
-if($type=="newuser_happy_mission"){
+if($type=="newuser_happy_mission"||$type=="chk_newuser_mission"){
    $pillar_no=(int)$_GET['pillar_no'];
-   $missionMenuCnt='';
-   $cnt=1;
-   if($pillar_no>0){
-   	   //Happy Mission Header Section
-	   $selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
-       while($selPillarRow=mysql_fetch_array($selPillar)){
-     	     $title=trim(ucwords($selPillarRow['title'])); 
-		     $pillarNo=$selPillarRow['pillar_no'];   
-		     if($pillar_no==$pillarNo){
-             $missionMenuCnt.='<div class="book_tabs_left_love"></div>
-                   <div class="book_tabs_love">
-				<div class="process_box" id="div_checkbox_checked_'.$pillarNo.'">
-				   <a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillarNo.'\');">'.$title.'</a></div></div>
-                   <div class="book_tabs_right_love"></div>';
-		 }else{
-		     $missionMenuCnt.='<div class="book_tabs_left"></div>
-                   <div class="book_tabs">
-				<div class="process_box" id="div_checkbox_checked_'.$pillarNo.'">
-				   <a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillarNo.'\');">'.$title.'</a></div></div>
-                   <div class="book_tabs_right"></div>';
-		 }
-       }
-   	   //Happy Mission Picture Section 	
-	   $ajax_data.='<table border="0"><tr>';
-	   $selMission=mysql_query("SELECT * FROM tbl_app_happy_mission WHERE pillar_no=".$pillar_no." ORDER BY happy_mission_id");
-	   while($selMissionRow=mysql_fetch_array($selMission)){ 
-			 $happy_mission_id=(int)$selMissionRow['happy_mission_id'];
-			 $PillarNo=(int)$selMissionRow['pillar_no'];
-			 $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));
-			 $ajax_data.='<td>';
-			 $ajax_data.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" onclick="getCheckedBoxes(\'happy_mission_'.$happy_mission_id.'\',\''.$PillarNo.'\');" style="height:20px;width:20px;"></div>';
-			  
-			 $ajax_data.='<div class="friends_box_img_new"><img src="images/mission/mission_'.$happy_mission_id.'.png" width="150px" height="150px" title="'.$happy_mission_title.'"/></div>';
-			 $ajax_data.='</td>';
-			 if($cnt==3){$ajax_data.='</tr><tr>'; $cnt=0;}
-			 $cnt++;
-	   }
-	   $ajax_data.='</tr></table>';
+   $happy_mission_id=(int)$_GET['happy_mission_id'];
+   $missionArrow='';
+   	  
+   if($happy_mission_id>0){
+   	  if($_SESSION['mission_'.$pillar_no]!=""){
+		 $newIdsArr=explode(',',$_SESSION['mission_'.$pillar_no]);
+			 if(in_array($happy_mission_id,$newIdsArr)){
+				unset($newIdsArr[array_search($happy_mission_id,$newIdsArr)]);
+			 }else{
+				array_push($newIdsArr,$happy_mission_id);
+			 }
+		 $_SESSION['mission_'.$pillar_no]=implode(',',$newIdsArr);
+	  }else{
+	  	 $_SESSION['mission_'.$pillar_no]=$happy_mission_id;
+	  }
    }
-   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$missionMenuCnt;
+   if($_SESSION['mission_1']!=''&&$_SESSION['mission_2']!=''&&$_SESSION['mission_3']!=''&&$_SESSION['mission_4']!=''&&$_SESSION['mission_5']!=''&&$_SESSION['mission_6']!=''&&$_SESSION['mission_7']!=''){
+   	  $missionArrow.='show_mission_arrow';
+   }else{
+   	  $missionArrow.='hide_mission_arrow';
+   }
+	   
+   if($pillar_no>0){
+    if($_SESSION['mission_'.$pillar_no]!=""){
+	  $tabArray=explode(',',$_SESSION['mission_'.$pillar_no]);
+    }
+    $ajax_data.='<div id="div_mission_top_menu" class="book_tabs_main_page_left">';
+	$selPillar=mysql_query("SELECT title,pillar_no FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+    while($selPillarRow=mysql_fetch_array($selPillar)){
+     	  $title=trim(ucwords($selPillarRow['title'])); 
+		  $pillarNo=$selPillarRow['pillar_no'];
+		  if($_SESSION['mission_'.$pillarNo]!=""){
+			 $NewtabArray=explode(',',$_SESSION['mission_'.$pillarNo]);
+		   }else{
+		   	 $NewtabArray=array();
+		   }
+		 $ajax_data.='<div class="book_tabs_left'.($pillar_no==$pillarNo?'_love':'').'">
+		 	   </div>
+               <div class="book_tabs'.($pillar_no==$pillarNo?'_love':'').'">
+			   <div class="'.(count($NewtabArray)>0?'process_box_checked':'process_box').'"><a href="javascript:void(0);" onclick="ajax_action(\'newuser_happy_mission\',\'div_newuser_mission\',\'pillar_no='.$pillarNo.'\');">'.$title.'</a>
+			   </div>
+			   </div>
+               <div class="book_tabs_right'.($pillar_no==$pillarNo?'_love':'').'"></div>';
+		 
+    }
+   
+    $ajax_data.='</div>
+		<div style="clear:both"></div>      
+		<div class="activate_friends_bg">
+			<div class="book_page_right_new">
+			<div style="padding-top:5px;width:530px;margin:auto;padding-bottom:35px;">
+			<table border="0">
+			<tr>';
+       
+			$happyMissionCnt='';
+			$cnt=1;
+	   		$selMission=mysql_query("SELECT * FROM tbl_app_happy_mission WHERE pillar_no=".$pillar_no." ORDER BY happy_mission_id");
+	   		while($selMissionRow=mysql_fetch_array($selMission)){ 
+				  $happy_mission_id=(int)$selMissionRow['happy_mission_id'];
+				  $PillarNo=(int)$selMissionRow['pillar_no'];
+				  $happy_mission_title=trim(ucwords($selMissionRow['happy_mission_title']));
+				  $happyMissionCnt.='<td>';
+				  $happyMissionCnt.='<div style="margin:0 0 0 75px;"><input type="checkbox" id="happy_mission_'.$happy_mission_id.'" name="happy_mission_'.$happy_mission_id.'" onclick="ajax_action(\'chk_newuser_mission\',\'div_newuser_mission\',\'pillar_no='.$PillarNo.'&happy_mission_id='.$happy_mission_id.'\');" style="height:20px;width:20px;" '.(in_array($happy_mission_id,$tabArray)>0?'checked="checked"':'').'></div>';
+				  
+				  $happyMissionCnt.='<div class="friends_box_img_new"><img src="images/mission/mission_'.$happy_mission_id.'.png" width="150px" height="150px" title="'.$happy_mission_title.'"/></div>';
+				  $happyMissionCnt.='</td>';
+				  if($cnt==3){$happyMissionCnt.='</tr><tr>'; $cnt=0;}
+				  $cnt++;
+	   		}
+	   		$ajax_data.=$happyMissionCnt;  
+		 	
+        $ajax_data.='</tr>
+        </table>
+        </div>      
+        </div>      
+    </div>';
+
+   }
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$missionArrow;
    echo $ajax_data;
 }
 //HOME PAGE REFRESH SLIDER CODE

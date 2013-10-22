@@ -45,3 +45,6 @@ border:2px solid #FF0000;
 .process_box_checked{
 border:none;
 }
+.middle_mission_div{
+width:140px;float:right;background-color:#FFFFFF;margin:250px 20px 0 0;
+}

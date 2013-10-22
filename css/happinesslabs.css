@@ -39,22 +39,21 @@ body {
 .tell{float:left; padding:65px 30px 0 0px;}
 .tell a{text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#6d6e70;}
 /*START HEADER TOOLTIP MENU CSS*/
-a.toolTip {outline:none;text-decoration:none; }
-a.toolTip:hover {text-decoration:none;} 
-a.toolTip span {
+a.toolTipMenu {outline:none;text-decoration:none; }
+a.toolTipMenu:hover {text-decoration:none;} 
+a.toolTipMenu span {
     z-index:10;display:none; padding:14px 5px;
     margin-top:-50px; margin-left:60px;
     width:330px; line-height:15px;	
 }
-a.toolTip:hover span{
+a.toolTipMenu:hover span{
     display:inline; position:absolute; color:#111;
     border:1px solid #DCA; background:#fffAF0;
 	font-size:22px;
 }
 .callout {z-index:20;position:absolute;top:23px;border:0;left:-12px;}
-    
-/*CSS3 extras*/
-a.toolTip span
+
+a.toolTipMenu span
 {
     border-radius:4px;
     -moz-border-radius: 4px;
@@ -63,7 +62,7 @@ a.toolTip span
     -webkit-box-shadow: 5px 5px 8px #CCC;
     box-shadow: 5px 5px 8px #CCC;
 }
-
+/*END OF HEADER TOOLTIP MENU CSS*/
 .facebook{float:right; margin:60px 57px 0 0;}
 .facebook_left{background-image:url(../images/left-im.png); background-repeat:no-repeat;}
 .facebook_bottom{background-image:url(../images/bottom-im.png); background-repeat: repeat-x;  padding:11px 17px; text-align:center;}
