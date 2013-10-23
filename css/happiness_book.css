@@ -48,3 +48,15 @@ border:none;
 .middle_mission_div{
 width:140px;float:right;background-color:#FFFFFF;margin:250px 20px 0 0;
 }
+.divClassRight{
+	float:right;
+	margin-top:10px;/*5*/
+	margin-left:570px;
+	position:absolute;
+}
+.spanClass{
+	background-color:#666666;
+	color:#FFFFFF;
+	padding:5px;
+	/*display:inline-table;*/
+}

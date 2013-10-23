@@ -192,3 +192,13 @@ ALTER TABLE  `tbl_app_expertboard_days` ADD  `cherryboard_id` INT( 11 ) NOT NULL
 
 ALTER TABLE `tbl_app_expert_checklist` ADD `day_no` INT( 11 ) NOT NULL ,
 ADD `sub_day` INT( 11 ) NOT NULL DEFAULT '1'
+
+10/22/2013
+CREATE TABLE IF NOT EXISTS `tbl_app_user_happy_mission` (
+  `user_mission_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pillar_no` int(11) NOT NULL,
+  `happy_mission_id` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_mission_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

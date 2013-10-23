@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include('include/app-db-connect.php');
 include('include/app_functions.php');
 require('include/instagraph.php');

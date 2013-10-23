@@ -1478,4 +1478,40 @@ function expert_todolist_section($cherryboard_id,$photo_id,$photo_day=0,$sub_day
 		   	   <div style="clear:both"></div>';
    return $photoCnt;
 }
+function setPhotoTitle($photo_id){
+	$newTitle='';
+	if($photo_id>0){
+		$photoTitleArray=getFieldsValueArray('photo_title,photo_name','tbl_app_expert_cherry_photo','photo_id='.$photo_id);
+		$photoTitle=$photoTitleArray['photo_title'];
+		$photoPath='images/expertboard/slider/'.$photo_name;
+		if(!is_file($photoPath)){
+			$photoPath='images/expertboard/'.$photo_name;
+		}
+		$photoSize=getImgSizeRatio($photoPath,'213','213');
+		$width=$photoSize['Width'];
+		$height=$photoSize['Height'];
+		if($photoTitle!=""){
+			$photoDetail=getFieldsValueArray('`top`,`left`,`font_type`,`font_color`,`font_size`','tbl_app_photo_title_size','photo_id='.$photo_id);
+			$txtProp='';
+			$top=(int)$photoDetail[0];
+			if($top>$height&&$height!=0){$top='192';}
+			if($top==""){$top=0;}
+			
+			$left=$photoDetail[1];
+			if($left==""){$left=0;}
+			$font_type=$photoDetail[2];
+			$font_color=$photoDetail[3];
+			$font_size=$photoDetail[4];
+
+			if($top!=""){$txtProp.='top:'.$top.'px;'; }//top
+			if($left!=""){$txtProp.='left:'.$left.'px;'; }//left
+			if($font_type!=""){$txtProp.='font-family:'.$font_type.';'; }//font_type
+			if($font_color!=""){$txtProp.='color:'.$font_color.';'; }//font_color
+			if($font_size!=""){$txtProp.='font-size:'.$font_size.';'; }//font_size
+			
+			$newTitle='<p style="position:absolute;'.$txtProp.'">'.$photoTitle.'</p>';
+		}
+	}
+	return $newTitle;
+}
 ?>

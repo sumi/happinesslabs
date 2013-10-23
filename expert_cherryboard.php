@@ -12,6 +12,8 @@ $expertboard_cehrry_id=getFieldValue('cherryboard_id','tbl_app_expert_cherryboar
 $msg='';
 $sort='asc';
 
+
+
 //UPLOAD EXPERT PHOTO
 $msg="";
 if(isset($_SESSION['insert_photo_id'])){
@@ -826,7 +828,9 @@ function postToFeedExp() {
 				   $photoCnt.='<div id="divHover" rel="'.$tag_id.'" class="tagview1 type1" style="left:'.$tag_x.'px;top:'.$tag_y.'px;"></div><div class="tagview" style="left:'.$tagX.'px;top:'.$tagY.'px;" id="view_'.$tag_id.'">'.($tag_photo!=''?'<img src="'.$tagPhotoPath.'" height="100" width="100"><br/>'.$tag_title.'':''.$tag_title.'').'</div>';
 				     }
 				  } 
-				   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:213px" onclick="setPicId('.$photo_id.');"></div></div>';
+				   $photoCnt.='</div><img src="'.$photoPath.'" id="drag'.$i.'_'.$swap_id.'" draggable="true" ondragstart="drag(event,\''.$i.'_'.$swap_id.'_'.$sub_day.'\')" data-tooltip="stickyCherry'.$photo_id.'" style="width:213px" onclick="setPicId('.$photo_id.');">
+				  	'.setPhotoTitle($photo_id).'
+				   </div></div>';
 				   
 				   $photoCnt.='<div class="applemenu">';
 				   //TODO LIST SECTION
