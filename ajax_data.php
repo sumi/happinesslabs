@@ -68,7 +68,7 @@ if($type=="store_user_mission"){
 						   $is_publish=(int)getFieldValue('is_publish','tbl_app_expert_cherryboard','expertboard_id='.$expertboard_id.' AND user_id='.$user_id);
 						  
 						   if($expertboard_title!=''&&$user_id>0&&$is_publish==1){
-							  $selMissionsCnt.='<div>
+							  $selMissionsCnt.='<div style="height:180px;">
 							  <div class="friends_box_img_new" style="float:left;">
 								<img src="'.$missionPic.'" height="150" width="150" />
 							  </div>';
@@ -77,7 +77,7 @@ if($type=="store_user_mission"){
 							  $selMissionsCnt.='<div style="float:left;">
 							  <a href="#" title="Join" style="text-decoration:none;">Join</a>
 							  </div>';
-							  $selMissionsCnt.='</div><br/><br/>';
+							  $selMissionsCnt.='</div>';
 						   }
 					 }				 
 				  }
