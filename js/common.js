@@ -472,7 +472,7 @@ function ajax_action(type,div_name,stringVar){
 	var script_name='ajax_data.php';
 	
 	//NEW USER FLOW HAPPYMISSION
-	if(type=="newuser_happy_mission"||type=="chk_newuser_mission"){
+	if(type=="newuser_happy_mission"||type=="chk_newuser_mission"||type=="store_user_mission"){
 		isAction=1;
 	}
 	//Home Page Refresh Slider

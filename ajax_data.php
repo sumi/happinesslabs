@@ -9,12 +9,106 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//SHOW USER HAPPY MISSION
+if($type=="store_user_mission"){
+   //START USER MISSION STORE IN DB
+   $stype=trim($_GET['stype']);
+   if($stype=="UserMission"&&$_SESSION['USER_ID']>0){
+   	  if($_SESSION['mission_1']!=''&&$_SESSION['mission_2']!=''&&$_SESSION['mission_3']!=''&&$_SESSION['mission_4']!=''&&$_SESSION['mission_5']!=''&&$_SESSION['mission_6']!=''&&$_SESSION['mission_7']!=''){
+	  	 for($i=1;$i<=7;$i++){
+		 	$insMission="INSERT INTO tbl_app_user_happy_mission
+			(user_mission_id, pillar_no,happy_mission_id,user_id,record_date)
+			VALUES(NULL,'".$i."','".$_SESSION['mission_'.$i]."','".(int)$_SESSION['USER_ID']."',CURRENT_TIMESTAMP)";
+			$insUsrMission=mysql_query($insMission);
+		 }
+		 if($insUsrMission){
+		 	//Start right side page code
+		 	$ajax_data.='<div class="activate_friends_main_top" style="width:569px">
+    					 <div class="book_tabs_main_page">';
+    
+    		$selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+    		while($selPillarRow=mysql_fetch_array($selPillar)){
+     	  		  $title=trim(ucwords($selPillarRow['title']));    
+     	          $ajax_data.='<div class="book_tabs_left"></div>
+                        <div class="book_tabs"><a href="#">'.$title.'</a></div>
+                        <div class="book_tabs_right"></div>';
+    		}
+   			$ajax_data.='</div>
+			<div style="clear:both"></div>          
+    		<div class="activate_friends_bg">
+    		<div class="divClassRight">
+				<span class="spanClass">Happy <br/> Missions</span><br/><br/>
+				<span class="spanClass">People</span><br/><br/>
+				<span class="spanClass">Products</span><br/><br/>
+				<span class="spanClass">Places</span><br/><br/>
+				<span class="spanClass">Plans</span><br/><br/>
+        	</div>
+        	<div class="book_page_right_new1">';
+			$selMissionsCnt='';
+			//START SELECT NEW USER MISSIONS
+			$selUsrMission=mysql_query("SELECT * FROM tbl_app_user_happy_mission WHERE user_id=".$_SESSION['USER_ID']);
+			while($selUsrMissionRow=mysql_fetch_array($selUsrMission)){
+				  $user_mission_id=(int)$selUsrMissionRow['user_mission_id'];
+				  $pillar_no=(int)$selUsrMissionRow['pillar_no'];
+				  $happy_mission_id=trim($selUsrMissionRow['happy_mission_id']);
+				  $missionIdsArr=explode(',',$happy_mission_id);
+				  
+				  foreach($missionIdsArr as $missId){
+					 $missionPic='images/mission/mission_'.$missId.'.png';
+					 //GET STORYBOARD DETAILS 
+					 $selStory=mysql_query("SELECT expertboard_id,user_id,expertboard_title FROM tbl_app_expertboard WHERE happy_mission_id=".$missId);
+					 while($selStoryRow=mysql_fetch_array($selStory)){
+						   $expertboard_id=(int)$selStoryRow['expertboard_id'];
+						   $user_id=(int)$selStoryRow['user_id'];
+						   $expertboard_title=trim(ucwords($selStoryRow['expertboard_title']));
+						   $userDetail=getUserDetail($user_id,'uid');
+						   $photoUrl=$userDetail['photo_url'];
+						   $ownerName=$userDetail['name'];
+						   //CHECK STORYBOARD IS PUBLISHED OR NOT PUBLISHED
+						   $is_publish=(int)getFieldValue('is_publish','tbl_app_expert_cherryboard','expertboard_id='.$expertboard_id.' AND user_id='.$user_id);
+						  
+						   if($expertboard_title!=''&&$user_id>0&&$is_publish==1){
+							  $selMissionsCnt.='<div>
+							  <div class="friends_box_img_new" style="float:left;">
+								<img src="'.$missionPic.'" height="150" width="150" />
+							  </div>';
+							  $selMissionsCnt.='<div style="float:left;padding-right:5px;">'.$expertboard_title.'</div>';
+							  $selMissionsCnt.='<div style="float:left;padding-right:5px;"><img src="'.$photoUrl.'" height="30px" width="30px" title="'.$ownerName.'" style="border:1px solid #6A6A6A;"/></div>';
+							  $selMissionsCnt.='<div style="float:left;">
+							  <a href="#" title="Join" style="text-decoration:none;">Join</a>
+							  </div>';
+							  $selMissionsCnt.='</div><br/><br/>';
+						   }
+					 }				 
+				  }
+			}
+			$ajax_data.=$selMissionsCnt;
+        	$ajax_data.='</div>        
+    		</div>
+			</div>';
+			//Start left side page code
+			$ajax_data.='<div class="activate_friends_main_top" id="div_newuser_mission">
+    		<div class="book_tabs_main_page_left" style="margin-top:22px;"></div>
+				<div style="clear:both"></div>      
+				<div class="activate_friends_bg">
+					<div class="book_page_right">
+					<div style="font-size:xx-large;color:#FF0000;margin-top:150px;"> My <br/> Happy <br/> Missions </div>    
+					</div>      
+				</div>
+			</div>';
+		 }
+	  }   	  
+   }
+   $ajax_data=$type."##===##".$div_name."##===##".$ajax_data;
+   echo $ajax_data;  	
+}
 //NEW USER FLOW HAPPY MISSION
 if($type=="newuser_happy_mission"||$type=="chk_newuser_mission"){
+
    $pillar_no=(int)$_GET['pillar_no'];
-   $happy_mission_id=(int)$_GET['happy_mission_id'];
+   $happy_mission_id=(int)$_GET['happy_mission_id'];   
    $missionArrow='';
-   	  
+	  
    if($happy_mission_id>0){
    	  if($_SESSION['mission_'.$pillar_no]!=""){
 		 $newIdsArr=explode(',',$_SESSION['mission_'.$pillar_no]);
