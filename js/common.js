@@ -806,6 +806,10 @@ function handleHttpResponse_ajax_action()
 		var div_content=results_array[2];
 		//alert(action_type);alert(div_name);alert(div_content);
 		
+		//SHOW USER MISSIONS
+		if(action_type=="store_user_mission"){
+		   document.getElementById('magazine').style.width='1152px';
+		}
 		//SHOW MISSION ARROW FOR NEW USER FLOW
 		if(results_array[3]=="show_mission_arrow"){
 		   document.getElementById('magazine').style.width='1307px';
