@@ -11,7 +11,7 @@ $user_name=$userDetail['name'];
 <!-- START MIDDLE SECTION -->
 <div class="relationship_bg" style="padding:50px 0; background-color:#FFFFFF;height:auto;">
 <div id="magazine" style="margin:auto;">
-<div class="welcome_main" style="background-color:#FFFFFF">
+<div class="welcome_main" id="div_show_user_missions" style="background-color:#FFFFFF">
 <!-- FRONT/RIGHT PAGE -->
 <div class="activate_friends_main_top" style="width:569px">
     <div class="book_tabs_main_page">
@@ -45,7 +45,7 @@ $user_name=$userDetail['name'];
 <div class="middle_mission_div" id="div_mission_middle_arrow" style="display:none;">
 <div class="wellness_button_images"></div>
 <div class="wellness_button" style="padding:0px;margin:20px 0 10px 0;">
-<a href="javascript:void(0);">Move my<br/> happy missions<br/> into my happy<br/> life story book</a>
+<a href="javascript:void(0);" onclick="ajax_action('store_user_mission','div_show_user_missions','stype=UserMission');">Move my<br/> happy missions<br/> into my happy<br/> life story book</a>
 </div>
 </div>
 <!-- END OF CENTER MISSION BOOK ARROW --> 
@@ -105,20 +105,5 @@ $user_name=$userDetail['name'];
 <div style="clear:both"></div>
 <div style="padding-bottom:60px;"></div>
 <!-- END MIDDLE SECTION -->
-<script type="text/javascript">
-//GET CHECKBOX VALUE FUNCTION
-function getCheckedBoxes(chkboxName,pillarNo){
-	var checkboxes=document.getElementsByName(chkboxName);
-	for(var i=0;i<checkboxes.length;i++){
-		if(checkboxes[i].checked){
-		   document.getElementById('div_checkbox_checked_'+pillarNo).className='process_box_checked';
-		   return true;
-		}else{
-		   document.getElementById('div_checkbox_checked_'+pillarNo).className='process_box';
-		   return false;
-		}
-	}
-}
-</script>
 <?php include('fb_invite.php');?>
 <?php include('site_footer.php');?>
