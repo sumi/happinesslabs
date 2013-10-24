@@ -808,7 +808,8 @@ function handleHttpResponse_ajax_action()
 		
 		//SHOW USER MISSIONS
 		if(action_type=="store_user_mission"){
-		   document.getElementById('magazine').style.width='1152px';
+		   //document.getElementById('magazine').style.width='1152px';
+		   document.location.href='happy_mission.php';
 		}
 		//SHOW MISSION ARROW FOR NEW USER FLOW
 		if(results_array[3]=="show_mission_arrow"){

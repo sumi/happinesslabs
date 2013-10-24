@@ -808,7 +808,7 @@ function postToFeedExp() {
 					<a href="javascript:void(0);" title="Edit" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
 					</div>';		*/
 					$photoCnt.='<div class="message1">
-					<a href="javascript:void(0);" title="Edit" onclick="javascript:openEditPhotoEditor(\'upd_editor_photo\','.$photo_id.',\''.$photoPath.'\',\''.$photo_name.'\');" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
+					<a href="javascript:void(0);" title="Edit" onclick="javascript:openPhotoEditor('.$photo_id.',\''.$photoPath.'\');" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
 					</div>';	
 				   }	
 				   $photoCnt.='</div><div id="div_hover_'.$photo_id.'">';	
@@ -856,7 +856,6 @@ function postToFeedExp() {
 				$photoCntArray[$i]=$sub_photoCntArray;
 				$photoDayArray[$i]=$sub_photoDayArray;
 		}else{
-			//START ---- NO PHOTO PART
 			 $photoCnt='';
 			 //CHECK TODAY PICTURE UPLOADED OR NOT
 			 $doit_id=(int)getFieldValue('doit_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id.' AND user_id='.USER_ID);
@@ -889,7 +888,7 @@ function postToFeedExp() {
 							 <div style="clear:both"></div>
          				 </div>
 						 <div class="day_img" style="padding:12px;">
-						 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'_1\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'_1\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:openNewPhotoEditor(\'add_editor_photo\','.$i.');"').'':'').' src="'.$photoPath.'">
+						 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==USER_ID?'ondrop="drop(event,\''.$i.'_'.$swap_id.'_1\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'_1\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
 						 </div>
 						 </div>';
 			 $photoCnt.='</div>';
@@ -1296,43 +1295,29 @@ function calculateSubmit(){
 	//alert("left: " + position.left + ", top: " + position.top);
 	
 }
-function openEditPhotoEditor(photoType,photo_id,photo_path,photo_name){
+function openPhotoEditor(photo_id,photo_path){
 	toggleDiv('photo_editor');
-	document.getElementById('photoType').value=photoType;
 	document.getElementById('photo_img').src=photo_path;
 	document.getElementById('pedit_photo_id').value=photo_id;
-	document.getElementById('file_name').value=photo_name;
 }
-function openNewPhotoEditor(photoType,photo_day){
-	toggleDiv('photo_editor');
-	document.getElementById('photoType').value=photoType;
-	document.getElementById('pedit_photo_day').value=photo_day;
-	document.getElementById('photo_img').src='images/cherryboard/no_image.png';
-}
-function uploadPhotoEditor(cbid){
-   showLoadingImg('rotate_img');	
+function uploadPhotoEditor(){
    calculateSubmit();
-   var photoType=document.getElementById('photoType').value;
-   var photo_day=document.getElementById('pedit_photo_day').value;
    var photo_id=document.getElementById('pedit_photo_id').value;
    var file_name=document.getElementById('file_name').value;
    var comment=document.getElementById('txtcomment').value;
    var imgLeft=document.getElementById('imgLeft').value;
    var imgTop=document.getElementById('imgTop').value;
    var load_dir=document.getElementById('load_dir').value;
-   var font_type=document.getElementById('font_type').value;
-   var font_size=document.getElementById('font_size').value;
+   var chg_font=document.getElementById('chg_font').value;
+   var chg_size=document.getElementById('chg_size').value;
    var font_color=document.getElementById('font_color').value;
 	
-	if(file_name==0||file_name==""){
-		alert('Please select photo');
-	}else{
-		var url = "upload_photo_editor.php?type="+photoType+"&cbid="+cbid+"&photo_day="+photo_day+"&photo_id="+photo_id+"&file_name="+file_name+"&comment="+comment+"&imgLeft="+imgLeft+"&imgTop="+imgTop+"&load_dir="+load_dir+"&font_type="+font_type+"&font_size="+font_size+"&font_color="+font_color;	
-		//alert(url);
-		http2.open("GET", url , true); 
-		http2.onreadystatechange = handleHttpResponse_uploadPhotoEditor; 
-		http2.send(null);	
-	}
+	var url = "upload_photo_editor.php?type=add_upd_photo&photo_id="+photo_id+"&file_name="+file_name+"&comment="+comment+"&imgLeft="+imgLeft+"&imgTop="+imgTop+"&load_dir="+load_dir+"&chg_font="+chg_font+"&chg_size="+chg_size+"&font_color="+font_color;	
+	alert(url);
+	
+	http2.open("GET", url , true); 
+	http2.onreadystatechange = handleHttpResponse_uploadPhotoEditor; 
+	http2.send(null);	
 }
 function handleHttpResponse_uploadPhotoEditor()
 {    
@@ -1342,7 +1327,7 @@ function handleHttpResponse_uploadPhotoEditor()
 	  { 
 		var results=http2.responseText;
 		results=results.replace(/(\r\n|\n|\r)/gm,"");
-		//alert(results);
+		alert(results);
 		results_array=results.split('##===##');
 		var action_type=results_array[0];
 		var cherryboard_id=results_array[1];
@@ -1363,13 +1348,11 @@ function handleHttpResponse_uploadPhotoEditor()
 <form action="" method="post" name="frmpeditor" enctype="multipart/form-data">
 <div style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -330px; top: 100px; width:667px;border:5px solid #000000;" id="photo_editor" class="popup_div">
 		<div class="Upload_Photo_bg" style="background-color:#FFFFFF">
-		 <input type="hidden" value="new_exp_photo" name="photoType" id="photoType" />
-		 <input type="hidden" value="1" name="pedit_photo_day" id="pedit_photo_day" />
 		 <input type="hidden" value="0" name="imgLeft" id="imgLeft" />
 		 <input type="hidden" value="0" name="imgTop" id="imgTop" />
 		 <input type="hidden" value="0" name="file_name" id="file_name" />
 		 <input type="hidden" value="90" name="rotate_degree" id="rotate_degree" />
-		 <input type="hidden" value="profile_slide/" name="load_dir" id="load_dir" />
+		 <input type="hidden" value="0" name="load_dir" id="load_dir" />
 		 <input type="hidden" value="0" name="pedit_photo_id" id="pedit_photo_id" />
    <div class="Upload_Photo_left_bottom">
     <div class="left_Scumbag_img">
@@ -1400,14 +1383,14 @@ function handleHttpResponse_uploadPhotoEditor()
 	  <div class="right_Upload_Font_icon">
 	  <img src="images/upload.png" alt="" id="me1" /></div>				
       <div class="right_Upload_Font">Font</div>
-	  <select id="font_type" class="right_Upload_select" name="font_type" onChange="changeDivFont(this.value)">
+	  <select id="chg_font" class="right_Upload_select" name="chg_font" onChange="changeDivFont(this.value)">
 <option value="Arial">Arial</option>
 <option value="Times New Roman">Times NR</option>
 <option value="Verdana">Verdana</option>
 <option value="Courier New">Courier</option>
 </select>
       <div class="right_Upload_Font">Fontsize</div>
-      <select class="right_Upload_select" id="font_size" name="font_size" onChange="changeDivFontSize(this.value)">
+      <select class="right_Upload_select" id="chg_size" name="chg_size" onChange="changeDivFontSize(this.value)">
 <option value="14px">14px</option>
 <option value="16px">16px</option>
 <option value="18px">18px</option>
@@ -1433,7 +1416,7 @@ function handleHttpResponse_uploadPhotoEditor()
         <div class="right_Upload_icon"><img height="50" width="50" onclick="photo_filter1('effect4')" style="cursor:pointer" src="images/filter/effect4.jpg"></div>
         <div class="right_Upload_icon"><img height="50" width="50" onclick="photo_filter1('effect0')" style="cursor:pointer" src="images/filter/effect0.jpg"></div>
 		 <div class="right_Upload_Cancel"><a href="javascript:void(0);" onclick="toggleDiv('photo_editor')">Cancel</a></div>
-        <div class="right_Upload_Cancel"><a href="javascript:void(0);" onclick="uploadPhotoEditor(<?=$cherryboard_id?>);">Post</a></div>
+        <div class="right_Upload_Cancel"><a href="javascript:void(0);" onclick="uploadPhotoEditor();">Post</a></div>
 		</div>
    </div>
    

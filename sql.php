@@ -3,14 +3,11 @@ include_once "fbmain.php";
 include('include/app-common-config.php');
 
 $query=array();
-$query[]="CREATE TABLE IF NOT EXISTS `tbl_app_user_happy_mission` (
-  `user_mission_id` int(11) NOT NULL AUTO_INCREMENT,
-  `pillar_no` int(11) NOT NULL,
-  `happy_mission_id` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_mission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+$query[]="ALTER TABLE `tbl_app_photo_title_size` CHANGE `top` `from_top` FLOAT( 10, 2 ) NOT NULL ,
+CHANGE `left` `from_left` FLOAT( 10, 2 ) NOT NULL";
+
+$query[]="ALTER TABLE `tbl_app_photo_title_size` CHANGE `from_top` `from_top` INT( 10 ) NOT NULL ,
+CHANGE `from_left` `from_left` INT( 10 ) NOT NULL";
 /*$query[]="CREATE TABLE IF NOT EXISTS `tbl_app_happy_mission` (
   `happy_mission_id` int(11) NOT NULL AUTO_INCREMENT,
   `pillar_no` int(11) NOT NULL,

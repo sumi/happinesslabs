@@ -107,16 +107,18 @@ if($type=="rotate"){
 }//End of if
 
 
-if($type=="add_upd_photo"){
+if($type=="add_editor_photo"||$type=="upd_editor_photo"){
    $rnd=rand();
+   $cherryboard_id=$_REQUEST['cbid'];
+   $photo_day=$_REQUEST['photo_day'];
    $photo_id=$_REQUEST['photo_id'];
    $file_name=$_REQUEST['file_name'];
    $comment=$_REQUEST['comment'];
    $imgLeft=$_REQUEST['imgLeft'];
    $imgTop=$_REQUEST['imgTop'];
    $load_dir=$_REQUEST['load_dir'];
-   $chg_font=$_REQUEST['chg_font'];
-   $chg_size=$_REQUEST['chg_size'];
+   $font_type=$_REQUEST['font_type'];
+   $font_size=$_REQUEST['font_size'];
    $font_color=$_REQUEST['font_color'];
 	
    $photo_name=$rnd.'_'.$file_name;//photo_path set in db
@@ -126,7 +128,6 @@ if($type=="add_upd_photo"){
    $uploaddirSliderThumb='images/expertboard/slider/'.$photo_name;
    $old_uploaddir='images/expertboard/'.$load_dir.$file_name;
    
-   $cherryboard_id=getFieldValue('cherryboard_id','tbl_app_expert_cherry_photo','photo_id='.$photo_id);
    //for local due to ImageMagic not working in local
    if($_SERVER['SERVER_NAME']=="localhost"){
    		$retval=copy($old_uploaddir,$uploaddir);
@@ -159,33 +160,40 @@ if($type=="add_upd_photo"){
 		
    }
    if($retval){
-	  	//START CHANGE STORY PICTURE
-	 	$expStoryPic=trim(getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$photo_id));
-		$expStoryPicPath='images/expertboard/'.$expStoryPic;
-		$expStoryPicProfile='images/expertboard/profile_slide/'.$expStoryPic;
-   		$expStoryPicThumb='images/expertboard/thumb/'.$expStoryPic;
-   		$expStoryPicSlider='images/expertboard/slider/'.$expStoryPic;
-		$updtQry="UPDATE tbl_app_expert_cherry_photo SET photo_title='".$comment."',photo_name='".$photo_name."' WHERE photo_id=".$photo_id;
-		$updtQryRes=mysql_query($updtQry);
-		//update title detail
-		$photo_title_id=(int)getFieldValue('photo_title_id','tbl_app_photo_title_size','photo_id='.$photo_id);
-		if($photo_title_id>0){
-			$insTitle="update `tbl_app_photo_title_size` set `top`='".$imgTop."', `left`='".$imgLeft."', `font_type`='".$chg_font."', `font_color`='".$font_color."', `chg_size`='".$chg_size."' where photo_title_id=".$photo_title_id;
-			$insTitleSql=mysql_query($insTitle);
+   		//update photo
+		if($photo_id>0){
+			//START CHANGE STORY PICTURE
+			$expStoryPic=trim(getFieldValue('photo_name','tbl_app_expert_cherry_photo','photo_id='.$photo_id));
+			$expStoryPicPath='images/expertboard/'.$expStoryPic;
+			$expStoryPicProfile='images/expertboard/profile_slide/'.$expStoryPic;
+			$expStoryPicThumb='images/expertboard/thumb/'.$expStoryPic;
+			$expStoryPicSlider='images/expertboard/slider/'.$expStoryPic;
+			$updtQry="UPDATE tbl_app_expert_cherry_photo SET photo_title='".$comment."',photo_name='".$photo_name."' WHERE photo_id=".$photo_id;
+			$updtQryRes=mysql_query($updtQry);
+			//update title detail
+			if($updtQryRes){
+				unlink($expStoryPicPath);
+				unlink($expStoryPicProfile);
+				unlink($expStoryPicThumb);
+				unlink($expStoryPicSlider);
+				unlink($old_uploaddir);
+			}		
 		}else{
-			$insTitle="INSERT INTO `tbl_app_photo_title_size` (`photo_title_id`, `photo_id`, `top`, `left`, `font_type`, `font_color`, `font_size`, `record_date`) VALUES (NULL, '".$photo_id."', '".$imgTop."', '".$imgLeft."', '".$chg_font."', '".$font_color."', '".$chg_size."', '".date('y-m-d')."')";
-			$insTitleSql=mysql_query($insTitle);
+			//START ADD STORY PICTURE
+			$insert_qry="INSERT INTO `tbl_app_expert_cherry_photo`(`photo_id`, `user_id`, `cherryboard_id`, `photo_title`, `photo_name`,photo_day,sub_day) VALUES ('',".$_SESSION['USER_ID'].",".$cherryboard_id.",'".$comment."','".$photo_name."','".$photo_day."','1')";			   
+			$insert_qry_res=mysql_query($insert_qry);
+			$photo_id=mysql_insert_id();
 		}
 		
-		
-		if($updtQryRes){
-		  	unlink($expStoryPicPath);
-			unlink($expStoryPicProfile);
-			unlink($expStoryPicThumb);
-			unlink($expStoryPicSlider);
-			unlink($old_uploaddir);
-		}				
-	 	echo $type.'##===##'.$cherryboard_id;
+		$photo_title_id=(int)getFieldValue('photo_title_id','tbl_app_photo_title_size','photo_id='.$photo_id);
+		if($photo_title_id>0){
+			$insTitle="update `tbl_app_photo_title_size` set `from_top`='".$imgTop."', `from_left`='".$imgLeft."', `font_type`='".$font_type."', `font_color`='".$font_color."', `font_size`='".$font_size."' where photo_title_id=".$photo_title_id;
+			$insTitleSql=mysql_query($insTitle);
+		}else{
+			$insTitle="INSERT INTO `tbl_app_photo_title_size` (`photo_title_id`, `photo_id`, `from_top`, `from_left`, `font_type`, `font_color`, `font_size`, `record_date`) VALUES (NULL, '".$photo_id."', '".$imgTop."', '".$imgLeft."', '".$font_type."', '".$font_color."', '".$font_size."', '".date('y-m-d')."')";
+			$insTitleSql=mysql_query($insTitle);
+		}
+		echo $type.'##===##'.$cherryboard_id;
 		exit(0);
    }else{
 		echo "Photo Inserting Error...";

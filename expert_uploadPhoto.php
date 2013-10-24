@@ -539,9 +539,12 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 					   if($user_id==$_SESSION['USER_ID']){
 							$photoCnt.='<div class="actions"><a class="delete" href="#" title="Delete" onclick="photo_action(\'del_expert_photo\','.$cherryboard_id.','.$photo_id.')"><img src="images/delete.png" title="Delete"></a></div>';
 						 //Change Photo Hover Code
-						 $photoCnt.='<div class="message1">
+						 /*$photoCnt.='<div class="message1">
 						<a href="javascript:void(0);" title="Edit" onclick="javascript:document.getElementById(\'story_photo_id\').value='.$photo_id.';javascript:document.getElementById(\'subtype\').value=\'change_story_pic\';document.getElementById(\'photo_upload\').style.display=\'inline\';" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
-						</div>';		
+						</div>';*/
+						$photoCnt.='<div class="message1">
+					<a href="javascript:void(0);" title="Edit" onclick="javascript:openEditPhotoEditor(\'upd_editor_photo\','.$photo_id.',\''.$photoPath.'\',\''.$photo_name.'\');" class="change"><img src="images/edit_pic.png" height="16" width="16"/></a>
+					</div>';		
 					   }	
 					   $photoCnt.='</div><div id="div_hover_'.$photo_id.'">';	
 					   //START PHOTO TAG DISPLAY CODE
@@ -617,7 +620,7 @@ if($type=="expert_add"||$type=="del_expert_photo"||$type=="exp_photo_refresh"||$
 								 <div style="clear:both"></div>
 							 </div>
 							 <div class="day_img" style="padding:12px;">
-							 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:document.getElementById(\'photo_day\').value='.$i.';document.getElementById(\'photo_upload\').style.display=\'inline\';"').'':'').' src="'.$photoPath.'">
+							 <div id="div'.$i.'_'.$swap_id.'" style="background-image:url('.$photoPath.');cursor:pointer;height:192px;width:192px;" '.($expUser_id==$_SESSION['USER_ID']?'ondrop="drop(event,\''.$i.'_'.$swap_id.'\')" ondragover="allowDrop(event,\''.$i.'_'.$swap_id.'\')" '.($todayDate==$UploadDate?'onclick="checkIsTodayPhoto();"':'onclick="javascript:openNewPhotoEditor(\'add_editor_photo\','.$i.');"').'':'').' src="'.$photoPath.'">
 							 </div>
 							 </div>';
 				 $photoCnt.='</div>';

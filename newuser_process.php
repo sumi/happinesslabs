@@ -11,7 +11,7 @@ $user_name=$userDetail['name'];
 <!-- START MIDDLE SECTION -->
 <div class="relationship_bg" style="padding:50px 0; background-color:#FFFFFF;height:auto;">
 <div id="magazine" style="margin:auto;">
-<div class="welcome_main" id="div_show_user_missions" style="background-color:#FFFFFF">
+<div class="welcome_main" style="background-color:#FFFFFF">
 <!-- FRONT/RIGHT PAGE -->
 <div class="activate_friends_main_top" style="width:569px">
     <div class="book_tabs_main_page">
@@ -28,11 +28,21 @@ $user_name=$userDetail['name'];
 	<div style="clear:both"></div>          
     <div class="activate_friends_bg">
     	<div class="divClassRight">
-            <span class="spanClass">Happy <br/> Missions</span><br/><br/>
-            <span class="spanClass">People</span><br/><br/>
-            <span class="spanClass">Products</span><br/><br/>
-            <span class="spanClass">Places</span><br/><br/>
-            <span class="spanClass">Plans</span><br/><br/>
+            <span class="spanClass">
+            <a href="#" style="color:#FFFFFF;text-decoration:none;">Happy Missions</a>
+            </span><br/><br/>
+            <span class="spanClass">
+            <a href="#" style="color:#FFFFFF;text-decoration:none;">People</a>
+            </span><br/><br/>
+            <span class="spanClass">
+            <a href="#" style="color:#FFFFFF;text-decoration:none;">Products</a>
+            </span><br/><br/>
+            <span class="spanClass">
+            <a href="#" style="color:#FFFFFF;text-decoration:none;">Places</a>
+            </span><br/><br/>
+            <span class="spanClass">
+            <a href="#" style="color:#FFFFFF;text-decoration:none;">Plans</a>
+            </span><br/><br/>
         </div>
         <div class="book_page_right1" style="width:570px;">
         	<div class="book_profile_text"><img src="<?=$photo_url?>" height="100px" width="100px" /></div>
@@ -45,7 +55,7 @@ $user_name=$userDetail['name'];
 <div class="middle_mission_div" id="div_mission_middle_arrow" style="display:none;">
 <div class="wellness_button_images"></div>
 <div class="wellness_button" style="padding:0px;margin:20px 0 10px 0;">
-<a href="javascript:void(0);" onclick="ajax_action('store_user_mission','div_show_user_missions','stype=UserMission');">Move my<br/> happy missions<br/> into my happy<br/> life story book</a>
+<a href="javascript:void(0);" onclick="ajax_action('store_user_mission','div_mission_middle_arrow','stype=UserMission');">Move my<br/> happy missions<br/> into my happy<br/> life story book</a>
 </div>
 </div>
 <!-- END OF CENTER MISSION BOOK ARROW --> 

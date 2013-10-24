@@ -1509,7 +1509,7 @@ function setPhotoTitle($photo_id){
 			if($font_color!=""){$txtProp.='color:'.$font_color.';'; }//font_color
 			if($font_size!=""){$txtProp.='font-size:'.$font_size.';'; }//font_size
 			
-			$newTitle='<p style="position:absolute;'.$txtProp.'">'.$photoTitle.'</p>';
+			//$newTitle='<p style="position:absolute;'.$txtProp.'">'.$photoTitle.'</p>';
 		}
 	}
 	return $newTitle;
