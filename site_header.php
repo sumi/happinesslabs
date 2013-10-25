@@ -180,7 +180,7 @@ function fb_logout() {
     <div class="tell_mine">	 
     	<div class="tell" style="padding-left:100px">&nbsp;</div>
         <div class="tell">
-            <a href="happiness_book.php" class="toolTipMenu">
+            <a href="#" class="toolTipMenu"><!--happiness_book.php-->
             <img src="images/heart_icon.png">
             <span><img class="callout" src="images/callout.gif" />
             <img src="images/heart_icon.png" style="vertical-align:middle;">

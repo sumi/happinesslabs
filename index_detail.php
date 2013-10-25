@@ -153,30 +153,6 @@ if($checkGoal==0&&$checkExpert==0&&$checkRequest==0&&$checkMission==0){
 }else{
 $category_id=(int)$_GET['category_id'];
 ?>
-<!--<script language="javascript" type="text/javascript" src="js/niceforms.js"></script>
-<style type="text/css" media="screen">@import url(niceforms-default.css);</style>-->
-<!-- Include stylesheet happiness book -->
-<link rel="stylesheet" type="text/css" href="css/happiness_book.css" />
-<!--<div class="banner-listof_bg" style="padding:0 7px">
-        <form action="vars.php" method="post" class="niceform" target="_blank" style="padding-left:480px;">
-        <span class="niceform">
-        <?php echo getCategoryList($category_id,'onchange="javascript:document.location=\'index_detail.php?category_id=\'+this.value;"','category_id'); ?>
-        </span>
-      </form>  
-       <div class="banner_listof"><img src="images/banner_listof.png" alt=""  width="470"/></div>
-      <div class="banner_day" style="padding-left: 3px;">
-        <div class="banner_listof_text">10 easy ways to say "I love you" every day.<br /><br /> 
-        <em style="font-size:22px;">by Olivia Janisch</em></div>
-        <div class="banner_day_5">
-         <div class="banner_day_5_left">
-          <div class="banner_day_5_bg" style="border:#3c3c3d;"><a href="#">Do it!</a></div>
-          <div class="banner_day_5_im"><img src="images/ban.png" alt=""  height="43"/></div>
-         </div>
-         <div class="banner_day_5_right"><img src="images/im.png" width="102" height="98" /></div>
-        </div>
-       </div>
-       <div style="clear:both"></div>
-   </div>-->
 <!-- START FRIENDS REQUEST GOAL USER SECTION -->   
 <div id="div_ExpertFriend_Request" style="width:959px;background-color:#FFFFFF;">
 <?php 
@@ -257,231 +233,197 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 ?>
 </div> 
 <!-- END FRIENDS REQUEST GOAL USER SECTION -->  
-<div class="listoftop_bg">
-    <!--<div class="bottom_main">
-		<div class="bottom_box_main">
-			<div class="todo" style="border:none;">
-			  <div class="todolist_left_1"><a href="#" style="cursor:default;">My Goals</a></div>
-			  <div style="clear:both"></div> 
-			</div>
-			<div class="todolist_bt"><img src="images/banet_4.png" alt="" /></div>		
-		</div>
-		<div class="bottom_box_main" style="float:right;width:340px;margin-left:15px;">
-			<div class="todo" style="border:none;width:340px;">
-			  <div class="todolist_left_1">
-			  <?php
-			  $selDoit=mysql_query("SELECT expertboard_id FROM tbl_app_expertboard WHERE user_id='".USER_ID."' AND parent_id='0' AND copyboard_id='0'");
-			  $totalDoIt=0;
-			  while($selDoitRow=mysql_fetch_array($selDoit)){
-			  	$expertBoardId=(int)$selDoitRow['expertboard_id'];
-				$cherryBoardId=getExpGoalMainId($expertBoardId);
-				$totalDoIt+=(int)getFieldValue('count(cherryboard_id)','tbl_app_expert_cherryboard','expertboard_id='.$expertBoardId.' AND doit_id='.$cherryBoardId);
-			  }
-			  ?>
-			  <a href="#" style="cursor:default;"><?=$totalDoIt?> happy stories spread</a>
-			  </div>
-			  <div style="clear:both"></div> 
-			</div>		
-		</div>
-		<div class="bottom_box_main" style="float:right;width:340px;">
-			<div class="todo" style="border:none;width:340px;">
-			  <div class="todolist_left_1">
-			  <?php
-			  $totalStories=(int)getFieldValue('count(expertboard_id)','tbl_app_expertboard','user_id='.USER_ID.' AND parent_id="0" AND copyboard_id="0"');
-			  ?>
-			  <a href="#" style="cursor:default;"><?=$totalStories?> happy stories created</a>
-			  </div>
-			  <div style="clear:both"></div> 
-			</div>		
-		</div>
-	</div>--> <!-- End of Bottom Main --> 
-	<!--<div class="mini masonry" id="mini-container">
-	<?php
-	//Joined goal boards list
-	$selJoinedBoards=mysql_query("select cherryboard_id from tbl_app_expert_cherryboard_meb where req_user_fb_id='".FB_ID."' and is_accept='1'");
-	$JoinedBoardsArray=array();
-	while($rowJoinedBoards=mysql_fetch_array($selJoinedBoards)){
-		$JoinedBoardsArray[]=$rowJoinedBoards['cherryboard_id'];
-	}
-	$JoinedBoardsCnd='';
-	if(count($JoinedBoardsArray)>0){
-		$JoinedBoardsId=implode(',',$JoinedBoardsArray);
-		if($category_id>0){
-			$JoinedBoardsCnd=' OR a.cherryboard_id in ('.$JoinedBoardsId.')';
-		}else{
-			$JoinedBoardsCnd=' OR cherryboard_id in ('.$JoinedBoardsId.')';
-		}
-	}	
-	 
-	//EXPERT GOAL BOARD LIST
-	 if($category_id>0){
-	    $selCherryQuery="SELECT a.* FROM tbl_app_expert_cherryboard a,tbl_app_expertboard b WHERE a.expertboard_id=b.expertboard_id AND b.category_id=".$category_id." AND (a.user_id=".USER_ID." ".$JoinedBoardsCnd.")";
-	 }else{
-		$selCherryQuery="select * from tbl_app_expert_cherryboard where user_id=".USER_ID." ".$JoinedBoardsCnd;
-	 }
-	 
-	 $selCherry=mysql_query($selCherryQuery);
-	  $totalExpGoals=mysql_num_rows($selCherry);
-	  if($totalExpGoals>0){
-	  	$cnt=1;
-		$delRedirectLink='';
-	  	while($selCherryRow=mysql_fetch_array($selCherry)){
-			$user_id=$selCherryRow['user_id'];
-			$cherryboard_id=$selCherryRow['cherryboard_id'];
-			$expertboard_id=$selCherryRow['expertboard_id'];
-			$main_board=$selCherryRow['main_board'];
-			//START COPYBOARD CODE
-			$copyboard_id=(int)$selCherryRow['copyboard_id'];
-			$strCopy='';
-			$strOriginal='';
-			if($copyboard_id>0){
-			   $UserId=getFieldValue('user_id','tbl_app_expert_cherryboard','cherryboard_id='.$copyboard_id); 	
-			   $strCopy='Copy of';
-			   $UserDetail=getUserDetail($UserId);
-			   $OriginalName=$UserDetail['name'];
-			   $strOriginal='Original by : '.$OriginalName.'<br/>';
-			}
-			//START COPYBOARD USER LIST
-			$copyUserCnt='';			
-			$selCopyUser=mysql_query("SELECT cherryboard_id,user_id FROM tbl_app_expert_cherryboard WHERE copyboard_id=".$cherryboard_id." AND user_id!=0");
-			if(mysql_num_rows($selCopyUser)>0){
-			   $copyUserCnt.='<br/><strong>Copy User List :</strong><br/>';	
-			   while($selCopyUserRow=mysql_fetch_array($selCopyUser)){
-					$CherryBoardId=(int)$selCopyUserRow['cherryboard_id'];
-					$UserId=(int)$selCopyUserRow['user_id'];
-					$UserDetail=getUserDetail($UserId);
-					$CopyUsrName=$UserDetail['name'];
-					$copyUserCnt.=$CopyUsrName.'<br/>';
-			   }
-			}
-				
-			if($main_board==1){
-				$delRedirectLink='expert_cherryboard.php?delExpId='.$expertboard_id.'';
-			}else{
-				$delRedirectLink='index_detail.php?debid='.$cherryboard_id.'';
-			}			
-			
-			$expertBoardDetail=getFieldsValueArray('expertboard_title,category_id,goal_days','tbl_app_expertboard','expertboard_id='.$expertboard_id);
-			$cherryboard_title=ucwords($expertBoardDetail[0]);
-			$category_id=$expertBoardDetail[1];
-			$category_name=getFieldValue('category_name','tbl_app_category','category_id='.$category_id);
-			$goal_days=$expertBoardDetail[2];
-			
-			$DayCount=$goal_days.' Days';
-			
-			$selphoto=mysql_query("select * from tbl_app_expert_cherry_photo where cherryboard_id=".$cherryboard_id." order by photo_id desc");
-			$phtotoArray=array();
-			$element=0;
-			if(mysql_num_rows($selphoto)>0){
-				while($selphotoRow=mysql_fetch_array($selphoto)){
-					$photo_name=$selphotoRow['photo_name'];
-					if($element>0){
-						$photoPath='images/expertboard/thumb/'.$photo_name;
-					}else{
-						$photoPath='images/expertboard/'.$photo_name;
-					}
-					if(is_file($photoPath)){
-						$phtotoArray[]=$photoPath;
-						$element++;
-					}
-					
-				}	
-			}else{
-				$phtotoArray[]='images/cherryboard/no_image.jpg';
-			}		
-			
-			//board delete link
-			$delLink='';
-			if($user_id==USER_ID){
-				$delLink='<a href="'.$delRedirectLink.'" onclick="return confirm(\'Are you sure to delete this board?\')"><img src="images/delete.png"></a>';
-			}else{
-				$delLink='<a href="index_detail.php?defid='.$cherryboard_id.'" onclick="return confirm(\'Are you sure to delete friend board?\')"><img src="images/delete.png"></a>';
-			}
-			
-			//join board photo & name
-			$UserOwnerPhoto='';
-			$UserOwnerName='';
-			if(in_array($cherryboard_id,$JoinedBoardsArray)){
-				$UserDetail=getUserDetail($user_id,'uid');
-				$UserOwnerPhoto=$UserDetail['fb_photo_url'];
-				$UserOwnerName='&nbsp;<strong>'.$UserDetail['name'].'</strong>';
-			}
-			$TotalCheers=countCheers($cherryboard_id,'cherryboard');
-			?>
-				<div class="w2 h1 masonry-brick">
-				<div class="bottom_box_main">
-					<div class="main_box">
-						<table width="100%"><tr><td valign="middle"><?=$UserOwnerName?></td><td align="right"><?=$UserOwnerPhoto?></td></tr></table>
-						<div class="day_img">
-						<a href="expert_cherryboard.php?cbid=<?=$cherryboard_id?>">
-						<img src="<?php echo $phtotoArray[0];?>" width="209px"/>
-						</a></div>
-						<div class="bottom_box_text">
-						<?php echo $strOriginal; ?>
-						<strong><?php echo $strCopy.' '.$cherryboard_title.' - '.$category_name;?></strong>&nbsp;&nbsp;<?=$delLink?><br/>
-						<?php echo $copyUserCnt; ?>
-						</div>
-					   <div class="bottom_healthy">
-						 <div class="bottom_healthy_im"><img src="images/box.png" alt="" /></div>
-						 <div class="bottom_healthy_12"><?=$TotalCheers?> cheers!</div>
-					   <div style="clear:both"></div>
-					   </div>
-				   </div>
-				 <div class="padding"></div>
-				 </div>
-			   </div>
-			 <?php 		   
-	 		$cnt++;
-	 	}
-	 }else{
-	 	echo "No Goals";
-	 }
-	?>   
-	</div>-->
+<div class="listoftop_bg">    
 <!-- START HAPPY LIFE STORY BOOK SECTION -->
-<div class="relationship_bg" style="padding:50px 0; background-color:#FFFFFF;height:auto;">
-<div id="magazine" style="margin:auto;width:959px;">
-<div class="welcome_main" style="background-color:#FFFFFF">
-    <div class="activate_friends_main_top" style="width:569px;float:left;margin-left:180px;">
-        <div class="book_tabs_main_page">
-        <?php
-        $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
-			while($selPillarRow=mysql_fetch_array($selPillar)){
-			$title=trim(ucwords($selPillarRow['title']));    
-			echo '<div class="book_tabs_left"></div>
-			<div class="book_tabs"><a href="#">'.$title.'</a></div>
-			<div class="book_tabs_right"></div>';
-			}
-        ?>
+<link rel="stylesheet" type="text/css" href="css/happiness_book.css" />
+<script type="text/javascript" src="book/turn-jquery.js"></script>
+<script type="text/javascript" src="book/turn.js"></script>
+
+<div class="relationship_bg" style="padding:50px 0;background-color:#FFFFFF;">
+<div id="magazine" style="margin:auto;">
+<?php
+$pillarCnt=1;
+$pillarArray=array();
+$pillarTitleArray=array();
+$selPillar=mysql_query("SELECT pillar_no,title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+while($selPillarRow=mysql_fetch_array($selPillar)){
+	 $pillar_no=$selPillarRow['pillar_no'];
+	 $title=ucwords($selPillarRow['title']);
+	 $pillarArray[$pillarCnt]=$pillar_no;
+	 $pillarTitleArray[$pillarCnt]=$title;
+	 $pillarCnt++;
+}
+
+$cnt=1;
+foreach($pillarArray as $pillar_no){	
+	if($cnt==1){
+?>
+		<!-- FRONT PAGE -->
+		<div class="welcome_main" style="background-color:#FFFFFF">
+			 <div style="clear:both"></div>
+			 <div class="activate_friends_main_top" style="width:569px">
+			   <div class="book_tabs_main_page">
+			   <?php
+			   $pillarCnt=1;
+			   $selPillar=mysql_query("SELECT title FROM tbl_app_happiness_pillar WHERE parent_id=0 ORDER BY pillar_no");
+			   while($selPillarRow=mysql_fetch_array($selPillar)){
+					 $title=trim(ucwords($selPillarRow['title']));
+					
+						echo '<div class="book_tabs_left"></div>
+							  <div class="book_tabs"><a href="javascript:void(0);" onclick="trun_next()">'.$title.'</a></div>
+							  <div class="book_tabs_right"></div>';
+					 
+					 $pillarCnt++;
+			   }
+			   ?>
+			  </div>
+			   <div style="clear:both"></div>
+               <div class="happy_mission_main">
+                   <div class="happy_mission_text">
+                   <a href="javascript:void(0);" onclick="trun_next();ajax_action('show_user_mission','div_refresh_left_mission','stype=showUserMission');">happy mission</a></div>
+                   <div class="happy_mission_text"><a href="#">products</a></div>
+                   <div class="happy_mission_text"><a href="#">people</a></div>
+                   <div class="happy_mission_text"><a href="#">places</a></div>
+                   <div class="happy_mission_text"><a href="#">plans</a></div>
+               </div>		
+              	 
+			  <div class="activate_friends_bg">                        	        	
+				<div class="book_page_right1" style="width:554px;">
+					<div class="book_profile_text"><img src="<?=$photo_url?>" height="100px" width="100px" /></div>
+												<?=$user_name?>
+					<div class="life_story_book_text">Life Story Book</div>
+				</div>
+			  </div>
+			 </div>
+		   </div>
+		<?php
+	}
+	//LEFT SIDE
+	?>
+	<!-- PAGE 1 -->
+<div class="welcome_main" id="div_refresh_left_mission" style="background-color:#FFFFFF">
+     <div style="clear:both"></div>
+     <div class="activate_friends_main_top">
+       <div class="book_tabs_main_page_left">
+       <?php
+	   for($i=1;$i<=$cnt;$i++){
+			echo '<div class="book_tabs_left'.($i==$cnt?'_love':'').'"></div>
+				  <div class="book_tabs'.($i==$cnt?'_love':'').'"><a href="javascript:void(0);" onclick="trun_privious()">'.$pillarTitleArray[$i].'</a></div>
+				  <div class="book_tabs_right'.($i==$cnt?'_love':'').'"></div>';
+	   }
+	   ?>
+      </div>
+       <div style="clear:both"></div>
+      
+      <div class="activate_friends_bg">
+      	<div class="happy_mission_main_left" style="text-align:left;">
+           <div class="happy_mission_text_left">
+           <a href="javascript:void(0);" onclick="trun_privious()">happy mission</a></div>
+           <div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>
+        </div>   
+        <div class="book_page_right">        
+         <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt]?></div>
+         <div class="book_right_text">
+       <?php
+	   $selSubPlr=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarArray[$cnt]." ORDER BY pillar_no");
+	   while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+	   		 $pillar_no=(int)$selSubPlrRow['pillar_no'];
+	   		 $title=trim(ucwords($selSubPlrRow['title']));
+			 echo $title."<br />";
+			 $selQry=mysql_query("SELECT * FROM tbl_app_life_story_book_template WHERE pillar_no=".$pillar_no);
+		     while($selQryRow=mysql_fetch_array($selQry)){
+				   $cherryboard_id=(int)$selQryRow['cherryboard_id'];	
+				   $subTitle=trim(ucwords($selQryRow['title']));
+				   if($cherryboard_id>0){
+					  $checkBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','doit_id="'.$cherryboard_id.'" AND user_id='.USER_ID);
+					  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+				   }
+				   if($checkBoard==0&&$cherryboard_id>0){
+					  echo '<div id="div_doit_story">&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="javascript:void(0);" style="text-decoration:none;" onclick="ajax_action(\'doit_story\',\'div_doit_story\',\'cherryboard_id='.$cherryboard_id.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')">Share the good news with friends</a></div>';
+				   }else if($checkBoard>0&&$cherryboard_id>0){
+					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="expert_cherryboard.php?cbid='.$checkBoard.'" style="text-decoration:none;">View story</a><br />';
+				   }else{
+					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'<br/>';
+				   }					 
+		     }
+	   }
+	   ?>
+		</div>         
+        </div>      
+      </div>
+     </div>
+   </div>
+	<?php
+	
+	//RIGHT SIDE
+	if($cnt<count($pillarArray)){
+	?>
+	<div class="welcome_main" style="background-color:#FFFFFF">
+     <div style="clear:both"></div>
+     <div class="activate_friends_main_top">
+       <div class="book_tabs_main_page">         
+          <?php
+			  for($i=$cnt+1;$i<=count($pillarArray);$i++){
+				echo '<div class="book_tabs_left'.($i==($cnt+1)?'_love':'').'"></div>
+				  <div class="book_tabs'.($i==($cnt+1)?'_love':'').'"><a href="javascript:void(0);" onclick="trun_next()">'.$pillarTitleArray[$i].'</a></div>
+				  <div class="book_tabs_right'.($i==($cnt+1)?'_love':'').'"></div>';
+
+		   
+		   }
+		   ?>
+      </div>
+       <div style="clear:both"></div>
+      
+      <div class="activate_friends_bg" id="div_refresh_right_mission">
+      	<div class="happy_mission_main">
+           <div class="happy_mission_text">
+           <a href="javascript:void(0);" onclick="trun_next()">happy mission</a></div>
+           <div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>
         </div>
-    	<div style="clear:both"></div>          
-        <div class="activate_friends_bg">
-            <div class="divClassRight">
-            <span class="spanClass">
-            <a href="happy_mission.php" style="color:#FFFFFF;text-decoration:none;">
-            Happy Missions</a>
-            </span><br/><br/>
-            <span class="spanClass">
-            <a href="#" style="color:#FFFFFF;text-decoration:none;">People</a>
-            </span><br/><br/>
-            <span class="spanClass">
-            <a href="#" style="color:#FFFFFF;text-decoration:none;">Products</a>
-            </span><br/><br/>
-            <span class="spanClass">
-            <a href="#" style="color:#FFFFFF;text-decoration:none;">Places</a>
-            </span><br/><br/>
-            <span class="spanClass">
-            <a href="#" style="color:#FFFFFF;text-decoration:none;">Plans</a>
-            </span><br/><br/>
-            </div>
-            <div class="book_page_right1" style="width:570px;">
-                <div class="book_profile_text"><img src="<?=$photo_url?>" height="100px" width="100px" /></div>
-                <?=$user_name?>
-                <div class="life_story_book_text">Life Story Book</div>            
-            </div>        
+        <div class="book_page_right1">
+        
+         <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt+1]?></div>
+         <div class="book_right_text">
+         <?php
+	   $selSubPlr=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarArray[$cnt+1]." ORDER BY pillar_no");
+		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+		 	   $pillar_no=(int)$selSubPlrRow['pillar_no'];
+			   $title=trim(ucwords($selSubPlrRow['title']));
+			   echo $title."<br />";
+			   $selQry=mysql_query("SELECT * FROM tbl_app_life_story_book_template WHERE pillar_no=".$pillar_no);
+		       while($selQryRow=mysql_fetch_array($selQry)){
+				   $cherryboard_id=(int)$selQryRow['cherryboard_id'];	
+				   $subTitle=trim(ucwords($selQryRow['title']));
+				   if($cherryboard_id>0){
+					  $checkBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','doit_id="'.$cherryboard_id.'" AND user_id='.USER_ID);
+					  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+				   }
+				   if($checkBoard==0&&$cherryboard_id>0){
+					  echo '<div id="div_doit_story">&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="javascript:void(0);" style="text-decoration:none;" onclick="ajax_action(\'doit_story\',\'div_doit_story\',\'cherryboard_id='.$cherryboard_id.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')">Share the good news with friends</a></div>';					  
+				   }else if($checkBoard>0&&$cherryboard_id>0){
+					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="expert_cherryboard.php?cbid='.$checkBoard.'" style="text-decoration:none;">View story</a><br />';
+				   }else{
+					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'<br/>';
+				   }					 
+		       }
+		 }
+		 ?> 
+         </div>
         </div>
-    </div>
-</div>
+      </div>
+     </div>
+   </div>
+	<?php
+	}
+	$cnt++;
+}
+?>
 </div>
 </div>
 <!-- END OF HAPPY LIFE STORY BOOK SECTION -->
@@ -491,18 +433,37 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 } ?>	  
 </div></div>
 <div style="height:30px">&nbsp;</div>
-<!--<script src="js/masonry.js"></script>
-<script>
-  window.onload = function() {
-    
-    var miniWall = new Masonry( document.getElementById('mini-container'), {
-      columnWidth: 20,
-      foo: 'bar'
-    });
-        
-  };
-</script>-->
-<!--Gray body End-->
+<!-- START TURN PAGE JAVASCRIPTS -->
+<script type="text/javascript">
+$(window).ready(function() {
+	$('#magazine').turn({
+		display: 'double',
+		acceleration: true,
+		gradients: !$.isTouch,
+		elevation:50,
+		when: {
+			turned: function(e, page) {
+				console.log('Current view: ', $(this).turn('view'));
+			}
+		}
+	});
+});
+
+$(window).bind('keydown', function(e){	
+	if (e.keyCode==37)
+		$('#magazine').turn('previous');
+	else if (e.keyCode==39)
+		$('#magazine').turn('next');
+});
+
+function trun_next(){
+	$('#magazine').turn('next');
+}
+function trun_privious(){
+	$('#magazine').turn('previous');
+}
+</script>
+<!-- END TURN PAGE JAVASCRIPT -->
 <!--Body End-->
 <?php include('fb_invite.php');?>
 <?php include('fb_expert_invite.php');?>

@@ -472,7 +472,7 @@ function ajax_action(type,div_name,stringVar){
 	var script_name='ajax_data.php';
 	
 	//NEW USER FLOW HAPPYMISSION
-	if(type=="newuser_happy_mission"||type=="chk_newuser_mission"||type=="store_user_mission"){
+	if(type=="newuser_happy_mission"||type=="chk_newuser_mission"||type=="store_user_mission"||type=="show_user_mission"){
 		isAction=1;
 	}
 	//Home Page Refresh Slider
@@ -807,6 +807,10 @@ function handleHttpResponse_ajax_action()
 		//alert(action_type);alert(div_name);alert(div_content);
 		
 		//SHOW USER MISSIONS
+		if(action_type=="show_user_mission"){
+		  document.getElementById('div_refresh_right_mission').innerHTML=results_array[3];
+		}
+		//STORE USER MISSIONS
 		if(action_type=="store_user_mission"){
 		   //document.getElementById('magazine').style.width='1152px';
 		   document.location.href='happy_mission.php';

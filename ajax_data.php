@@ -9,6 +9,82 @@ $type=$_GET['type'];
 $div_name=$_GET['div_name'];
 $ajax_data='';
 
+//START HAPPY MISSION SECTION
+if($type=="show_user_mission"){
+   $stype=trim($_GET['stype']);
+   $missionRightCnt='';
+   
+ if($stype=="showUserMission"){
+ 	$ajax_data.='<div class="activate_friends_main_top" id="div_newuser_mission">
+    <div class="book_tabs_main_page_left" style="margin-top:24px;"></div>
+	<div style="clear:both"></div>  
+    	<div class="happy_mission_main_left">
+           <div class="happy_mission_text_left">
+           <a href="javascript:void(0);">happy mission</a></div>
+           <!--<div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>-->
+        </div>    
+    <div class="activate_friends_bg">
+        <div class="book_page_right">
+        <div style="font-size:xx-large;color:#FF0000;margin-top:150px;">
+		 My <br/> Happy <br/> Missions </div>    
+        </div>      
+    </div>
+    </div>';
+	$missionRightCnt.='<div class="happy_mission_main" style="margin-left:576px;">
+           <div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>
+        </div>';
+	$missionRightCnt.='<div class="book_page_right_new1" style="overflow:scroll;">';
+	$selMissionsCnt='';
+	//START SELECT NEW USER MISSIONS
+	$selUsrMission=mysql_query("SELECT * FROM tbl_app_user_happy_mission WHERE user_id=".$_SESSION['USER_ID']);
+	while($selUsrMissionRow=mysql_fetch_array($selUsrMission)){			  
+		  $user_mission_id=(int)$selUsrMissionRow['user_mission_id'];
+		  $pillar_no=(int)$selUsrMissionRow['pillar_no'];
+		  $happy_mission_id=trim($selUsrMissionRow['happy_mission_id']);
+		  $missionIdsArr=explode(',',$happy_mission_id);
+		  
+		  foreach($missionIdsArr as $missId){
+			 $missionPic='images/mission/mission_'.$missId.'.png';
+			 $selMissionsCnt.='<div style="height:180px;">
+			 <div class="friends_box_img_new" style="float:left;">
+			 <img src="'.$missionPic.'" height="150" width="150" />
+			 </div>';
+			 //GET STORYBOARD DETAILS 
+			 $selStory=mysql_query("SELECT expertboard_id,user_id,expertboard_title FROM tbl_app_expertboard WHERE happy_mission_id=".$missId);
+			 while($selStoryRow=mysql_fetch_array($selStory)){
+				   $expertboard_id=(int)$selStoryRow['expertboard_id'];
+				   $user_id=(int)$selStoryRow['user_id'];
+				   $expertboard_title=trim(ucwords($selStoryRow['expertboard_title']));
+				   $userDetail=getUserDetail($user_id,'uid');
+				   $photoUrl=$userDetail['photo_url'];
+				   $ownerName=$userDetail['name'];
+				   //CHECK STORYBOARD IS PUBLISHED OR NOT PUBLISHED
+				   $is_publish=(int)getFieldValue('is_publish','tbl_app_expert_cherryboard','expertboard_id='.$expertboard_id.' AND user_id='.$user_id);
+				  
+				   if($expertboard_title!=''&&$user_id>0&&$is_publish==1){
+					  $selMissionsCnt.='<div style="float:left;padding-right:5px;">'.$expertboard_title.'</div>';
+					  $selMissionsCnt.='<div style="float:left;padding-right:5px;"><img src="'.$photoUrl.'" height="30px" width="30px" title="'.$ownerName.'" style="border:1px solid #6A6A6A;"/></div>';
+					  $selMissionsCnt.='<div style="float:left;">
+					  <a href="#" title="Join" style="text-decoration:none;">
+					  Join</a></div><br/><br/>';							  
+				   }
+			 }	
+			 $selMissionsCnt.='</div><div style="clear:both"></div>';			 
+		  }			  			
+	}
+	$selMissionsCnt.='<div style="padding-bottom:35px;"></div>';
+	$missionRightCnt.=$selMissionsCnt;
+	$missionRightCnt.='</div>';
+ } 
+ $ajax_data=$type."##===##".$div_name."##===##".$ajax_data."##===##".$missionRightCnt;
+ echo $ajax_data;
+}
 //NEW USER FLOW HAPPY MISSION
 if($type=="newuser_happy_mission"||$type=="chk_newuser_mission"||$type=="store_user_mission"){
 

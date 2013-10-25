@@ -24,22 +24,13 @@ include('include/app-common-config.php');
     </div>
 	<div style="clear:both"></div>          
     <div class="activate_friends_bg">
-    	<div class="divClassRight">
-           <span class="spanClass">
-           <a href="happy_mission.php" style="color:#FFFFFF;text-decoration:none;">Happy Missions</a>
-           </span><br/><br/>
-           <span class="spanClass">
-           <a href="#" style="color:#FFFFFF;text-decoration:none;">People</a>
-           </span><br/><br/>
-           <span class="spanClass">
-           <a href="#" style="color:#FFFFFF;text-decoration:none;">Products</a>
-           </span><br/><br/>
-           <span class="spanClass">
-           <a href="#" style="color:#FFFFFF;text-decoration:none;">Places</a>
-           </span><br/><br/>
-           <span class="spanClass">
-           <a href="#" style="color:#FFFFFF;text-decoration:none;">Plans</a>
-           </span><br/><br/>
+    	<div class="happy_mission_main" style="margin-left:576px;">
+           <!--<div class="happy_mission_text">
+           <a href="happy_mission.php">happy mission</a></div>-->
+           <div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>
         </div>
         <div class="book_page_right_new1">
         <?php
@@ -90,7 +81,15 @@ include('include/app-common-config.php');
 <!-- START LEFT PAGE -->
 <div class="activate_friends_main_top" id="div_newuser_mission">
     <div class="book_tabs_main_page_left" style="margin-top:22px;"></div>
-	<div style="clear:both"></div>      
+	<div style="clear:both"></div>  
+    	<div class="happy_mission_main_left">
+           <div class="happy_mission_text_left">
+           <a href="happy_mission.php">happy mission</a></div>
+           <!--<div class="happy_mission_text"><a href="#">products</a></div>
+           <div class="happy_mission_text"><a href="#">people</a></div>
+           <div class="happy_mission_text"><a href="#">places</a></div>
+           <div class="happy_mission_text"><a href="#">plans</a></div>-->
+        </div>    
     <div class="activate_friends_bg">
         <div class="book_page_right">
         <div style="font-size:xx-large;color:#FF0000;margin-top:150px;"> My <br/> Happy <br/> Missions </div>    

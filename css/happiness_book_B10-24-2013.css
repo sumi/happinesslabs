@@ -33,7 +33,7 @@
 .book_page_right1{float:left; background-image:url(../images/book-story1.png); background-repeat:no-repeat; width:560px; font-size:18px; height:514px; text-align:center; box-shadow: 0 0 25px #d3d3d3;}
 .book_page_right_new1{float:left; background-image:url(../images/book-story1.png); background-repeat:no-repeat; width:570px; font-size:16px; height:505px; padding-left:30px; box-shadow: 0 0 25px #d3d3d3; padding-top:10px;}
 .book_tabs_main{float:left; z-index:200px; width:566px; padding-left:10px;}
-.book_tabs_main_page{float:right; z-index:200px;}
+.book_tabs_main_page{float:right; z-index:200px; }
 .book_tabs_main_page_left{float:right; z-index:200px; width:576px; padding-left:10px;}
 .book_tabs_main_left{float:left; z-index:200px; width:576px;}
 .chapter_love{font-size:20px; text-align:left; padding:70px 0 0 30px;}
@@ -49,33 +49,15 @@ border:none;
 .middle_mission_div{
 width:140px;float:right;background-color:#FFFFFF;margin:250px 20px 0 0;
 }
-.happy_mission_main{
+.divClassRight{
 	float:right;
-	width:95px;
-	position:absolute;
-	margin-left:480px;
-}
-.happy_mission_text a{
-	position:relative; 
-	background-color:#666666; 
-	padding:3px 5px; color:#FFFFFF; 
-	font-size:12px; margin-bottom:10px; 
-	display:inline-block; 
-	text-decoration:none;
-}
-.happy_mission_main_left{
-	float:left;
-	width:95px;
-	text-align:right;
+	margin-top:10px;/*5*/
+	margin-left:570px;
 	position:absolute;
 }
-.happy_mission_text_left a{
-	position:relative;
-	background-color:#666666; 
-	padding:3px 5px; 
-	color:#FFFFFF; 
-	font-size:12px; 
-	margin-bottom:10px; 
-	display:inline-block; 
-	text-decoration:none;
+.spanClass{
+	background-color:#666666;
+	color:#FFFFFF;
+	padding:5px;
+	/*display:inline-table;*/
 }

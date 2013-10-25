@@ -1,133 +1,89 @@
-<html>
+<!doctype html>
+ 
+<html lang="en">
 <head>
-<script>
-function changeDivFontColor(font_color)
-{
-	document.getElementById('imgText').style.color = font_color;
-	document.getElementById('txtcomment').style.color = font_color;
+  <meta charset="utf-8" />
+  <title>jQuery UI Droppable - Default functionality</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <style>
+  .draggable { float: left; cursor:move; }
+  .draggable1 { float: left; cursor:move; }
+  
+#resizable { width: 100px; padding: 0.5em; }
+  #resizable h3 { text-align: center; margin: 0; }
+  
+  #set { clear:both; float:left; width: 368px; height: 120px; }
+ .ui-widget-content {
+    background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50%;
+    border: 1px solid #AAAAAA;
+    color: #222222;
 }
-function changeDivFont(font_name)
-{
-	document.getElementById('imgText').style.fontFamily = font_name;
-	document.getElementById('txtcomment').style.fontFamily = font_name;
-}
-function changeDivFontSize(font_size)
-{
-	document.getElementById('imgText').style.fontSize = font_size;
-	document.getElementById('txtcomment').style.fontSize = font_size+"px";
-}
-
-function calculateSubmit(){
-	var p = $( "#imgText" );
-	var position = p.position();
-	document.getElementById('imgLeft').value=position.left;
-	document.getElementById('imgTop').value=position.top;
-	//alert("left: " + position.left + ", top: " + position.top);
-	return true;
-}
-</script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  </style>
   <script>
   $(function() {
-    $("#imgText").draggable({ containment: "#files", scroll: false });
+    $( "#draggable1" ).draggable();
+	$( "#draggable2" ).draggable();
+	$( "#draggable3" ).draggable();
+	$( "#draggable4" ).draggable();
+	$( "#draggable5" ).draggable();
+	$( "#draggable6" ).draggable();
+	$( "#draggable7" ).draggable();
+	$( "#draggable8" ).draggable();
+	$( "#draggable9" ).draggable();
+	$( "#resizable" ).resizable();
+	$( "#set div" ).draggable({ stack: "#set div" });
   });
+  
+  
   </script>
-  <style>
-.main{ width:290px;}
-.bg_images{
-	color:#FFFFFF; text-align:center; top:-10px; cursor: help;
-    display:block;
-    opacity: 0.8;
-    position:absolute;
-	z-index:1000;
-	top:10px;
-}
-.draggable { width: 100px; height: 30px; padding: 0.5em; float: left; margin:5px; }
-#files { border:2px solid #ccc;width:300px;height:225px; }
-</style>
 </head>
 <body>
-<table>
-<tr>
-<td>
-<div>
-<div id="files"><img alt="" src="a.jpg" width="300px" height="225px">
-	<div class="bg_images ui-widget-content" id="imgText" style="font-family:Arial;font-size:14px;">Happinesslabs</div>
-	
+[Arrange Picture as per your creativity]
+<img src="full.png" style="float:right">
+<div id="set" style="float:left"> 
+<div id="draggable1" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="1.png" height="100" width="300">
 </div>
+<div id="draggable2" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="2.png" height="200" width="200">
 </div>
-</td>
-<td>
-<form  method="post">
-<table>
-<tr>
-<td>
-<input type="hidden" value="0" name="imgLeft" id="imgLeft" />
-<input type="hidden" value="0" name="imgTop" id="imgTop" />
-Color:
-<select id="chg_color" name="chg_color" onChange="changeDivFontColor(this.value)">
-<option value="white">White</option>
-<option value="red">Red</option>
-<option value="green">Green</option>
-</select>
-Font:
-<select id="chg_font" name="chg_font" onChange="changeDivFont(this.value)">
-<option value="Arial">Arial</option>
-<option value="Times New Roman">Times NR</option>
-<option value="Verdana">Verdana</option>
-<option value="Courier New">Courier</option>
-</select>
-Size:
-<select id="chg_size" name="chg_size" onChange="changeDivFontSize(this.value)">
-<option value="14">14px</option>
-<option value="16">16px</option>
-<option value="18">18px</option>
-<option value="24">24px</option>
-</select>
-</td>
-</tr>
-<tr>
-<td>
-<textarea onKeyPress="javascript:document.getElementById('imgText').innerHTML=document.getElementById('txtcomment').value;" id="txtcomment" class="textfield" rows="5" name="txtcomment" style="font-family:Arial;font-size:12px;">Happinesslabs</textarea>
-<input type="submit" value="Upload" onClick="calculateSubmit()" name="btnsubmit" />
-</td>
-</tr>
-</table>
-</form>
-</td>
-<td>
-<?php
-if(isset($_POST['btnsubmit'])){
-	//print_r($_POST);
- $txtcomment=$_POST['txtcomment'];
- $chg_color=$_POST['chg_color'];
- $chg_font=$_POST['chg_font'];
- $imgLeft=$_POST['imgLeft'];
- $imgTop=$_POST['imgTop'];	
-	
- $image_magick = "convert"; 
- $font_selection = $chg_font; 
+<div id="draggable3" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="3.png" height="200" width="200">
+</div>
 
-  $source_image = "a.jpg"; 
-  $target_image = "b.jpg"; 
-  $text = $txtcomment; 
+<div id="draggable4" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="bird_3.png" height="100" width="100">
+</div>
 
-  $ImgSize = getimagesize($source_image);
-  $ImgWidth=$ImgSize[0];
-  $ImgHeight=$ImgSize[1];
-  
-  $TopFontSize=round($ImgWidth/16);
-  $TopLeftPed=$imgLeft;
-  $TopTopPed=$imgTop;
-  
-  $command = $image_magick.' -resize '.$ImgWidth.' "'.$source_image.'" '.' -font "'.$font_selection.'" -pointsize '.$TopFontSize.' -fill '.$chg_color.' '.' -draw "text '.$TopLeftPed.', '.$TopTopPed.' \''.$text.'\'"  "'.$target_image.'"';
-  passthru($command);
-  echo '<img src="b.jpg"/>';
-}  
- ?>
-</td>
-</tr>
-</table>
+<div id="draggable5" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="bird_1.png" height="100" width="100">
+</div>
+
+<div id="draggable6" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="bird_2.png" height="100" width="100">
+</div>
+
+<div id="draggable7" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="bird_3.png" height="100" width="100">
+</div>
+
+<div id="draggable8" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+  <img src="bird_3.png" height="100" width="100">
+</div>
+
+<div id="draggable9" class="draggable ui-widget-content" style="border: 0px solid #AAAAAA;">
+ 	<div id="resizable" class="ui-widget-content">
+  		<font style="color:#CC0000;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:16px">Seabird fly</font>
+	</div>
+</div>
+
+
+ 
+</div> 
+
+ 
 </body>
 </html>
