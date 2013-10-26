@@ -1,6 +1,7 @@
 <?php
 include_once "fbmain.php";
 include('include/app-common-config.php');
+//include('include/local-app-common-config.php');
 
 $msg='';
 $strVar='';
@@ -239,7 +240,7 @@ $selFriendsReq=mysql_query("SELECT * FROM tbl_app_expert_cherryboard_meb WHERE i
 <script type="text/javascript" src="book/turn-jquery.js"></script>
 <script type="text/javascript" src="book/turn.js"></script>
 
-<div class="relationship_bg" style="padding:50px 0;background-color:#FFFFFF;">
+<div class="relationship_bg" style="background-color:#FFFFFF;">
 <div id="magazine" style="margin:auto;">
 <?php
 $pillarCnt=1;
@@ -261,7 +262,7 @@ foreach($pillarArray as $pillar_no){
 		<!-- FRONT PAGE -->
 		<div class="welcome_main" style="background-color:#FFFFFF">
 			 <div style="clear:both"></div>
-			 <div class="activate_friends_main_top" style="width:569px">
+			 <div class="activate_friends_main_top" style="width:580px;">
 			   <div class="book_tabs_main_page">
 			   <?php
 			   $pillarCnt=1;
@@ -277,17 +278,34 @@ foreach($pillarArray as $pillar_no){
 			   }
 			   ?>
 			  </div>
-			   <div style="clear:both"></div>
-               <div class="happy_mission_main">
-                   <div class="happy_mission_text">
-                   <a href="javascript:void(0);" onclick="trun_next();ajax_action('show_user_mission','div_refresh_left_mission','stype=showUserMission');">happy mission</a></div>
-                   <div class="happy_mission_text"><a href="#">products</a></div>
-                   <div class="happy_mission_text"><a href="#">people</a></div>
-                   <div class="happy_mission_text"><a href="#">places</a></div>
-                   <div class="happy_mission_text"><a href="#">plans</a></div>
-               </div>		
-              	 
-			  <div class="activate_friends_bg">                        	        	
+			   <div style="clear:both"></div>              	 
+			  <div class="activate_friends_bg"> 
+                <div class="Happy_Family_right">
+                  <div class="Happy_Family_Top"></div>
+                  <div class="Happy_Family_bottom">
+                  <a href="#"><img src="images/happy_text.png" alt="" /></a></div>
+                  <div class="Happy_Family_footer"></div>
+                  
+                  <div class="Happy_Family_Top"></div>
+                  <div class="Happy_Family_bottom">
+                  <a href="#"><img src="images/products_text.png" alt="" /></a></div>
+                  <div class="Happy_Family_footer"></div>
+                  
+                  <div class="Happy_Family_Top"></div>
+                  <div class="Happy_Family_bottom">
+                  <a href="#"><img src="images/people_text.png" alt="" /></a></div>
+                  <div class="Happy_Family_footer"></div>
+                  
+                  <div class="Happy_Family_Top"></div>
+                  <div class="Happy_Family_bottom">
+                  <a href="#"><img src="images/places_text.png" alt="" /></a></div>
+                  <div class="Happy_Family_footer"></div>
+                  
+                  <div class="Happy_Family_Top"></div>
+                  <div class="Happy_Family_bottom">
+                  <a href="#"><img src="images/plans_text.png" alt="" /></a></div>
+                  <div class="Happy_Family_footer"></div>
+                </div>                       	        	
 				<div class="book_page_right1" style="width:554px;">
 					<div class="book_profile_text"><img src="<?=$photo_url?>" height="100px" width="100px" /></div>
 												<?=$user_name?>
@@ -316,15 +334,33 @@ foreach($pillarArray as $pillar_no){
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg">
-      	<div class="happy_mission_main_left" style="text-align:left;">
-           <div class="happy_mission_text_left">
-           <a href="javascript:void(0);" onclick="trun_privious()">happy mission</a></div>
-           <div class="happy_mission_text"><a href="#">products</a></div>
-           <div class="happy_mission_text"><a href="#">people</a></div>
-           <div class="happy_mission_text"><a href="#">places</a></div>
-           <div class="happy_mission_text"><a href="#">plans</a></div>
-        </div>   
-        <div class="book_page_right">        
+      	<div class="Happy_Family_left">
+          <div class="book_Happy_left_love"></div>
+          <div class="book_Happy_love"><a href="#">
+          <img src="images/happy_text_left.png" alt="" /></a></div>
+          <div class="book_Happy_right_love"></div>
+          
+          <div class="Happy_Family_left_Top"></div>
+          <div class="Happy_Family_left_bottom"><a href="#">
+          <img src="images/products_text_left.png" alt="" /></a></div>
+          <div class="Happy_Family_left_footer"></div>
+          
+          <div class="Happy_Family_left_Top"></div>
+          <div class="Happy_Family_left_bottom"><a href="#">
+          <img src="images/people_text_left.png" alt="" /></a></div>
+          <div class="Happy_Family_left_footer"></div>
+          
+          <div class="Happy_Family_left_Top"></div>
+          <div class="Happy_Family_left_bottom"><a href="#">
+          <img src="images/places_text_left.png" alt="" /></a></div>
+          <div class="Happy_Family_left_footer"></div>
+          
+          <div class="Happy_Family_left_Top"></div>
+          <div class="Happy_Family_left_bottom"><a href="#">
+          <img src="images/plans_text_left.png" alt="" /></a></div>
+          <div class="Happy_Family_left_footer"></div>
+      </div>   
+        <div class="book_page_right" style="width:564px;">        
          <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt]?></div>
          <div class="book_right_text">
        <?php
@@ -352,7 +388,7 @@ foreach($pillarArray as $pillar_no){
 	   }
 	   ?>
 		</div>         
-        </div>      
+        </div>              
       </div>
      </div>
    </div>
@@ -370,22 +406,38 @@ foreach($pillarArray as $pillar_no){
 				echo '<div class="book_tabs_left'.($i==($cnt+1)?'_love':'').'"></div>
 				  <div class="book_tabs'.($i==($cnt+1)?'_love':'').'"><a href="javascript:void(0);" onclick="trun_next()">'.$pillarTitleArray[$i].'</a></div>
 				  <div class="book_tabs_right'.($i==($cnt+1)?'_love':'').'"></div>';
-
-		   
 		   }
 		   ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg" id="div_refresh_right_mission">
-      	<div class="happy_mission_main">
-           <div class="happy_mission_text">
-           <a href="javascript:void(0);" onclick="trun_next()">happy mission</a></div>
-           <div class="happy_mission_text"><a href="#">products</a></div>
-           <div class="happy_mission_text"><a href="#">people</a></div>
-           <div class="happy_mission_text"><a href="#">places</a></div>
-           <div class="happy_mission_text"><a href="#">plans</a></div>
-        </div>
+      	<div class="Happy_Family_right">
+          <div class="Happy_Family_Top"></div>
+          <div class="Happy_Family_bottom"><a href="#">
+          <img src="images/happy_text.png" alt="" /></a></div>
+          <div class="Happy_Family_footer"></div>
+          
+          <div class="Happy_Family_Top"></div>
+          <div class="Happy_Family_bottom"><a href="#">
+          <img src="images/products_text.png" alt="" /></a></div>
+          <div class="Happy_Family_footer"></div>
+          
+          <div class="Happy_Family_Top"></div>
+          <div class="Happy_Family_bottom"><a href="#">
+          <img src="images/people_text.png" alt="" /></a></div>
+          <div class="Happy_Family_footer"></div>
+          
+          <div class="Happy_Family_Top"></div>
+          <div class="Happy_Family_bottom"><a href="#">
+          <img src="images/places_text.png" alt="" /></a></div>
+          <div class="Happy_Family_footer"></div>
+          
+          <div class="Happy_Family_Top"></div>
+          <div class="Happy_Family_bottom"><a href="#">
+          <img src="images/plans_text.png" alt="" /></a></div>
+          <div class="Happy_Family_footer"></div>
+       </div>
         <div class="book_page_right1">
         
          <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt+1]?></div>

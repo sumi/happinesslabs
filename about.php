@@ -46,7 +46,7 @@ include('include/app-common-config.php');
 		  <a href="#" class="btn_blue left" onClick="fb_login();">connect with facebook</a>
 		  <?php } ?>
 		  -->
-		  <div class="head_24"><span class="redish">Happiness</span>  as a habit.<br/><br/></div>
+		  <div class="head_24"><span class="redish">HappinessLabs</span> is a game where anyone can teach & learn happy living lessons by creating and sharing picture stories.<br/><br/></div>
 		  <table width="50%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td align="left" valign="top" class="arrow_bullet"><strong>See</strong><br/>-- Seeing is Believing.<br/>-- Picture stories to guide you from Point A to Point B in your life.<br/><br/></td>
