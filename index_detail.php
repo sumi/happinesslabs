@@ -378,7 +378,7 @@ foreach($pillarArray as $pillar_no){
           <img src="images/plans_text_left.png" alt="" /></a></div>
           <div class="Happy_Family_left_footer"></div>
       </div>   
-      <div class="book_page_right"><!--564-->
+      <div class="book_page_right" style="width:546;"><!--564-->
            <div class="story_book_Chapter_text">Chapter</div>
            <div class="story_book_love_text"><?=$pillarTitleArray[$cnt]?></div>
            <div class="book_profile_love">
