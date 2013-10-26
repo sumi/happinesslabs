@@ -281,30 +281,27 @@ foreach($pillarArray as $pillar_no){
 			   <div style="clear:both"></div>              	 
 			  <div class="activate_friends_bg"> 
                 <div class="Happy_Family_right">
-                  <div class="Happy_Family_Top"></div>
-                  <div class="Happy_Family_bottom">
-                  <a href="#"><img src="images/happy_text.png" alt="" /></a></div>
-                  <div class="Happy_Family_footer"></div>
-                  
-                  <div class="Happy_Family_Top"></div>
-                  <div class="Happy_Family_bottom">
-                  <a href="#"><img src="images/products_text.png" alt="" /></a></div>
-                  <div class="Happy_Family_footer"></div>
-                  
-                  <div class="Happy_Family_Top"></div>
-                  <div class="Happy_Family_bottom">
-                  <a href="#"><img src="images/people_text.png" alt="" /></a></div>
-                  <div class="Happy_Family_footer"></div>
-                  
-                  <div class="Happy_Family_Top"></div>
-                  <div class="Happy_Family_bottom">
-                  <a href="#"><img src="images/places_text.png" alt="" /></a></div>
-                  <div class="Happy_Family_footer"></div>
-                  
-                  <div class="Happy_Family_Top"></div>
-                  <div class="Happy_Family_bottom">
-                  <a href="#"><img src="images/plans_text.png" alt="" /></a></div>
-                  <div class="Happy_Family_footer"></div>
+                <?php
+				//FRONT RIGHT SIDE MENU
+				for($i=1;$i<5;$i++){
+					echo '<div class="Happy_Family_Top"></div>
+                  		  <div class="Happy_Family_bottom">
+                  		  <a href="#" onclick="trun_next()">';
+					if($i==1){
+						echo '<img src="images/happy_text.png" alt="" />';
+					}else if($i==2){
+						echo '<img src="images/products_text.png" alt="" />';
+					}else if($i==3){
+						echo '<img src="images/people_text.png" alt="" />';
+					}else if($i==4){
+						echo '<img src="images/places_text.png" alt="" />';
+					}else{
+						echo '<img src="images/plans_text.png" alt="" />';
+					}	  
+                  	echo '</a></div>
+					      <div class="Happy_Family_footer"></div>';
+				}
+				?>                 
                 </div>                       	        	
 				<div class="book_page_right1" style="width:554px;">
 					<div class="book_profile_text"><img src="<?=$photo_url?>" height="100px" width="100px" /></div>
@@ -335,60 +332,58 @@ foreach($pillarArray as $pillar_no){
       
       <div class="activate_friends_bg">
       	<div class="Happy_Family_left">
+         <?php
+		//LEFT PAGE LEFT SIDE MENU
+		/*for($i=1;$i<5;$i++){
+			echo '<div class="Happy_Family_Top"></div>
+				  <div class="Happy_Family_bottom">
+				  <a href="#" onclick="trun_next()">';
+			if($i==1){
+				echo '<img src="images/happy_text.png" alt="" />';
+			}else if($i==2){
+				echo '<img src="images/products_text.png" alt="" />';
+			}else if($i==3){
+				echo '<img src="images/people_text.png" alt="" />';
+			}else if($i==4){
+				echo '<img src="images/places_text.png" alt="" />';
+			}else{
+				echo '<img src="images/plans_text.png" alt="" />';
+			}	  
+			echo '</a></div>
+				  <div class="Happy_Family_footer"></div>';
+		}*/
+		?>  
           <div class="book_Happy_left_love"></div>
-          <div class="book_Happy_love"><a href="#">
+          <div class="book_Happy_love"><a href="#" onclick="trun_privious()">
           <img src="images/happy_text_left.png" alt="" /></a></div>
           <div class="book_Happy_right_love"></div>
           
           <div class="Happy_Family_left_Top"></div>
-          <div class="Happy_Family_left_bottom"><a href="#">
+          <div class="Happy_Family_left_bottom"><a href="#" onclick="trun_privious()">
           <img src="images/products_text_left.png" alt="" /></a></div>
           <div class="Happy_Family_left_footer"></div>
           
           <div class="Happy_Family_left_Top"></div>
-          <div class="Happy_Family_left_bottom"><a href="#">
+          <div class="Happy_Family_left_bottom"><a href="#" onclick="trun_privious()">
           <img src="images/people_text_left.png" alt="" /></a></div>
           <div class="Happy_Family_left_footer"></div>
           
           <div class="Happy_Family_left_Top"></div>
-          <div class="Happy_Family_left_bottom"><a href="#">
+          <div class="Happy_Family_left_bottom"><a href="#" onclick="trun_privious()">
           <img src="images/places_text_left.png" alt="" /></a></div>
           <div class="Happy_Family_left_footer"></div>
           
           <div class="Happy_Family_left_Top"></div>
-          <div class="Happy_Family_left_bottom"><a href="#">
+          <div class="Happy_Family_left_bottom"><a href="#" onclick="trun_privious()">
           <img src="images/plans_text_left.png" alt="" /></a></div>
           <div class="Happy_Family_left_footer"></div>
       </div>   
-        <div class="book_page_right" style="width:564px;">        
-         <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt]?></div>
-         <div class="book_right_text">
-       <?php
-	   $selSubPlr=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarArray[$cnt]." ORDER BY pillar_no");
-	   while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
-	   		 $pillar_no=(int)$selSubPlrRow['pillar_no'];
-	   		 $title=trim(ucwords($selSubPlrRow['title']));
-			 echo $title."<br />";
-			 $selQry=mysql_query("SELECT * FROM tbl_app_life_story_book_template WHERE pillar_no=".$pillar_no);
-		     while($selQryRow=mysql_fetch_array($selQry)){
-				   $cherryboard_id=(int)$selQryRow['cherryboard_id'];	
-				   $subTitle=trim(ucwords($selQryRow['title']));
-				   if($cherryboard_id>0){
-					  $checkBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','doit_id="'.$cherryboard_id.'" AND user_id='.USER_ID);
-					  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
-				   }
-				   if($checkBoard==0&&$cherryboard_id>0){
-					  echo '<div id="div_doit_story">&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="javascript:void(0);" style="text-decoration:none;" onclick="ajax_action(\'doit_story\',\'div_doit_story\',\'cherryboard_id='.$cherryboard_id.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')">Share the good news with friends</a></div>';
-				   }else if($checkBoard>0&&$cherryboard_id>0){
-					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="expert_cherryboard.php?cbid='.$checkBoard.'" style="text-decoration:none;">View story</a><br />';
-				   }else{
-					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'<br/>';
-				   }					 
-		     }
-	   }
-	   ?>
-		</div>         
-        </div>              
+      <div class="book_page_right"><!--564-->
+           <div class="story_book_Chapter_text">Chapter</div>
+           <div class="story_book_love_text"><?=$pillarTitleArray[$cnt]?></div>
+           <div class="book_profile_love">
+           <img src="images/pillar_<?=$cnt?>.png" alt="" /></div>
+      </div>           
       </div>
      </div>
    </div>
@@ -401,70 +396,70 @@ foreach($pillarArray as $pillar_no){
      <div style="clear:both"></div>
      <div class="activate_friends_main_top">
        <div class="book_tabs_main_page">         
-          <?php
-			  for($i=$cnt+1;$i<=count($pillarArray);$i++){
-				echo '<div class="book_tabs_left'.($i==($cnt+1)?'_love':'').'"></div>
-				  <div class="book_tabs'.($i==($cnt+1)?'_love':'').'"><a href="javascript:void(0);" onclick="trun_next()">'.$pillarTitleArray[$i].'</a></div>
-				  <div class="book_tabs_right'.($i==($cnt+1)?'_love':'').'"></div>';
-		   }
-		   ?>
+	  <?php
+          for($i=$cnt;$i<=count($pillarArray);$i++){
+            echo '<div class="book_tabs_left'.($i==$cnt?'_love':'').'"></div>
+              <div class="book_tabs'.($i==$cnt?'_love':'').'"><a href="javascript:void(0);" onclick="trun_next()">'.$pillarTitleArray[$i].'</a></div>
+              <div class="book_tabs_right'.($i==$cnt?'_love':'').'"></div>';
+       }
+       ?>
       </div>
        <div style="clear:both"></div>
       
       <div class="activate_friends_bg" id="div_refresh_right_mission">
       	<div class="Happy_Family_right">
           <div class="Happy_Family_Top"></div>
-          <div class="Happy_Family_bottom"><a href="#">
+          <div class="Happy_Family_bottom"><a href="#" onclick="trun_next()">
           <img src="images/happy_text.png" alt="" /></a></div>
           <div class="Happy_Family_footer"></div>
           
           <div class="Happy_Family_Top"></div>
-          <div class="Happy_Family_bottom"><a href="#">
+          <div class="Happy_Family_bottom"><a href="#" onclick="trun_next()">
           <img src="images/products_text.png" alt="" /></a></div>
           <div class="Happy_Family_footer"></div>
           
           <div class="Happy_Family_Top"></div>
-          <div class="Happy_Family_bottom"><a href="#">
+          <div class="Happy_Family_bottom"><a href="#" onclick="trun_next()">
           <img src="images/people_text.png" alt="" /></a></div>
           <div class="Happy_Family_footer"></div>
           
           <div class="Happy_Family_Top"></div>
-          <div class="Happy_Family_bottom"><a href="#">
+          <div class="Happy_Family_bottom"><a href="#" onclick="trun_next()">
           <img src="images/places_text.png" alt="" /></a></div>
           <div class="Happy_Family_footer"></div>
           
           <div class="Happy_Family_Top"></div>
-          <div class="Happy_Family_bottom"><a href="#">
+          <div class="Happy_Family_bottom"><a href="#" onclick="trun_next()">
           <img src="images/plans_text.png" alt="" /></a></div>
           <div class="Happy_Family_footer"></div>
        </div>
         <div class="book_page_right1">
         
-         <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt+1]?></div>
+         <div class="chapter_love">Chapter - <?=$pillarTitleArray[$cnt]?></div>
          <div class="book_right_text">
          <?php
-	   $selSubPlr=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarArray[$cnt+1]." ORDER BY pillar_no");
-		 while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
-		 	   $pillar_no=(int)$selSubPlrRow['pillar_no'];
-			   $title=trim(ucwords($selSubPlrRow['title']));
-			   echo $title."<br />";
-			   $selQry=mysql_query("SELECT * FROM tbl_app_life_story_book_template WHERE pillar_no=".$pillar_no);
-		       while($selQryRow=mysql_fetch_array($selQry)){
-				   $cherryboard_id=(int)$selQryRow['cherryboard_id'];	
-				   $subTitle=trim(ucwords($selQryRow['title']));
-				   if($cherryboard_id>0){
-					  $checkBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','doit_id="'.$cherryboard_id.'" AND user_id='.USER_ID);
-					  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
-				   }
-				   if($checkBoard==0&&$cherryboard_id>0){
-					  echo '<div id="div_doit_story">&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="javascript:void(0);" style="text-decoration:none;" onclick="ajax_action(\'doit_story\',\'div_doit_story\',\'cherryboard_id='.$cherryboard_id.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')">Share the good news with friends</a></div>';					  
-				   }else if($checkBoard>0&&$cherryboard_id>0){
-					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="expert_cherryboard.php?cbid='.$checkBoard.'" style="text-decoration:none;">View story</a><br />';
-				   }else{
-					  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'<br/>';
-				   }					 
-		       }
-		 }
+		 $selSubPlr=mysql_query("SELECT * FROM tbl_app_happiness_pillar WHERE parent_id=".$pillarArray[$cnt]." ORDER BY pillar_no");
+		   while($selSubPlrRow=mysql_fetch_array($selSubPlr)){
+				 $pillar_no=(int)$selSubPlrRow['pillar_no'];
+				 $title=trim(ucwords($selSubPlrRow['title']));
+				 echo $title."<br />";
+				 $selQry=mysql_query("SELECT * FROM tbl_app_life_story_book_template WHERE pillar_no=".$pillar_no);
+				 while($selQryRow=mysql_fetch_array($selQry)){
+					   $cherryboard_id=(int)$selQryRow['cherryboard_id'];	
+					   $subTitle=trim(ucwords($selQryRow['title']));
+					   if($cherryboard_id>0){
+						  $checkBoard=(int)getFieldValue('cherryboard_id','tbl_app_expert_cherryboard','doit_id="'.$cherryboard_id.'" AND user_id='.USER_ID);
+						  $expertboard_id=(int)getFieldValue('expertboard_id','tbl_app_expert_cherryboard','cherryboard_id='.$cherryboard_id);
+					   }
+					   if($checkBoard==0&&$cherryboard_id>0){
+						  echo '<div id="div_doit_story">&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="javascript:void(0);" style="text-decoration:none;" onclick="ajax_action(\'doit_story\',\'div_doit_story\',\'cherryboard_id='.$cherryboard_id.'&expertboard_id='.$expertboard_id.'&user_id='.USER_ID.'\')">Share the good news with friends</a></div>';
+					   }else if($checkBoard>0&&$cherryboard_id>0){
+						  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'&nbsp;<a href="expert_cherryboard.php?cbid='.$checkBoard.'" style="text-decoration:none;">View story</a><br />';
+					   }else{
+						  echo '&nbsp;&nbsp;&nbsp;'.$subTitle.'<br/>';
+					   }					 
+				 }
+		   }	  
 		 ?> 
          </div>
         </div>
